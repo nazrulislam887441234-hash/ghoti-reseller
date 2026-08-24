@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>অ্যাকাউন্ট তৈরি করুন — GHOTI RESELLER</title>
+  <link rel="stylesheet" href="css/signup.css">
+</head>
+<body>
+  <div class="signup-container">
+    <div class="brand-header">
+      <img src="https://reseller.ghotimarket.com/logo.png" alt="GHOTI RESELLER লোগো">
+      <h1>GHOTI RESELLER</h1>
+      <p>আপনার রিসেলার ব্যবসা শুরু করুন খুব সহজেই</p>
+    </div>
+
+    <form id="signupForm" novalidate>
+      <div class="form-group">
+        <label for="name">আপনার নাম</label>
+        <input type="text" id="name" class="form-control" placeholder="পূর্ণ নাম লিখুন" required>
+        <span id="nameError" class="error-msg"></span>
+      </div>
+
+      <div class="form-group">
+        <label for="email">ইমেইল ঠিকানা</label>
+        <input type="email" id="email" class="form-control" placeholder="example@domain.com" required>
+        <span id="emailError" class="error-msg"></span>
+      </div>
+
+      <div class="form-group">
+        <label for="phone">মোবাইল নম্বর</label>
+        <input type="tel" id="phone" class="form-control" placeholder="01XXXXXXXXX" required>
+        <span id="phoneError" class="error-msg"></span>
+      </div>
+
+      <div class="form-group">
+        <label for="password">পাসওয়ার্ড</label>
+        <div class="input-wrapper">
+          <input type="password" id="password" class="form-control" placeholder="কমপক্ষে ৬ অক্ষরের পাসওয়ার্ড" required>
+          <button type="button" class="toggle-password" data-target="password" aria-label="পাসওয়ার্ড দৃশ্যমান করুন">
+            <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
+          </button>
+        </div>
+        <span id="passwordError" class="error-msg"></span>
+      </div>
+
+      <div class="form-group">
+        <label for="confirmPassword">পাসওয়ার্ড নিশ্চিত করুন</label>
+        <div class="input-wrapper">
+          <input type="password" id="confirmPassword" class="form-control" placeholder="পুনরায় পাসওয়ার্ড দিন" required>
+          <button type="button" class="toggle-password" data-target="confirmPassword" aria-label="পাসওয়ার্ড দৃশ্যমান করুন">
+            <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
+          </button>
+        </div>
+        <span id="confirmPasswordError" class="error-msg"></span>
+      </div>
+
+      <div class="terms-group">
+        <input type="checkbox" id="termsCheck" required>
+        <label for="termsCheck">আমি <a href="terms.html" target="_blank">Terms & Conditions</a> এবং <a href="privacy-policy.html" target="_blank">Privacy Policy</a> মেনে নিচ্ছি।</label>
+      </div>
+
+      <button type="submit" id="submitBtn" class="btn-submit">অ্যাকাউন্ট তৈরি করুন</button>
+    </form>
+
+    <div class="auth-footer">
+      আগেই অ্যাকাউন্ট আছে? <a href="login.html">লগইন করুন</a>
+    </div>
+  </div>
+
+  <script type="module" src="js/signup.js"></script>
+</body>
+</html>
