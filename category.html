@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ক্যাটাগরি — GHOTI RESELLER</title>
+  <!-- Google Fonts for Bengali -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#FF6B35',
+            'primary-dark': '#E85A1A',
+            dark: '#0F172A',
+            background: '#FFF8F3',
+            muted: '#64748B',
+            border: '#E2E8F0'
+          },
+          fontFamily: {
+            bengali: ['"Hind Siliguri"', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body {
+      font-family: 'Hind Siliguri', sans-serif;
+      background-color: #FFF8F3;
+      color: #0F172A;
+    }
+    .transition-custom {
+      transition: all 0.25s ease-in-out;
+    }
+  </style>
+</head>
+<body class="bg-background min-h-screen pb-24 md:pb-12">
+
+  <!-- Access Denied Modal / Overlay -->
+  <div id="access-denied-screen" class="fixed inset-0 bg-dark/80 z-50 flex items-center justify-center p-4 hidden">
+    <div class="bg-white rounded-2xl p-6 md:p-8 max-w-md w-full text-center shadow-2xl border border-border">
+      <div class="w-16 h-16 bg-red-100 text-red-600 rounded-full flex items-center justify-center mx-auto mb-4">
+        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
+      </div>
+      <h3 class="text-xl font-bold text-dark mb-2">অ্যাক্সেস সংরক্ষিত</h3>
+      <p id="access-denied-msg" class="text-muted text-sm mb-6">আপনার অ্যাকাউন্টটি সক্রিয় বা যাচাইকৃত নয়। অনুগ্রহ করে অ্যাডমিনের সাথে যোগাযোগ করুন।</p>
+      <div class="flex flex-col gap-3">
+        <a href="login.html" class="w-full py-3 bg-primary hover:bg-primary-dark text-white font-semibold rounded-xl transition-custom shadow-md">লগইন পেজে যান</a>
+        <a href="index.html" class="w-full py-3 bg-slate-100 hover:bg-slate-200 text-dark font-semibold rounded-xl transition-custom">হোম পেজে ফিরে যান (Index)</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Header -->
+  <header class="sticky top-0 z-40 bg-white/90 backdrop-blur-md border-b border-border shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      <div class="flex items-center space-x-3">
+        <a href="index.html" class="flex items-center space-x-2">
+          <img src="https://reseller.ghotimarket.com/logo.png" alt="GHOTI RESELLER" class="h-9 w-auto object-contain">
+        </a>
+        <span class="text-xs font-semibold px-2.5 py-1 bg-primary/10 text-primary rounded-full hidden sm:inline-block">রিসেলার পোর্টাল</span>
+      </div>
+      <h1 class="text-lg md:text-xl font-bold text-dark absolute left-1/2 transform -translate-x-1/2">ক্যাটাগরি</h1>
+      <div class="flex items-center space-x-2">
+        <a href="profile.html" class="p-2 rounded-xl hover:bg-slate-100 text-dark transition-custom" aria-label="প্রোফাইল">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6">
+    
+    <!-- Search & Sort Controls -->
+    <div class="flex flex-col md:flex-row gap-3 mb-6">
+      <div class="relative flex-1">
+        <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-muted">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+        </span>
+        <input type="text" id="search-input" placeholder="ক্যাটাগরি খুঁজুন..." class="w-full pl-11 pr-4 py-3 bg-white border border-border rounded-xl text-dark placeholder-muted focus:outline-none focus:border-primary shadow-sm text-sm">
+      </div>
+      <div class="relative w-full md:w-64">
+        <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-muted">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4h13M3 8h9m-9 4h6m4 0l4-4m0 0l4 4m-4-4v12"/></svg>
+        </span>
+        <select id="sort-select" class="w-full pl-11 pr-8 py-3 bg-white border border-border rounded-xl text-dark focus:outline-none focus:border-primary shadow-sm text-sm appearance-none cursor-pointer">
+          <option value="latest">সর্বশেষ</option>
+          <option value="az">নাম অনুযায়ী (A-Z)</option>
+          <option value="za">নাম অনুযায়ী (Z-A)</option>
+        </select>
+        <span class="absolute inset-y-0 right-0 pr-3.5 flex items-center pointer-events-none text-muted">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+        </span>
+      </div>
+    </div>
+
+    <!-- Error State Box -->
+    <div id="error-box" class="hidden bg-red-50 border border-red-200 rounded-2xl p-6 text-center my-6">
+      <p id="error-message" class="text-red-700 font-medium mb-4">ক্যাটাগরি লোড করতে সমস্যা হয়েছে। আবার চেষ্টা করুন।</p>
+      <div class="flex flex-col sm:flex-row gap-3 justify-center">
+        <button id="retry-btn" class="px-5 py-2.5 bg-red-600 hover:bg-red-700 text-white rounded-xl text-sm font-semibold transition-custom shadow-md">আবার চেষ্টা করুন</button>
+        <a href="index.html" class="px-5 py-2.5 bg-white border border-border hover:bg-slate-50 text-dark rounded-xl text-sm font-semibold transition-custom text-center">হোম পেজে যান</a>
+      </div>
+    </div>
+
+    <!-- Skeleton Loader Grid -->
+    <div id="skeleton-grid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+      <script>
+        for(let i=0; i<6; i++) {
+          document.write(`
+            <div class="bg-white rounded-2xl p-3 border border-border shadow-sm animate-pulse">
+              <div class="w-full aspect-square bg-slate-200 rounded-xl mb-3"></div>
+              <div class="h-4 bg-slate-200 rounded w-3/4 mb-2"></div>
+              <div class="h-3 bg-slate-200 rounded w-1/2 mb-4"></div>
+              <div class="h-9 bg-slate-200 rounded-xl w-full"></div>
+            </div>
+          `);
+        }
+      </script>
+    </div>
+
+    <!-- Category Grid -->
+    <div id="category-grid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 hidden"></div>
+
+    <!-- Empty State -->
+    <div id="empty-state" class="hidden bg-white border border-border rounded-2xl p-10 text-center my-8 shadow-sm">
+      <div class="w-16 h-16 bg-orange-50 text-primary rounded-full flex items-center justify-center mx-auto mb-4">
+        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"/></svg>
+      </div>
+      <h3 id="empty-title" class="text-lg font-bold text-dark mb-1">কোনো ক্যাটাগরি পাওয়া যায়নি</h3>
+      <p id="empty-desc" class="text-muted text-sm mb-6">বর্তমানে কোনো সক্রিয় ক্যাটাগরি উপলব্ধ নেই।</p>
+      <a href="index.html" class="inline-block px-6 py-2.5 bg-primary hover:bg-primary-dark text-white text-sm font-semibold rounded-xl transition-custom shadow-md">হোম পেজে ফিরে যান</a>
+    </div>
+
+    <!-- Load More Button -->
+    <div id="load-more-container" class="text-center mt-8 hidden">
+      <button id="load-more-btn" class="px-6 py-3 bg-white border border-border hover:border-primary text-dark hover:text-primary font-semibold rounded-xl transition-custom shadow-sm inline-flex items-center space-x-2 text-sm">
+        <span>আরও দেখুন</span>
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+      </button>
+    </div>
+
+  </main>
+
+  <!-- Bottom Navigation (Mobile) -->
+  <nav class="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-border z-40 shadow-lg">
+    <div class="grid grid-cols-4 h-16 text-center">
+      <a href="index.html" class="flex flex-col items-center justify-center text-muted hover:text-primary transition-custom">
+        <svg class="w-5 h-5 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+        <span class="text-[11px] font-medium">হোম</span>
+      </a>
+      <a href="category.html" class="flex flex-col items-center justify-center text-primary transition-custom">
+        <svg class="w-5 h-5 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-16zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-16z"/></svg>
+        <span class="text-[11px] font-semibold">ক্যাটাগরি</span>
+      </a>
+      <a href="orders.html" class="flex flex-col items-center justify-center text-muted hover:text-primary transition-custom">
+        <svg class="w-5 h-5 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
+        <span class="text-[11px] font-medium">অর্ডার</span>
+      </a>
+      <a href="profile.html" class="flex flex-col items-center justify-center text-muted hover:text-primary transition-custom">
+        <svg class="w-5 h-5 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+        <span class="text-[11px] font-medium">প্রোফাইল</span>
+      </a>
+    </div>
+  </nav>
+
+  <!-- Firebase Integration Script -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+    import { getFirestore, doc, getDoc, collection, getDocs, query, where } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+    // Firebase Configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyBUhNhYvuo_FTvZ5RZR6Gn-4hsUY21S0XE",
+      authDomain: "ghotimarket.firebaseapp.com",
+      databaseURL: "https://ghotimarket-default-rtdb.firebaseio.com",
+      projectId: "ghotimarket",
+      storageBucket: "ghotimarket.firebasestorage.app",
+      messagingSenderId: "481257644093",
+      appId: "1:481257644093:web:0dfc3699d6b3c86afeca54",
+      measurementId: "G-4SR8V2EKC1"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    // State variables
+    let allCategories = [];
+    let filteredCategories = [];
+    let productCounts = {};
+    let displayLimit = 20;
+
+    // DOM Elements
+    const skeletonGrid = document.getElementById('skeleton-grid');
+    const categoryGrid = document.getElementById('category-grid');
+    const emptyState = document.getElementById('empty-state');
+    const emptyTitle = document.getElementById('empty-title');
+    const emptyDesc = document.getElementById('empty-desc');
+    const errorBox = document.getElementById('error-box');
+    const errorMessage = document.getElementById('error-message');
+    const retryBtn = document.getElementById('retry-btn');
+    const searchInput = document.getElementById('search-input');
+    const sortSelect = document.getElementById('sort-select');
+    const loadMoreContainer = document.getElementById('load-more-container');
+    const loadMoreBtn = document.getElementById('load-more-btn');
+    const accessDeniedScreen = document.getElementById('access-denied-screen');
+    const accessDeniedMsg = document.getElementById('access-denied-msg');
+
+    // Authentication & Reseller Verification Flow
+    onAuthStateChanged(auth, async (user) => {
+      if (!user) {
+        window.location.href = "login.html";
+        return;
+      }
+
+      try {
+        const resellerRef = doc(db, "reseller", user.uid);
+        const resellerSnap = await getDoc(resellerRef);
+
+        if (!resellerSnap.exists()) {
+          showAccessDenied("আপনার রিসেলার অ্যাকাউন্টটি সিস্টেমে পাওয়া যায়নি।");
+          return;
+        }
+
+        const resellerData = resellerSnap.data();
+
+        if (resellerData.uid !== user.uid || resellerData.active !== true || resellerData.verified !== true) {
+          showAccessDenied("আপনার অ্যাকাউন্টটি নিষ্ক্রিয় অথবা এখনো যাচাই (verify) করা হয়নি।");
+          return;
+        }
+
+        // Verification passed, load categories and products
+        loadCategoryData();
+
+      } catch (error) {
+        console.error("Reseller verification error:", error);
+        showError("রিসেলার যাচাইকরণে সমস্যা হয়েছে। আবার চেষ্টা করুন।");
+      }
+    });
+
+    function showAccessDenied(msg) {
+      accessDeniedMsg.textContent = msg;
+      accessDeniedScreen.classList.remove('hidden');
+      skeletonGrid.classList.add('hidden');
+    }
+
+    function showError(msg) {
+      errorMessage.textContent = msg;
+      errorBox.classList.remove('hidden');
+      skeletonGrid.classList.add('hidden');
+    }
+
+    // Load Categories and Active Product Counts
+    async function loadCategoryData() {
+      try {
+        errorBox.classList.add('hidden');
+        skeletonGrid.classList.remove('hidden');
+
+        // 1. Fetch active products once to calculate counts efficiently
+        const productsQuery = query(collection(db, "reseller_product"), where("active", "==", true));
+        const productsSnapshot = await getDocs(productsQuery);
+        
+        productCounts = {};
+        productsSnapshot.forEach((docSnap) => {
+          const prod = docSnap.data();
+          const catId = prod.categoryId;
+          if (catId) {
+            productCounts[catId] = (productCounts[catId] || 0) + 1;
+          }
+        });
+
+        // 2. Fetch categories
+        const catQuery = query(collection(db, "reseller_category"), where("active", "==", true));
+        const catSnapshot = await getDocs(catQuery);
+
+        allCategories = [];
+        catSnapshot.forEach((docSnap) => {
+          allCategories.push({
+            id: docSnap.id,
+            ...docSnap.data()
+          });
+        });
+
+        skeletonGrid.classList.add('hidden');
+        filterAndSortCategories();
+
+      } catch (err) {
+        console.error("Error loading category data:", err);
+        skeletonGrid.classList.add('hidden');
+        showError("ক্যাটাগরি লোড করতে সমস্যা হয়েছে। আবার চেষ্টা করুন।");
+      }
+    }
+
+    // Filter, Sort, and Render Categories
+    function filterAndSortCategories() {
+      const searchTerm = searchInput.value.trim().toLowerCase();
+      const sortValue = sortSelect.value;
+
+      // Filter
+      filteredCategories = allCategories.filter(cat => {
+        const name = (cat.name || "").toLowerCase();
+        const slug = (cat.slug || "").toLowerCase();
+        return name.includes(searchTerm) || slug.includes(searchTerm);
+      });
+
+      // Sort
+      filteredCategories.sort((a, b) => {
+        if (sortValue === 'latest') {
+          const dateA = new Date(a.createdAt || 0);
+          const dateB = new Date(b.createdAt || 0);
+          return dateB - dateA;
+        } else if (sortValue === 'az') {
+          return (a.name || "").localeCompare(b.name || "", 'bn');
+        } else if (sortValue === 'za') {
+          return (b.name || "").localeCompare(a.name || "", 'bn');
+        }
+        return 0;
+      });
+
+      renderCategories();
+    }
+
+    // Render Categories to Grid
+    function renderCategories() {
+      categoryGrid.innerHTML = '';
+
+      if (filteredCategories.length === 0) {
+        categoryGrid.classList.add('hidden');
+        emptyState.classList.remove('hidden');
+        loadMoreContainer.classList.add('hidden');
+        
+        if (allCategories.length > 0) {
+          emptyTitle.textContent = "আপনার খোঁজা ক্যাটাগরি পাওয়া যায়নি";
+          emptyDesc.textContent = "অন্য কীওয়ার্ড দিয়ে সার্চ করে দেখতে পারেন।";
+        } else {
+          emptyTitle.textContent = "কোনো ক্যাটাগরি পাওয়া যায়নি";
+          emptyDesc.textContent = "বর্তমানে কোনো সক্রিয় ক্যাটাগরি উপলব্ধ নেই।";
+        }
+        return;
+      }
+
+      emptyState.classList.add('hidden');
+      categoryGrid.classList.remove('hidden');
+
+      const itemsToShow = filteredCategories.slice(0, displayLimit);
+
+      itemsToShow.forEach(cat => {
+        const count = productCounts[cat.id] || 0;
+        const countText = count > 0 ? `${count}টি পণ্য` : "কোনো পণ্য নেই";
+        const catSlug = cat.slug || cat.id;
+
+        const card = document.createElement('div');
+        card.className = "bg-white rounded-2xl p-3 border border-border shadow-sm hover:shadow-md hover:border-primary/50 transition-custom flex flex-col justify-between group";
+        
+        card.innerHTML = `
+          <div>
+            <div class="w-full aspect-square bg-slate-100 rounded-xl overflow-hidden mb-3 relative">
+              ${cat.image ? 
+                `<img src="${cat.image}" alt="${cat.name}" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-custom" onerror="this.onerror=null; this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'100\' height=\'100\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'%23cbd5e1\' stroke-width=\'1.5\'><rect x=\'3\' y=\'3\' width=\'18\' height=\'18\' rx=\'2\'/><circle cx=\'8.5\' cy=\'8.5\' r=\'1.5\'/><path d=\'M21 15l-5-5L5 21\'/></svg>';">` :
+                `<div class="w-full h-full flex items-center justify-center text-muted">
+                  <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                </div>`
+              }
+            </div>
+            <h3 class="font-bold text-dark text-sm md:text-base line-clamp-1 mb-1 group-hover:text-primary transition-custom">${cat.name}</h3>
+            <p class="text-xs text-muted mb-3 font-medium">${countText}</p>
+          </div>
+          <a href="products.html?category=${catSlug}" class="w-full py-2 bg-primary/10 hover:bg-primary text-primary hover:text-white font-semibold rounded-xl text-xs md:text-sm text-center transition-custom block">পণ্য দেখুন</a>
+        `;
+
+        categoryGrid.appendChild(card);
+      });
+
+      // Handle Load More Button Visibility
+      if (filteredCategories.length > displayLimit) {
+        loadMoreContainer.classList.remove('hidden');
+      } else {
+        loadMoreContainer.classList.add('hidden');
+      }
+    }
+
+    // Event Listeners
+    searchInput.addEventListener('input', () => {
+      displayLimit = 20;
+      filterAndSortCategories();
+    });
+
+    sortSelect.addEventListener('change', () => {
+      displayLimit = 20;
+      filterAndSortCategories();
+    });
+
+    loadMoreBtn.addEventListener('click', () => {
+      loadMoreBtn.innerHTML = `
+        <svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-primary inline" fill="none" viewBox="0 0 24 24">
+          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+          <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+        </svg>
+        <span>লোড হচ্ছে...</span>
+      `;
+      
+      setTimeout(() => {
+        displayLimit += 20;
+        renderCategories();
+        loadMoreBtn.innerHTML = `
+          <span>আরও দেখুন</span>
+          <svg class="w-4 h-4 inline ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+        `;
+      }, 300);
+    });
+
+    retryBtn.addEventListener('click', () => {
+      errorBox.classList.add('hidden');
+      loadCategoryData();
+    });
+  </script>
+</body>
+</html>
