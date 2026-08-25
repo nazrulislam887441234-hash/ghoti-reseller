@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>উইথড্র - GHOTI RESELLER</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#FF6B35',
+            'primary-dark': '#E85A1A',
+            dark: '#0F172A',
+            background: '#FFF8F3',
+            muted: '#64748B',
+            border: '#E2E8F0',
+          },
+          fontFamily: {
+            hind: ['Hind Siliguri', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+  <!-- Google Font: Hind Siliguri -->
+  <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Hind Siliguri', sans-serif;
+      background-color: #FFF8F3;
+      color: #0F172A;
+    }
+  </style>
+</head>
+<body class="bg-background text-dark min-h-screen pb-24 md:pb-8 flex flex-col">
+
+  <!-- Sticky Header -->
+  <header class="sticky top-0 z-50 bg-white border-b border-border shadow-xs">
+    <div class="max-w-2xl mx-auto px-4 h-16 flex items-center justify-between">
+      <div class="flex items-center space-x-2">
+        <img src="https://reseller.ghotimarket.com/logo.png" alt="GHOTI RESELLER" class="h-8 w-auto">
+        <span class="font-bold text-dark text-lg tracking-tight">GHOTI RESELLER</span>
+      </div>
+      <div class="text-center font-bold text-dark text-base hidden sm:block">উইথড্র</div>
+      <a href="profile.html" class="w-10 h-10 bg-orange-50 text-primary rounded-full flex items-center justify-center hover:bg-orange-100 transition">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+        </svg>
+      </a>
+    </div>
+    <div class="sm:hidden text-center py-2 bg-background border-t border-border font-bold text-dark text-sm">উইথড্র</div>
+  </header>
+
+  <!-- Main Container -->
+  <main class="flex-1 flex flex-col justify-center max-w-2xl mx-auto w-full p-4 space-y-6">
+
+    <!-- Loading State / Skeleton Loaders -->
+    <div id="loadingState" class="space-y-6 w-full">
+      <div class="bg-white rounded-2xl p-6 shadow-sm border border-border animate-pulse space-y-3">
+        <div class="h-4 bg-gray-200 rounded w-1/3"></div>
+        <div class="h-8 bg-gray-200 rounded w-1/2"></div>
+      </div>
+      <div class="bg-white rounded-2xl p-6 shadow-sm border border-border animate-pulse space-y-4">
+        <div class="h-6 bg-gray-200 rounded w-1/4"></div>
+        <div class="h-12 bg-gray-200 rounded"></div>
+        <div class="h-12 bg-gray-200 rounded"></div>
+        <div class="h-12 bg-gray-200 rounded"></div>
+      </div>
+    </div>
+
+    <!-- Error State -->
+    <div id="errorState" class="hidden flex-col items-center justify-center text-center py-12">
+      <div class="bg-white rounded-2xl p-8 shadow-sm border border-border max-w-md w-full space-y-4">
+        <div class="w-16 h-16 bg-red-100 text-red-500 rounded-full flex items-center justify-center mx-auto">
+          <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
+          </svg>
+        </div>
+        <h3 id="errorTitle" class="text-xl font-bold text-dark">তথ্য লোড করা যায়নি</h3>
+        <p id="errorDesc" class="text-muted text-sm">আপনার রিসেলার অ্যাকাউন্টের তথ্য খুঁজে পাওয়া যায়নি।</p>
+        <button id="errorActionBtn" onclick="location.reload()" class="w-full bg-primary text-white py-3 rounded-xl font-semibold hover:bg-primary-dark transition shadow-md">আবার চেষ্টা করুন</button>
+      </div>
+    </div>
+
+    <!-- Main Content Wrapper (Hidden until loaded) -->
+    <div id="withdrawContent" class="hidden space-y-6 w-full">
+
+      <!-- Wallet Balance Card -->
+      <div class="bg-gradient-to-br from-primary to-primary-dark text-white rounded-2xl p-6 shadow-md flex items-center justify-between">
+        <div>
+          <span class="text-orange-100 text-sm font-medium">বর্তমান ব্যালেন্স</span>
+          <div id="walletBalance" class="text-3xl font-bold mt-1">৳ ০.০০</div>
+        </div>
+        <div class="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center flex-shrink-0">
+          <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path>
+          </svg>
+        </div>
+      </div>
+
+      <!-- Notification Banner for Pending Request -->
+      <div id="pendingNotice" class="hidden bg-amber-50 border border-amber-200 text-amber-800 rounded-2xl p-4 flex items-start space-x-3">
+        <div class="flex-shrink-0 text-amber-600 mt-0.5">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
+          </svg>
+        </div>
+        <div class="text-sm font-medium">
+          আপনার একটি উইথড্র অনুরোধ বর্তমানে পর্যালোচনাধীন।
+        </div>
+      </div>
+
+      <!-- Withdraw Form Card -->
+      <div class="bg-white rounded-2xl p-6 shadow-sm border border-border space-y-4">
+        <h3 class="text-lg font-bold text-dark border-b border-border pb-3">উইথড্র ফর্ম</h3>
+        
+        <form id="withdrawForm" class="space-y-4" onsubmit="handleWithdraw(event)">
+          
+          <!-- Reseller ID (Readonly) -->
+          <div>
+            <label class="block text-xs text-muted mb-1 font-medium">রিসেলার আইডি</label>
+            <input type="text" id="inputUid" readonly class="w-full bg-background border border-border rounded-xl px-4 py-3 text-sm text-dark font-mono cursor-not-allowed">
+          </div>
+
+          <!-- Email (Readonly) -->
+          <div>
+            <label class="block text-xs text-muted mb-1 font-medium">ইমেইল</label>
+            <input type="text" id="inputEmail" readonly class="w-full bg-background border border-border rounded-xl px-4 py-3 text-sm text-dark cursor-not-allowed">
+          </div>
+
+          <!-- Bikash Number (Readonly) -->
+          <div>
+            <label class="block text-xs text-muted mb-1 font-medium">বিকাশ নম্বর (পরিবর্তন করা যাবে না)</label>
+            <input type="text" id="inputPhone" readonly class="w-full bg-background border border-border rounded-xl px-4 py-3 text-sm text-dark cursor-not-allowed">
+          </div>
+
+          <!-- Current Balance Display -->
+          <div>
+            <label class="block text-xs text-muted mb-1 font-medium">বর্তমান ব্যালেন্স</label>
+            <input type="text" id="displayBalanceField" readonly class="w-full bg-background border border-border rounded-xl px-4 py-3 text-sm font-bold text-dark cursor-not-allowed">
+          </div>
+
+          <!-- Withdraw Amount Input -->
+          <div>
+            <label class="block text-xs text-muted mb-1 font-medium">উইথড্র পরিমাণ (৳)</label>
+            <input type="number" id="withdrawAmountInput" step="any" placeholder="পরিমাণ লিখুন" required class="w-full bg-white border border-border rounded-xl px-4 py-3 text-sm text-dark focus:outline-none focus:border-primary transition">
+            <p id="formErrorMsg" class="text-red-500 text-xs mt-1.5 hidden"></p>
+          </div>
+
+          <!-- Submit Button -->
+          <button type="submit" id="submitBtn" class="w-full bg-primary hover:bg-primary-dark text-white font-semibold py-3.5 px-4 rounded-xl transition flex items-center justify-center space-x-2 shadow-md">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"></path>
+            </svg>
+            <span id="submitBtnText">উইথড্র করুন</span>
+          </button>
+        </form>
+      </div>
+
+      <!-- Withdraw History Section -->
+      <div class="bg-white rounded-2xl p-6 shadow-sm border border-border space-y-4">
+        <h3 class="text-lg font-bold text-dark border-b border-border pb-3">উইথড্র ইতিহাস</h3>
+        
+        <div id="historyContainer" class="space-y-3">
+          <div class="text-center py-6 text-muted text-sm">কোনো উইথড্র ইতিহাস পাওয়া যায়নি।</div>
+        </div>
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- Mobile Bottom Navigation -->
+  <nav class="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-border z-50 px-4 py-2 flex justify-around items-center">
+    <a href="index.html" class="flex flex-col items-center text-muted hover:text-primary transition">
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+      </svg>
+      <span class="text-xs mt-1">হোম</span>
+    </a>
+    <a href="category.html" class="flex flex-col items-center text-muted hover:text-primary transition">
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7"></path>
+      </svg>
+      <span class="text-xs mt-1">ক্যাটাগরি</span>
+    </a>
+    <a href="my-orders.html" class="flex flex-col items-center text-muted hover:text-primary transition">
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
+      </svg>
+      <span class="text-xs mt-1">অর্ডার</span>
+    </a>
+    <a href="profile.html" class="flex flex-col items-center text-muted hover:text-primary transition">
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+      </svg>
+      <span class="text-xs mt-1">প্রোফাইল</span>
+    </a>
+  </nav>
+
+  <!-- Toast Notification -->
+  <div id="toast" class="fixed bottom-20 left-1/2 transform -translate-x-1/2 bg-dark text-white px-4 py-2 rounded-xl text-sm shadow-lg transition-all duration-300 opacity-0 translate-y-20 z-50 pointer-events-none">
+    সফল বার্তা
+  </div>
+
+  <!-- Firebase Integration Script -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+    import { getFirestore, doc, getDoc, collection, addDoc, query, where, getDocs, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyBUhNhYvuo_FTvZ5RZR6Gn-4hsUY21S0XE",
+      authDomain: "ghotimarket.firebaseapp.com",
+      databaseURL: "https://ghotimarket-default-rtdb.firebaseio.com",
+      projectId: "ghotimarket",
+      storageBucket: "ghotimarket.firebasestorage.app",
+      messagingSenderId: "481257644093",
+      appId: "1:481257644093:web:0dfc3699d6b3c86afeca54",
+      measurementId: "G-4SR8V2EKC1"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    const loadingState = document.getElementById('loadingState');
+    const withdrawContent = document.getElementById('withdrawContent');
+    const errorState = document.getElementById('errorState');
+    const errorTitle = document.getElementById('errorTitle');
+    const errorDesc = document.getElementById('errorDesc');
+    const errorActionBtn = document.getElementById('errorActionBtn');
+    const toast = document.getElementById('toast');
+
+    let currentUserObj = null;
+
+    function showToast(message) {
+      toast.innerText = message;
+      toast.classList.remove('translate-y-20', 'opacity-0');
+      toast.classList.add('translate-y-0', 'opacity-100');
+      setTimeout(() => {
+        toast.classList.remove('translate-y-0', 'opacity-100');
+        toast.classList.add('translate-y-20', 'opacity-0');
+      }, 3000);
+    }
+
+    onAuthStateChanged(auth, async (user) => {
+      if (!user) {
+        window.location.href = "login.html";
+        return;
+      }
+
+      currentUserObj = user;
+
+      try {
+        const resellerRef = doc(db, "reseller", user.uid);
+        const resellerSnap = await getDoc(resellerRef);
+
+        if (!resellerSnap.exists()) {
+          loadingState.classList.add('hidden');
+          errorTitle.innerText = "রিসেলার প্রোফাইল পাওয়া যায়নি";
+          errorDesc.innerText = "আপনার রিসেলার অ্যাকাউন্টের তথ্য খুঁজে পাওয়া যায়নি।";
+          errorActionBtn.innerText = "লগইন পেজে যান";
+          errorActionBtn.onclick = () => { window.location.href = 'login.html'; };
+          errorState.classList.remove('hidden');
+          errorState.classList.add('flex');
+          return;
+        }
+
+        const data = resellerSnap.data();
+
+        if (data.active !== true || data.verified !== true) {
+          loadingState.classList.add('hidden');
+          errorTitle.innerText = "অ্যাকাউন্ট সক্রিয় নয়";
+          errorDesc.innerText = "আপনার রিসেলার অ্যাকাউন্ট বর্তমানে উইথড্র করার জন্য সক্রিয় নয়।";
+          errorActionBtn.innerText = "হোম পেজে যান";
+          errorActionBtn.onclick = () => { window.location.href = 'index.html'; };
+          errorState.classList.remove('hidden');
+          errorState.classList.add('flex');
+          return;
+        }
+
+        const authEmail = user.email || "";
+        const docEmail = data.Email || "";
+        if (authEmail && docEmail && authEmail.trim().toLowerCase() !== docEmail.trim().toLowerCase()) {
+          loadingState.classList.add('hidden');
+          errorTitle.innerText = "ইমেইল মিলেনি";
+          errorDesc.innerText = "আপনার অ্যাকাউন্টের ইমেইল তথ্যের সাথে মিল পাওয়া যায়নি।";
+          errorActionBtn.innerText = "লগইন পেজে যান";
+          errorActionBtn.onclick = () => { window.location.href = 'login.html'; };
+          errorState.classList.remove('hidden');
+          errorState.classList.add('flex');
+          return;
+        }
+
+        const balance = Number(data.balance || 0);
+        const formattedBalance = '৳ ' + balance.toLocaleString('bn-BD', {
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2
+        });
+
+        document.getElementById('inputUid').value = user.uid;
+        document.getElementById('inputEmail').value = authEmail || docEmail;
+        document.getElementById('inputPhone').value = data.Phone || "তথ্য পাওয়া যায়নি";
+        document.getElementById('walletBalance').innerText = formattedBalance;
+        document.getElementById('displayBalanceField').value = formattedBalance;
+
+        await loadWithdrawHistory(user.uid);
+
+        loadingState.classList.add('hidden');
+        withdrawContent.classList.remove('hidden');
+
+      } catch (error) {
+        console.error("Error loading withdraw page:", error);
+        loadingState.classList.add('hidden');
+        errorTitle.innerText = "তথ্য লোড করা যায়নি";
+        errorDesc.innerText = "সার্ভার থেকে তথ্য আনতে সমস্যা হয়েছে। দয়া করে আবার চেষ্টা করুন।";
+        errorActionBtn.innerText = "আবার চেষ্টা করুন";
+        errorActionBtn.onclick = () => location.reload();
+        errorState.classList.remove('hidden');
+        errorState.classList.add('flex');
+      }
+    });
+
+    async function loadWithdrawHistory(uid) {
+      const historyContainer = document.getElementById('historyContainer');
+      const pendingNotice = document.getElementById('pendingNotice');
+      
+      try {
+        const q = query(
+          collection(db, "withdraw"),
+          where("uid", "==", uid)
+        );
+        const querySnapshot = await getDocs(q);
+
+        const withdrawals = [];
+        querySnapshot.forEach((docSnap) => {
+          withdrawals.push({
+            id: docSnap.id,
+            ...docSnap.data()
+          });
+        });
+
+        withdrawals.sort((a, b) => {
+          const aTime = a.createdAt?.toMillis ? a.createdAt.toMillis() : (a.createdAt?.seconds ? a.createdAt.seconds * 1000 : 0);
+          const bTime = b.createdAt?.toMillis ? b.createdAt.toMillis() : (b.createdAt?.seconds ? b.createdAt.seconds * 1000 : 0);
+          return bTime - aTime;
+        });
+
+        if (withdrawals.length === 0) {
+          historyContainer.innerHTML = `<div class="text-center py-6 text-muted text-sm">কোনো উইথড্র ইতিহাস পাওয়া যায়নি।</div>`;
+          pendingNotice.classList.add('hidden');
+          return;
+        }
+
+        let hasPending = false;
+        let htmlContent = '';
+
+        withdrawals.forEach((item) => {
+          const amount = Number(item.amount || 0);
+          const formattedAmt = '৳ ' + amount.toLocaleString('bn-BD', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+          
+          let dateStr = "তারিখ উপলব্ধ নেই";
+          if (item.createdAt) {
+            let dateObj = null;
+            if (typeof item.createdAt.toDate === 'function') {
+              dateObj = item.createdAt.toDate();
+            } else if (item.createdAt.seconds) {
+              dateObj = new Date(item.createdAt.seconds * 1000);
+            } else if (item.createdAt instanceof Date) {
+              dateObj = item.createdAt;
+            }
+            if (dateObj && !isNaN(dateObj)) {
+              dateStr = dateObj.toLocaleDateString('bn-BD', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+              });
+            }
+          }
+
+          let statusClass = "bg-amber-100 text-amber-800";
+          let statusText = "অপেক্ষমাণ";
+
+          if (item.status === "approved") {
+            statusClass = "bg-green-100 text-green-800";
+            statusText = "অনুমোদিত";
+          } else if (item.status === "rejected") {
+            statusClass = "bg-red-100 text-red-800";
+            statusText = "প্রত্যাখ্যাত";
+          } else if (item.status === "pending") {
+            hasPending = true;
+          }
+
+          htmlContent += `
+            <div class="p-4 bg-background rounded-xl border border-border flex items-center justify-between">
+              <div>
+                <span class="text-base font-bold text-dark block">${formattedAmt}</span>
+                <span class="text-xs text-muted block mt-0.5">${dateStr}</span>
+              </div>
+              <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold ${statusClass}">
+                ${statusText}
+              </span>
+            </div>
+          `;
+        });
+
+        historyContainer.innerHTML = htmlContent;
+
+        if (hasPending) {
+          pendingNotice.classList.remove('hidden');
+        } else {
+          pendingNotice.classList.add('hidden');
+        }
+
+      } catch (err) {
+        console.error("Error loading history:", err);
+        historyContainer.innerHTML = `<div class="p-4 bg-red-50 border border-red-200 rounded-xl text-red-700 text-sm text-center">উইথড্র ইতিহাস লোড করতে সমস্যা হয়েছে। অনুগ্রহ করে কিছুক্ষণ পরে আবার চেষ্টা করুন।</div>`;
+        pendingNotice.classList.add('hidden');
+      }
+    }
+
+    window.handleWithdraw = async function(event) {
+      event.preventDefault();
+      if (!currentUserObj) return;
+
+      const inputElem = document.getElementById('withdrawAmountInput');
+      const errorMsgElem = document.getElementById('formErrorMsg');
+      const submitBtn = document.getElementById('submitBtn');
+      const submitBtnText = document.getElementById('submitBtnText');
+
+      errorMsgElem.classList.add('hidden');
+      errorMsgElem.innerText = "";
+
+      const rawVal = inputElem.value;
+      const withdrawAmount = Number(rawVal);
+
+      if (rawVal === "" || isNaN(withdrawAmount) || !isFinite(withdrawAmount) || withdrawAmount <= 0) {
+        errorMsgElem.innerText = "সঠিক উইথড্র পরিমাণ লিখুন।";
+        errorMsgElem.classList.remove('hidden');
+        return;
+      }
+
+      submitBtn.disabled = true;
+      submitBtnText.innerText = "অনুরোধ পাঠানো হচ্ছে...";
+
+      try {
+        const freshResellerSnap = await getDoc(doc(db, "reseller", currentUserObj.uid));
+        
+        if (!freshResellerSnap.exists()) {
+          throw new Error("Reseller document not found");
+        }
+
+        const freshResellerData = freshResellerSnap.data();
+        const freshBalance = Number(freshResellerData.balance || 0);
+
+        if (freshResellerData.active !== true || freshResellerData.verified !== true) {
+          showToast("আপনার অ্যাকাউন্ট বর্তমানে সক্রিয় বা যাচাইকৃত নয়।");
+          submitBtn.disabled = false;
+          submitBtnText.innerText = "উইথড্র করুন";
+          return;
+        }
+
+        if (withdrawAmount > freshBalance) {
+          errorMsgElem.innerText = "আপনার বর্তমান ব্যালেন্সের চেয়ে বেশি টাকা উইথড্র করা যাবে না।";
+          errorMsgElem.classList.remove('hidden');
+          submitBtn.disabled = false;
+          submitBtnText.innerText = "উইথড্র করুন";
+          return;
+        }
+
+        const withdrawData = {
+          uid: currentUserObj.uid,
+          email: currentUserObj.email || freshResellerData.Email || "",
+          phone: freshResellerData.Phone || "",
+          amount: withdrawAmount,
+          balanceAtRequest: freshBalance,
+          status: "pending",
+          createdAt: serverTimestamp(),
+          updatedAt: serverTimestamp()
+        };
+
+        await addDoc(collection(db, "withdraw"), withdrawData);
+
+        showToast("আপনার উইথড্র অনুরোধ সফলভাবে পাঠানো হয়েছে।");
+        inputElem.value = "";
+
+        const updatedFormattedBalance = '৳ ' + freshBalance.toLocaleString('bn-BD', {
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2
+        });
+        document.getElementById('walletBalance').innerText = updatedFormattedBalance;
+        document.getElementById('displayBalanceField').value = updatedFormattedBalance;
+
+        await loadWithdrawHistory(currentUserObj.uid);
+
+      } catch (err) {
+        console.error("Error submitting withdraw request:", err);
+        showToast("অনুরোধ পাঠানো যায়নি। আবার চেষ্টা করুন।");
+      } finally {
+        submitBtn.disabled = false;
+        submitBtnText.innerText = "উইথড্র করুন";
+      }
+    };
+  </script>
+</body>
+</html>
