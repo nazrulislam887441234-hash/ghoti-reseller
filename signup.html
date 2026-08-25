@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>অ্যাকাউন্ট তৈরি করুন — GHOTI RESELLER</title>
+  <style>
+    :root {
+      --primary: #0F172A;
+      --primary-light: #1E293B;
+      --accent: #F97316;
+      --accent-hover: #EA580C;
+      --bg-gradient: linear-gradient(135deg, #FFF7ED 0%, #FFEDD5 100%);
+      --card-bg: #FFFFFF;
+      --text-main: #334155;
+      --text-muted: #64748B;
+      --border-color: #CBD5E1;
+      --error-color: #DC2626;
+      --success-color: #16A34A;
+      --radius: 12px;
+      --shadow: 0 10px 25px -5px rgba(249, 115, 22, 0.1), 0 8px 10px -6px rgba(15, 23, 42, 0.05);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background: var(--bg-gradient);
+      color: var(--text-main);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 24px;
+    }
+
+    .signup-container {
+      width: 100%;
+      max-width: 520px;
+      background: var(--card-bg);
+      padding: 40px;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(255, 255, 255, 0.9);
+    }
+
+    .brand-header {
+      text-align: center;
+      margin-bottom: 32px;
+    }
+
+    .brand-header img {
+      height: 75px;
+      margin-bottom: 16px;
+      object-fit: contain;
+    }
+
+    .brand-header h1 {
+      font-size: 26px;
+      color: var(--primary);
+      font-weight: 700;
+      letter-spacing: -0.5px;
+    }
+
+    .brand-header p {
+      font-size: 14px;
+      color: var(--text-muted);
+      margin-top: 6px;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+      position: relative;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: var(--primary);
+    }
+
+    .input-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .form-control {
+      width: 100%;
+      padding: 13px 16px;
+      font-size: 14px;
+      border: 1.5px solid var(--border-color);
+      border-radius: 8px;
+      outline: none;
+      transition: all 0.25s ease;
+      background-color: #FAFAFA;
+      color: var(--text-main);
+    }
+
+    .form-control:focus {
+      border-color: var(--accent);
+      background-color: #FFFFFF;
+      box-shadow: 0 0 0 4px rgba(249, 115, 22, 0.15);
+    }
+
+    .toggle-password {
+      position: absolute;
+      right: 14px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      padding: 4px;
+    }
+
+    .toggle-password:hover {
+      color: var(--primary);
+    }
+
+    .terms-group {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      font-size: 13px;
+      margin-bottom: 24px;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    .terms-group input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      margin-top: 2px;
+      accent-color: var(--accent);
+      cursor: pointer;
+    }
+
+    .terms-group button.link-btn {
+      background: none;
+      border: none;
+      color: var(--accent);
+      font-weight: 600;
+      cursor: pointer;
+      padding: 0;
+      font-size: 13px;
+      text-decoration: underline;
+    }
+
+    .terms-group button.link-btn:hover {
+      color: var(--accent-hover);
+    }
+
+    .btn-submit {
+      width: 100%;
+      padding: 14px;
+      background-color: var(--accent);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.2s, transform 0.1s;
+      box-shadow: 0 4px 12px rgba(249, 115, 22, 0.25);
+    }
+
+    .btn-submit:hover {
+      background-color: var(--accent-hover);
+    }
+
+    .btn-submit:active {
+      transform: scale(0.99);
+    }
+
+    .btn-submit:disabled {
+      background-color: var(--border-color);
+      box-shadow: none;
+      cursor: not-allowed;
+    }
+
+    .auth-footer {
+      text-align: center;
+      margin-top: 24px;
+      font-size: 14px;
+      color: var(--text-muted);
+    }
+
+    .auth-footer a {
+      color: var(--accent);
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .auth-footer a:hover {
+      text-decoration: underline;
+    }
+
+    .error-msg {
+      color: var(--error-color);
+      font-size: 12px;
+      margin-top: 6px;
+      display: block;
+      font-weight: 500;
+    }
+
+    /* Toast Notification */
+    #notification-container {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .notification-alert {
+      padding: 14px 20px;
+      border-radius: 8px;
+      color: #fff;
+      font-size: 14px;
+      font-weight: 500;
+      box-shadow: 0 6px 16px rgba(0,0,0,0.12);
+      animation: slideIn 0.3s ease forwards;
+    }
+    .notification-alert.success { background-color: var(--success-color); }
+    .notification-alert.error { background-color: var(--error-color); }
+
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Modal Overlay */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(15, 23, 42, 0.75);
+      backdrop-filter: blur(4px);
+      z-index: 10000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .modal-overlay.active {
+      display: flex;
+    }
+
+    .modal-box {
+      background: #FFFFFF;
+      width: 100%;
+      max-width: 800px;
+      height: 85vh;
+      border-radius: var(--radius);
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+      overflow: hidden;
+      animation: modalScale 0.3s ease forwards;
+    }
+
+    @keyframes modalScale {
+      from { transform: scale(0.95); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+
+    .modal-header {
+      padding: 18px 24px;
+      background: var(--primary);
+      color: #FFFFFF;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .modal-header h3 {
+      font-size: 18px;
+      font-weight: 600;
+    }
+
+    .modal-close-btn {
+      background: none;
+      border: none;
+      color: #FFFFFF;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 4px;
+      border-radius: 4px;
+      transition: background 0.2s;
+    }
+
+    .modal-close-btn:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .modal-body {
+      flex: 1;
+      position: relative;
+      background: #F8FAFC;
+    }
+
+    .modal-body iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    .modal-loading {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 14px;
+      color: var(--text-muted);
+    }
+
+    .modal-fallback {
+      padding: 40px;
+      text-align: center;
+      color: var(--error-color);
+      font-size: 14px;
+    }
+
+    @media (max-width: 480px) {
+      .signup-container {
+        padding: 24px 20px;
+      }
+      .modal-box {
+        height: 90vh;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="signup-container">
+    <div class="brand-header">
+      <img src="https://reseller.ghotimarket.com/logo.png" alt="GHOTI RESELLER লোগো">
+      <h1>GHOTI RESELLER</h1>
+      <p>আপনার রিসেলার ব্যবসা শুরু করুন খুব সহজেই</p>
+    </div>
+
+    <form id="signupForm" novalidate>
+      <div class="form-group">
+        <label for="name">আপনার নাম</label>
+        <input type="text" id="name" class="form-control" placeholder="পূর্ণ নাম লিখুন" required>
+        <span id="nameError" class="error-msg"></span>
+      </div>
+
+      <div class="form-group">
+        <label for="email">ইমেইল ঠিকানা</label>
+        <input type="email" id="email" class="form-control" placeholder="example@domain.com" required>
+        <span id="emailError" class="error-msg"></span>
+      </div>
+
+      <div class="form-group">
+        <label for="phone">বিকাশ নাম্বার</label>
+        <input type="tel" id="phone" class="form-control" placeholder="01XXXXXXXXX" required>
+        <span id="phoneError" class="error-msg"></span>
+      </div>
+
+      <div class="form-group">
+        <label for="whatsapp">WhatsApp নম্বর</label>
+        <input type="tel" id="whatsapp" class="form-control" placeholder="01XXXXXXXXX" required>
+        <span id="whatsappError" class="error-msg"></span>
+      </div>
+
+      <div class="form-group">
+        <label for="password">পাসওয়ার্ড</label>
+        <div class="input-wrapper">
+          <input type="password" id="password" class="form-control" placeholder="কমপক্ষে ৬ অক্ষরের পাসওয়ার্ড" required>
+          <button type="button" class="toggle-password" data-target="password" aria-label="পাসওয়ার্ড দৃশ্যমান করুন">
+            <svg class="eye-icon" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
+          </button>
+        </div>
+        <span id="passwordError" class="error-msg"></span>
+      </div>
+
+      <div class="form-group">
+        <label for="confirmPassword">পাসওয়ার্ড নিশ্চিত করুন</label>
+        <div class="input-wrapper">
+          <input type="password" id="confirmPassword" class="form-control" placeholder="পুনরায় পাসওয়ার্ড দিন" required>
+          <button type="button" class="toggle-password" data-target="confirmPassword" aria-label="পাসওয়ার্ড দৃশ্যমান করুন">
+            <svg class="eye-icon" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
+          </button>
+        </div>
+        <span id="confirmPasswordError" class="error-msg"></span>
+      </div>
+
+      <div class="terms-group">
+        <input type="checkbox" id="termsCheck" required>
+        <label for="termsCheck">
+          আমি <button type="button" class="link-btn" id="openTerms">Terms & Conditions</button> এবং <button type="button" class="link-btn" id="openPrivacy">Privacy Policy</button> গ্রহণ করছি।
+        </label>
+      </div>
+
+      <button type="submit" id="submitBtn" class="btn-submit">অ্যাকাউন্ট তৈরি করুন</button>
+    </form>
+
+    <div class="auth-footer">
+      আগেই অ্যাকাউন্ট আছে? <a href="login.html">লগইন করুন</a>
+    </div>
+  </div>
+
+  <!-- Modal Overlay -->
+  <div id="modalOverlay" class="modal-overlay">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3 id="modalTitle">শর্তাবলী</h3>
+        <button type="button" id="modalClose" class="modal-close-btn" aria-label="বন্ধ করুন">
+          <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
+      </div>
+      <div class="modal-body" id="modalBodyContainer">
+        <div class="modal-loading" id="modalLoading">লোড হচ্ছে...</div>
+      </div>
+    </div>
+  </div>
+
+  <script type="module">
+    import { initializeApp, getApps } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import { getAuth, createUserWithEmailAndPassword, sendEmailVerification } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+    import { getFirestore, doc, setDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyBUhNhYvuo_FTvZ5RZR6Gn-4hsUY21S0XE",
+      authDomain: "ghotimarket.firebaseapp.com",
+      databaseURL: "https://ghotimarket-default-rtdb.firebaseio.com",
+      projectId: "ghotimarket",
+      storageBucket: "ghotimarket.firebasestorage.app",
+      messagingSenderId: "481257644093",
+      appId: "1:481257644093:web:0dfc3699d6b3c86afeca54",
+      measurementId: "G-4SR8V2EKC1"
+    };
+
+    // Prevent multiple initializations
+    const app = !getApps().length ? initializeApp(firebaseConfig) : getApps()[0];
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    console.log("Firebase initialized successfully for project:", firebaseConfig.projectId);
+
+    function translateFirebaseError(errorCode) {
+      console.error("Firebase Error Code:", errorCode);
+      switch (errorCode) {
+        case 'auth/email-already-in-use':
+          return 'এই ইমেইল দিয়ে ইতিমধ্যে একটি অ্যাকাউন্ট রয়েছে।';
+        case 'auth/invalid-email':
+          return 'ইমেইল ঠিকানাটি সঠিক নয়।';
+        case 'auth/weak-password':
+          return 'পাসওয়ার্ড আরও শক্তিশালী করুন (কমপক্ষে ৬ অক্ষরের হতে হবে)।';
+        case 'auth/network-request-failed':
+          return 'নেটওয়ার্ক সমস্যার কারণে সংযোগ স্থাপন করা যায়নি। ইন্টারনেট সংযোগ চেক করুন।';
+        case 'auth/operation-not-allowed':
+          return 'এই সাইন-ইন পদ্ধতিটি বর্তমানে বন্ধ রয়েছে।';
+        case 'auth/too-many-requests':
+          return 'অতিরিক্ত চেষ্টার কারণে সাময়িকভাবে ব্লক করা হয়েছে। কিছুক্ষণ পর আবার চেষ্টা করুন।';
+        default:
+          return 'একটি প্রযুক্তিগত সমস্যা হয়েছে। কিছুক্ষণ পর আবার চেষ্টা করুন।';
+      }
+    }
+
+    function validatePhone(phone) {
+      const bdPhoneRegex = /^(?:\+88|88)?(01[3-9]\d{8})$/;
+      return bdPhoneRegex.test(phone.trim());
+    }
+
+    function showNotification(message, type = 'success') {
+      let container = document.getElementById('notification-container');
+      if (!container) {
+        container = document.createElement('div');
+        container.id = 'notification-container';
+        document.body.appendChild(container);
+      }
+      const alertBox = document.createElement('div');
+      alertBox.className = `notification-alert ${type}`;
+      alertBox.textContent = message;
+      container.appendChild(alertBox);
+      setTimeout(() => alertBox.remove(), 4000);
+    }
+
+    // Password visibility toggle with SVG icon update
+    document.querySelectorAll('.toggle-password').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const targetId = btn.getAttribute('data-target');
+        const input = document.getElementById(targetId);
+        const iconSvg = btn.querySelector('.eye-icon');
+
+        if (input.type === 'password') {
+          input.type = 'text';
+          iconSvg.innerHTML = `<path d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.542-7a10.07 10.07 0 014.13-5.361m3.172-1.688a9.957 9.957 0 012.24-.251c4.478 0 8.268 2.943 9.542 7a10.076 10.076 0 01-1.121 2.385m-9.972-4.01a3 3 0 104.243 4.243m-4.242-4.243L3 3m18 18l-4.243-4.243"/>`;
+        } else {
+          input.type = 'password';
+          iconSvg.innerHTML = `<path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>`;
+        }
+      });
+    });
+
+    // Modal Overlay Logic
+    const modalOverlay = document.getElementById('modalOverlay');
+    const modalTitle = document.getElementById('modalTitle');
+    const modalClose = document.getElementById('modalClose');
+    const modalBodyContainer = document.getElementById('modalBodyContainer');
+
+    function openModal(titleText, url) {
+      modalTitle.textContent = titleText;
+      modalBodyContainer.innerHTML = '<div class="modal-loading" id="modalLoading">লোড হচ্ছে...</div>';
+      modalOverlay.classList.add('active');
+      document.body.style.overflow = 'hidden';
+
+      const iframe = document.createElement('iframe');
+      iframe.src = url;
+      iframe.style.display = 'none';
+
+      iframe.onload = () => {
+        const loading = document.getElementById('modalLoading');
+        if (loading) loading.remove();
+        iframe.style.display = 'block';
+      };
+
+      iframe.onerror = () => {
+        modalBodyContainer.innerHTML = '<div class="modal-fallback">কন্টেন্ট লোড করা সম্ভব হয়নি। অনুগ্রহ করে আপনার ইন্টারনেট সংযোগ পরীক্ষা করুন।</div>';
+      };
+
+      modalBodyContainer.appendChild(iframe);
+    }
+
+    function closeModal() {
+      modalOverlay.classList.remove('active');
+      document.body.style.overflow = 'auto';
+      modalBodyContainer.innerHTML = '';
+    }
+
+    document.getElementById('openTerms').addEventListener('click', () => {
+      openModal('Terms & Conditions', 'https://reseller.ghotimarket.com/terms');
+    });
+
+    document.getElementById('openPrivacy').addEventListener('click', () => {
+      openModal('Privacy Policy', 'https://reseller.ghotimarket.com/privacy-policy');
+    });
+
+    modalClose.addEventListener('click', closeModal);
+    modalOverlay.addEventListener('click', (e) => {
+      if (e.target === modalOverlay) closeModal();
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && modalOverlay.classList.contains('active')) {
+        closeModal();
+      }
+    });
+
+    // Signup Form Submission
+    const signupForm = document.getElementById('signupForm');
+    const submitBtn = document.getElementById('submitBtn');
+
+    signupForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      document.querySelectorAll('.error-msg').forEach(el => el.textContent = '');
+
+      const name = document.getElementById('name').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const phone = document.getElementById('phone').value.trim();
+      const whatsapp = document.getElementById('whatsapp').value.trim();
+      const password = document.getElementById('password').value;
+      const confirmPassword = document.getElementById('confirmPassword').value;
+      const termsChecked = document.getElementById('termsCheck').checked;
+
+      let isValid = true;
+
+      if (name.length < 3) {
+        document.getElementById('nameError').textContent = 'নাম কমপক্ষে ৩ অক্ষরের হতে হবে।';
+        isValid = false;
+      }
+
+      if (!email) {
+        document.getElementById('emailError').textContent = 'ইমেইল ঠিকানা আবশ্যক।';
+        isValid = false;
+      }
+
+      if (!validatePhone(phone)) {
+        document.getElementById('phoneError').textContent = 'সঠিক বাংলাদেশি বিকাশ নম্বর দিন (যেমন: 01XXXXXXXXX)।';
+        isValid = false;
+      }
+
+      if (!validatePhone(whatsapp)) {
+        document.getElementById('whatsappError').textContent = 'সঠিক WhatsApp নম্বর দিন (যেমন: 01XXXXXXXXX)।';
+        isValid = false;
+      }
+
+      if (password.length < 6) {
+        document.getElementById('passwordError').textContent = 'পাসওয়ার্ড কমপক্ষে ৬ অক্ষরের হতে হবে।';
+        isValid = false;
+      }
+
+      if (password !== confirmPassword) {
+        document.getElementById('confirmPasswordError').textContent = 'পাসওয়ার্ড দুটি মিলছে না।';
+        isValid = false;
+      }
+
+      if (!termsChecked) {
+        showNotification('শর্তাবলী এবং প্রাইভেসি পলিসি মেনে নেওয়া বাধ্যতামূলক।', 'error');
+        isValid = false;
+      }
+
+      if (!isValid) return;
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'অ্যাকাউন্ট তৈরি হচ্ছে...';
+
+      try {
+        // ১. Firebase Authentication অ্যাকাউন্ট তৈরি
+        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+        const user = userCredential.user;
+
+        // ২. ইমেইল ভেরিফিকেশন পাঠানো
+        await sendEmailVerification(user);
+
+        const normalizedPhone = phone.startsWith('+88') ? phone : `+88${phone}`;
+        const normalizedWhatsApp = whatsapp.startsWith('+88') ? whatsapp : `+88${whatsapp}`;
+
+        // ৩. Firestore 'reseller' ডেসটিনেশন তৈরি (Document ID = user.uid)
+        const resellerData = {
+          uid: user.uid,
+          balance: 0,
+          Name: name,
+          Email: email,
+          Phone: normalizedPhone,
+          WhatsApp: normalizedWhatsApp,
+          verified: true,
+          active: true,
+          emailVerified: false,
+          createdAt: serverTimestamp()
+        };
+
+        await setDoc(doc(db, 'reseller', user.uid), resellerData);
+        console.log("Firestore document successfully created for UID:", user.uid);
+
+        showNotification('অ্যাকাউন্ট সফলভাবে তৈরি হয়েছে। ভেরিফিকেশন ইমেইল পাঠানো হয়েছে।', 'success');
+        
+        setTimeout(() => {
+          window.location.href = 'success.html';
+        }, 1800);
+
+      } catch (error) {
+        console.error("Signup process error:", error);
+        showNotification(translateFirebaseError(error.code), 'error');
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'অ্যাকাউন্ট তৈরি করুন';
+      }
+    });
+  </script>
+</body>
+</html>
