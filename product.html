@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GHOTI MARKET - Reseller Product Details & Order</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Hind Siliguri', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col justify-between">
+
+    <!-- Top Navigation Header -->
+    <header class="bg-white border-b border-slate-200 sticky top-0 z-30 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center space-x-3">
+                <img src="https://reseller.ghotimarket.com/logo.png" alt="GHOTI MARKET Logo" class="h-10 w-auto object-contain">
+                <span class="text-xl font-bold text-slate-900 border-l pl-3 border-slate-300">রিসেলার পোর্টাল</span>
+            </div>
+            <div id="userInfo" class="text-sm font-medium text-slate-600 hidden md:block">
+                <!-- User email loaded dynamically -->
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="max-w-7xl mx-auto px-4 py-6 w-full flex-grow">
+        
+        <!-- Loading State -->
+        <div id="loadingView" class="flex flex-col items-center justify-center py-24">
+            <svg class="animate-spin h-10 w-10 text-blue-600 mb-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            </svg>
+            <p class="text-lg font-medium text-slate-600">তথ্য যাচাই করা হচ্ছে...</p>
+        </div>
+
+        <!-- Error / Unauthorized Message View -->
+        <div id="errorView" class="hidden max-w-lg mx-auto bg-white border border-red-200 rounded-xl p-8 text-center shadow-sm my-12">
+            <svg class="w-16 h-16 text-red-500 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
+            </svg>
+            <h2 id="errorMessageText" class="text-xl font-bold text-slate-800 mb-2">পণ্যটি খুঁজে পাওয়া যায়নি।</h2>
+            <p id="errorSubText" class="text-slate-600 mb-6">আপনার অ্যাকাউন্টটি পণ্য দেখার জন্য অনুমোদিত নয় অথবা লিংকটি সঠিক নয়।</p>
+            <a href="login.html" class="inline-flex items-center justify-center bg-blue-600 text-white font-medium px-6 py-2.5 rounded-lg hover:bg-blue-700 transition">লগইন পেজে যান</a>
+        </div>
+
+        <!-- Content Area (Product Details + Order Form) -->
+        <div id="contentView" class="hidden grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+            
+            <!-- Left Side: Product Details & Gallery -->
+            <div class="lg:col-span-7 space-y-6">
+                
+                <!-- Image Gallery Container -->
+                <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
+                    <div class="relative w-full h-80 sm:h-96 bg-slate-100 rounded-lg overflow-hidden flex items-center justify-center mb-4">
+                        <img id="mainProductImage" src="" alt="Product Image" class="w-full h-full object-contain">
+                        <div class="absolute bottom-3 right-3 bg-slate-900 bg-opacity-70 text-white text-xs px-2.5 py-1 rounded-md" id="imageCounter">১ / ১</div>
+                    </div>
+                    <!-- Thumbnails -->
+                    <div id="thumbnailContainer" class="flex space-x-2 overflow-x-auto pb-2">
+                        <!-- Dynamically populated thumbnails -->
+                    </div>
+                    <div class="mt-4 flex justify-between items-center">
+                        <span class="text-xs text-slate-500">পণ্যের ছবি ডাউনলোড করুন</span>
+                        <button type="button" id="downloadImageBtn" class="inline-flex items-center space-x-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 text-sm font-medium px-4 py-2 rounded-lg transition">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                            <span>ছবি ডাউনলোড করুন</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Product Info Box -->
+                <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm space-y-4">
+                    <div class="flex items-center space-x-2">
+                        <span id="categoryBadge" class="bg-blue-50 text-blue-700 text-xs font-semibold px-2.5 py-1 rounded">ক্যাটাগরি</span>
+                    </div>
+                    <h1 id="productName" class="text-2xl font-bold text-slate-900">পণ্যের নাম</h1>
+                    
+                    <!-- Pricing & Rates -->
+                    <div class="space-y-2 pt-2 border-t border-slate-100">
+                        <div class="flex items-center justify-between bg-emerald-50 border border-emerald-200 p-3 rounded-lg">
+                            <span id="wholesalePriceText" class="text-emerald-800 font-semibold text-sm sm:text-base">এই পণ্যের পাইকারি মূল্য ৫০০ টাকা</span>
+                            <button type="button" id="copyPriceBtn" class="inline-flex items-center space-x-1 bg-white hover:bg-emerald-100 text-emerald-700 text-xs font-medium px-3 py-1.5 rounded border border-emerald-300 transition">
+                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"></path></svg>
+                                <span>কপি করুন</span>
+                            </button>
+                        </div>
+                        
+                        <div id="oldPriceBox" class="hidden text-sm text-slate-500 line-through">
+                            এই পণ্যটির আগের পাইকারি মূল্য ছিল ৭০০ টাকা
+                        </div>
+
+                        <div class="bg-amber-50 border border-amber-200 p-3 rounded-lg text-amber-800 text-sm font-medium" id="highRateText">
+                            এই পণ্য সর্বোচ্চ ১৩০০ টাকায় বিক্রি করতে পারবেন
+                        </div>
+                    </div>
+
+                    <!-- Variants Section -->
+                    <div id="variantsContainer" class="space-y-4 pt-4 border-t border-slate-100">
+                        <!-- Dynamically generated variant options -->
+                    </div>
+
+                    <!-- Calculated Variant Price Breakdown -->
+                    <div class="bg-slate-50 p-4 rounded-lg border border-slate-200 space-y-1.5 text-sm">
+                        <div class="flex justify-between">
+                            <span class="text-slate-600">পণ্যের মূল্য:</span>
+                            <span id="displayBasePrice" class="font-medium text-slate-800">৫০০ টাকা</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-slate-600">ভ্যারিয়েন্ট অতিরিক্ত মূল্য:</span>
+                            <span id="displayExtraPrice" class="font-medium text-slate-800">০ টাকা</span>
+                        </div>
+                        <div class="flex justify-between pt-2 border-t border-slate-200 font-bold text-base text-slate-900">
+                            <span>বর্তমান পণ্যের মূল্য:</span>
+                            <span id="displayUnitPrice" class="text-blue-600">৫০০ টাকা</span>
+                        </div>
+                    </div>
+
+                    <!-- Description Section -->
+                    <div class="pt-4 border-t border-slate-100 space-y-2">
+                        <div class="flex justify-between items-center">
+                            <h3 class="font-semibold text-slate-800">পণ্যের বিবরণ</h3>
+                            <button type="button" id="copyDescBtn" class="inline-flex items-center space-x-1 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-medium px-3 py-1.5 rounded transition">
+                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"></path></svg>
+                                <span>কপি করুন</span>
+                            </button>
+                        </div>
+                        <div id="productDescription" class="text-sm text-slate-600 bg-slate-50 p-4 rounded-lg whitespace-pre-line leading-relaxed">
+                             বিবরণ লোড হচ্ছে...
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Right Side: Order Form & Summary -->
+            <div class="lg:col-span-5">
+                <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm sticky top-20 space-y-6">
+                    <h2 class="text-xl font-bold text-slate-900 border-b pb-3 border-slate-100">অর্ডার করুন</h2>
+                    
+                    <form id="orderForm" class="space-y-4">
+                        
+                        <!-- Customer Name -->
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 mb-1">কাস্টমারের নাম <span class="text-red-500">*</span></label>
+                            <input type="text" id="customerName" required class="w-full px-3.5 py-2.5 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none" placeholder="কাস্টমারের সম্পূর্ণ নাম লিখুন">
+                        </div>
+
+                        <!-- Customer Phone -->
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 mb-1">কাস্টমারের ফোন নম্বর <span class="text-red-500">*</span></label>
+                            <input type="tel" id="customerPhone" required class="w-full px-3.5 py-2.5 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none" placeholder="01XXXXXXXXX">
+                        </div>
+
+                        <!-- Delivery Address Group -->
+                        <div class="space-y-3 pt-2 border-t border-slate-100">
+                            <label class="block text-sm font-bold text-slate-800">ডেলিভারি ঠিকানা</label>
+                            
+                            <div class="grid grid-cols-2 gap-3">
+                                <div>
+                                    <label class="block text-xs font-medium text-slate-600 mb-1">বিভাগ <span class="text-red-500">*</span></label>
+                                    <select id="deliveryDivision" required class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm bg-white focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                                        <option value="">বিভাগ নির্বাচন করুন</option>
+                                        <option value="ঢাকা">ঢাকা</option>
+                                        <option value="চট্টগ্রাম">চট্টগ্রাম</option>
+                                        <option value="রাজশাহী">রাজশাহী</option>
+                                        <option value="খুলনা">খুলনা</option>
+                                        <option value="বরিশাল">বরিশাল</option>
+                                        <option value="সিলেট">সিলেট</option>
+                                        <option value="রংপুর">রংপুর</option>
+                                        <option value="ময়মনসিংহ">ময়মনসিংহ</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-medium text-slate-600 mb-1">জেলা <span class="text-red-500">*</span></label>
+                                    <input type="text" id="deliveryDistrict" required class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none" placeholder="জেলার নাম">
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-medium text-slate-600 mb-1">থানা / উপজেলা <span class="text-red-500">*</span></label>
+                                <input type="text" id="deliveryThana" required class="w-full px-3.5 py-2 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none" placeholder="থানার নাম">
+                            </div>
+                        </div>
+
+                        <!-- Quantity Selector -->
+                        <div class="pt-2 border-t border-slate-100 flex items-center justify-between">
+                            <label class="text-sm font-medium text-slate-700">পরিমাণ</label>
+                            <div class="flex items-center border border-slate-300 rounded-lg overflow-hidden">
+                                <button type="button" id="decreaseQty" class="px-3.5 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold transition">−</button>
+                                <input type="number" id="productQuantity" value="1" min="1" readonly class="w-12 text-center text-sm font-semibold text-slate-800 focus:outline-none">
+                                <button type="button" id="increaseQty" class="px-3.5 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold transition">+</button>
+                            </div>
+                        </div>
+
+                        <!-- Selling Rate -->
+                        <div class="pt-2 border-t border-slate-100">
+                            <label class="block text-sm font-medium text-slate-700 mb-1">আপনি কত সেল করেছেন? <span class="text-red-500">*</span></label>
+                            <input type="number" id="sellingRate" required min="0" class="w-full px-3.5 py-2.5 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none" placeholder="কাস্টমারের নিকট বিক্রয় মূল্য">
+                            <p class="text-xs text-amber-600 mt-1">ডেলিভারি চার্জ এবং পণ্যের দাম সহ লিখুন</p>
+                        </div>
+
+                        <!-- Delivery Charge Advance Toggle -->
+                        <div class="pt-2 border-t border-slate-100 space-y-2">
+                            <label class="block text-sm font-medium text-slate-700">ডেলিভারি চার্জ কি এডভান্স নিয়েছেন?</label>
+                            <div class="flex space-x-4">
+                                <label class="flex items-center space-x-2 text-sm cursor-pointer">
+                                    <input type="radio" name="deliveryAdvance" value="yes" class="text-blue-600 focus:ring-blue-500">
+                                    <span>হ্যাঁ</span>
+                                </label>
+                                <label class="flex items-center space-x-2 text-sm cursor-pointer">
+                                    <input type="radio" name="deliveryAdvance" value="no" checked class="text-blue-600 focus:ring-blue-500">
+                                    <span>না</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Delivery Zone Selection -->
+                        <div id="deliveryZoneBox" class="space-y-2">
+                            <label class="block text-sm font-medium text-slate-700">ডেলিভারি এলাকা নির্বাচন করুন</label>
+                            <div class="space-y-1.5">
+                                <label class="flex items-center space-x-2 text-sm cursor-pointer">
+                                    <input type="radio" name="deliveryZone" value="inside" checked class="text-blue-600 focus:ring-blue-500">
+                                    <span>ঢাকার ভেতরে (৬০ টাকা)</span>
+                                </label>
+                                <label class="flex items-center space-x-2 text-sm cursor-pointer">
+                                    <input type="radio" name="deliveryZone" value="outside" class="text-blue-600 focus:ring-blue-500">
+                                    <span>ঢাকার বাইরে (১২০ টাকা)</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Order Summary Box -->
+                        <div class="bg-slate-50 p-4 rounded-lg border border-slate-200 space-y-2 text-sm pt-4">
+                            <h3 class="font-bold text-slate-900 border-b pb-1.5 border-slate-200">অর্ডার সারসংক্ষেপ</h3>
+                            <div class="flex justify-between">
+                                <span class="text-slate-600">পণ্যের মূল্য:</span>
+                                <span id="summaryUnitPrice" class="font-medium">৫০০ টাকা</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-slate-600">পরিমাণ:</span>
+                                <span id="summaryQty" class="font-medium">১</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-slate-600">ভ্যারিয়েন্ট অতিরিক্ত মূল্য:</span>
+                                <span id="summaryExtraPrice" class="font-medium">০ টাকা</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-slate-600">ডেলিভারি চার্জ:</span>
+                                <span id="summaryDeliveryCharge" class="font-medium">৬০ টাকা</span>
+                            </div>
+                            <div class="flex justify-between pt-2 border-t border-slate-200 font-bold text-base text-slate-900">
+                                <span>মোট:</span>
+                                <span id="summaryTotalAmount" class="text-blue-600">৫৬০ টাকা</span>
+                            </div>
+                            <div class="flex justify-between pt-1 text-xs text-slate-500 border-t border-dashed border-slate-200">
+                                <span>আপনার বিক্রির রেইট:</span>
+                                <span id="summarySellingRate" class="font-semibold text-slate-700">০ টাকা</span>
+                            </div>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <button type="submit" id="submitOrderBtn" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-lg shadow transition flex items-center justify-center space-x-2">
+                            <span>অর্ডার করুন</span>
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                        </button>
+
+                    </form>
+                </div>
+            </div>
+
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-slate-200 py-4 mt-12 text-center text-xs text-slate-500">
+        &copy; ২০২৬ GHOTI MARKET. সর্বস্বত্ব সংরক্ষিত।
+    </footer>
+
+    <!-- Confirmation Modal -->
+    <div id="confirmModal" class="fixed inset-0 bg-slate-900 bg-opacity-50 z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-xl max-w-md w-full p-6 space-y-4 shadow-xl">
+            <h3 class="text-lg font-bold text-slate-900">অর্ডার নিশ্চিতকরণ</h3>
+            <p class="text-sm text-slate-600">আপনি কি এই অর্ডারটি নিশ্চিত করতে চান?</p>
+            
+            <div id="modalSummaryBox" class="bg-slate-50 p-3 rounded-lg text-xs space-y-1.5 border border-slate-200">
+                <!-- Modal dynamic summary -->
+            </div>
+
+            <div class="flex space-x-3 pt-2">
+                <button type="button" id="modalCancelBtn" class="flex-1 bg-slate-100 hover:bg-slate-200 text-slate-700 font-medium py-2.5 rounded-lg transition text-sm">বাতিল</button>
+                <button type="button" id="modalConfirmBtn" class="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-medium py-2.5 rounded-lg transition text-sm">অর্ডার নিশ্চিত করুন</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification Banner -->
+    <div id="toastNotification" class="fixed bottom-6 right-6 bg-slate-900 text-white text-sm px-4 py-3 rounded-lg shadow-lg transform translate-y-20 opacity-0 transition-all duration-300 z-50">
+        <span id="toastText">সফল বার্তা</span>
+    </div>
+
+    <!-- Firebase Script and Logic -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        import { getFirestore, doc, getDoc, collection, addDoc, serverTimestamp, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyBUhNhYvuo_FTvZ5RZR6Gn-4hsUY21S0XE",
+            authDomain: "ghotimarket.firebaseapp.com",
+            databaseURL: "https://ghotimarket-default-rtdb.firebaseio.com",
+            projectId: "ghotimarket",
+            storageBucket: "ghotimarket.firebasestorage.app",
+            messagingSenderId: "481257644093",
+            appId: "1:481257644093:web:0dfc3699d6b3c86afeca54",
+            measurementId: "G-4SR8V2EKC1"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        let currentReseller = null;
+        let currentProduct = null;
+        let selectedVariantOptions = {}; // { variantName: { value, extraPrice } }
+
+        // DOM Elements
+        const loadingView = document.getElementById('loadingView');
+        const errorView = document.getElementById('errorView');
+        const contentView = document.getElementById('contentView');
+        const errorMessageText = document.getElementById('errorMessageText');
+        const errorSubText = document.getElementById('errorSubText');
+        const userInfo = document.getElementById('userInfo');
+
+        // Show Toast Function
+        function showToast(message) {
+            const toast = document.getElementById('toastNotification');
+            const toastText = document.getElementById('toastText');
+            toastText.textContent = message;
+            toast.classList.remove('translate-y-20', 'opacity-0');
+            setTimeout(() => {
+                toast.classList.add('translate-y-20', 'opacity-0');
+            }, 3000);
+        }
+
+        // Authentication and Reseller Verification check
+        onAuthStateChanged(auth, async (user) => {
+            if (!user) {
+                window.location.href = 'login.html';
+                return;
+            }
+
+            try {
+                const resellerRef = doc(db, "reseller", user.uid);
+                const resellerSnap = await getDoc(resellerRef);
+
+                if (!resellerSnap.exists()) {
+                    triggerError("আপনার অ্যাকাউন্টটি পণ্য দেখার জন্য অনুমোদিত নয়।");
+                    return;
+                }
+
+                const resellerData = resellerSnap.data();
+                if (resellerData.uid !== user.uid || resellerData.active !== true || resellerData.verified !== true) {
+                    triggerError("আপনার অ্যাকাউন্টটি পণ্য দেখার জন্য অনুমোদিত নয়।");
+                    return;
+                }
+
+                currentReseller = { uid: user.uid, email: user.email, ...resellerData };
+                userInfo.textContent = `রিসেলার: ${user.email}`;
+
+                // Load Product after successful auth & verification
+                await loadProductData();
+
+            } catch (err) {
+                console.error(err);
+                triggerError("তথ্য যাচাই করার সময় সমস্যা হয়েছে।");
+            }
+        });
+
+        function triggerError(msg) {
+            loadingView.classList.add('hidden');
+            errorMessageText.textContent = msg;
+            errorView.classList.remove('hidden');
+        }
+
+        // Parse URL and load product
+        async function loadProductData() {
+            const params = new URLSearchParams(window.location.search);
+            let id = params.get('id');
+            let slug = params.get('slug');
+
+            if (!id && !slug) {
+                const searchStr = window.location.search.substring(1);
+                if (searchStr && !searchStr.includes('=')) {
+                    slug = decodeURIComponent(searchStr);
+                }
+            }
+
+            let productData = null;
+
+            try {
+                if (id) {
+                    const docRef = doc(db, "reseller_product", id);
+                    const docSnap = await getDoc(docRef);
+                    if (docSnap.exists()) {
+                        productData = { id: docSnap.id, ...docSnap.data() };
+                    }
+                } else if (slug) {
+                    const q = query(collection(db, "reseller_product"), where("slug", "==", slug));
+                    const querySnapshot = await getDocs(q);
+                    if (!querySnapshot.empty) {
+                        const d = querySnapshot.docs[0];
+                        productData = { id: d.id, ...d.data() };
+                    }
+                }
+
+                if (!productData || productData.active === false) {
+                    triggerError("পণ্যটি খুঁজে পাওয়া যায়নি।");
+                    return;
+                }
+
+                currentProduct = productData;
+                renderProduct(productData);
+
+                loadingView.classList.add('hidden');
+                contentView.classList.remove('hidden');
+
+            } catch (err) {
+                console.error(err);
+                triggerError("পণ্য লোড করতে সমস্যা হয়েছে।");
+            }
+        }
+
+        // Render Product Information
+        function renderProduct(product) {
+            document.getElementById('categoryBadge').textContent = product.categoryName || 'ক্যাটাগরি';
+            document.getElementById('productName').textContent = product.name || '';
+            document.getElementById('productDescription').textContent = product.description || '';
+
+            // Wholesale Price
+            const price = product.price || 0;
+            document.getElementById('wholesalePriceText').textContent = `এই পণ্যের পাইকারি মূল্য ${price} টাকা`;
+
+            // Old Price
+            if (product.oldPrice && !isNaN(product.oldPrice)) {
+                const oldPriceBox = document.getElementById('oldPriceBox');
+                oldPriceBox.textContent = `এই পণ্যটির আগের পাইকারি মূল্য ছিল ${product.oldPrice} টাকা`;
+                oldPriceBox.classList.remove('hidden');
+            }
+
+            // High Rate
+            if (product.highRate) {
+                document.getElementById('highRateText').textContent = `এই পণ্য সর্বোচ্চ ${product.highRate} টাকায় বিক্রি করতে পারবেন`;
+            }
+
+            // Images Gallery
+            const images = product.images && product.images.length > 0 ? product.images : ['https://via.placeholder.com/400'];
+            let currentImageIndex = 0;
+            const mainImg = document.getElementById('mainProductImage');
+            const thumbContainer = document.getElementById('thumbnailContainer');
+            const imageCounter = document.getElementById('imageCounter');
+
+            function updateImage(idx) {
+                currentImageIndex = idx;
+                mainImg.src = images[idx];
+                imageCounter.textContent = `${idx + 1} / ${images.length}`;
+                Array.from(thumbContainer.children).forEach((thumb, i) => {
+                    if (i === idx) {
+                        thumb.classList.add('border-blue-600', 'ring-2', 'ring-blue-300');
+                    } else {
+                        thumb.classList.remove('border-blue-600', 'ring-2', 'ring-blue-300');
+                    }
+                });
+            }
+
+            thumbContainer.innerHTML = '';
+            images.forEach((imgUrl, idx) => {
+                const thumb = document.createElement('img');
+                thumb.src = imgUrl;
+                thumb.className = `w-16 h-16 object-cover rounded-md cursor-pointer border border-slate-200 transition ${idx === 0 ? 'border-blue-600 ring-2 ring-blue-300' : ''}`;
+                thumb.onclick = () => updateImage(idx);
+                thumbContainer.appendChild(thumb);
+            });
+            updateImage(0);
+
+            // Download Image Button
+            document.getElementById('downloadImageBtn').onclick = async () => {
+                const url = images[currentImageIndex];
+                const filename = `${product.slug || 'product'}-${currentImageIndex + 1}.png`;
+                try {
+                    const response = await fetch(url, { mode: 'cors' });
+                    const blob = await response.blob();
+                    const blobUrl = window.URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = blobUrl;
+                    a.download = filename;
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                    window.URL.revokeObjectURL(blobUrl);
+                    showToast("ছবি সফলভাবে ডাউনলোড হয়েছে।");
+                } catch (e) {
+                    window.open(url, '_blank');
+                }
+            };
+
+            // Copy Price
+            document.getElementById('copyPriceBtn').onclick = () => {
+                navigator.clipboard.writeText(price.toString());
+                showToast("মূল্য কপি হয়েছে।");
+            };
+
+            // Copy Description
+            document.getElementById('copyDescBtn').onclick = () => {
+                navigator.clipboard.writeText(product.description || '');
+                showToast("বিবরণ কপি হয়েছে।");
+            };
+
+            // Variants Rendering
+            const variantsContainer = document.getElementById('variantsContainer');
+            variantsContainer.innerHTML = '';
+            selectedVariantOptions = {};
+
+            if (product.variants && product.variants.length > 0) {
+                product.variants.forEach((variant) => {
+                    const vDiv = document.createElement('div');
+                    vDiv.className = 'space-y-2';
+                    
+                    const vTitle = document.createElement('h4');
+                    vTitle.className = 'font-semibold text-slate-800 text-sm';
+                    vTitle.textContent = variant.name;
+                    vDiv.appendChild(vTitle);
+
+                    const optsGrid = document.createElement('div');
+                    optsGrid.className = 'flex flex-wrap gap-2';
+
+                    variant.options.forEach((opt, optIdx) => {
+                        const btn = document.createElement('button');
+                        type: 'button';
+                        btn.textContent = opt.value;
+                        btn.className = 'px-3.5 py-1.5 text-sm border border-slate-300 rounded-lg bg-white text-slate-700 hover:border-blue-500 transition font-medium';
+                        
+                        btn.onclick = () => {
+                            Array.from(optsGrid.children).forEach(b => {
+                                b.classList.remove('bg-blue-600', 'text-white', 'border-blue-600');
+                                b.classList.add('bg-white', 'text-slate-700', 'border-slate-300');
+                            });
+                            btn.classList.remove('bg-white', 'text-slate-700', 'border-slate-300');
+                            btn.classList.add('bg-blue-600', 'text-white', 'border-blue-600');
+
+                            selectedVariantOptions[variant.name] = {
+                                name: variant.name,
+                                value: opt.value,
+                                extraPrice: opt.extraPrice || 0
+                            };
+                            calculateTotals();
+                        };
+
+                        optsGrid.appendChild(btn);
+                    });
+
+                    vDiv.appendChild(optsGrid);
+                    variantsContainer.appendChild(vDiv);
+                });
+            }
+
+            calculateTotals();
+        }
+
+        // Calculation Logic
+        function calculateTotals() {
+            if (!currentProduct) return;
+            const basePrice = currentProduct.price || 0;
+            let totalExtraPrice = 0;
+
+            Object.values(selectedVariantOptions).forEach(v => {
+                totalExtraPrice += (v.extraPrice || 0);
+            });
+
+            const unitPrice = basePrice + totalExtraPrice;
+            const quantity = parseInt(document.getElementById('productQuantity').value) || 1;
+            const subtotal = unitPrice * quantity;
+
+            const isAdvance = document.querySelector('input[name="deliveryAdvance"]:checked').value === 'yes';
+            let deliveryCharge = 0;
+            if (!isAdvance) {
+                const zone = document.querySelector('input[name="deliveryZone"]:checked').value;
+                deliveryCharge = (zone === 'inside') ? 60 : 120;
+            }
+
+            const totalAmount = subtotal + deliveryCharge;
+            const sellingRate = parseFloat(document.getElementById('sellingRate').value) || 0;
+
+            // Update UI elements
+            document.getElementById('displayBasePrice').textContent = `${basePrice} টাকা`;
+            document.getElementById('displayExtraPrice').textContent = `${totalExtraPrice} টাকা`;
+            document.getElementById('displayUnitPrice').textContent = `${unitPrice} টাকা`;
+
+            document.getElementById('summaryUnitPrice').textContent = `${unitPrice} টাকা`;
+            document.getElementById('summaryQty').textContent = quantity;
+            document.getElementById('summaryExtraPrice').textContent = `${totalExtraPrice} টাকা`;
+            document.getElementById('summaryDeliveryCharge').textContent = `${deliveryCharge} টাকা`;
+            document.getElementById('summaryTotalAmount').textContent = `${totalAmount} টাকা`;
+            document.getElementById('summarySellingRate').textContent = `${sellingRate} টাকা`;
+        }
+
+        // Quantity Handlers
+        document.getElementById('increaseQty').onclick = () => {
+            const qtyInput = document.getElementById('productQuantity');
+            qtyInput.value = parseInt(qtyInput.value) + 1;
+            calculateTotals();
+        };
+
+        document.getElementById('decreaseQty').onclick = () => {
+            const qtyInput = document.getElementById('productQuantity');
+            let current = parseInt(qtyInput.value);
+            if (current > 1) {
+                qtyInput.value = current - 1;
+                calculateTotals();
+            }
+        };
+
+        // Delivery Advance toggle listener
+        document.querySelectorAll('input[name="deliveryAdvance"]').forEach(radio => {
+            radio.onchange = (e) => {
+                const zoneBox = document.getElementById('deliveryZoneBox');
+                if (e.target.value === 'yes') {
+                    zoneBox.classList.add('opacity-50', 'pointer-events-none');
+                } else {
+                    zoneBox.classList.remove('opacity-50', 'pointer-events-none');
+                }
+                calculateTotals();
+            };
+        });
+
+        document.querySelectorAll('input[name="deliveryZone"]').forEach(radio => {
+            radio.onchange = () => calculateTotals();
+        });
+
+        document.getElementById('sellingRate').oninput = () => calculateTotals();
+
+        // Order Submit Form & Modal
+        const orderForm = document.getElementById('orderForm');
+        const confirmModal = document.getElementById('confirmModal');
+        const modalSummaryBox = document.getElementById('modalSummaryBox');
+        let pendingOrderData = null;
+
+        orderForm.onsubmit = (e) => {
+            e.preventDefault();
+
+            // Validate variants
+            if (currentProduct.variants && currentProduct.variants.length > 0) {
+                if (Object.keys(selectedVariantOptions).length < currentProduct.variants.length) {
+                    showToast("অর্ডার করার আগে সব ভ্যারিয়েন্ট নির্বাচন করুন।");
+                    return;
+                }
+            }
+
+            const customerName = document.getElementById('customerName').value.trim();
+            const customerPhone = document.getElementById('customerPhone').value.trim();
+            const division = document.getElementById('deliveryDivision').value;
+            const district = document.getElementById('deliveryDistrict').value.trim();
+            const thana = document.getElementById('deliveryThana').value.trim();
+            const quantity = parseInt(document.getElementById('productQuantity').value) || 1;
+            const sellingRate = parseFloat(document.getElementById('sellingRate').value) || 0;
+            const deliveryAdvance = document.querySelector('input[name="deliveryAdvance"]:checked').value === 'yes';
+            const deliveryZone = document.querySelector('input[name="deliveryZone"]:checked').value;
+
+            const basePrice = currentProduct.price || 0;
+            let variantExtraPrice = 0;
+            const selectedVariantsArray = Object.values(selectedVariantOptions);
+            selectedVariantsArray.forEach(v => variantExtraPrice += v.extraPrice);
+
+            const unitPrice = basePrice + variantExtraPrice;
+            const subtotal = unitPrice * quantity;
+            const deliveryCharge = deliveryAdvance ? 0 : (deliveryZone === 'inside' ? 60 : 120);
+            const totalAmount = subtotal + deliveryCharge;
+
+                        pendingOrderData = {
+                uid: currentReseller.uid,           // রুলসের সাথে মিল রাখার জন্য জরুরি
+                email: currentReseller.email,       // রুলসের সাথে মিল রাখার জন্য জরুরি
+                resellerUid: currentReseller.uid,
+                resellerEmail: currentReseller.email,
+                productId: currentProduct.id,
+                productName: currentProduct.name,
+                productSlug: currentProduct.slug || '',
+                productImage: currentProduct.images && currentProduct.images.length > 0 ? currentProduct.images[0] : '',
+                categoryId: currentProduct.categoryId || '',
+                categoryName: currentProduct.categoryName || '',
+                categorySlug: currentProduct.categorySlug || '',
+                selectedVariants: selectedVariantsArray,
+                quantity: quantity,
+                customerName: customerName,
+                customerPhone: customerPhone,
+                deliveryAddress: {
+                    division: division,
+                    district: district,
+                    thana: thana
+                },
+                sellingRate: sellingRate,
+                deliveryChargeAdvance: deliveryAdvance,
+                deliveryZone: deliveryZone,
+                deliveryCharge: deliveryCharge,
+                unitPrice: unitPrice,
+                variantExtraPrice: variantExtraPrice,
+                subtotal: subtotal,
+                totalAmount: totalAmount,
+                status: "pending",                  // রুলস অনুযায়ী এটি "pending" থাকতেই হবে
+                humanOrderId: generateHumanOrderId(),
+                createdAt: serverTimestamp(),
+                updatedAt: serverTimestamp()
+            };
+
+
+            // Populate Modal Summary
+            modalSummaryBox.innerHTML = `
+                <div><strong>গ্রাহক:</strong> ${customerName} (${customerPhone})</div>
+                <div><strong>পণ্য:</strong> ${currentProduct.name} (পরিমাণ: ${quantity})</div>
+                <div><strong>ঠিকানা:</strong> ${thana}, ${district}, ${division}</div>
+                <div><strong>সর্বমোট মূল্য:</strong> ${totalAmount} টাকা (ডেলিভারি চার্জসহ)</div>
+                <div><strong>বিক্রির রেইট:</strong> ${sellingRate} টাকা</div>
+            `;
+
+            confirmModal.classList.remove('hidden');
+        };
+
+        function generateHumanOrderId() {
+            const now = new Date();
+            const year = now.getFullYear();
+            const month = String(now.getMonth() + 1).padStart(2, '0');
+            const day = String(now.getDate()).padStart(2, '0');
+            const randomStr = Math.random().toString(36).substring(2, 8).toUpperCase();
+            return `GR-${year}${month}${day}-${randomStr}`;
+        }
+
+        document.getElementById('modalCancelBtn').onclick = () => {
+            confirmModal.classList.add('hidden');
+        };
+
+        // Confirm & Save to Firestore
+        const modalConfirmBtn = document.getElementById('modalConfirmBtn');
+        modalConfirmBtn.onclick = async () => {
+            if (!pendingOrderData) return;
+
+            modalConfirmBtn.disabled = true;
+            modalConfirmBtn.textContent = "সংরক্ষণ করা হচ্ছে...";
+
+            try {
+                await addDoc(collection(db, "reseller_order"), pendingOrderData);
+                confirmModal.classList.add('hidden');
+                showToast("অর্ডার সফলভাবে গ্রহণ করা হয়েছে।");
+                orderForm.reset();
+                setTimeout(() => {
+                    window.location.reload();
+                }, 2000);
+            } catch (err) {
+                console.error(err);
+                showToast("অর্ডার সংরক্ষণ করা যায়নি। আবার চেষ্টা করুন।");
+                modalConfirmBtn.disabled = false;
+                modalConfirmBtn.textContent = "অর্ডার নিশ্চিত করুন";
+            }
+        };
+    </script>
+</body>
+</html>
