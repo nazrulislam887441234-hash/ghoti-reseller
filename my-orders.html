@@ -1,0 +1,1173 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>আমার অর্ডারসমূহ — GHOTI RESELLER</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#FF6B35',
+            'primary-dark': '#E85A1A',
+            dark: '#0F172A',
+            background: '#FFF8F3',
+            muted: '#64748B',
+            border: '#E2E8F0'
+          },
+          fontFamily: {
+            bengali: ['"Hind Siliguri"', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body {
+      font-family: 'Hind Siliguri', sans-serif;
+      background: #FFF8F3;
+      color: #0F172A;
+    }
+
+    .transition-custom {
+      transition: all .25s ease;
+    }
+  </style>
+</head>
+
+<body class="min-h-screen bg-background pb-20">
+
+<!-- ACCESS DENIED -->
+<div id="accessDenied"
+     class="fixed inset-0 z-50 hidden bg-slate-950/80 items-center justify-center p-4">
+
+  <div class="bg-white rounded-2xl p-7 max-w-md w-full text-center shadow-2xl">
+
+    <div class="w-16 h-16 rounded-full bg-red-100 text-red-600 flex items-center justify-center mx-auto mb-4">
+      <svg class="w-8 h-8"
+           fill="none"
+           stroke="currentColor"
+           viewBox="0 0 24 24">
+        <path stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M12 9v2m0 4h.01M5.1 19h13.8c1.5 0 2.4-1.6 1.7-2.9L13.7 4.8c-.8-1.3-2.7-1.3-3.4 0L3.4 16.1C2.6 17.4 3.6 19 5.1 19z"/>
+      </svg>
+    </div>
+
+    <h2 class="text-xl font-bold mb-2">
+      অ্যাক্সেস সংরক্ষিত
+    </h2>
+
+    <p id="accessMessage"
+       class="text-sm text-muted mb-6">
+      আপনার রিসেলার অ্যাকাউন্ট যাচাই করা হচ্ছে।
+    </p>
+
+    <a href="login.html"
+       class="block w-full bg-primary hover:bg-primary-dark text-white py-3 rounded-xl font-semibold">
+      লগইন পেজে যান
+    </a>
+
+  </div>
+</div>
+
+
+<!-- HEADER -->
+<header class="sticky top-0 z-40 bg-white/95 backdrop-blur border-b border-border shadow-sm">
+
+  <div class="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
+
+    <a href="index.html">
+      <img
+        src="https://reseller.ghotimarket.com/logo.png"
+        alt="GHOTI RESELLER"
+        class="h-9 w-auto">
+    </a>
+
+    <h1 class="absolute left-1/2 -translate-x-1/2 font-bold text-lg">
+      আমার অর্ডারসমূহ
+    </h1>
+
+    <a href="profile.html"
+       class="p-2 rounded-xl hover:bg-slate-100">
+
+      <svg class="w-6 h-6"
+           fill="none"
+           stroke="currentColor"
+           viewBox="0 0 24 24">
+        <path stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+      </svg>
+
+    </a>
+
+  </div>
+</header>
+
+
+<main class="max-w-7xl mx-auto px-4 pt-6">
+
+
+<!-- BALANCE -->
+<section class="bg-white rounded-2xl border border-border shadow-sm p-5 mb-6">
+
+  <div class="flex flex-col md:flex-row md:items-center justify-between gap-5">
+
+    <div>
+      <p class="text-xs text-muted mb-1">
+        ওয়ালেট বিবরণী
+      </p>
+
+      <h2 class="text-xl font-bold">
+        রিসেলার ব্যালেন্স
+      </h2>
+    </div>
+
+    <a href="withdraw.html"
+       class="inline-flex items-center justify-center gap-2 bg-primary hover:bg-primary-dark text-white px-5 py-3 rounded-xl font-semibold">
+
+      <svg class="w-5 h-5"
+           fill="none"
+           stroke="currentColor"
+           viewBox="0 0 24 24">
+        <path stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 002 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"/>
+      </svg>
+
+      উইথড্র করুন
+
+    </a>
+
+  </div>
+
+
+  <div class="mt-6 pt-6 border-t border-border">
+
+    <div class="bg-slate-50 rounded-xl p-4 max-w-xs">
+      <p class="text-xs text-muted">
+        রিসেলার ব্যালেন্স
+      </p>
+
+      <p id="dbBalance"
+         class="text-xl font-bold mt-1">
+        ৳ ০
+      </p>
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- SEARCH -->
+<div class="flex flex-col md:flex-row gap-3 mb-6">
+
+  <div class="relative flex-1">
+
+    <svg class="absolute left-3.5 top-1/2 -translate-y-1/2 w-5 h-5 text-muted"
+         fill="none"
+         stroke="currentColor"
+         viewBox="0 0 24 24">
+      <path stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="m21 21-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+    </svg>
+
+    <input
+      id="search"
+      type="text"
+      placeholder="অর্ডার আইডি, পণ্যের নাম বা গ্রাহকের নাম দিয়ে খুঁজুন..."
+      class="w-full bg-white border border-border rounded-xl py-3 pl-11 pr-4 outline-none focus:border-primary">
+
+  </div>
+
+
+  <select
+    id="statusFilter"
+    class="bg-white border border-border rounded-xl px-4 py-3 outline-none focus:border-primary">
+
+    <option value="all">সব অর্ডার</option>
+    <option value="pending">অপেক্ষমাণ</option>
+    <option value="confirmed">নিশ্চিত</option>
+    <option value="processing">প্রক্রিয়াধীন</option>
+    <option value="shipped">পাঠানো হয়েছে</option>
+    <option value="delivered">ডেলিভারি সম্পন্ন</option>
+    <option value="return">রিটার্ন</option>
+    <option value="cancelled">বাতিল</option>
+
+  </select>
+
+</div>
+
+
+<!-- LOADING -->
+<div id="loading"
+     class="text-center py-12">
+
+  <div class="w-10 h-10 border-4 border-primary/20 border-t-primary rounded-full animate-spin mx-auto"></div>
+
+  <p class="text-sm text-muted mt-4">
+    আপনার অর্ডার লোড হচ্ছে...
+  </p>
+
+</div>
+
+
+<!-- ERROR -->
+<div id="errorBox"
+     class="hidden bg-red-50 border border-red-200 rounded-2xl p-6 text-center mb-6">
+
+  <p id="errorText"
+     class="text-red-700 font-medium">
+  </p>
+
+  <button
+    onclick="location.reload()"
+    class="mt-4 bg-red-600 text-white px-5 py-2.5 rounded-xl">
+    আবার চেষ্টা করুন
+  </button>
+
+</div>
+
+
+<!-- EMPTY -->
+<div id="empty"
+     class="hidden bg-white border border-border rounded-2xl p-12 text-center">
+
+  <div class="w-16 h-16 bg-orange-50 text-primary rounded-full flex items-center justify-center mx-auto mb-4">
+
+    <svg class="w-8 h-8"
+         fill="none"
+         stroke="currentColor"
+         viewBox="0 0 24 24">
+      <path stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="1.5"
+            d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
+    </svg>
+
+  </div>
+
+  <h3 class="font-bold text-lg">
+    আপনার কোনো অর্ডার নেই
+  </h3>
+
+  <p class="text-muted text-sm mt-1">
+    আপনার তৈরি করা অর্ডারগুলো এখানে দেখা যাবে।
+  </p>
+
+</div>
+
+
+<!-- ORDERS -->
+<div id="orders"
+     class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+</div>
+
+</main>
+
+
+<!-- MOBILE NAV -->
+<nav class="fixed bottom-0 left-0 right-0 bg-white border-t border-border md:hidden z-40">
+
+  <div class="grid grid-cols-4 h-16">
+
+    <a href="index.html"
+       class="flex flex-col items-center justify-center text-muted">
+
+      <svg class="w-5 h-5"
+           fill="none"
+           stroke="currentColor"
+           viewBox="0 0 24 24">
+        <path stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M3 12l9-9 9 9M5 10v10h14V10"/>
+      </svg>
+
+      <span class="text-[11px]">
+        হোম
+      </span>
+
+    </a>
+
+
+    <a href="category.html"
+       class="flex flex-col items-center justify-center text-muted">
+
+      <svg class="w-5 h-5"
+           fill="none"
+           stroke="currentColor"
+           viewBox="0 0 24 24">
+        <path stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M4 6h6v6H4zM14 6h6v6h-6zM4 16h6v6H4zM14 16h6v6h-6z"/>
+      </svg>
+
+      <span class="text-[11px]">
+        ক্যাটাগরি
+      </span>
+
+    </a>
+
+
+    <a href="my-orders.html"
+       class="flex flex-col items-center justify-center text-primary">
+
+      <svg class="w-5 h-5"
+           fill="none"
+           stroke="currentColor"
+           viewBox="0 0 24 24">
+        <path stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M5 8h14l1 12H4L5 8zm3 0V6a4 4 0 018 0v2"/>
+      </svg>
+
+      <span class="text-[11px] font-semibold">
+        অর্ডার
+      </span>
+
+    </a>
+
+
+    <a href="profile.html"
+       class="flex flex-col items-center justify-center text-muted">
+
+      <svg class="w-5 h-5"
+           fill="none"
+           stroke="currentColor"
+           viewBox="0 0 24 24">
+        <path stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14"/>
+      </svg>
+
+      <span class="text-[11px]">
+        প্রোফাইল
+      </span>
+
+    </a>
+
+  </div>
+
+</nav>
+
+
+<script type="module">
+
+import {
+  initializeApp
+} from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+
+import {
+  getAuth,
+  onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+
+import {
+  getFirestore,
+  doc,
+  getDoc,
+  collection,
+  query,
+  where,
+  getDocs
+} from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+
+/* ==========================
+   FIREBASE
+========================== */
+
+const firebaseConfig = {
+  apiKey: "AIzaSyBUhNhYvuo_FTvZ5RZR6Gn-4hsUY21S0XE",
+  authDomain: "ghotimarket.firebaseapp.com",
+  databaseURL: "https://ghotimarket-default-rtdb.firebaseio.com",
+  projectId: "ghotimarket",
+  storageBucket: "ghotimarket.firebasestorage.app",
+  messagingSenderId: "481257644093",
+  appId: "1:481257644093:web:0dfc3699d6b3c86afeca54",
+  measurementId: "G-4SR8V2EKC1"
+};
+
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+
+/* ==========================
+   DOM
+========================== */
+
+const loading = document.getElementById("loading");
+const ordersContainer = document.getElementById("orders");
+const empty = document.getElementById("empty");
+const errorBox = document.getElementById("errorBox");
+const errorText = document.getElementById("errorText");
+
+const accessDenied = document.getElementById("accessDenied");
+const accessMessage = document.getElementById("accessMessage");
+
+const dbBalance = document.getElementById("dbBalance");
+
+const search = document.getElementById("search");
+const statusFilter = document.getElementById("statusFilter");
+
+
+/* ==========================
+   VARIABLES
+========================== */
+
+let currentUser = null;
+let resellerData = null;
+let allOrders = [];
+
+
+/* ==========================
+   MONEY FORMAT
+========================== */
+
+function money(value) {
+
+  value = Number(value || 0);
+
+  return "৳ " + value.toLocaleString("bn-BD", {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2
+  });
+
+}
+
+
+/* ==========================
+   TIMESTAMP
+========================== */
+
+function getDate(timestamp) {
+
+  if (!timestamp) return 0;
+
+  if (
+    typeof timestamp === "object" &&
+    timestamp.seconds
+  ) {
+    return timestamp.seconds * 1000;
+  }
+
+  if (
+    typeof timestamp === "number"
+  ) {
+    return timestamp;
+  }
+
+  return new Date(timestamp).getTime() || 0;
+
+}
+
+
+/* ==========================
+   BANGLA DATE
+========================== */
+
+function formatDate(timestamp) {
+
+  const time = getDate(timestamp);
+
+  if (!time) {
+    return "তারিখ পাওয়া যায়নি";
+  }
+
+  return new Date(time).toLocaleString("bn-BD", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+    hour: "numeric",
+    minute: "2-digit",
+    hour12: true
+  });
+
+}
+
+
+/* ==========================
+   STATUS
+========================== */
+
+function statusInfo(status) {
+
+  const data = {
+
+    pending: {
+      text: "অপেক্ষমাণ",
+      cls: "bg-amber-100 text-amber-700"
+    },
+
+    confirmed: {
+      text: "নিশ্চিত",
+      cls: "bg-blue-100 text-blue-700"
+    },
+
+    processing: {
+      text: "প্রক্রিয়াধীন",
+      cls: "bg-purple-100 text-purple-700"
+    },
+
+    shipped: {
+      text: "পাঠানো হয়েছে",
+      cls: "bg-indigo-100 text-indigo-700"
+    },
+
+    delivered: {
+      text: "ডেলিভারি সম্পন্ন",
+      cls: "bg-emerald-100 text-emerald-700"
+    },
+
+    return: {
+      text: "রিটার্ন",
+      cls: "bg-orange-100 text-orange-700"
+    },
+
+    cancelled: {
+      text: "বাতিল",
+      cls: "bg-red-100 text-red-700"
+    }
+
+  };
+
+  return data[status] || {
+    text: status || "অজানা",
+    cls: "bg-slate-100 text-slate-700"
+  };
+
+}
+
+
+/* ==========================
+   ACCESS DENIED
+========================== */
+
+function denyAccess(message) {
+
+  loading.classList.add("hidden");
+
+  accessMessage.textContent = message;
+
+  accessDenied.classList.remove("hidden");
+  accessDenied.classList.add("flex");
+
+}
+
+
+/* ==========================
+   ERROR
+========================== */
+
+function showError(message) {
+
+  loading.classList.add("hidden");
+
+  errorBox.classList.remove("hidden");
+
+  errorText.textContent = message;
+
+}
+
+
+/* ==========================
+   AUTH
+========================== */
+
+onAuthStateChanged(auth, async (user) => {
+
+  if (!user) {
+
+    window.location.href = "login.html";
+
+    return;
+
+  }
+
+
+  currentUser = user;
+
+
+  console.log("Firebase Auth UID:", user.uid);
+  console.log("Firebase Auth Email:", user.email);
+
+
+  try {
+
+    /* ==========================
+       RESELLER DOCUMENT
+    ========================== */
+
+    const resellerRef = doc(
+      db,
+      "reseller",
+      user.uid
+    );
+
+    const resellerSnap = await getDoc(resellerRef);
+
+
+    if (!resellerSnap.exists()) {
+
+      denyAccess(
+        "আপনার UID-এর জন্য reseller ডকুমেন্ট পাওয়া যায়নি।"
+      );
+
+      return;
+
+    }
+
+
+    resellerData = resellerSnap.data();
+
+
+    console.log(
+      "Reseller document:",
+      resellerData
+    );
+
+
+    /* ==========================
+       SECURITY CHECK
+    ========================== */
+
+    if (
+      resellerData.uid !== user.uid
+    ) {
+
+      denyAccess(
+        "আপনার reseller UID এবং Firebase Auth UID মিলছে না।"
+      );
+
+      return;
+
+    }
+
+
+    if (
+      resellerData.active !== true
+    ) {
+
+      denyAccess(
+        "আপনার reseller অ্যাকাউন্ট বর্তমানে সক্রিয় নয়।"
+      );
+
+      return;
+
+    }
+
+
+    if (
+      resellerData.verified !== true
+    ) {
+
+      denyAccess(
+        "আপনার reseller অ্যাকাউন্ট এখনো যাচাই করা হয়নি।"
+      );
+
+      return;
+
+    }
+
+
+    /* ==========================
+       BALANCE
+    ========================== */
+
+    const accountBalance =
+      Number(resellerData.balance || 0);
+
+
+    dbBalance.textContent =
+      money(accountBalance);
+
+
+    /* ==========================
+       LOAD ORDERS
+    ========================== */
+
+    await loadOrders(user.uid);
+
+  }
+
+  catch (error) {
+
+    console.error(
+      "INITIALIZATION ERROR:",
+      error
+    );
+
+    showError(
+      "তথ্য লোড করতে সমস্যা হয়েছে: " +
+      error.message
+    );
+
+  }
+
+});
+
+
+/* ==========================
+   LOAD ORDERS
+========================== */
+
+async function loadOrders(uid) {
+
+  loading.classList.remove("hidden");
+
+  errorBox.classList.add("hidden");
+
+
+  try {
+
+    const q = query(
+      collection(db, "reseller_order"),
+      where(
+        "resellerUid",
+        "==",
+        uid
+      )
+    );
+
+
+    const snapshot = await getDocs(q);
+
+
+    allOrders = [];
+
+
+    snapshot.forEach((docSnap) => {
+
+      allOrders.push({
+        id: docSnap.id,
+        ...docSnap.data()
+      });
+
+    });
+
+
+    console.log(
+      "Total reseller orders:",
+      allOrders.length
+    );
+
+    console.log(
+      "Loaded orders:",
+      allOrders
+    );
+
+
+    /* ==========================
+       SORT CLIENT SIDE
+    ========================== */
+
+    allOrders.sort((a, b) => {
+
+      return getDate(b.createdAt) -
+             getDate(a.createdAt);
+
+    });
+
+
+    /* ==========================
+       DISPLAY
+    ========================== */
+
+    renderOrders();
+
+
+    loading.classList.add("hidden");
+
+  }
+
+  catch (error) {
+
+    console.error(
+      "ORDER LOAD ERROR:",
+      error
+    );
+
+    loading.classList.add("hidden");
+
+    showError(
+      "অর্ডার লোড করা যায়নি। Firestore Rules এবং resellerUid পরীক্ষা করুনবো।\n\n" +
+      error.message
+    );
+
+  }
+
+}
+
+
+/* ==========================
+   RENDER ORDERS
+========================== */
+
+function renderOrders() {
+
+  const term =
+    search.value.trim().toLowerCase();
+
+
+  const status =
+    statusFilter.value;
+
+
+  const filtered =
+    allOrders.filter(order => {
+
+      const orderId =
+        String(
+          order.humanOrderId ||
+          order.id ||
+          ""
+        ).toLowerCase();
+
+
+      const product =
+        String(
+          order.productName ||
+          ""
+        ).toLowerCase();
+
+
+      const customer =
+        String(
+          order.customerName ||
+          ""
+        ).toLowerCase();
+
+
+      const matchesSearch =
+        !term ||
+        orderId.includes(term) ||
+        product.includes(term) ||
+        customer.includes(term);
+
+
+      const matchesStatus =
+        status === "all" ||
+        order.status === status;
+
+
+      return (
+        matchesSearch &&
+        matchesStatus
+      );
+
+    });
+
+
+  ordersContainer.innerHTML = "";
+
+
+  if (
+    filtered.length === 0
+  ) {
+
+    ordersContainer.classList.add("hidden");
+
+    empty.classList.remove("hidden");
+
+    return;
+
+  }
+
+
+  empty.classList.add("hidden");
+
+  ordersContainer.classList.remove("hidden");
+
+
+  filtered.forEach(order => {
+
+    const card =
+      document.createElement("div");
+
+
+    card.className =
+      "bg-white rounded-2xl border border-border shadow-sm p-4";
+
+
+    const status =
+      statusInfo(order.status);
+
+
+    const productName =
+      order.productName ||
+      "নামবিহীন পণ্য";
+
+
+    const image =
+      order.productImage || "";
+
+
+    const unitPrice =
+      Number(order.unitPrice || 0);
+
+
+    const sellingRate =
+      Number(order.sellingRate || 0);
+
+
+    const quantity =
+      Number(order.quantity || 1);
+
+
+    let deliveryCharge =
+      Number(order.deliveryCharge || 0);
+
+
+    if (
+      deliveryCharge <= 0
+    ) {
+
+      deliveryCharge =
+        order.deliveryZone === "outside"
+          ? 120
+          : 60;
+
+    }
+
+
+    const address =
+      order.deliveryAddress
+        ? [
+            order.deliveryAddress.thana,
+            order.deliveryAddress.district
+          ]
+          .filter(Boolean)
+          .join(", ")
+        : "ঠিকানা পাওয়া যায়নি";
+
+
+    card.innerHTML = `
+
+      <div>
+
+        <div class="flex items-center justify-between pb-3 mb-3 border-b border-border">
+
+          <span class="font-bold text-sm">
+            ${escapeHtml(
+              order.humanOrderId ||
+              order.id
+            )}
+          </span>
+
+          <span class="px-2.5 py-1 rounded-full text-xs font-semibold ${status.cls}">
+            ${status.text}
+          </span>
+
+        </div>
+
+
+        <div class="flex gap-3 mb-4">
+
+          <div class="w-16 h-16 rounded-xl overflow-hidden bg-slate-100 flex-shrink-0">
+
+            ${
+              image
+              ?
+              `
+              <img
+                src="${escapeHtml(image)}"
+                alt=""
+                class="w-full h-full object-cover">
+              `
+              :
+              `
+              <div class="w-full h-full flex items-center justify-center">
+
+                <svg class="w-7 h-7 text-slate-400"
+                     fill="none"
+                     stroke="currentColor"
+                     viewBox="0 0 24 24">
+                  <path stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="1.5"
+                        d="M4 16l4.5-4.5a2 2 0 012.8 0L16 16l2-2a2 2 0 012.8 0L22 16M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                </svg>
+
+              </div>
+              `
+            }
+
+          </div>
+
+
+          <div class="min-w-0">
+
+            <h3 class="font-bold text-sm truncate">
+              ${escapeHtml(productName)}
+            </h3>
+
+            <p class="text-xs text-muted mt-1">
+              গ্রাহক:
+              ${escapeHtml(
+                order.customerName ||
+                "নাম নেই"
+              )}
+            </p>
+
+            <p class="text-xs text-muted">
+              ফোন:
+              ${escapeHtml(
+                order.customerPhone ||
+                "নেই"
+              )}
+            </p>
+
+          </div>
+
+        </div>
+
+
+        <div class="bg-slate-50 rounded-xl p-3 text-xs space-y-2">
+
+          <div class="flex justify-between">
+            <span class="text-muted">
+              পরিমাণ
+            </span>
+            <strong>
+              ${quantity} টি
+            </strong>
+          </div>
+
+
+          <div class="flex justify-between">
+            <span class="text-muted">
+              পাইকারি মূল্য
+            </span>
+            <strong>
+              ${money(unitPrice)}
+            </strong>
+          </div>
+
+
+          <div class="flex justify-between">
+            <span class="text-muted">
+              বিক্রির রেট
+            </span>
+            <strong>
+              ${money(sellingRate)}
+            </strong>
+          </div>
+
+
+          <div class="flex justify-between">
+            <span class="text-muted">
+              ডেলিভারি চার্জ
+            </span>
+
+            <strong>
+              ${money(deliveryCharge)}
+            </strong>
+
+          </div>
+
+
+          <div class="flex justify-between border-t border-border pt-2">
+
+            <span class="font-semibold">
+              মোট
+            </span>
+
+            <strong class="text-primary">
+              ${money(
+                Number(
+                  order.totalAmount || 0
+                )
+              )}
+            </strong>
+
+          </div>
+
+        </div>
+
+
+        <div class="mt-3 text-xs text-muted">
+
+          <p>
+            ঠিকানা:
+            <span class="text-dark">
+              ${escapeHtml(address)}
+            </span>
+          </p>
+
+          <p class="mt-1">
+            তারিখ:
+            ${formatDate(order.createdAt)}
+          </p>
+
+        </div>
+
+      </div>
+
+    `;
+
+
+    ordersContainer.appendChild(card);
+
+  });
+
+}
+
+
+/* ==========================
+   HTML ESCAPE
+========================== */
+
+function escapeHtml(value) {
+
+  return String(value ?? "")
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
+
+}
+
+
+/* ==========================
+   SEARCH
+========================== */
+
+search.addEventListener(
+  "input",
+  renderOrders
+);
+
+
+statusFilter.addEventListener(
+  "change",
+  renderOrders
+);
+
+</script>
+
+</body>
+</html>
