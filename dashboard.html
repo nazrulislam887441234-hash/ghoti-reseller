@@ -1,0 +1,2139 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>রিসেলার ড্যাশবোর্ড - GHOTI RESELLER</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#FF6B35',
+            'primary-dark': '#E85A1A',
+            dark: '#0F172A',
+            background: '#FFF8F3',
+            muted: '#64748B',
+            border: '#E2E8F0',
+          },
+          fontFamily: {
+            hind: ['Hind Siliguri', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+  <!-- Google Font: Hind Siliguri -->
+  <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    html, body {
+      width: 100%;
+      max-width: 100%;
+      overflow-x: hidden;
+      font-family: 'Hind Siliguri', sans-serif;
+      background-color: #FFF8F3;
+      color: #0F172A;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+  </style>
+</head>
+<body class="bg-background text-dark min-h-screen flex flex-col md:flex-row antialiased">
+
+  <!-- Loading State / Skeleton Screen -->
+  <div id="loadingScreen" class="fixed inset-0 bg-background z-50 flex flex-col items-center justify-center space-y-4">
+    <div class="flex items-center space-x-3">
+      <img src="https://reseller.ghotimarket.com/logo.png" alt="GHOTI RESELLER" class="h-10 w-auto animate-pulse">
+      <span class="font-bold text-dark text-xl">GHOTI RESELLER</span>
+    </div>
+    <div class="w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
+    <p class="text-muted text-sm font-medium">তথ্য লোড হচ্ছে...</p>
+  </div>
+
+  <!-- Error State Container (Hidden by default) -->
+  <div id="errorScreen" class="fixed inset-0 bg-background z-50 hidden flex-col items-center justify-center p-4">
+    <div class="bg-white rounded-2xl p-8 shadow-sm border border-border max-w-md w-full text-center space-y-4">
+      <div class="w-16 h-16 bg-red-100 text-red-500 rounded-full flex items-center justify-center mx-auto">
+        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
+        </svg>
+      </div>
+      <h3 class="text-xl font-bold text-dark">তথ্য লোড করা যায়নি</h3>
+      <p class="text-muted text-sm">আপনার অ্যাকাউন্টের তথ্য লোড করতে সমস্যা হয়েছে। আবার চেষ্টা করুন।</p>
+      <button onclick="location.reload()" class="w-full bg-primary text-white py-3 rounded-xl font-semibold hover:bg-primary-dark transition shadow-md">আবার চেষ্টা করুন</button>
+    </div>
+  </div>
+
+  <!-- Desktop Sidebar -->
+  <aside class="hidden md:flex flex-col w-64 bg-white border-r border-border h-screen sticky top-0 z-40 flex-shrink-0">
+    <div class="h-16 px-6 flex items-center space-x-3 border-b border-border">
+      <img src="https://reseller.ghotimarket.com/logo.png" alt="GHOTI RESELLER" class="h-8 w-auto">
+      <span class="font-bold text-dark text-base tracking-tight">GHOTI RESELLER</span>
+    </div>
+
+    <nav class="flex-1 px-4 py-6 space-y-1.5 overflow-y-auto no-scrollbar">
+      <a href="dashboard.html" class="flex items-center space-x-3 px-4 py-3 rounded-xl bg-orange-50 text-primary font-semibold transition">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path>
+        </svg>
+        <span>ড্যাশবোর্ড</span>
+      </a>
+      <a href="all-product.html" class="flex items-center space-x-3 px-4 py-3 rounded-xl text-muted hover:bg-background hover:text-dark font-medium transition">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
+        </svg>
+        <span>সব পণ্য</span>
+      </a>
+      <a href="category.html" class="flex items-center space-x-3 px-4 py-3 rounded-xl text-muted hover:bg-background hover:text-dark font-medium transition">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7"></path>
+        </svg>
+        <span>সব ক্যাটাগরি</span>
+      </a>
+      <a href="withdraw.html" class="flex items-center space-x-3 px-4 py-3 rounded-xl text-muted hover:bg-background hover:text-dark font-medium transition">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"></path>
+        </svg>
+        <span>উইথড্র</span>
+      </a>
+      <a href="my-orders.html" class="flex items-center space-x-3 px-4 py-3 rounded-xl text-muted hover:bg-background hover:text-dark font-medium transition">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
+        </svg>
+        <span>আমার অর্ডার</span>
+      </a>
+      <a href="profile.html" class="flex items-center space-x-3 px-4 py-3 rounded-xl text-muted hover:bg-background hover:text-dark font-medium transition">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+        </svg>
+        <span>প্রোফাইল</span>
+      </a>
+      <a href="change-password.html" class="flex items-center space-x-3 px-4 py-3 rounded-xl text-muted hover:bg-background hover:text-dark font-medium transition">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"></path>
+        </svg>
+        <span>পাসওয়ার্ড পরিবর্তন</span>
+      </a>
+      <a href="reselling.html" class="flex items-center space-x-3 px-4 py-3 rounded-xl text-muted hover:bg-background hover:text-dark font-medium transition">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"></path>
+        </svg>
+        <span>রিসেলিং কী?</span>
+      </a>
+      <a href="notification.html" class="flex items-center space-x-3 px-4 py-3 rounded-xl text-muted hover:bg-background hover:text-dark font-medium transition">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path>
+        </svg>
+        <span>নোটিফিকেশন</span>
+      </a>
+
+      <!-- Visually separated section: সাহায্য ও তথ্য -->
+      <div class="pt-4 mt-4 border-t border-border">
+        <p class="px-4 text-xs font-bold text-muted uppercase tracking-wider mb-2">সাহায্য ও তথ্য</p>
+        <a href="terms.html" class="flex items-center space-x-3 px-4 py-3 rounded-xl text-muted hover:bg-background hover:text-dark font-medium transition">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+          </svg>
+          <span>শর্তাবলি</span>
+        </a>
+        <a href="privacy-policy.html" class="flex items-center space-x-3 px-4 py-3 rounded-xl text-muted hover:bg-background hover:text-dark font-medium transition">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+          </svg>
+          <span>গোপনীয়তা নীতি</span>
+        </a>
+        <a href="contact.html" class="flex items-center space-x-3 px-4 py-3 rounded-xl text-muted hover:bg-background hover:text-dark font-medium transition">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z"></path>
+          </svg>
+          <span>সাপোর্ট</span>
+        </a>
+      </div>
+    </nav>
+
+    <div class="p-4 border-t border-border">
+      <button onclick="handleLogout()" class="w-full flex items-center justify-center space-x-2 px-4 py-2.5 rounded-xl bg-red-50 text-red-600 hover:bg-red-100 font-medium transition text-sm">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
+        </svg>
+        <span>লগআউট</span>
+      </button>
+    </div>
+  </aside>
+
+  <!-- Main Wrapper -->
+  <div class="flex-1 flex flex-col min-w-0 pb-24 md:pb-8">
+
+    <!-- Sticky Header -->
+    <header class="sticky top-0 z-30 bg-white border-b border-border shadow-xs">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+        <div class="flex items-center space-x-3 md:hidden">
+          <img src="https://reseller.ghotimarket.com/logo.png" alt="GHOTI RESELLER" class="h-8 w-auto">
+          <span class="font-bold text-dark text-base tracking-tight">GHOTI RESELLER</span>
+        </div>
+        <div class="hidden md:flex items-center space-x-2">
+          <h1 class="text-lg font-bold text-dark">রিসেলার ড্যাশবোর্ড</h1>
+        </div>
+        <div class="flex items-center space-x-3">
+          <a href="profile.html" class="w-10 h-10 bg-orange-50 text-primary rounded-full flex items-center justify-center hover:bg-orange-100 transition shadow-xs">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+            </svg>
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 sm:py-6 w-full space-y-5 sm:space-y-6">
+
+      <!-- Status Notice Container -->
+      <div id="statusNoticeContainer" class="hidden"></div>
+
+      <!-- Reseller Status Card -->
+      <div class="bg-white rounded-2xl p-4 sm:p-5 shadow-sm border border-border flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+        <div class="flex items-center space-x-3.5">
+          <div id="statusIconWrapper" class="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0">
+            <!-- Dynamic Status SVG -->
+          </div>
+          <div>
+            <div class="flex flex-wrap items-center gap-2">
+              <h2 id="resellerNameDisplay" class="text-base sm:text-lg font-bold text-dark">লোড হচ্ছে...</h2>
+              <span id="statusBadge" class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold">
+                যাচাই করা হচ্ছে...
+              </span>
+            </div>
+            <p id="resellerEmailDisplay" class="text-xs sm:text-sm text-muted mt-0.5"></p>
+          </div>
+        </div>
+        <div class="text-left sm:text-right w-full sm:w-auto pt-3 sm:pt-0 border-t sm:border-t-0 border-border flex sm:flex-col justify-between items-center sm:items-end">
+          <span class="text-xs text-muted">ফোন নম্বর</span>
+          <span id="resellerPhoneDisplay" class="text-sm font-semibold text-dark font-mono">---</span>
+        </div>
+      </div>
+
+      <!-- Wallet Balance & Summary Statistics Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-5 sm:gap-6">
+        
+        <!-- Balance Card -->
+        <div class="md:col-span-2 bg-gradient-to-br from-primary to-primary-dark text-white rounded-2xl p-5 sm:p-6 shadow-md flex flex-col justify-between relative overflow-hidden">
+          <div class="absolute -right-10 -bottom-10 w-40 h-40 bg-white/10 rounded-full pointer-events-none"></div>
+          
+          <div>
+            <div class="flex items-center justify-between">
+              <span class="text-orange-100 text-xs sm:text-sm font-medium flex items-center space-x-1.5">
+                <svg class="w-4 h-4 inline-block mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path>
+                </svg>
+                <span>বর্তমান ব্যালেন্স</span>
+              </span>
+              <button onclick="toggleBalanceVisibility()" id="toggleBalanceBtn" class="w-8 h-8 bg-white/10 hover:bg-white/20 rounded-full flex items-center justify-center transition text-white" title="ব্যালেন্স লুকান/দেখুন">
+                <svg id="eyeIcon" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                </svg>
+              </button>
+            </div>
+            <div id="balanceDisplay" class="text-3xl sm:text-4xl font-bold mt-2 tracking-tight">৳ ০.০০</div>
+          </div>
+
+          <div class="mt-5 sm:mt-6 pt-4 border-t border-white/20 flex items-center justify-between">
+            <span class="text-xs text-orange-100">উইথড্র করার জন্য প্রস্তুত</span>
+            <a href="withdraw.html" class="bg-white text-primary px-4 py-2 rounded-xl text-xs font-bold hover:bg-orange-50 transition shadow-xs flex items-center space-x-1">
+              <span>উইথড্র করুন</span>
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+              </svg>
+            </a>
+          </div>
+        </div>
+
+        <!-- Quick Statistics Card -->
+        <div class="bg-white rounded-2xl p-5 sm:p-6 shadow-sm border border-border flex flex-col justify-between space-y-4">
+          <h3 class="text-base font-bold text-dark border-b border-border pb-3 flex items-center justify-between">
+            <span>সংক্ষিপ্ত পরিসংখ্যান</span>
+            <svg class="w-4 h-4 text-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+            </svg>
+          </h3>
+          <div class="space-y-3">
+            <div class="flex items-center justify-between p-2.5 bg-background rounded-xl">
+              <span class="text-xs text-muted">মোট উইথড্র</span>
+              <span id="statTotalWithdraw" class="text-sm font-bold text-dark">৳ ০.০০</span>
+            </div>
+            <div class="flex items-center justify-between p-2.5 bg-background rounded-xl">
+              <span class="text-xs text-muted">অপেক্ষমাণ উইথড্র</span>
+              <span id="statPendingWithdraw" class="text-sm font-bold text-amber-600">৳ ০.০০</span>
+            </div>
+            <div class="flex items-center justify-between p-2.5 bg-background rounded-xl">
+              <span class="text-xs text-muted">মোট অর্ডার</span>
+              <span id="statTotalOrders" class="text-sm font-bold text-primary">০ টি</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Hero Banner Carousel Section (981 x 363 ratio ~ 2.702:1) -->
+      <div id="bannerSection" class="hidden relative rounded-2xl overflow-hidden shadow-sm border border-border bg-white" style="aspect-ratio: 981 / 363;">
+        <div id="bannerTrack" class="flex transition-transform duration-450 ease-out h-full w-full">
+          <!-- Banners dynamically inserted here -->
+        </div>
+        <button onclick="prevBanner()" class="hidden sm:flex absolute left-3 top-1/2 -translate-y-1/2 w-8 h-8 bg-black/40 hover:bg-black/60 text-white rounded-full items-center justify-center transition backdrop-blur-xs z-10">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+          </svg>
+        </button>
+        <button onclick="nextBanner()" class="hidden sm:flex absolute right-3 top-1/2 -translate-y-1/2 w-8 h-8 bg-black/40 hover:bg-black/60 text-white rounded-full items-center justify-center transition backdrop-blur-xs z-10">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+          </svg>
+        </button>
+        <div id="bannerDots" class="absolute bottom-2.5 left-1/2 -translate-x-1/2 flex space-x-1.5 z-10">
+          <!-- Dots dynamically inserted here -->
+        </div>
+      </div>
+
+      <!-- Main Feature Cards Grid (Strictly 2 columns on mobile, exactly 8 cards) -->
+      <div class="space-y-3">
+        <h3 class="text-base sm:text-lg font-bold text-dark">দ্রুত সেবা ও ফিচারসমূহ</h3>
+        <div class="grid grid-cols-2 lg:grid-cols-3 gap-2.5 sm:gap-4">
+          
+          <!-- Card 1: All Product -->
+          <a href="all-product.html" class="bg-white p-3 sm:p-5 rounded-2xl shadow-sm border border-border hover:border-primary hover:shadow-md transition group flex items-center space-x-3 sm:space-x-4">
+            <div class="w-9 h-9 sm:w-12 sm:h-12 bg-orange-50 text-primary rounded-xl flex items-center justify-center flex-shrink-0 group-hover:bg-primary group-hover:text-white transition">
+              <svg class="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
+              </svg>
+            </div>
+            <div class="min-w-0 flex-1">
+              <h4 class="text-xs sm:text-base font-bold text-dark group-hover:text-primary transition truncate">সব পণ্য</h4>
+              <p class="text-[10px] sm:text-xs text-muted mt-0.5 truncate">সব পণ্য দেখুন এবং রিসেল করুন</p>
+            </div>
+          </a>
+
+          <!-- Card 2: All Category -->
+          <a href="category.html" class="bg-white p-3 sm:p-5 rounded-2xl shadow-sm border border-border hover:border-primary hover:shadow-md transition group flex items-center space-x-3 sm:space-x-4">
+            <div class="w-9 h-9 sm:w-12 sm:h-12 bg-orange-50 text-primary rounded-xl flex items-center justify-center flex-shrink-0 group-hover:bg-primary group-hover:text-white transition">
+              <svg class="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7"></path>
+              </svg>
+            </div>
+            <div class="min-w-0 flex-1">
+              <h4 class="text-xs sm:text-base font-bold text-dark group-hover:text-primary transition truncate">সব ক্যাটাগরি</h4>
+              <p class="text-[10px] sm:text-xs text-muted mt-0.5 truncate">পণ্যের ক্যাটাগরি দেখুন</p>
+            </div>
+          </a>
+
+          <!-- Card 3: Withdraw -->
+          <a href="withdraw.html" class="bg-white p-3 sm:p-5 rounded-2xl shadow-sm border border-border hover:border-primary hover:shadow-md transition group flex items-center space-x-3 sm:space-x-4">
+            <div class="w-9 h-9 sm:w-12 sm:h-12 bg-orange-50 text-primary rounded-xl flex items-center justify-center flex-shrink-0 group-hover:bg-primary group-hover:text-white transition">
+              <svg class="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"></path>
+              </svg>
+            </div>
+            <div class="min-w-0 flex-1">
+              <h4 class="text-xs sm:text-base font-bold text-dark group-hover:text-primary transition truncate">উইথড্র</h4>
+              <p class="text-[10px] sm:text-xs text-muted mt-0.5 truncate">আপনার টাকা উত্তোলন করুন</p>
+            </div>
+          </a>
+
+          <!-- Card 4: My Orders -->
+          <a href="my-orders.html" class="bg-white p-3 sm:p-5 rounded-2xl shadow-sm border border-border hover:border-primary hover:shadow-md transition group flex items-center space-x-3 sm:space-x-4">
+            <div class="w-9 h-9 sm:w-12 sm:h-12 bg-orange-50 text-primary rounded-xl flex items-center justify-center flex-shrink-0 group-hover:bg-primary group-hover:text-white transition">
+              <svg class="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
+              </svg>
+            </div>
+            <div class="min-w-0 flex-1">
+              <h4 class="text-xs sm:text-base font-bold text-dark group-hover:text-primary transition truncate">আমার অর্ডার</h4>
+              <p class="text-[10px] sm:text-xs text-muted mt-0.5 truncate">আপনার অর্ডারগুলো দেখুন</p>
+            </div>
+          </a>
+
+          <!-- Card 5: Profile -->
+          <a href="profile.html" class="bg-white p-3 sm:p-5 rounded-2xl shadow-sm border border-border hover:border-primary hover:shadow-md transition group flex items-center space-x-3 sm:space-x-4">
+            <div class="w-9 h-9 sm:w-12 sm:h-12 bg-orange-50 text-primary rounded-xl flex items-center justify-center flex-shrink-0 group-hover:bg-primary group-hover:text-white transition">
+              <svg class="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+              </svg>
+            </div>
+            <div class="min-w-0 flex-1">
+              <h4 class="text-xs sm:text-base font-bold text-dark group-hover:text-primary transition truncate">প্রোফাইল</h4>
+              <p class="text-[10px] sm:text-xs text-muted mt-0.5 truncate">আপনার অ্যাকাউন্ট পরিচালনা করুন</p>
+            </div>
+          </a>
+
+          <!-- Card 6: Change Password -->
+          <a href="change-password.html" class="bg-white p-3 sm:p-5 rounded-2xl shadow-sm border border-border hover:border-primary hover:shadow-md transition group flex items-center space-x-3 sm:space-x-4">
+            <div class="w-9 h-9 sm:w-12 sm:h-12 bg-orange-50 text-primary rounded-xl flex items-center justify-center flex-shrink-0 group-hover:bg-primary group-hover:text-white transition">
+              <svg class="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"></path>
+              </svg>
+            </div>
+            <div class="min-w-0 flex-1">
+              <h4 class="text-xs sm:text-base font-bold text-dark group-hover:text-primary transition truncate">পাসওয়ার্ড পরিবর্তন</h4>
+              <p class="text-[10px] sm:text-xs text-muted mt-0.5 truncate">পাসওয়ার্ড পরিবর্তন করুন</p>
+            </div>
+          </a>
+
+          <!-- Card 7: Reselling Info (New) -->
+          <a href="reselling.html" class="bg-white p-3 sm:p-5 rounded-2xl shadow-sm border border-border hover:border-primary hover:shadow-md transition group flex items-center space-x-3 sm:space-x-4">
+            <div class="w-9 h-9 sm:w-12 sm:h-12 bg-orange-50 text-primary rounded-xl flex items-center justify-center flex-shrink-0 group-hover:bg-primary group-hover:text-white transition">
+              <svg class="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"></path>
+              </svg>
+            </div>
+            <div class="min-w-0 flex-1">
+              <h4 class="text-xs sm:text-base font-bold text-dark group-hover:text-primary transition truncate">রিসেলিং কী?</h4>
+              <p class="text-[10px] sm:text-xs text-muted mt-0.5 truncate">রিসেলিং সম্পর্কে বিস্তারিত জানুন</p>
+            </div>
+          </a>
+
+          <!-- Card 8: Notification (New) -->
+          <a href="notification.html" class="bg-white p-3 sm:p-5 rounded-2xl shadow-sm border border-border hover:border-primary hover:shadow-md transition group flex items-center space-x-3 sm:space-x-4">
+            <div class="w-9 h-9 sm:w-12 sm:h-12 bg-orange-50 text-primary rounded-xl flex items-center justify-center flex-shrink-0 group-hover:bg-primary group-hover:text-white transition">
+              <svg class="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path>
+              </svg>
+            </div>
+            <div class="min-w-0 flex-1">
+              <h4 class="text-xs sm:text-base font-bold text-dark group-hover:text-primary transition truncate">নোটিফিকেশন</h4>
+              <p class="text-[10px] sm:text-xs text-muted mt-0.5 truncate">আপনার সব নোটিফিকেশন দেখুন</p>
+            </div>
+          </a>
+
+        </div>
+      </div>
+
+      <!-- Mobile Accessible Secondary Navigation (Terms, Privacy, Support) -->
+      <div class="bg-white rounded-2xl p-4 sm:p-5 shadow-sm border border-border md:hidden space-y-3">
+        <h4 class="text-sm font-bold text-dark border-b border-border pb-2">সাহায্য ও তথ্য</h4>
+        <div class="grid grid-cols-1 gap-2">
+          <a href="terms.html" class="flex items-center justify-between py-2 px-3 bg-background rounded-xl text-xs font-semibold text-dark hover:text-primary transition">
+            <span class="flex items-center space-x-2">
+              <svg class="w-4 h-4 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+              </svg>
+              <span>শর্তাবলি</span>
+            </span>
+            <svg class="w-4 h-4 text-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+          </a>
+          <a href="privacy-policy.html" class="flex items-center justify-between py-2 px-3 bg-background rounded-xl text-xs font-semibold text-dark hover:text-primary transition">
+            <span class="flex items-center space-x-2">
+              <svg class="w-4 h-4 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+              </svg>
+              <span>গোপনীয়তা নীতি</span>
+            </span>
+            <svg class="w-4 h-4 text-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+          </a>
+          <a href="contact.html" class="flex items-center justify-between py-2 px-3 bg-background rounded-xl text-xs font-semibold text-dark hover:text-primary transition">
+            <span class="flex items-center space-x-2">
+              <svg class="w-4 h-4 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z"></path>
+              </svg>
+              <span>সাপোর্ট</span>
+            </span>
+            <svg class="w-4 h-4 text-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+          </a>
+        </div>
+      </div>
+
+    </main>
+
+  </div>
+
+  <!-- Mobile Bottom Navigation -->
+  <nav class="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-border z-40 px-4 py-2 flex justify-around items-center">
+    <a href="dashboard.html" class="flex flex-col items-center text-primary transition">
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+      </svg>
+      <span class="text-xs mt-1 font-semibold">হোম</span>
+    </a>
+    <a href="category.html" class="flex flex-col items-center text-muted hover:text-primary transition">
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7"></path>
+      </svg>
+      <span class="text-xs mt-1">ক্যাটাগরি</span>
+    </a>
+    <a href="my-orders.html" class="flex flex-col items-center text-muted hover:text-primary transition">
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
+      </svg>
+      <span class="text-xs mt-1">অর্ডার</span>
+    </a>
+    <a href="profile.html" class="flex flex-col items-center text-muted hover:text-primary transition">
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+      </svg>
+      <span class="text-xs mt-1">প্রোফাইল</span>
+    </a>
+  </nav>
+
+  <!-- Firebase Modular SDK Integration -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+  import {
+    getAuth,
+    onAuthStateChanged,
+    signOut
+  } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+
+  import {
+    getFirestore,
+    doc,
+    getDoc,
+    collection,
+    query,
+    where,
+    getDocs
+  } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+
+  /* =========================================================
+     FIREBASE CONFIG
+  ========================================================= */
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyBUhNhYvuo_FTvZ5RZR6Gn-4hsUY21S0XE",
+    authDomain: "ghotimarket.firebaseapp.com",
+    databaseURL: "https://ghotimarket-default-rtdb.firebaseio.com",
+    projectId: "ghotimarket",
+    storageBucket: "ghotimarket.firebasestorage.app",
+    messagingSenderId: "481257644093",
+    appId: "1:481257644093:web:0dfc3699d6b3c86afeca54",
+    measurementId: "G-4SR8V2EKC1"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
+
+
+  /* =========================================================
+     BALANCE
+  ========================================================= */
+
+  let rawBalanceValue = 0;
+
+  let isBalanceHidden =
+    localStorage.getItem("ghoti_balance_hidden") === "true";
+
+
+  window.toggleBalanceVisibility = function () {
+
+    isBalanceHidden = !isBalanceHidden;
+
+    localStorage.setItem(
+      "ghoti_balance_hidden",
+      isBalanceHidden
+    );
+
+    updateBalanceDisplay();
+  };
+
+
+  function updateBalanceDisplay() {
+
+    const displayElem =
+      document.getElementById("balanceDisplay");
+
+    const eyeIcon =
+      document.getElementById("eyeIcon");
+
+    if (!displayElem || !eyeIcon) return;
+
+
+    if (isBalanceHidden) {
+
+      displayElem.textContent = "৳ ••••••";
+
+      eyeIcon.innerHTML = `
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.542-7a10.05 10.05 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.542 7m0 0L21 21">
+        </path>
+      `;
+
+    } else {
+
+      const formatted =
+        "৳ " +
+        Number(rawBalanceValue || 0).toLocaleString(
+          "bn-BD",
+          {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2
+          }
+        );
+
+      displayElem.textContent = formatted;
+
+      eyeIcon.innerHTML = `
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M15 12a3 3 0 11-6 0 3 3 0 016 0z">
+        </path>
+
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z">
+        </path>
+      `;
+    }
+  }
+
+
+  /* =========================================================
+     INFINITE BANNER CAROUSEL
+  ========================================================= */
+
+  let bannersList = [];
+
+  let currentBannerIndex = 0;
+
+  let bannerInterval = null;
+
+  let isBannerAnimating = false;
+
+  const BANNER_DURATION = 650;
+
+  const BANNER_DELAY = 4000;
+
+
+  /* ---------------------------------------------------------
+     Safe URL
+  --------------------------------------------------------- */
+
+  function isSafeUrl(url) {
+
+    if (!url || typeof url !== "string") {
+      return false;
+    }
+
+    const value = url.trim();
+
+    if (!value) {
+      return false;
+    }
+
+    const lower = value.toLowerCase();
+
+    if (
+      lower.startsWith("javascript:") ||
+      lower.startsWith("data:") ||
+      lower.startsWith("vbscript:")
+    ) {
+      return false;
+    }
+
+    return true;
+  }
+
+
+  /* ---------------------------------------------------------
+     Banner Click
+  --------------------------------------------------------- */
+
+  window.handleBannerClick = function (url) {
+
+    if (!isSafeUrl(url)) {
+      console.warn("Blocked unsafe banner URL");
+      return;
+    }
+
+    const finalUrl = url.trim();
+
+
+    /*
+      External URL হলে নতুন tab-এ যাবে।
+      Internal URL হলে একই tab-এ যাবে।
+    */
+
+    try {
+
+      const parsed =
+        new URL(finalUrl, window.location.href);
+
+      const sameOrigin =
+        parsed.origin === window.location.origin;
+
+      if (sameOrigin) {
+
+        window.location.href =
+          parsed.href;
+
+      } else {
+
+        window.open(
+          parsed.href,
+          "_blank",
+          "noopener,noreferrer"
+        );
+      }
+
+    } catch (error) {
+
+      console.error(
+        "Invalid banner URL:",
+        error
+      );
+    }
+  };
+
+
+  /* ---------------------------------------------------------
+     Create Carousel
+  --------------------------------------------------------- */
+
+  function createInfiniteBanner() {
+
+    const track =
+      document.getElementById("bannerTrack");
+
+    const section =
+      document.getElementById("bannerSection");
+
+    const dots =
+      document.getElementById("bannerDots");
+
+
+    if (
+      !track ||
+      !section ||
+      !dots
+    ) {
+      return;
+    }
+
+
+    if (bannersList.length === 0) {
+
+      section.classList.add("hidden");
+
+      return;
+    }
+
+
+    section.classList.remove("hidden");
+
+
+    /*
+      একাধিক ব্যানার থাকলে:
+
+      [শেষ ক্লোন]
+      [১]
+      [২]
+      [৩]
+      [শেষ]
+      [প্রথম ক্লোন]
+
+      ফলে শেষ থেকে প্রথমে গেলে
+      seamless transition হবে।
+    */
+
+
+    let slides = [];
+
+
+    if (bannersList.length > 1) {
+
+      const lastBanner =
+        bannersList[bannersList.length - 1];
+
+      const firstBanner =
+        bannersList[0];
+
+
+      slides.push({
+        ...lastBanner,
+        clone: true
+      });
+
+
+      bannersList.forEach(banner => {
+
+        slides.push({
+          ...banner,
+          clone: false
+        });
+
+      });
+
+
+      slides.push({
+        ...firstBanner,
+        clone: true
+      });
+
+    } else {
+
+      slides = [
+        {
+          ...bannersList[0],
+          clone: false
+        }
+      ];
+    }
+
+
+    track.innerHTML = "";
+
+
+    slides.forEach((banner, index) => {
+
+      const slide =
+        document.createElement("div");
+
+      slide.className =
+        "w-full h-full flex-shrink-0 relative cursor-pointer select-none";
+
+
+      const image =
+        document.createElement("img");
+
+      image.src = banner.image;
+
+      image.alt =
+        "GHOTI RESELLER Banner";
+
+      image.loading =
+        index <= 1
+          ? "eager"
+          : "lazy";
+
+      image.draggable = false;
+
+      image.className =
+        "w-full h-full object-cover block";
+
+
+      /*
+        Image error হলে blank broken image
+        দেখানোর পরিবর্তে slide hide করা হবে।
+      */
+
+      image.onerror = function () {
+
+        this.style.display = "none";
+
+        slide.style.background =
+          "#f8fafc";
+      };
+
+
+      slide.appendChild(image);
+
+
+      /*
+        Clone হলেও click কাজ করবে।
+      */
+
+      slide.addEventListener(
+        "click",
+        function () {
+
+          if (isSafeUrl(banner.click)) {
+
+            window.handleBannerClick(
+              banner.click
+            );
+          }
+        }
+      );
+
+
+      track.appendChild(slide);
+
+    });
+
+
+    /*
+      Original banner #1 হচ্ছে index 1
+    */
+
+    if (bannersList.length > 1) {
+
+      currentBannerIndex = 1;
+
+    } else {
+
+      currentBannerIndex = 0;
+    }
+
+
+    track.style.transition =
+      "none";
+
+    track.style.transform =
+      `translate3d(-${currentBannerIndex * 100}%, 0, 0)`;
+
+
+    /*
+      Dots
+    */
+
+    dots.innerHTML = "";
+
+
+    if (bannersList.length > 1) {
+
+      bannersList.forEach(
+        (_, index) => {
+
+          const dot =
+            document.createElement("button");
+
+          dot.type = "button";
+
+          dot.setAttribute(
+            "aria-label",
+            `ব্যানার ${index + 1}`
+          );
+
+
+          dot.className =
+            "h-2 rounded-full transition-all duration-300";
+
+
+          dot.addEventListener(
+            "click",
+            function (event) {
+
+              event.stopPropagation();
+
+              goToRealBanner(index);
+
+            }
+          );
+
+
+          dots.appendChild(dot);
+
+        }
+      );
+
+    }
+
+
+    updateBannerDots();
+
+  }
+
+
+  /* ---------------------------------------------------------
+     Update Dots
+  --------------------------------------------------------- */
+
+  function updateBannerDots() {
+
+    const dots =
+      document.getElementById("bannerDots");
+
+    if (!dots) return;
+
+
+    const dotButtons =
+      dots.querySelectorAll("button");
+
+
+    if (bannersList.length <= 1) {
+
+      dots.classList.add("hidden");
+
+      return;
+    }
+
+
+    dots.classList.remove("hidden");
+
+
+    /*
+      Actual index বের করা।
+
+      Track:
+      0 = clone last
+      1 = real first
+      2 = real second
+      ...
+      n = real last
+      n+1 = clone first
+    */
+
+    let realIndex =
+      currentBannerIndex - 1;
+
+
+    if (realIndex < 0) {
+
+      realIndex =
+        bannersList.length - 1;
+
+    }
+
+
+    if (
+      realIndex >= bannersList.length
+    ) {
+
+      realIndex = 0;
+    }
+
+
+    dotButtons.forEach(
+      (dot, index) => {
+
+        if (index === realIndex) {
+
+          dot.className =
+            "h-2 w-6 rounded-full bg-white transition-all duration-300";
+
+        } else {
+
+          dot.className =
+            "h-2 w-2 rounded-full bg-white/50 transition-all duration-300";
+        }
+
+      }
+    );
+
+  }
+
+
+  /* ---------------------------------------------------------
+     Move Banner
+  --------------------------------------------------------- */
+
+  function moveBanner(
+    direction,
+    restartTimer = true
+  ) {
+
+    if (
+      bannersList.length <= 1 ||
+      isBannerAnimating
+    ) {
+      return;
+    }
+
+
+    const track =
+      document.getElementById("bannerTrack");
+
+    if (!track) return;
+
+
+    isBannerAnimating = true;
+
+
+    currentBannerIndex += direction;
+
+
+    track.style.transition =
+      `transform ${BANNER_DURATION}ms cubic-bezier(0.4, 0, 0.2, 1)`;
+
+
+    track.style.transform =
+      `translate3d(-${currentBannerIndex * 100}%, 0, 0)`;
+
+
+    updateBannerDots();
+
+
+    setTimeout(
+      () => {
+
+        /*
+          শেষ clone-এ গেলে
+          আসল প্রথম banner-এ instant jump।
+
+          User এটা বুঝতে পারবে না,
+          কারণ clone এবং original একই image।
+        */
+
+        if (
+          currentBannerIndex ===
+          bannersList.length + 1
+        ) {
+
+          track.style.transition =
+            "none";
+
+          currentBannerIndex = 1;
+
+          track.style.transform =
+            `translate3d(-100%, 0, 0)`;
+
+          /*
+            Browser-কে repaint করার সুযোগ
+            দেওয়া হচ্ছে।
+          */
+
+          requestAnimationFrame(() => {
+
+            requestAnimationFrame(() => {
+
+              track.style.transition =
+                `transform ${BANNER_DURATION}ms cubic-bezier(0.4, 0, 0.2, 1)`;
+
+            });
+
+          });
+
+          updateBannerDots();
+
+        }
+
+
+        /*
+          প্রথম clone-এ গেলে
+          আসল শেষ banner-এ instant jump।
+        */
+
+        if (
+          currentBannerIndex === 0
+        ) {
+
+          track.style.transition =
+            "none";
+
+          currentBannerIndex =
+            bannersList.length;
+
+          track.style.transform =
+            `translate3d(-${currentBannerIndex * 100}%, 0, 0)`;
+
+
+          requestAnimationFrame(() => {
+
+            requestAnimationFrame(() => {
+
+              track.style.transition =
+                `transform ${BANNER_DURATION}ms cubic-bezier(0.4, 0, 0.2, 1)`;
+
+            });
+
+          });
+
+
+          updateBannerDots();
+
+        }
+
+
+        isBannerAnimating = false;
+
+      },
+      BANNER_DURATION
+    );
+
+
+    if (restartTimer) {
+
+      resetBannerTimer();
+
+    }
+
+  }
+
+
+  /* ---------------------------------------------------------
+     Next
+  --------------------------------------------------------- */
+
+  window.nextBanner = function () {
+
+    moveBanner(1);
+
+  };
+
+
+  /* ---------------------------------------------------------
+     Previous
+  --------------------------------------------------------- */
+
+  window.prevBanner = function () {
+
+    moveBanner(-1);
+
+  };
+
+
+  /* ---------------------------------------------------------
+     Go To Specific Real Banner
+  --------------------------------------------------------- */
+
+  function goToRealBanner(
+    realIndex
+  ) {
+
+    if (
+      bannersList.length <= 1
+    ) {
+      return;
+    }
+
+
+    if (
+      realIndex < 0 ||
+      realIndex >= bannersList.length
+    ) {
+      return;
+    }
+
+
+    const track =
+      document.getElementById("bannerTrack");
+
+    if (!track) return;
+
+
+    if (isBannerAnimating) {
+      return;
+    }
+
+
+    isBannerAnimating = true;
+
+
+    currentBannerIndex =
+      realIndex + 1;
+
+
+    track.style.transition =
+      `transform ${BANNER_DURATION}ms cubic-bezier(0.4, 0, 0.2, 1)`;
+
+
+    track.style.transform =
+      `translate3d(-${currentBannerIndex * 100}%, 0, 0)`;
+
+
+    updateBannerDots();
+
+
+    setTimeout(
+      () => {
+
+        isBannerAnimating = false;
+
+      },
+      BANNER_DURATION
+    );
+
+
+    resetBannerTimer();
+
+  }
+
+
+  /* ---------------------------------------------------------
+     Public Dot Function
+  --------------------------------------------------------- */
+
+  window.goToBanner = function (
+    index
+  ) {
+
+    goToRealBanner(index);
+
+  };
+
+
+  /* ---------------------------------------------------------
+     Autoplay
+  --------------------------------------------------------- */
+
+  function resetBannerTimer() {
+
+    if (bannerInterval) {
+
+      clearInterval(
+        bannerInterval
+      );
+
+    }
+
+
+    if (
+      bannersList.length <= 1
+    ) {
+
+      return;
+    }
+
+
+    bannerInterval =
+      setInterval(
+        () => {
+
+          moveBanner(
+            1,
+            false
+          );
+
+        },
+        BANNER_DELAY
+      );
+
+  }
+
+
+  /* ---------------------------------------------------------
+     Pause Timer
+  --------------------------------------------------------- */
+
+  function stopBannerTimer() {
+
+    if (bannerInterval) {
+
+      clearInterval(
+        bannerInterval
+      );
+
+      bannerInterval = null;
+
+    }
+
+  }
+
+
+  /* =========================================================
+     TOUCH SWIPE
+  ========================================================= */
+
+  let touchStartX = 0;
+  let touchEndX = 0;
+  let touchStartY = 0;
+  let touchEndY = 0;
+
+
+  const bannerSectionEl =
+    document.getElementById(
+      "bannerSection"
+    );
+
+
+  if (bannerSectionEl) {
+
+    bannerSectionEl.addEventListener(
+      "touchstart",
+      (event) => {
+
+        if (
+          event.touches.length !== 1
+        ) {
+          return;
+        }
+
+
+        touchStartX =
+          event.touches[0].clientX;
+
+        touchStartY =
+          event.touches[0].clientY;
+
+        touchEndX =
+          touchStartX;
+
+        touchEndY =
+          touchStartY;
+
+
+        stopBannerTimer();
+
+      },
+      {
+        passive: true
+      }
+    );
+
+
+    bannerSectionEl.addEventListener(
+      "touchmove",
+      (event) => {
+
+        if (
+          event.touches.length !== 1
+        ) {
+          return;
+        }
+
+
+        touchEndX =
+          event.touches[0].clientX;
+
+        touchEndY =
+          event.touches[0].clientY;
+
+      },
+      {
+        passive: true
+      }
+    );
+
+
+    bannerSectionEl.addEventListener(
+      "touchend",
+      () => {
+
+        const diffX =
+          touchStartX -
+          touchEndX;
+
+
+        const diffY =
+          touchStartY -
+          touchEndY;
+
+
+        /*
+          Horizontal swipe হতে হবে।
+        */
+
+        if (
+          Math.abs(diffX) > 40 &&
+          Math.abs(diffX) > Math.abs(diffY)
+        ) {
+
+          if (diffX > 0) {
+
+            moveBanner(
+              1,
+              false
+            );
+
+          } else {
+
+            moveBanner(
+              -1,
+              false
+            );
+
+          }
+
+        }
+
+
+        resetBannerTimer();
+
+      },
+      {
+        passive: true
+      }
+    );
+
+
+    /*
+      Mouse hover করলে autoplay pause
+    */
+
+    bannerSectionEl.addEventListener(
+      "mouseenter",
+      () => {
+
+        stopBannerTimer();
+
+      }
+    );
+
+
+    bannerSectionEl.addEventListener(
+      "mouseleave",
+      () => {
+
+        resetBannerTimer();
+
+      }
+    );
+
+  }
+
+
+  /* =========================================================
+     PAGE VISIBILITY
+  ========================================================= */
+
+  document.addEventListener(
+    "visibilitychange",
+    () => {
+
+      if (document.hidden) {
+
+        stopBannerTimer();
+
+      } else {
+
+        resetBannerTimer();
+
+      }
+
+    }
+  );
+
+
+  /* =========================================================
+     LOGOUT
+  ========================================================= */
+
+  window.handleLogout =
+    async function () {
+
+      try {
+
+        await signOut(auth);
+
+        window.location.href =
+          "login.html";
+
+      } catch (error) {
+
+        console.error(
+          "Logout error:",
+          error
+        );
+
+      }
+
+    };
+
+
+  /* =========================================================
+     LOAD BANNERS
+  ========================================================= */
+
+  async function loadBanners() {
+
+    try {
+
+      const bannerSnap =
+        await getDocs(
+          collection(
+            db,
+            "reseller_banner"
+          )
+        );
+
+
+      bannersList = [];
+
+
+      bannerSnap.forEach(
+        (docSnap) => {
+
+          const data =
+            docSnap.data();
+
+
+          if (
+            data.image &&
+            typeof data.image === "string"
+          ) {
+
+            bannersList.push({
+
+              id: docSnap.id,
+
+              image:
+                data.image.trim(),
+
+              click:
+                typeof data.click === "string"
+                  ? data.click.trim()
+                  : "#"
+
+            });
+
+          }
+
+        }
+      );
+
+
+      /*
+        Banner তৈরি
+      */
+
+      createInfiniteBanner();
+
+
+      /*
+        Autoplay শুরু
+      */
+
+      resetBannerTimer();
+
+
+    } catch (error) {
+
+      console.error(
+        "Error loading banners:",
+        error
+      );
+
+    }
+
+  }
+
+
+  /* =========================================================
+     AUTH + DASHBOARD DATA
+  ========================================================= */
+
+  onAuthStateChanged(
+    auth,
+    async (user) => {
+
+      if (!user) {
+
+        window.location.href =
+          "login.html";
+
+        return;
+
+      }
+
+
+      try {
+
+        /* ---------------------------------------------
+           RESELLER DATA
+        --------------------------------------------- */
+
+        const resellerRef =
+          doc(
+            db,
+            "reseller",
+            user.uid
+          );
+
+
+        const resellerSnap =
+          await getDoc(
+            resellerRef
+          );
+
+
+        if (!resellerSnap.exists()) {
+
+          document
+            .getElementById(
+              "loadingScreen"
+            )
+            .classList.add("hidden");
+
+
+          document
+            .getElementById(
+              "errorScreen"
+            )
+            .classList.remove("hidden");
+
+
+          document
+            .getElementById(
+              "errorScreen"
+            )
+            .classList.add("flex");
+
+
+          return;
+
+        }
+
+
+        const data =
+          resellerSnap.data();
+
+
+        const name =
+          data.Name ||
+          "রিসেলার";
+
+
+        const email =
+          user.email ||
+          data.Email ||
+          "";
+
+
+        const phone =
+          data.Phone ||
+          "নম্বর নেই";
+
+
+        rawBalanceValue =
+          Number(
+            data.balance || 0
+          );
+
+
+        document
+          .getElementById(
+            "resellerNameDisplay"
+          )
+          .textContent = name;
+
+
+        document
+          .getElementById(
+            "resellerEmailDisplay"
+          )
+          .textContent = email;
+
+
+        document
+          .getElementById(
+            "resellerPhoneDisplay"
+          )
+          .textContent = phone;
+
+
+        updateBalanceDisplay();
+
+
+        /* ---------------------------------------------
+           ACCOUNT STATUS
+        --------------------------------------------- */
+
+        const active =
+          data.active === true;
+
+
+        const verified =
+          data.verified === true;
+
+
+        const statusBadge =
+          document.getElementById(
+            "statusBadge"
+          );
+
+
+        const statusIconWrapper =
+          document.getElementById(
+            "statusIconWrapper"
+          );
+
+
+        const noticeContainer =
+          document.getElementById(
+            "statusNoticeContainer"
+          );
+
+
+        if (
+          active &&
+          verified
+        ) {
+
+          statusBadge.textContent =
+            "সক্রিয় ও যাচাইকৃত";
+
+
+          statusBadge.className =
+            "inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-green-100 text-green-800";
+
+
+          statusIconWrapper.className =
+            "w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 bg-green-50 text-green-600";
+
+
+          statusIconWrapper.innerHTML = `
+            <svg
+              class="w-6 h-6"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24">
+
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z">
+              </path>
+
+            </svg>
+          `;
+
+
+        } else if (
+          active &&
+          !verified
+        ) {
+
+          statusBadge.textContent =
+            "সক্রিয় কিন্তু যাচাই করা হয়নি";
+
+
+          statusBadge.className =
+            "inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-amber-100 text-amber-800";
+
+
+          statusIconWrapper.className =
+            "w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 bg-amber-50 text-amber-600";
+
+
+          statusIconWrapper.innerHTML = `
+            <svg
+              class="w-6 h-6"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24">
+
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z">
+              </path>
+
+            </svg>
+          `;
+
+
+          noticeContainer.innerHTML = `
+            <div
+              class="bg-amber-50 border border-amber-200 text-amber-800 rounded-2xl p-4 flex items-start space-x-3">
+
+              <div class="flex-shrink-0 text-amber-600 mt-0.5">
+
+                <svg
+                  class="w-5 h-5"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24">
+
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 1.732 1.732 1.732z">
+                  </path>
+
+                </svg>
+
+              </div>
+
+              <div class="text-sm font-medium">
+
+                আপনার অ্যাকাউন্ট এখনো যাচাই করা হয়নি।
+                পূর্ণ সুবিধা পেতে যাচাইকরণ সম্পন্ন করুন।
+
+              </div>
+
+            </div>
+          `;
+
+
+          noticeContainer.classList.remove(
+            "hidden"
+          );
+
+
+        } else {
+
+          statusBadge.textContent =
+            "অ্যাকাউন্ট নিষ্ক্রিয়";
+
+
+          statusBadge.className =
+            "inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-red-100 text-red-800";
+
+
+          statusIconWrapper.className =
+            "w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 bg-red-50 text-red-600";
+
+
+          statusIconWrapper.innerHTML = `
+            <svg
+              class="w-6 h-6"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24">
+
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636">
+              </path>
+
+            </svg>
+          `;
+
+
+          noticeContainer.innerHTML = `
+            <div
+              class="bg-red-50 border border-red-200 text-red-800 rounded-2xl p-4 flex items-start space-x-3">
+
+              <div class="flex-shrink-0 text-red-600 mt-0.5">
+
+                <svg
+                  class="w-5 h-5"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24">
+
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77-1.333.192 1.732 1.732 1.732z">
+                  </path>
+
+                </svg>
+
+              </div>
+
+              <div class="text-sm font-medium">
+
+                আপনার অ্যাকাউন্ট বর্তমানে নিষ্ক্রিয়।
+                উইথড্র এবং অন্যান্য সেবা সীমিত থাকতে পারে।
+
+              </div>
+
+            </div>
+          `;
+
+
+          noticeContainer.classList.remove(
+            "hidden"
+          );
+
+        }
+
+
+        /* ---------------------------------------------
+           WITHDRAW STATISTICS
+        --------------------------------------------- */
+
+        try {
+
+          const withdrawQuery =
+            query(
+              collection(
+                db,
+                "withdraw"
+              ),
+              where(
+                "uid",
+                "==",
+                user.uid
+              )
+            );
+
+
+          const withdrawSnap =
+            await getDocs(
+              withdrawQuery
+            );
+
+
+          let totalWithdrawnAmount = 0;
+
+          let pendingWithdrawnAmount = 0;
+
+
+          withdrawSnap.forEach(
+            (docSnap) => {
+
+              const wData =
+                docSnap.data();
+
+
+              const amount =
+                Number(
+                  wData.amount || 0
+                );
+
+
+              if (
+                wData.status ===
+                "approved"
+              ) {
+
+                totalWithdrawnAmount +=
+                  amount;
+
+              }
+
+
+              if (
+                wData.status ===
+                "pending"
+              ) {
+
+                pendingWithdrawnAmount +=
+                  amount;
+
+              }
+
+            }
+          );
+
+
+          document
+            .getElementById(
+              "statTotalWithdraw"
+            )
+            .textContent =
+            "৳ " +
+            totalWithdrawnAmount.toLocaleString(
+              "bn-BD",
+              {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+              }
+            );
+
+
+          document
+            .getElementById(
+              "statPendingWithdraw"
+            )
+            .textContent =
+            "৳ " +
+            pendingWithdrawnAmount.toLocaleString(
+              "bn-BD",
+              {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+              }
+            );
+
+
+        } catch (error) {
+
+          console.error(
+            "Withdraw statistics error:",
+            error
+          );
+
+        }
+
+
+        /* ---------------------------------------------
+           ORDER STATISTICS
+        --------------------------------------------- */
+
+        try {
+
+          const ordersQuery =
+            query(
+              collection(
+                db,
+                "orders"
+              ),
+              where(
+                "uid",
+                "==",
+                user.uid
+              )
+            );
+
+
+          const ordersSnap =
+            await getDocs(
+              ordersQuery
+            );
+
+
+          document
+            .getElementById(
+              "statTotalOrders"
+            )
+            .textContent =
+            ordersSnap.size.toLocaleString(
+              "bn-BD"
+            ) +
+            " টি";
+
+
+        } catch (error) {
+
+          console.error(
+            "Orders statistics error:",
+            error
+          );
+
+
+          document
+            .getElementById(
+              "statTotalOrders"
+            )
+            .textContent =
+            "০ টি";
+
+        }
+
+
+        /* ---------------------------------------------
+           LOAD BANNERS
+        --------------------------------------------- */
+
+        await loadBanners();
+
+
+        /* ---------------------------------------------
+           HIDE LOADING
+        --------------------------------------------- */
+
+        document
+          .getElementById(
+            "loadingScreen"
+          )
+          .classList.add("hidden");
+
+
+      } catch (error) {
+
+        console.error(
+          "Dashboard loading error:",
+          error
+        );
+
+
+        document
+          .getElementById(
+            "loadingScreen"
+          )
+          .classList.add("hidden");
+
+
+        document
+          .getElementById(
+            "errorScreen"
+          )
+          .classList.remove("hidden");
+
+
+        document
+          .getElementById(
+            "errorScreen"
+          )
+          .classList.add("flex");
+
+      }
+
+    }
+  );
+
+</script>
+</body>
+</html>
