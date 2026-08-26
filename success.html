@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>অ্যাকাউন্ট সফল — GHOTI RESELLER</title>
+  <style>
+    :root {
+      --primary-dark: #0F172A;
+      --secondary-dark: #1E293B;
+      --brand-orange: #F97316;
+      --orange-hover: #EA580C;
+      --bg-gradient: linear-gradient(135deg, #FFF7ED 0%, #FFEDD5 100%);
+      --card-bg: #FFFFFF;
+      --text-main: #334155;
+      --text-muted: #64748B;
+      --success-color: #16A34A;
+      --success-bg: #DCFCE7;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: var(--bg-gradient);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+      color: var(--text-main);
+    }
+
+    .success-card {
+      background: var(--card-bg);
+      width: 100%;
+      max-width: 500px;
+      padding: 2.5rem 2rem;
+      border-radius: 1rem;
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
+      text-align: center;
+      animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .logo-container {
+      margin-bottom: 1.5rem;
+    }
+
+    .logo-container img {
+      max-height: 48px;
+      width: auto;
+      object-fit: contain;
+    }
+
+    .success-icon-wrapper {
+      width: 72px;
+      height: 72px;
+      background-color: var(--success-bg);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1.5rem auto;
+      animation: scaleIn 0.5s ease-in-out 0.2s both;
+    }
+
+    @keyframes scaleIn {
+      from {
+        transform: scale(0);
+        opacity: 0;
+      }
+      to {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+
+    .success-icon-wrapper svg {
+      width: 36px;
+      height: 36px;
+      stroke: var(--success-color);
+      stroke-width: 2.5;
+      fill: none;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    h1 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--primary-dark);
+      margin-bottom: 0.75rem;
+    }
+
+    p {
+      font-size: 0.95rem;
+      color: var(--text-main);
+      line-height: 1.6;
+      margin-bottom: 1.25rem;
+    }
+
+    .info-box {
+      background-color: #F8FAFC;
+      border: 1px solid #E2E8F0;
+      border-radius: 0.75rem;
+      padding: 1.25rem;
+      margin-bottom: 1.5rem;
+      text-align: left;
+    }
+
+    .info-box p {
+      margin-bottom: 0.75rem;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+
+    .info-box p:last-child {
+      margin-bottom: 0;
+      color: var(--text-main);
+      font-weight: 500;
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      width: 100%;
+      background-color: var(--brand-orange);
+      color: #FFFFFF;
+      font-weight: 600;
+      font-size: 1rem;
+      padding: 0.875rem 1.5rem;
+      border-radius: 0.75rem;
+      text-decoration: none;
+      transition: background-color 0.2s ease, transform 0.1s ease;
+      box-shadow: 0 4px 12px rgba(249, 115, 22, 0.25);
+      margin-bottom: 1.5rem;
+    }
+
+    .btn-primary:hover {
+      background-color: var(--orange-hover);
+    }
+
+    .btn-primary:active {
+      transform: scale(0.98);
+    }
+
+    .btn-primary svg {
+      width: 20px;
+      height: 20px;
+      stroke: currentColor;
+      stroke-width: 2;
+      fill: none;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .support-section {
+      font-size: 0.875rem;
+      color: var(--text-muted);
+    }
+
+    .support-section a {
+      color: var(--brand-orange);
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.2s ease;
+    }
+
+    .support-section a:hover {
+      text-decoration: underline;
+    }
+
+    @media (max-width: 480px) {
+      .success-card {
+        padding: 2rem 1.25rem;
+      }
+      h1 {
+        font-size: 1.35rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <main class="success-card">
+    <!-- Brand Logo -->
+    <div class="logo-container">
+      <img src="https://reseller.ghotimarket.com/logo.png" alt="GHOTI RESELLER Logo">
+    </div>
+
+    <!-- Success Icon -->
+    <div class="success-icon-wrapper" aria-hidden="true">
+      <svg viewBox="0 0 24 24">
+        <polyline points="20 6 9 17 4 12"></polyline>
+      </svg>
+    </div>
+
+    <!-- Main Heading -->
+    <h1>অ্যাকাউন্ট সফলভাবে তৈরি হয়েছে</h1>
+
+    <!-- Description -->
+    <p>আপনার GHOTI RESELLER অ্যাকাউন্ট সফলভাবে তৈরি হয়েছে।</p>
+
+    <!-- Detailed Information Box -->
+    <div class="info-box">
+      <p>আপনার ইমেইলে একটি ভেরিফিকেশন লিংক পাঠানো হয়েছে। ইমেইলটি খুলে আপনার অ্যাকাউন্ট ভেরিফাই করুন।</p>
+      <p>এখন আপনার ইমেইল ও পাসওয়ার্ড দিয়ে লগইন করুন।</p>
+    </div>
+
+    <!-- Primary Action Button -->
+    <a href="login.html" class="btn-primary">
+      <span>লগইন করুন</span>
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <line x1="5" y1="12" x2="19" y2="12"></line>
+        <polyline points="12 5 19 12 12 19"></polyline>
+      </svg>
+    </a>
+
+    <!-- Secondary Support Link -->
+    <div class="support-section">
+      <a href="contact.html">ইমেইল ভেরিফিকেশন সম্পর্কিত সমস্যা হলে সহায়তা নিন</a>
+    </div>
+  </main>
+
+  <!-- Firebase Modular SDK v10.8.0 Integration (Optional Configuration) -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import { getAuth } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyBUhNhYvuo_FTvZ5RZR6Gn-4hsUY21S0XE",
+      authDomain: "ghotimarket.firebaseapp.com",
+      databaseURL: "https://ghotimarket-default-rtdb.firebaseio.com",
+      projectId: "ghotimarket",
+      storageBucket: "ghotimarket.firebasestorage.app",
+      messagingSenderId: "481257644093",
+      appId: "1:481257644093:web:0dfc3699d6b3c86afeca54",
+      measurementId: "G-4SR8V2EKC1"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+  </script>
+
+</body>
+</html>
