@@ -50,7 +50,7 @@
 
     .brand-header {
       text-align: center;
-      margin-bottom: 32px;
+      margin-bottom: 24px;
     }
 
     .brand-header img {
@@ -70,6 +70,28 @@
       font-size: 14px;
       color: var(--text-muted);
       margin-top: 6px;
+    }
+
+    /* Top Login Prompt Styling */
+    .top-login-bar {
+      background-color: #FFF7ED;
+      border: 1px solid #FFEDD5;
+      padding: 10px 16px;
+      border-radius: 8px;
+      text-align: center;
+      font-size: 14px;
+      color: var(--text-muted);
+      margin-bottom: 24px;
+    }
+
+    .top-login-bar a {
+      color: var(--accent);
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .top-login-bar a:hover {
+      text-decoration: underline;
     }
 
     .form-group {
@@ -354,6 +376,11 @@
       <p>আপনার রিসেলার ব্যবসা শুরু করুন খুব সহজেই</p>
     </div>
 
+    <!-- টপ লগইন বার (উপরের দিকে সহজে খুঁজে পাওয়ার জন্য) -->
+    <div class="top-login-bar">
+      ইতিমধ্যে অ্যাকাউন্ট আছে? <a href="login.html">লগইন করুন</a>
+    </div>
+
     <form id="signupForm" novalidate>
       <div class="form-group">
         <label for="name">আপনার নাম</label>
@@ -622,17 +649,14 @@
       submitBtn.textContent = 'অ্যাকাউন্ট তৈরি হচ্ছে...';
 
       try {
-        // ১. Firebase Authentication অ্যাকাউন্ট তৈরি
         const userCredential = await createUserWithEmailAndPassword(auth, email, password);
         const user = userCredential.user;
 
-        // ২. ইমেইল ভেরিফিকেশন পাঠানো
         await sendEmailVerification(user);
 
         const normalizedPhone = phone.startsWith('+88') ? phone : `+88${phone}`;
         const normalizedWhatsApp = whatsapp.startsWith('+88') ? whatsapp : `+88${whatsapp}`;
 
-        // ৩. Firestore 'reseller' ডেসটিনেশন তৈরি (Document ID = user.uid)
         const resellerData = {
           uid: user.uid,
           balance: 0,
