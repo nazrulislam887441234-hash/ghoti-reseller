@@ -201,7 +201,7 @@ profileForm.addEventListener('submit', async (e) => {
                 body: JSON.stringify({
                     name: profileData.name,
                     phone: profileData.phone,
-                    WhatsApp: profileData.WhatsApp,
+                    whatsApp: profileData.whatsApp,
                     email: profileData.email,
                     uid: profileData.uid
                 })
