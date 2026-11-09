@@ -177,7 +177,7 @@ profileForm.addEventListener('submit', async (e) => {
         const profileData = {
             name: name,
             phone: phoneData.cleaned,
-            WhatsApp: whatsappData.cleaned,
+            whatsApp: whatsappData.cleaned,
             email: email,
             uid: uid,
             active: false,
