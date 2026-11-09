@@ -169,7 +169,7 @@ profileForm.addEventListener('submit', async (e) => {
         if (docSnap.exists()) {
             showToast('এই একাউন্টের প্রোফাইল ইতিমধ্যে তৈরি হয়েছে।', 'error');
             setTimeout(() => {
-                window.location.href = '/complete';
+                window.location.href = '/dashboard';
             }, 1500);
             return;
         }
@@ -211,7 +211,7 @@ profileForm.addEventListener('submit', async (e) => {
         }
 
         setTimeout(() => {
-            window.location.href = '/dashboard';
+            window.location.href = '/complete';
         }, 1500);
 
     } catch (error) {
