@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>একাউন্ট সফলভাবে তৈরি হয়েছে - Reseller Ghoti Market</title>
+    <meta name="description" content="Reseller Ghoti Market-এ আপনার রেজিস্ট্রেশন সফল হয়েছে। একাউন্ট ভেরিফিকেশনের পর লগইন করুন।">
+    
+    <!-- Favicon -->
+    <link rel="icon" href="https://reseller.ghotimarket.com/photo/logo.png" type="image/png">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* ==========================================
+           1. CSS Variables & Reset
+           ========================================== */
+        :root {
+            --primary-color: #FF6B35;
+            --secondary-color: #FF6A00;
+            --accent-color: #FFA500;
+            --bg-gradient-start: #FFF9F5;
+            --bg-gradient-end: #FFEFE6;
+            --text-dark: #2C2C2C;
+            --text-muted: #555555;
+            --card-bg: rgba(255, 255, 255, 0.85);
+            --card-border: rgba(255, 107, 53, 0.2);
+            --shadow: 0 20px 40px rgba(255, 107, 53, 0.15);
+            --success-green: #10B981;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Hind Siliguri', sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, var(--bg-gradient-start) 0%, var(--bg-gradient-end) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            overflow-x: hidden;
+            color: var(--text-dark);
+        }
+
+        /* ==========================================
+           2. Layout & Glassmorphism Card
+           ========================================== */
+        .container {
+            width: 100%;
+            max-width: 480px;
+            margin: 0 auto;
+        }
+
+        .success-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--card-border);
+            border-radius: 24px;
+            padding: 40px 24px;
+            text-align: center;
+            box-shadow: var(--shadow);
+            animation: slideUpFade 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        /* ==========================================
+           3. Branding & Logo
+           ========================================== */
+        .brand-logo {
+            width: 140px;
+            height: auto;
+            max-height: 60px;
+            object-fit: contain;
+            margin-bottom: 24px;
+            transition: transform 0.3s ease;
+        }
+
+        .brand-logo:hover {
+            transform: scale(1.03);
+        }
+
+        /* ==========================================
+           4. Success Icon Animated
+           ========================================== */
+        .icon-container {
+            width: 88px;
+            height: 88px;
+            margin: 0 auto 24px auto;
+            background: rgba(255, 107, 53, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            animation: pulseBg 2s infinite ease-in-out;
+        }
+
+        .success-svg {
+            width: 48px;
+            height: 48px;
+            color: var(--primary-color);
+        }
+
+        .checkmark-circle {
+            stroke-dasharray: 166;
+            stroke-dashoffset: 166;
+            stroke-width: 3;
+            stroke: var(--primary-color);
+            fill: none;
+            animation: stroke 0.6s cubic-bezier(0.65, 0, 0.45, 1) 0.2s forwards;
+        }
+
+        .checkmark-check {
+            transform-origin: 50% 50%;
+            stroke-dasharray: 48;
+            stroke-dashoffset: 48;
+            stroke: var(--primary-color);
+            animation: stroke 0.4s cubic-bezier(0.65, 0, 0.45, 1) 0.7s forwards;
+        }
+
+        /* ==========================================
+           5. Typography
+           ========================================== */
+        .title {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 16px;
+            line-height: 1.3;
+        }
+
+        .description {
+            font-size: 15px;
+            color: var(--text-muted);
+            line-height: 1.6;
+            margin-bottom: 12px;
+        }
+
+        .info-box {
+            background: rgba(255, 165, 0, 0.08);
+            border-left: 4px solid var(--accent-color);
+            border-radius: 8px;
+            padding: 12px 16px;
+            margin: 20px 0 28px 0;
+            text-align: left;
+        }
+
+        .info-text {
+            font-size: 14px;
+            color: #444;
+            line-height: 1.5;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+
+        .info-icon {
+            width: 20px;
+            height: 20px;
+            fill: var(--primary-color);
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        /* ==========================================
+           6. Action Button
+           ========================================== */
+        .btn-login {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            width: 100%;
+            padding: 14px 28px;
+            background: linear-gradient(90deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            color: #FFFFFF;
+            font-size: 16px;
+            font-weight: 600;
+            text-decoration: none;
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(255, 107, 53, 0.3);
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-login:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 25px rgba(255, 107, 53, 0.4);
+            background: linear-gradient(90deg, var(--secondary-color) 0%, var(--primary-color) 100%);
+        }
+
+        .btn-login:active {
+            transform: translateY(0);
+            box-shadow: 0 4px 10px rgba(255, 107, 53, 0.3);
+        }
+
+        .btn-svg {
+            width: 20px;
+            height: 20px;
+            fill: currentColor;
+            transition: transform 0.3s ease;
+        }
+
+        .btn-login:hover .btn-svg {
+            transform: translateX(4px);
+        }
+
+        /* ==========================================
+           7. Keyframe Animations
+           ========================================== */
+        @keyframes slideUpFade {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes stroke {
+            100% {
+                stroke-dashoffset: 0;
+            }
+        }
+
+        @keyframes pulseBg {
+            0%, 100% {
+                transform: scale(1);
+                box-shadow: 0 0 0 0 rgba(255, 107, 53, 0.2);
+            }
+            50% {
+                transform: scale(1.05);
+                box-shadow: 0 0 0 12px rgba(255, 107, 53, 0);
+            }
+        }
+
+        /* ==========================================
+           8. Responsive Design (Mobile First)
+           ========================================== */
+        @media (min-width: 576px) {
+            .success-card {
+                padding: 48px 36px;
+            }
+            .title {
+                font-size: 26px;
+            }
+            .description {
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <main class="container">
+        <div class="success-card">
+            <!-- Brand Logo -->
+            <img src="https://reseller.ghotimarket.com/photo/logo.png" alt="Reseller Ghoti Market Logo" class="brand-logo">
+
+            <!-- Animated Success SVG Icon -->
+            <div class="icon-container">
+                <svg class="success-svg" viewBox="0 0 52 52">
+                    <circle class="checkmark-circle" cx="26" cy="26" r="23"/>
+                    <path class="checkmark-check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
+                </svg>
+            </div>
+
+            <!-- Title -->
+            <h1 class="title">আপনার একাউন্ট সফলভাবে তৈরি হয়েছে!</h1>
+
+            <!-- Description Message -->
+            <p class="description">
+                আমরা আপনার একাউন্ট যাচাই করে আপনার হোয়াটস্যাপ নাম্বারে জানানো হবে।
+            </p>
+
+            <!-- Extra Info Message Box -->
+            <div class="info-box">
+                <div class="info-text">
+                    <svg class="info-icon" viewBox="0 0 24 24">
+                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/>
+                    </svg>
+                    <span>আপনার একাউন্ট ভেরিফাইড হয়ে গেলে আপনি আমাদের প্লাটফর্মে রিসেলিং করতে পারবেন।</span>
+                </div>
+            </div>
+
+            <!-- Login Button -->
+            <a href="/login" class="btn-login" id="loginBtn">
+                <span>লগইন করুন</span>
+                <svg class="btn-svg" viewBox="0 0 24 24">
+                    <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/>
+                </svg>
+            </a>
+        </div>
+    </main>
+
+    <!-- Vanilla JavaScript -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const loginBtn = document.getElementById('loginBtn');
+            
+            // Smooth navigation event
+            loginBtn.addEventListener('click', (e) => {
+                // Allows normal link navigation to /login smoothly
+                loginBtn.style.opacity = '0.8';
+            });
+        });
+    </script>
+</body>
+</html>
