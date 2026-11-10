@@ -1,550 +1,889 @@
 <!DOCTYPE html>
 <html lang="bn">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>লগইন — GHOTI RESELLER</title>
-  <style>
-    :root {
-      --primary: #0B0F19;
-      --primary-light: #1E293B;
-      --accent: #FF6B00;
-      --accent-hover: #E05E00;
-      --bg-gradient: linear-gradient(135deg, #FFF8F5 0%, #FFEDDF 100%);
-      --card-bg: #FFFFFF;
-      --text-main: #1E293B;
-      --text-muted: #64748B;
-      --border-color: #E2E8F0;
-      --error-color: #EF4444;
-      --radius: 16px;
-      --shadow: 0 20px 40px -10px rgba(11, 15, 25, 0.1);
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>রিসেলার লগইন | Reseller Ghoti Market</title>
+    <meta name="description" content="Reseller Ghoti Market-এ আপনার রিসেলার অ্যাকাউন্টে লগইন করুন এবং সহজেই রিসেলিং কার্যক্রম পরিচালনা করুন।">
+    <meta name="robots" content="noindex, nofollow">
+    <link rel="icon" type="image/png" href="https://reseller.ghotimarket.com/photo/favicon.png">
+    
+    <!-- Google Fonts for Bengali & Modern Typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: 'Segoe UI', Inter, system-ui, -apple-system, sans-serif;
-    }
+    <style>
+        :root {
+            --primary: #FF6B35;
+            --secondary: #FF6A00;
+            --accent: #FFA500;
+            --bg-color: #FFF7F1;
+            --text-color: #171717;
+            --text-muted: #666666;
+            --white: #FFFFFF;
+            --border-color: #E2E8F0;
+            --error-color: #DC2626;
+            --success-color: #16A34A;
+            --shadow-sm: 0 2px 8px rgba(255, 107, 53, 0.08);
+            --shadow-lg: 0 20px 40px rgba(255, 107, 53, 0.12), 0 10px 25px rgba(0, 0, 0, 0.05);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
 
-    body {
-      background: var(--bg-gradient);
-      color: var(--text-main);
-      min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 16px;
-      -webkit-font-smoothing: antialiased;
-    }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Hind Siliguri', -apple-system, BlinkMacSystemFont, sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
 
-    .login-wrapper {
-      position: relative;
-      width: 100%;
-      max-width: 420px;
-      background: var(--card-bg);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      border: 1px solid rgba(255, 255, 255, 0.8);
-      padding: 36px 28px;
-      overflow: hidden;
-    }
+        body {
+            background: var(--bg-color);
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(255, 107, 53, 0.05) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(255, 106, 0, 0.05) 0%, transparent 40%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px 16px;
+            color: var(--text-color);
+        }
 
-    /* Verification Overlay - Enabled by default on page load */
-    .verification-overlay {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(255, 255, 255, 0.98);
-      backdrop-filter: blur(6px);
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      z-index: 20;
-      transition: opacity 0.3s ease;
-    }
+        .login-wrapper {
+            width: 100%;
+            max-width: 440px;
+            perspective: 1000px;
+        }
 
-    .verify-spinner {
-      width: 42px;
-      height: 42px;
-      border: 3px solid var(--border-color);
-      border-top-color: var(--accent);
-      border-radius: 50%;
-      animation: spin 0.8s linear infinite;
-      margin-bottom: 16px;
-    }
+        .login-card {
+            background: var(--white);
+            border-radius: 24px;
+            padding: 40px 32px;
+            box-shadow: var(--shadow-lg);
+            border: 1px solid rgba(255, 107, 53, 0.15);
+            position: relative;
+            overflow: hidden;
+            animation: cardAppear 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
 
-    .verify-text {
-      font-size: 15px;
-      font-weight: 700;
-      color: var(--primary);
-      letter-spacing: 0.3px;
-    }
+        @keyframes cardAppear {
+            0% {
+                opacity: 0;
+                transform: translateY(20px) scale(0.98);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
 
-    .brand-header {
-      text-align: center;
-      margin-bottom: 28px;
-    }
+        .brand-header {
+            text-align: center;
+            margin-bottom: 32px;
+        }
 
-    .brand-header img {
-      width: 60px;
-      height: 60px;
-      object-fit: contain;
-      margin-bottom: 12px;
-    }
+        .brand-logo {
+            height: 64px;
+            width: auto;
+            max-width: 220px;
+            object-fit: contain;
+            margin-bottom: 16px;
+            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.05));
+            transition: var(--transition);
+        }
 
-    .brand-header h1 {
-      font-size: 22px;
-      color: var(--primary);
-      font-weight: 800;
-      margin-bottom: 6px;
-    }
+        .brand-logo:hover {
+            transform: scale(1.03);
+        }
 
-    .brand-header p {
-      font-size: 13px;
-      color: var(--text-muted);
-    }
+        .welcome-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--text-color);
+            margin-bottom: 6px;
+            line-height: 1.3;
+        }
 
-    .alert-box {
-      background-color: #FEF2F2;
-      border: 1px solid #FCA5A5;
-      color: var(--error-color);
-      padding: 10px 14px;
-      border-radius: 10px;
-      font-size: 13px;
-      font-weight: 600;
-      margin-bottom: 20px;
-      display: none;
-    }
+        .welcome-subtitle {
+            font-size: 14px;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
 
-    .form-group {
-      margin-bottom: 18px;
-    }
+        .form-group {
+            margin-bottom: 20px;
+            position: relative;
+        }
 
-    .form-label-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 6px;
-    }
+        .form-label {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-color);
+            margin-bottom: 8px;
+        }
 
-    .form-group label {
-      font-size: 13px;
-      font-weight: 600;
-      color: var(--primary);
-    }
+        .input-box {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
 
-    .forgot-link {
-      font-size: 12px;
-      color: var(--accent);
-      text-decoration: none;
-      font-weight: 600;
-    }
-    .forgot-link:hover {
-      text-decoration: underline;
-    }
+        .input-icon {
+            position: absolute;
+            left: 16px;
+            width: 20px;
+            height: 20px;
+            stroke: #94A3B8;
+            transition: var(--transition);
+            pointer-events: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
 
-    .input-container {
-      position: relative;
-    }
+        .form-input {
+            width: 100%;
+            height: 50px;
+            padding: 0 48px 0 48px;
+            background-color: #F8FAFC;
+            border: 1.5px solid var(--border-color);
+            border-radius: 12px;
+            font-size: 15px;
+            color: var(--text-color);
+            outline: none;
+            transition: var(--transition);
+        }
 
-    .form-control {
-      width: 100%;
-      padding: 12px 14px;
-      font-size: 14px;
-      border: 1.5px solid var(--border-color);
-      border-radius: 12px;
-      outline: none;
-      transition: all 0.25s ease;
-      background-color: #FAFAFB;
-      color: var(--text-main);
-    }
+        .form-input::placeholder {
+            color: #94A3B8;
+            font-weight: 400;
+        }
 
-    .form-control:focus {
-      border-color: var(--accent);
-      background-color: #FFFFFF;
-      box-shadow: 0 0 0 4px rgba(255, 107, 0, 0.1);
-    }
+        .form-input:focus {
+            background-color: var(--white);
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(255, 107, 53, 0.15);
+        }
 
-    .password-toggle-btn {
-      position: absolute;
-      right: 14px;
-      top: 50%;
-      transform: translateY(-50%);
-      background: none;
-      border: none;
-      cursor: pointer;
-      color: var(--text-muted);
-      display: flex;
-      align-items: center;
-      padding: 4px;
-    }
-    .password-toggle-btn:hover {
-      color: var(--primary);
-    }
+        .form-input:focus ~ .input-icon,
+        .input-box:focus-within .input-icon {
+            stroke: var(--primary);
+        }
 
-    .btn-submit {
-      width: 100%;
-      padding: 13px;
-      background-color: var(--accent);
-      color: white;
-      border: none;
-      border-radius: 12px;
-      font-size: 15px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      box-shadow: 0 4px 14px rgba(255, 107, 0, 0.25);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 8px;
-      margin-top: 8px;
-    }
+        .toggle-password {
+            position: absolute;
+            right: 12px;
+            background: none;
+            border: none;
+            padding: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            transition: var(--transition);
+        }
 
-    .btn-submit:hover:not(:disabled) {
-      background-color: var(--accent-hover);
-    }
+        .toggle-password:hover {
+            background-color: rgba(0, 0, 0, 0.05);
+        }
 
-    .btn-submit:disabled {
-      opacity: 0.7;
-      cursor: not-allowed;
-    }
+        .toggle-password svg {
+            width: 20px;
+            height: 20px;
+            stroke: #94A3B8;
+            transition: var(--transition);
+        }
 
-    .spinner {
-      width: 18px;
-      height: 18px;
-      border: 2px solid #ffffff;
-      border-top-color: transparent;
-      border-radius: 50%;
-      animation: spin 0.8s linear infinite;
-      display: none;
-    }
+        .toggle-password:hover svg {
+            stroke: var(--text-color);
+        }
 
-    @keyframes spin {
-      to { transform: rotate(360deg); }
-    }
+        .forgot-wrapper {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: -8px;
+            margin-bottom: 24px;
+        }
 
-    .divider {
-      margin: 24px 0;
-      border: none;
-      border-top: 1px solid var(--border-color);
-    }
+        .btn-forgot {
+            background: none;
+            border: none;
+            color: var(--primary);
+            font-size: 13.5px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none;
+        }
 
-    .footer-terms {
-      text-align: center;
-      font-size: 12px;
-      color: var(--text-muted);
-      line-height: 1.5;
-      margin-bottom: 16px;
-    }
+        .btn-forgot:hover {
+            color: var(--secondary);
+            text-decoration: underline;
+        }
 
-    .footer-terms a {
-      color: var(--primary);
-      text-decoration: none;
-      font-weight: 600;
-    }
-    .footer-terms a:hover {
-      text-decoration: underline;
-    }
+        .btn-submit {
+            width: 100%;
+            height: 52px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: var(--white);
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 8px 20px rgba(255, 107, 53, 0.3);
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            position: relative;
+            overflow: hidden;
+        }
 
-    .signup-section {
-      text-align: center;
-      font-size: 13px;
-      color: var(--text-muted);
-    }
+        .btn-submit:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 24px rgba(255, 107, 53, 0.4);
+        }
 
-    .signup-section a {
-      color: var(--accent);
-      text-decoration: none;
-      font-weight: 700;
-      margin-left: 4px;
-    }
-    .signup-section a:hover {
-      text-decoration: underline;
-    }
-  </style>
+        .btn-submit:active:not(:disabled) {
+            transform: translateY(0);
+        }
+
+        .btn-submit:disabled {
+            opacity: 0.75;
+            cursor: not-allowed;
+            filter: grayscale(20%);
+        }
+
+        .divider {
+            display: flex;
+            align-items: center;
+            text-align: center;
+            margin: 28px 0;
+            color: #94A3B8;
+            font-size: 13px;
+        }
+
+        .divider::before, .divider::after {
+            content: '';
+            flex: 1;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .divider span {
+            padding: 0 14px;
+            font-weight: 500;
+        }
+
+        .btn-register {
+            width: 100%;
+            height: 50px;
+            background-color: #FFF;
+            color: var(--text-color);
+            border: 1.5px solid var(--border-color);
+            border-radius: 12px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+
+        .btn-register:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+            background-color: rgba(255, 107, 53, 0.03);
+            transform: translateY(-1px);
+        }
+
+        .btn-register svg {
+            width: 20px;
+            height: 20px;
+            stroke: currentColor;
+            transition: var(--transition);
+        }
+
+        /* Spinner Component */
+        .spinner {
+            width: 22px;
+            height: 22px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: var(--white);
+            animation: spin 0.8s linear infinite;
+            display: none;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Modal Overlay & Dialog Styles */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(4px);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            opacity: 0;
+            visibility: hidden;
+            transition: var(--transition);
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-box {
+            background: var(--white);
+            border-radius: 20px;
+            width: 100%;
+            max-width: 420px;
+            padding: 28px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            transform: scale(0.9) translateY(10px);
+            transition: var(--transition);
+            border: 1px solid var(--border-color);
+        }
+
+        .modal-overlay.active .modal-box {
+            transform: scale(1) translateY(0);
+        }
+
+        .modal-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 16px;
+        }
+
+        .modal-icon-wrapper {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 12px;
+        }
+
+        .modal-icon-wrapper.primary {
+            background: rgba(255, 107, 53, 0.1);
+            color: var(--primary);
+        }
+
+        .modal-icon-wrapper.error {
+            background: rgba(220, 38, 38, 0.1);
+            color: var(--error-color);
+        }
+
+        .modal-icon-wrapper.success {
+            background: rgba(22, 163, 74, 0.1);
+            color: var(--success-color);
+        }
+
+        .modal-icon-wrapper svg {
+            width: 24px;
+            height: 24px;
+            stroke: currentColor;
+        }
+
+        .modal-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--text-color);
+            margin-bottom: 6px;
+        }
+
+        .modal-desc {
+            font-size: 14px;
+            color: var(--text-muted);
+            line-height: 1.5;
+            margin-bottom: 20px;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        .btn-modal-cancel {
+            flex: 1;
+            height: 46px;
+            background: #F1F5F9;
+            border: none;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 600;
+            color: #475569;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .btn-modal-cancel:hover {
+            background: #E2E8F0;
+        }
+
+        .btn-modal-action {
+            flex: 1;
+            height: 46px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            border: none;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--white);
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: 0 4px 12px rgba(255, 107, 53, 0.25);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn-modal-action:hover {
+            opacity: 0.95;
+            transform: translateY(-1px);
+        }
+
+        /* Footer Info */
+        .footer-copyright {
+            text-align: center;
+            margin-top: 24px;
+            font-size: 13px;
+            color: #94A3B8;
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 12px;
+            }
+            .login-card {
+                padding: 28px 20px;
+                border-radius: 20px;
+            }
+            .brand-logo {
+                height: 52px;
+            }
+            .welcome-title {
+                font-size: 21px;
+            }
+            .form-input {
+                height: 48px;
+            }
+            .btn-submit {
+                height: 48px;
+            }
+            .modal-box {
+                padding: 20px;
+            }
+        }
+    </style>
 </head>
 <body>
 
-  <div class="login-wrapper">
-    <!-- Verification Overlay Screen (Visible by default on page load) -->
-    <div id="verificationOverlay" class="verification-overlay">
-      <div class="verify-spinner"></div>
-      <div class="verify-text">আপনাকে যাচাই করা হচ্ছে...</div>
-    </div>
+    <div class="login-wrapper">
+        <div class="login-card">
+            <div class="brand-header">
+                <img src="https://reseller.ghotimarket.com/photo/logo.png" alt="Reseller Ghoti Market" class="brand-logo" onerror="this.onerror=null; this.src='https://reseller.ghotimarket.com/photo/favicon.png';">
+                <h1 class="welcome-title">রিসেলার অ্যাকাউন্টে লগইন</h1>
+                <p class="welcome-subtitle">আপনার তথ্য দিয়ে নিরাপদে ড্যাশবোর্ডে প্রবেশ করুন</p>
+            </div>
 
-    <div class="brand-header">
-      <img src="https://reseller.ghotimarket.com/logo.png" alt="লোগো" onerror="this.src='https://via.placeholder.com/60?text=GR'">
-      <h1>লগইন করুন</h1>
-      <p>আপনার GHOTI RESELLER অ্যাকাউন্টে প্রবেশ করুন</p>
-    </div>
+            <form id="loginForm" onsubmit="return false;" novalidate>
+                <div class="form-group">
+                    <label class="form-label" for="email">ইমেইল ঠিকানা</label>
+                    <div class="input-box">
+                        <input type="email" id="email" class="form-input" placeholder="আপনার ইমেইল লিখুন" autocomplete="email" required>
+                        <span class="input-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
+                            </svg>
+                        </span>
+                    </div>
+                </div>
 
-    <div id="errorAlert" class="alert-box"></div>
+                <div class="form-group">
+                    <label class="form-label" for="password">পাসওয়ার্ড</label>
+                    <div class="input-box">
+                        <input type="password" id="password" class="form-input" placeholder="আপনার পাসওয়ার্ড লিখুন" autocomplete="current-password" required>
+                        <span class="input-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" />
+                            </svg>
+                        </span>
+                        <button type="button" class="toggle-password" id="togglePasswordBtn" title="পাসওয়ার্ড দেখান/লুকান" aria-label="Toggle Password Visibility">
+                            <svg id="eyeIcon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12c1.76-3.97 5.687-6.75 10.274-6.75 4.587 0 8.514 2.78 10.274 6.75-1.76 3.97-5.687 6.75-10.274 6.75-4.587 0-8.514-2.78-10.274-6.75z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
 
-    <form id="loginForm" novalidate>
-      <div class="form-group">
-        <label for="emailInput">ইমেইল</label>
-        <div class="input-container">
-          <input type="email" id="emailInput" class="form-control" placeholder="আপনার ইমেইল লিখুন" autocomplete="email">
+                <div class="forgot-wrapper">
+                    <button type="button" class="btn-forgot" id="openForgotModalBtn">পাসওয়ার্ড ভুলে গেছেন?</button>
+                </div>
+
+                <button type="submit" class="btn-submit" id="loginBtn">
+                    <span id="btnText">লগইন করুন</span>
+                    <div class="spinner" id="loginSpinner"></div>
+                </button>
+            </form>
+
+            <div class="divider">
+                <span>নতুন ব্যবহারকারী?</span>
+            </div>
+
+            <button type="button" class="btn-register" id="signupBtn">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M19 7.5v3m0 0v3m0-3h3m-3 0h-3m-2.25-4.125a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zM4 19.235v-.11a6.375 6.375 0 0112.75 0v.109A12.318 12.318 0 0110.374 21c-2.331 0-4.512-.645-6.374-1.766z" />
+                </svg>
+                নতুন একাউন্ট খুলুন
+            </button>
         </div>
-      </div>
 
-      <div class="form-group">
-        <div class="form-label-row">
-          <label for="passwordInput">পাসওয়ার্ড</label>
-          <a href="forgot-password.html" class="forgot-link">পাসওয়ার্ড ভুলে গেছেন?</a>
-        </div>
-        <div class="input-container">
-          <input type="password" id="passwordInput" class="form-control" placeholder="আপনার পাসওয়ার্ড লিখুন" autocomplete="current-password">
-          <button type="button" id="togglePasswordBtn" class="password-toggle-btn" aria-label="পাসওয়ার্ড দেখান">
-            <!-- Eye Icon (Show) -->
-            <svg id="eyeOpenIcon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-              <circle cx="12" cy="12" r="3"></circle>
-            </svg>
-            <!-- Eye Off Icon (Hide) -->
-            <svg id="eyeClosedIcon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: none;">
-              <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
-              <line x1="1" y1="1" x2="23" y2="23"></line>
-            </svg>
-          </button>
-        </div>
-      </div>
-
-      <button type="submit" id="submitBtn" class="btn-submit">
-        <span id="btnText">লগইন করুন</span>
-        <div id="btnSpinner" class="spinner"></div>
-      </button>
-    </form>
-
-    <hr class="divider">
-
-    <div class="footer-terms">
-      শর্তাবলী ও গোপনীয়তা মেনে আপনি লগইন করছেন।<br>
-      <a href="terms.html">শর্তাবলী</a> ও <a href="privacy-policy.html">প্রাইভেসি পলিসি</a>
+        <p class="footer-copyright">&copy; Reseller Ghoti Market. সর্বস্বত্ব সংরক্ষিত।</p>
     </div>
 
-    <div class="signup-section">
-      আপনার কি অ্যাকাউন্ট নেই?<a href="signup.html">অ্যাকাউন্ট তৈরি করুন</a>
+    <!-- Password Reset Modal -->
+    <div class="modal-overlay" id="resetModal">
+        <div class="modal-box">
+            <div class="modal-icon-wrapper primary">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 5.25a3 3 0 013 3m3 0a6 6 0 01-7.029 5.912c-.563-.097-1.159.026-1.563.43L10.5 17.25H8.25v2.25H6v2.25H2.25v-2.818c0-.597.237-1.17.659-1.591l6.499-6.499c.404-.404.527-1 .43-1.563A6 6 0 1121.75 8.25z" />
+                </svg>
+            </div>
+            <h3 class="modal-title">পাসওয়ার্ড রিসেট করুন</h3>
+            <p class="modal-desc">আপনার অ্যাকাউন্টে ব্যবহৃত ইমেইল ঠিকানাটি লিখুন। আমরা আপনার ইমেইলে পাসওয়ার্ড রিসেট লিংক পাঠাব।</p>
+            
+            <div class="form-group" style="margin-bottom: 0;">
+                <div class="input-box">
+                    <input type="email" id="resetEmailInput" class="form-input" placeholder="আপনার রেজিস্টার্ড ইমেইল">
+                    <span class="input-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
+                        </svg>
+                    </span>
+                </div>
+            </div>
+
+            <div class="modal-actions">
+                <button type="button" class="btn-modal-cancel" id="closeResetModalBtn">বাতিল করুন</button>
+                <button type="button" class="btn-modal-action" id="sendResetLinkBtn">
+                    <span id="resetBtnText">রিসেট লিংক পাঠান</span>
+                    <div class="spinner" id="resetSpinner" style="width: 18px; height: 18px; border-width: 2px;"></div>
+                </button>
+            </div>
+        </div>
     </div>
-  </div>
 
-  <!-- Firebase Modular SDK Scripts -->
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-    import { 
-      getAuth, 
-      signInWithEmailAndPassword, 
-      onAuthStateChanged 
-    } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-    import { 
-      getFirestore, 
-      doc, 
-      getDoc 
-    } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+    <!-- General Alert Modal (Error / Success Notification) -->
+    <div class="modal-overlay" id="alertModal">
+        <div class="modal-box">
+            <div class="modal-icon-wrapper" id="alertIconWrapper">
+                <svg id="alertIconSvg" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2">
+                    <!-- Icon path dynamically injected -->
+                </svg>
+            </div>
+            <h3 class="modal-title" id="alertTitle">বিজ্ঞপ্তি</h3>
+            <p class="modal-desc" id="alertMessage">বার্তা তথ্য...</p>
 
-    // Firebase Configuration
-    const firebaseConfig = {
-      apiKey: "AIzaSyBUhNhYvuo_FTvZ5RZR6Gn-4hsUY21S0XE",
-      authDomain: "ghotimarket.firebaseapp.com",
-      databaseURL: "https://ghotimarket-default-rtdb.firebaseio.com",
-      projectId: "ghotimarket",
-      storageBucket: "ghotimarket.firebasestorage.app",
-      messagingSenderId: "481257644093",
-      appId: "1:481257644093:web:0dfc3699d6b3c86afeca54",
-      measurementId: "G-4SR8V2EKC1"
-    };
+            <div class="modal-actions">
+                <button type="button" class="btn-modal-action" id="alertCloseBtn" style="width: 100%;">ঠিক আছে</button>
+            </div>
+        </div>
+    </div>
 
-    // Initialize Firebase
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-    const db = getFirestore(app);
+    <!-- Firebase SDK Modular 10.8.0 Scripts -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { 
+            getAuth, 
+            signInWithEmailAndPassword, 
+            sendPasswordResetEmail 
+        } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        import { 
+            getFirestore, 
+            doc, 
+            getDoc 
+        } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-    // Elements
-    const loginForm = document.getElementById('loginForm');
-    const emailInput = document.getElementById('emailInput');
-    const passwordInput = document.getElementById('passwordInput');
-    const submitBtn = document.getElementById('submitBtn');
-    const btnText = document.getElementById('btnText');
-    const btnSpinner = document.getElementById('btnSpinner');
-    const errorAlert = document.getElementById('errorAlert');
-    const togglePasswordBtn = document.getElementById('togglePasswordBtn');
-    const eyeOpenIcon = document.getElementById('eyeOpenIcon');
-    const eyeClosedIcon = document.getElementById('eyeClosedIcon');
-    const verificationOverlay = document.getElementById('verificationOverlay');
+        // Professional Debug Logging System
+        function debugLog(message, data = null) {
+            console.log("[RESELLER LOGIN DEBUG]", message, data || "");
+        }
 
-    // Helper: Show Verification Overlay
-    function showVerification() {
-      verificationOverlay.style.display = 'flex';
-    }
-
-    // Helper: Hide Verification Overlay
-    function hideVerification() {
-      verificationOverlay.style.display = 'none';
-    }
-
-    // Helper: Show Error Message
-    function showError(message) {
-      errorAlert.textContent = message;
-      errorAlert.style.display = 'block';
-    }
-
-    // Helper: Hide Error Message
-    function hideError() {
-      errorAlert.textContent = '';
-      errorAlert.style.display = 'none';
-    }
-
-    // Helper: Set Button Loading State
-    function setLoading(isLoading) {
-      submitBtn.disabled = isLoading;
-      if (isLoading) {
-        btnText.textContent = 'লগইন হচ্ছে...';
-        btnSpinner.style.display = 'block';
-      } else {
-        btnText.textContent = 'লগইন করুন';
-        btnSpinner.style.display = 'none';
-      }
-    }
-
-    // Email format validator helper
-    function isValidEmail(email) {
-      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-    }
-
-    // Password Toggle Visibility
-    togglePasswordBtn.addEventListener('click', () => {
-      const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
-      passwordInput.setAttribute('type', type);
-      if (type === 'text') {
-        eyeOpenIcon.style.display = 'none';
-        eyeClosedIcon.style.display = 'block';
-        togglePasswordBtn.setAttribute('aria-label', 'পাসওয়ার্ড লুকান');
-      } else {
-        eyeOpenIcon.style.display = 'block';
-        eyeClosedIcon.style.display = 'none';
-        togglePasswordBtn.setAttribute('aria-label', 'পাসওয়ার্ড দেখান');
-      }
-    });
-
-    // Check Auth State: Automatically shows verification on page load, hides if not logged in
-    onAuthStateChanged(auth, async (user) => {
-      if (user) {
-        showVerification();
-        try {
-          const userDocRef = doc(db, "reseller", user.uid);
-          const userDocSnap = await getDoc(userDocRef);
-          if (userDocSnap.exists()) {
-            const data = userDocSnap.data();
-            if (data.active !== false) {
-              window.location.href = "dashboard.html";
-              return;
-            } else {
-              hideVerification();
-              showError("আপনার অ্যাকাউন্ট বর্তমানে নিষ্ক্রিয় রয়েছে। অনুগ্রহ করে সাপোর্টে যোগাযোগ করুন।");
+        function debugError(message, error) {
+            console.error("[RESELLER LOGIN ERROR]", message);
+            if (error) {
+                console.error("ERROR CODE:", error.code || "N/A");
+                console.error("ERROR MESSAGE:", error.message || error);
+                console.error("FULL ERROR OBJECT:", error);
             }
-          } else {
-            hideVerification();
-            showError("আপনার reseller অ্যাকাউন্টের তথ্য পাওয়া যায়নি।");
-          }
-        } catch (e) {
-          hideVerification();
-        }
-      } else {
-        // Not logged in -> Hide verification overlay and show login interface smoothly
-        hideVerification();
-      }
-    });
-
-    // Handle Form Submission
-    loginForm.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      hideError();
-
-      const email = emailInput.value.trim();
-      const password = passwordInput.value;
-
-      // Validation
-      if (!email) {
-        showError("ইমেইল লিখুন");
-        emailInput.focus();
-        return;
-      }
-      if (!isValidEmail(email)) {
-        showError("সঠিক ইমেইল লিখুন");
-        emailInput.focus();
-        return;
-      }
-      if (!password) {
-        showError("পাসওয়ার্ড লিখুন");
-        passwordInput.focus();
-        return;
-      }
-
-      setLoading(true);
-
-      try {
-        // Firebase Authentication Sign In
-        const userCredential = await signInWithEmailAndPassword(auth, email, password);
-        const user = userCredential.user;
-
-        // Show verification screen during database status query
-        setLoading(false);
-        showVerification();
-
-        // Check Firestore Reseller Document Status
-        const userDocRef = doc(db, "reseller", user.uid);
-        const userDocSnap = await getDoc(userDocRef);
-
-        if (!userDocSnap.exists()) {
-          throw new Error("ACCOUNT_NOT_FOUND");
         }
 
-        const resellerData = userDocSnap.data();
+        // Firebase Configuration (EXACT VALUES MAINTAINED)
+        const firebaseConfig = {
+  apiKey: "AIzaSyDCIRWmozT0XcEXuXtQ6RDiDo6vtT1T9mU",
+  authDomain: "paikarisell-ghotimarket.firebaseapp.com",
+  projectId: "paikarisell-ghotimarket",
+  storageBucket: "paikarisell-ghotimarket.firebasestorage.app",
+  messagingSenderId: "464086432830",
+  appId: "1:464086432830:web:a10fdd9884954e380e656f",
+  measurementId: "G-E3HR2F9TC5"
+};
 
-        if (resellerData.active === false) {
-          throw new Error("ACCOUNT_INACTIVE");
+        // Initialize Firebase
+        let app, auth, db;
+        try {
+            app = initializeApp(firebaseConfig);
+            auth = getAuth(app);
+            db = getFirestore(app);
+            debugLog("Firebase Initialized Successfully");
+        } catch (initErr) {
+            debugError("Firebase Initialization Failed", initErr);
         }
 
-        // Successful verification -> Redirect to dashboard
-        window.location.href = "dashboard.html";
+        // Error Mapping Structure (Bengali Mapping)
+        const errorMessages = {
+            "auth/invalid-email": "আপনার দেওয়া ইমেইল ঠিকানাটি সঠিক নয়।",
+            "auth/user-not-found": "এই ইমেইল দিয়ে কোনো অ্যাকাউন্ট পাওয়া যায়নি।",
+            "auth/wrong-password": "আপনার দেওয়া পাসওয়ার্ড সঠিক নয়।",
+            "auth/invalid-credential": "আপনার ইমেইল অথবা পাসওয়ার্ড সঠিক নয়।",
+            "auth/user-disabled": "আপনার অ্যাকাউন্টটি বর্তমানে নিষ্ক্রিয় রয়েছে।",
+            "auth/too-many-requests": "অনেকবার চেষ্টা করা হয়েছে। কিছুক্ষণ পর আবার চেষ্টা করুন।",
+            "auth/network-request-failed": "ইন্টারনেট সংযোগে সমস্যা হয়েছে। আপনার ইন্টারনেট চেক করুন।",
+            "auth/operation-not-allowed": "বর্তমানে এই লগইন পদ্ধতি চালু নেই।",
+            "auth/internal-error": "সার্ভারে সমস্যা হয়েছে। কিছুক্ষণ পর আবার চেষ্টা করুন।",
+            "auth/missing-password": "অনুগ্রহ করে আপনার পাসওয়ার্ড লিখুন।",
+            "auth/missing-email": "অনুগ্রহ করে আপনার ইমেইল লিখুন।",
+            "firestore/permission-denied": "ডেটাবেজে প্রবেশের অনুমতি পাওয়া যায়নি। সাপোর্টে যোগাযোগ করুন।",
+            "permission-denied": "ডেটাবেজে প্রবেশের অনুমতি পাওয়া যায়নি। সাপোর্টে যোগাযোগ করুন।",
+            "firestore/unavailable": "ডেটাবেজ সার্ভার বর্তমানে পাওয়া যাচ্ছে না। পরে আবার চেষ্টা করুন।",
+            "unavailable": "ডেটাবেজ সার্ভার বর্তমানে পাওয়া যাচ্ছে না। পরে আবার চেষ্টা করুন।",
+            "firestore/deadline-exceeded": "সার্ভার থেকে উত্তর পেতে বেশি সময় লাগছে। আবার চেষ্টা করুন।",
+            "deadline-exceeded": "সার্ভার থেকে উত্তর পেতে বেশি সময় লাগছে। আবার চেষ্টা করুন।"
+        };
 
-      } catch (err) {
-        setLoading(false);
-        hideVerification();
-
-        let errorMessage = "লগইন করা সম্ভব হয়নি। আবার চেষ্টা করুন।";
-
-        if (err.message === "ACCOUNT_INACTIVE") {
-          errorMessage = "আপনার অ্যাকাউন্ট বর্তমানে নিষ্ক্রিয় রয়েছে। অনুগ্রহ করে সাপোর্টে যোগাযোগ করুন।";
-        } else if (err.message === "ACCOUNT_NOT_FOUND") {
-          errorMessage = "আপনার reseller অ্যাকাউন্টের তথ্য পাওয়া যায়নি।";
-        } else {
-          switch (err.code) {
-            case 'auth/invalid-credential':
-            case 'auth/wrong-password':
-            case 'auth/user-not-found':
-              errorMessage = "ইমেইল অথবা পাসওয়ার্ড সঠিক নয়";
-              break;
-            case 'auth/too-many-requests':
-              errorMessage = "অনেকবার চেষ্টা করা হয়েছে। কিছুক্ষণ পরে আবার চেষ্টা করুন।";
-              break;
-            case 'auth/network-request-failed':
-              errorMessage = "ইন্টারনেট সংযোগ পরীক্ষা করে আবার চেষ্টা করুন।";
-              break;
-            default:
-              errorMessage = "লগইন করা সম্ভব হয়নি। আবার চেষ্টা করুন।";
-              break;
-          }
+        function getBengaliErrorMessage(code) {
+            return errorMessages[code] || "দুঃখিত! একটি অপ্রত্যাশিত সমস্যা হয়েছে। অনুগ্রহ করে আবার চেষ্টা করুন।";
         }
 
-        showError(errorMessage);
-      }
-    });
-  </script>
+        // UI DOM Elements
+        const loginForm = document.getElementById('loginForm');
+        const emailInput = document.getElementById('email');
+        const passwordInput = document.getElementById('password');
+        const loginBtn = document.getElementById('loginBtn');
+        const btnText = document.getElementById('btnText');
+        const loginSpinner = document.getElementById('loginSpinner');
+        const togglePasswordBtn = document.getElementById('togglePasswordBtn');
+        const eyeIcon = document.getElementById('eyeIcon');
+        const signupBtn = document.getElementById('signupBtn');
+
+        // Modal Elements
+        const resetModal = document.getElementById('resetModal');
+        const openForgotModalBtn = document.getElementById('openForgotModalBtn');
+        const closeResetModalBtn = document.getElementById('closeResetModalBtn');
+        const sendResetLinkBtn = document.getElementById('sendResetLinkBtn');
+        const resetEmailInput = document.getElementById('resetEmailInput');
+        const resetBtnText = document.getElementById('resetBtnText');
+        const resetSpinner = document.getElementById('resetSpinner');
+
+        const alertModal = document.getElementById('alertModal');
+        const alertTitle = document.getElementById('alertTitle');
+        const alertMessage = document.getElementById('alertMessage');
+        const alertCloseBtn = document.getElementById('alertCloseBtn');
+        const alertIconWrapper = document.getElementById('alertIconWrapper');
+        const alertIconSvg = document.getElementById('alertIconSvg');
+
+        // SVG Path definitions for Custom Alert Modal
+        const SVG_ICONS = {
+            error: `<path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z" />`,
+            success: `<path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />`,
+            info: `<path stroke-linecap="round" stroke-linejoin="round" d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />`
+        };
+
+        // Display Custom Modal Popup
+        function showAlertModal(title, message, type = 'error') {
+            alertTitle.textContent = title;
+            alertMessage.textContent = message;
+            alertIconWrapper.className = `modal-icon-wrapper ${type}`;
+            alertIconSvg.innerHTML = SVG_ICONS[type] || SVG_ICONS.error;
+            alertModal.classList.add('active');
+        }
+
+        alertCloseBtn.addEventListener('click', () => {
+            alertModal.classList.remove('active');
+        });
+
+        // Toggle Password Visibility
+        togglePasswordBtn.addEventListener('click', () => {
+            const isPassword = passwordInput.getAttribute('type') === 'password';
+            passwordInput.setAttribute('type', isPassword ? 'text' : 'password');
+            
+            if (isPassword) {
+                eyeIcon.innerHTML = `<path stroke-linecap="round" stroke-linejoin="round" d="M3.98 8.223A10.477 10.477 0 001.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.45 10.45 0 0112 4.5c4.756 0 8.773 3.162 10.065 7.498a10.523 10.523 0 01-4.293 5.774M6.228 6.228L3 3m3.228 3.228l3.65 3.65m7.894 7.894L21 21m-3.228-3.228l-3.65-3.65m0 0a3 3 0 10-4.243-4.243m4.242 4.242L9.88 9.88" />`;
+            } else {
+                eyeIcon.innerHTML = `<path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12c1.76-3.97 5.687-6.75 10.274-6.75 4.587 0 8.514 2.78 10.274 6.75-1.76 3.97-5.687 6.75-10.274 6.75-4.587 0-8.514-2.78-10.274-6.75z" /><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />`;
+            }
+        });
+
+        // Redirect to Signup
+        signupBtn.addEventListener('click', () => {
+            debugLog("Redirecting to Signup");
+            window.location.href = "/signup";
+        });
+
+        // Helper to Toggle Button Loading States
+        function setLoadingState(isLoading) {
+            if (isLoading) {
+                loginBtn.disabled = true;
+                btnText.textContent = "যাচাই করা হচ্ছে...";
+                loginSpinner.style.display = "block";
+            } else {
+                loginBtn.disabled = false;
+                btnText.textContent = "লগইন করুন";
+                loginSpinner.style.display = "none";
+            }
+        }
+
+        // Form Submit & Authentication Flow
+        loginForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            debugLog("Login Button Clicked");
+
+            const email = emailInput.value.trim();
+            const password = passwordInput.value.trim();
+
+            debugLog("Email Validation Started");
+
+            if (!email) {
+                showAlertModal("ভুল ইনপুট", getBengaliErrorMessage("auth/missing-email"), "error");
+                return;
+            }
+
+            if (!password) {
+                showAlertModal("ভুল ইনপুট", getBengaliErrorMessage("auth/missing-password"), "error");
+                return;
+            }
+
+            setLoadingState(true);
+
+            try {
+                debugLog("Authentication Started");
+                const userCredential = await signInWithEmailAndPassword(auth, email, password);
+                const user = userCredential.user;
+
+                debugLog("Authentication Successful");
+                debugLog("UID Received", user.uid);
+
+                debugLog("Firestore Document Checking");
+                const resellerDocRef = doc(db, "reseller", user.uid);
+                
+                let docSnap;
+                try {
+                    docSnap = await getDoc(resellerDocRef);
+                } catch (fsErr) {
+                    debugError("Firestore Error", fsErr);
+                    setLoadingState(false);
+                    const fsErrCode = fsErr.code ? fsErr.code.replace('firestore/', '') : 'permission-denied';
+                    showAlertModal("ডেটাবেজ সমস্যা", getBengaliErrorMessage(fsErrCode), "error");
+                    return;
+                }
+
+                if (docSnap.exists()) {
+                    debugLog("Firestore Document Found");
+                    debugLog("Redirecting to Dashboard");
+                    window.location.href = "/dashboard";
+                } else {
+                    debugLog("Firestore Document Not Found");
+                    debugLog("Redirecting to Signup1");
+                    window.location.href = "/signup1";
+                }
+
+            } catch (authErr) {
+                debugError("Authentication Error", authErr);
+                setLoadingState(false);
+                const banglaMsg = getBengaliErrorMessage(authErr.code);
+                showAlertModal("লগইন ব্যর্থ হয়েছে", banglaMsg, "error");
+            }
+        });
+
+        // Password Reset Modal Handlers
+        openForgotModalBtn.addEventListener('click', () => {
+            resetEmailInput.value = emailInput.value.trim();
+            resetModal.classList.add('active');
+        });
+
+        closeResetModalBtn.addEventListener('click', () => {
+            resetModal.classList.remove('active');
+        });
+
+        sendResetLinkBtn.addEventListener('click', async () => {
+            const resetEmail = resetEmailInput.value.trim();
+
+            if (!resetEmail) {
+                showAlertModal("ভুল ইনপুট", getBengaliErrorMessage("auth/missing-email"), "error");
+                return;
+            }
+
+            debugLog("Password Reset Started");
+            sendResetLinkBtn.disabled = true;
+            resetBtnText.textContent = "পাঠানো হচ্ছে...";
+            resetSpinner.style.display = "block";
+
+            try {
+                await sendPasswordResetEmail(auth, resetEmail);
+                debugLog("Password Reset Successful");
+                
+                sendResetLinkBtn.disabled = false;
+                resetBtnText.textContent = "রিসেট লিংক পাঠান";
+                resetSpinner.style.display = "none";
+                resetModal.classList.remove('active');
+
+                showAlertModal(
+                    "পাসওয়ার্ড রিসেট ইমেইল", 
+                    "আপনার ইমেইলে পাসওয়ার্ড রিসেট লিংক পাঠানো হয়েছে। অনুগ্রহ করে আপনার ইমেইল ইনবক্স চেক করুন।", 
+                    "success"
+                );
+            } catch (resetErr) {
+                debugError("Password Reset Error", resetErr);
+                
+                sendResetLinkBtn.disabled = false;
+                resetBtnText.textContent = "রিসেট লিংক পাঠান";
+                resetSpinner.style.display = "none";
+
+                const banglaMsg = getBengaliErrorMessage(resetErr.code);
+                showAlertModal("রিসেট ব্যর্থ হয়েছে", banglaMsg, "error");
+            }
+        });
+
+        // Universal Escape Key Modal Close
+        window.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                resetModal.classList.remove('active');
+                alertModal.classList.remove('active');
+            }
+        });
+    </script>
 </body>
 </html>
