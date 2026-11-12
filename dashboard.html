@@ -1,0 +1,1359 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>রিসেলার ড্যাশবোর্ড | Reseller Ghoti Market</title>
+    <meta name="description" content="Reseller Ghoti Market-এর রিসেলার ড্যাশবোর্ড থেকে পণ্য, অর্ডার, ব্যালেন্স ও ব্যবসার কার্যক্রম পরিচালনা করুন।">
+    <meta name="robots" content="noindex, nofollow">
+    <link rel="icon" type="image/png" href="https://reseller.ghotimarket.com/photo/favicon.png">
+    
+    <!-- Google Fonts: Hind Siliguri -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Pure CSS3 Styling -->
+    <style>
+        :root {
+            --primary: #FF6B35;
+            --secondary: #FF6A00;
+            --accent: #FFA500;
+            --background: #FFF7F1;
+            --text: #171717;
+            --text-muted: #737373;
+            --white: #FFFFFF;
+            --card-bg: #FFFFFF;
+            --border-color: #FFE5D4;
+            --success: #10B981;
+            --warning: #F59E0B;
+            --danger: #EF4444;
+            --shadow: 0 4px 20px -2px rgba(255, 107, 53, 0.08);
+            --shadow-lg: 0 10px 30px -4px rgba(255, 107, 53, 0.12);
+            --radius: 16px;
+            --radius-sm: 10px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Hind Siliguri', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: var(--background);
+            color: var(--text);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            padding-bottom: 90px; /* Space for bottom navigation on mobile */
+        }
+
+        @media (min-width: 768px) {
+            body {
+                padding-bottom: 30px;
+            }
+        }
+
+        /* Utility classes */
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 16px;
+        }
+
+        /* Loading Skeleton & Overlay */
+        #loader-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--background);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.3s ease;
+        }
+
+        .spinner {
+            width: 48px;
+            height: 48px;
+            border: 4px solid var(--border-color);
+            border-top: 4px solid var(--primary);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .loader-text {
+            margin-top: 16px;
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        /* Custom Toast Notification System */
+        #toast-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 10000;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            max-width: 350px;
+            width: 100%;
+            pointer-events: none;
+        }
+
+        .toast {
+            background: var(--white);
+            color: var(--text);
+            padding: 14px 18px;
+            border-radius: var(--radius-sm);
+            box-shadow: var(--shadow-lg);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            pointer-events: auto;
+            transform: translateY(-20px);
+            opacity: 0;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            border-left: 4px solid var(--primary);
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .toast.success { border-left-color: var(--success); }
+        .toast.error { border-left-color: var(--danger); }
+        .toast.warning { border-left-color: var(--warning); }
+
+        /* Professional Header */
+        header {
+            background: var(--white);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            padding: 12px 0;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .brand-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+
+        .brand-logo img {
+            height: 38px;
+            width: auto;
+            object-fit: contain;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .welcome-text {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text);
+            background: var(--background);
+            padding: 6px 12px;
+            border-radius: 20px;
+            border: 1px solid var(--border-color);
+        }
+
+        .icon-btn {
+            background: var(--background);
+            border: 1px solid var(--border-color);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            position: relative;
+        }
+
+        .icon-btn:hover {
+            background: var(--primary);
+            color: var(--white);
+            border-color: var(--primary);
+        }
+
+        .icon-btn svg {
+            width: 20px;
+            height: 20px;
+            stroke: currentColor;
+            fill: none;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        /* Main Content Layout */
+        main {
+            flex: 1;
+            padding: 20px 0;
+        }
+
+        .dashboard-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        @media (min-width: 768px) {
+            .dashboard-grid {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 24px;
+            }
+            .full-width {
+                grid-column: span 2;
+            }
+        }
+
+        /* Banner Slider Section */
+        .banner-section {
+            width: 100%;
+            border-radius: var(--radius);
+            overflow: hidden;
+            background: var(--white);
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+            position: relative;
+        }
+
+        .banner-container {
+            width: 100%;
+            aspect-ratio: 981 / 636;
+            max-height: 380px;
+            position: relative;
+            overflow: hidden;
+            background: #1a1a1a;
+        }
+
+        .banner-track {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        .banner-slide {
+            min-width: 100%;
+            width: 100%;
+            height: 100%;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            background-color: #0f0f0f;
+        }
+
+        .banner-slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            pointer-events: none;
+        }
+
+        .banner-skeleton {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+            background-size: 200% 100%;
+            animation: shimmer 1.5s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+
+        /* Reseller Balance Card */
+        .balance-card {
+            background: linear-gradient(135deg, #FF6B35 0%, #FF6A00 50%, #FFA500 100%);
+            border-radius: var(--radius);
+            padding: 24px;
+            color: var(--white);
+            box-shadow: var(--shadow-lg);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .balance-card::before {
+            content: '';
+            position: absolute;
+            top: -50px;
+            right: -50px;
+            width: 150px;
+            height: 150px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        .balance-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .balance-title {
+            font-size: 15px;
+            font-weight: 500;
+            opacity: 0.9;
+        }
+
+        .eye-toggle-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .eye-toggle-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .eye-toggle-btn svg {
+            width: 18px;
+            height: 18px;
+            stroke: currentColor;
+            fill: none;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .balance-amount {
+            font-size: 32px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .balance-actions {
+            display: flex;
+            gap: 12px;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 12px 16px;
+            border-radius: var(--radius-sm);
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            border: none;
+            transition: all 0.2s ease;
+            text-decoration: none;
+        }
+
+        .btn-light {
+            background: var(--white);
+            color: var(--primary);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        .btn-light:hover {
+            background: #fff5f0;
+            transform: translateY(-2px);
+        }
+
+        .btn-outline-light {
+            background: rgba(255, 255, 255, 0.15);
+            color: var(--white);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+        }
+
+        .btn-outline-light:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: translateY(-2px);
+        }
+
+        .badge-withdraw {
+            background: rgba(16, 185, 129, 0.2);
+            color: #ffffff;
+            border: 1px solid rgba(16, 185, 129, 0.4);
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        /* Section Headings */
+        .section-heading {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        /* Menu Grid Section */
+        .menu-section {
+            background: var(--white);
+            border-radius: var(--radius);
+            padding: 20px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+
+        @media (min-width: 576px) {
+            .menu-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media (min-width: 992px) {
+            .menu-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+
+        .menu-card {
+            background: var(--white);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            padding: 18px 12px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            text-decoration: none;
+            color: var(--text);
+            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .menu-card::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            opacity: 0;
+            transition: opacity 0.25s ease;
+        }
+
+        .menu-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow);
+            border-color: var(--primary);
+        }
+
+        .menu-card:hover::after {
+            opacity: 1;
+        }
+
+        .menu-icon {
+            width: 48px;
+            height: 48px;
+            background: var(--background);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+            margin-bottom: 12px;
+            transition: all 0.25s ease;
+        }
+
+        .menu-card:hover .menu-icon {
+            background: var(--primary);
+            color: var(--white);
+            transform: scale(1.05);
+        }
+
+        .menu-icon svg {
+            width: 24px;
+            height: 24px;
+            stroke: currentColor;
+            fill: none;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .menu-title {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text);
+            line-height: 1.4;
+        }
+
+        /* Account Status Section */
+        .status-section {
+            background: var(--white);
+            border-radius: var(--radius);
+            padding: 20px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+        }
+
+        .status-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .status-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 16px;
+            background: var(--background);
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--border-color);
+        }
+
+        .status-label {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .status-label svg {
+            width: 20px;
+            height: 20px;
+            stroke: var(--primary);
+            fill: none;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .badge {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .badge.success {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--success);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+        }
+
+        .badge.warning {
+            background: rgba(245, 158, 11, 0.1);
+            color: var(--warning);
+            border: 1px solid rgba(245, 158, 11, 0.2);
+        }
+
+        .badge.danger {
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--danger);
+            border: 1px solid rgba(239, 68, 68, 0.2);
+        }
+
+        /* Professional Footer */
+        footer {
+            background: var(--white);
+            border-top: 1px solid var(--border-color);
+            padding: 24px 0;
+            margin-top: auto;
+            text-align: center;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            margin-bottom: 16px;
+        }
+
+        .footer-link {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: color 0.2s;
+        }
+
+        .footer-link:hover {
+            color: var(--primary);
+        }
+
+        .footer-link svg {
+            width: 18px;
+            height: 18px;
+            stroke: currentColor;
+            fill: none;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .copyright {
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+
+        /* Mobile App Style Bottom Navigation */
+        .bottom-navigation {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: var(--white);
+            box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.08);
+            display: none;
+            justify-content: space-around;
+            align-items: center;
+            padding: 8px 0;
+            z-index: 1000;
+            border-top: 1px solid var(--border-color);
+            padding-bottom: max(8px, env(safe-area-inset-bottom));
+        }
+
+        @media (max-width: 767px) {
+            .bottom-navigation {
+                display: flex;
+            }
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+            color: var(--text-muted);
+            font-size: 11px;
+            font-weight: 600;
+            transition: color 0.2s;
+            position: relative;
+            flex: 1;
+            padding: 4px 0;
+        }
+
+        .nav-item svg {
+            width: 22px;
+            height: 22px;
+            stroke: currentColor;
+            fill: none;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            margin-bottom: 4px;
+            transition: transform 0.2s;
+        }
+
+        .nav-item.active {
+            color: var(--primary);
+        }
+
+        .nav-item.active svg {
+            transform: translateY(-2px);
+        }
+
+        .nav-item.active::after {
+            content: '';
+            position: absolute;
+            top: -8px;
+            width: 24px;
+            height: 3px;
+            background: var(--primary);
+            border-radius: 2px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Loading Overlay -->
+    <div id="loader-overlay">
+        <div class="spinner"></div>
+        <div class="loader-text" id="loader-status-text">ড্যাশবোর্ড লোড হচ্ছে...</div>
+    </div>
+
+    <!-- Toast Container -->
+    <div id="toast-container"></div>
+
+    <!-- Professional Header -->
+    <header>
+        <div class="container header-content">
+            <a href="/dashboard" class="brand-logo">
+                <img src="https://reseller.ghotimarket.com/photo/logo.png" alt="Reseller Ghoti Market Logo">
+            </a>
+            <div class="header-right">
+                <div class="welcome-text" id="header-welcome">স্বাগতম, রিসেলার</div>
+                <button class="icon-btn" id="notification-btn" title="নোটিফিকেশন">
+                    <svg viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Body Content -->
+    <main>
+        <div class="container">
+            <div class="dashboard-grid">
+                
+                <!-- Banner Slider Section -->
+                <div class="banner-section full-width">
+                    <div class="banner-container" id="banner-container">
+                        <div class="banner-skeleton" id="banner-skeleton"></div>
+                        <div class="banner-track" id="banner-track" style="display: none;">
+                            <!-- Dynamic Banners injected via JS -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Reseller Balance Card -->
+                <div class="balance-card full-width">
+                    <div class="balance-header">
+                        <span class="balance-title">এভেইলেবল ব্যালেন্স</span>
+                        <div style="display: flex; align-items: center; gap: 8px;">
+                            <div id="withdraw-badge-container"></div>
+                            <button class="eye-toggle-btn" id="balance-toggle-btn" title="ব্যালেন্স লুকান/দেখুন">
+                                <svg id="eye-icon" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="balance-amount" id="balance-display">৳ 0.00</div>
+                    <div class="balance-actions">
+                        <a href="/add-balance" class="btn btn-light">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                            ব্যালেন্স যুক্ত করুন
+                        </a>
+                        <div id="withdraw-btn-wrapper" style="flex: 1; display: none;">
+                            <a href="/withdraw" class="btn btn-outline-light">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
+                                টাকা উত্তোলন
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Premium Menu Cards Section -->
+                <div class="menu-section full-width">
+                    <div class="section-heading">আপনার প্রয়োজনীয় সেবাসমূহ</div>
+                    <div class="menu-grid">
+                        
+                        <a href="/all-product" class="menu-card">
+                            <div class="menu-icon">
+                                <svg viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
+                            </div>
+                            <span class="menu-title">সকল পণ্য দেখুন</span>
+                        </a>
+
+                        <a href="/categories" class="menu-card">
+                            <div class="menu-icon">
+                                <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+                            </div>
+                            <span class="menu-title">ক্যাটাগরি দেখুন</span>
+                        </a>
+
+                        <a href="/favorite" class="menu-card">
+                            <div class="menu-icon">
+                                <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+                            </div>
+                            <span class="menu-title">ফেভারিট পণ্য দেখুন</span>
+                        </a>
+
+                        <a href="/phone" class="menu-card">
+                            <div class="menu-icon">
+                                <svg viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect><line x1="12" y1="18" x2="12.01" y2="18"></line></svg>
+                            </div>
+                            <span class="menu-title">ফোন নাম্বার চেকিং</span>
+                        </a>
+
+                        <a href="/transactions" class="menu-card">
+                            <div class="menu-icon">
+                                <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                            </div>
+                            <span class="menu-title">লেনদেন হিস্ট্রি দেখুন</span>
+                        </a>
+
+                        <a href="/orders" class="menu-card">
+                            <div class="menu-icon">
+                                <svg viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
+                            </div>
+                            <span class="menu-title">অর্ডার গুলো দেখুন</span>
+                        </a>
+
+                        <a href="/profit" class="menu-card">
+                            <div class="menu-icon">
+                                <svg viewBox="0 0 24 24"><rect x="4" y="2" width="16" height="20" rx="2" ry="2"></rect><line x1="8" y1="6" x2="16" y2="6"></line><line x1="16" y1="14" x2="16" y2="18"></line><path d="M8 14h.01"></path><path d="M12 14h.01"></path><path d="M12 18h.01"></path><path d="M8 18h.01"></path></svg>
+                            </div>
+                            <span class="menu-title">প্রফিট হিসাব করুন</span>
+                        </a>
+
+                        <a href="/notice" class="menu-card">
+                            <div class="menu-icon">
+                                <svg viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+                            </div>
+                            <span class="menu-title">নোটিশ দেখুন</span>
+                        </a>
+
+                        <a href="/idea" class="menu-card">
+                            <div class="menu-icon">
+                                <svg viewBox="0 0 24 24"><path d="M9 18h6"></path><path d="M10 22h4"></path><path d="M15.09 14.39c.69-.69 1.11-1.63 1.11-2.69a5 5 0 0 0-10 0c0 1.06.42 2 1.11 2.69l.89.89V17h6v-1.72l.89-.89z"></path></svg>
+                            </div>
+                            <span class="menu-title">আইডিয়া</span>
+                        </a>
+
+                        <a href="/product-request" class="menu-card">
+                            <div class="menu-icon">
+                                <svg viewBox="0 0 24 24"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path><rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect><line x1="9" y1="12" x2="15" y2="12"></line><line x1="9" y1="16" x2="13" y2="16"></line></svg>
+                            </div>
+                            <span class="menu-title">প্রোডাক্ট রিকোয়েস্ট</span>
+                        </a>
+
+                        <a href="/tamplate" class="menu-card">
+                            <div class="menu-icon">
+                                <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+                            </div>
+                            <span class="menu-title">ম্যাসেজ টেমপ্লেট</span>
+                        </a>
+
+                        <a href="/support" class="menu-card">
+                            <div class="menu-icon">
+                                <svg viewBox="0 0 24 24"><path d="M3 18v-6a9 9 0 0 1 18 0v6"></path><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"></path></svg>
+                            </div>
+                            <span class="menu-title">হেল্প নিন</span>
+                        </a>
+
+                    </div>
+                </div>
+
+                <!-- Account Status Section -->
+                <div class="status-section full-width">
+                    <div class="section-heading">আপনার অ্যাকাউন্টের অবস্থা</div>
+                    <div class="status-list" id="account-status-container">
+                        <!-- Dynamically populated via JS -->
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <!-- Professional Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-links">
+                <a href="/privacy-policy" class="footer-link">
+                    <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                    প্রাইভেসি পলিসি
+                </a>
+                <a href="/terms" class="footer-link">
+                    <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                    টার্মস/শর্তাবলী
+                </a>
+            </div>
+            <div class="copyright">© Reseller Ghoti Market. সর্বস্বত্ব সংরক্ষিত।</div>
+        </div>
+    </footer>
+
+    <!-- Mobile App Style Bottom Navigation -->
+    <nav class="bottom-navigation">
+        <a href="/dashboard" class="nav-item active">
+            <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="9"></rect><rect x="14" y="3" width="7" height="5"></rect><rect x="14" y="12" width="7" height="9"></rect><rect x="3" y="16" width="7" height="5"></rect></svg>
+            ড্যাশবোর্ড
+        </a>
+        <a href="/all-product" class="nav-item">
+            <svg viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line></svg>
+            সকল পণ্য
+        </a>
+        <a href="/categories" class="nav-item">
+            <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+            ক্যাটাগরি
+        </a>
+        <a href="/orders" class="nav-item">
+            <svg viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path></svg>
+            অর্ডার
+        </a>
+    </nav>
+
+    <!-- Firebase SDK 10.8.0 Modular Imports & Logic -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        import { getFirestore, doc, getDoc, onSnapshot, collection, query, orderBy, getDocs } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+        // Debug Logging System
+        function debugLog(message, data = null) {
+            console.log("[RESELLER DASHBOARD DEBUG]", message, data || "");
+        }
+
+        // Custom Toast Notification System
+        function showToast(message, type = "success") {
+            const container = document.getElementById("toast-container");
+            const toast = document.createElement("div");
+            toast.className = `toast ${type}`;
+            
+            let iconSvg = '';
+            if (type === 'success') {
+                iconSvg = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>';
+            } else if (type === 'error') {
+                iconSvg = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line></svg>';
+            } else {
+                iconSvg = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>';
+            }
+
+            toast.innerHTML = `${iconSvg} <span>${message}</span>`;
+            container.appendChild(toast);
+
+            setTimeout(() => toast.classList.add("show"), 50);
+            setTimeout(() => {
+                toast.classList.remove("show");
+                setTimeout(() => toast.remove(), 300);
+            }, 4000);
+        }
+
+        // Hide Loader
+        function hideLoader() {
+            const loader = document.getElementById("loader-overlay");
+            if (loader) {
+                loader.style.opacity = '0';
+                setTimeout(() => loader.remove(), 300);
+            }
+        }
+
+        // Firebase Configuration
+        const firebaseConfig = {
+  apiKey: "AIzaSyDCIRWmozT0XcEXuXtQ6RDiDo6vtT1T9mU",
+  authDomain: "paikarisell-ghotimarket.firebaseapp.com",
+  projectId: "paikarisell-ghotimarket",
+  storageBucket: "paikarisell-ghotimarket.firebasestorage.app",
+  messagingSenderId: "464086432830",
+  appId: "1:464086432830:web:a10fdd9884954e380e656f",
+  measurementId: "G-E3HR2F9TC5"
+};
+
+        let app, auth, db;
+        let unsubscribeReseller = null;
+        let isBalanceHidden = false;
+        let currentBalanceValue = 0;
+
+        try {
+            app = initializeApp(firebaseConfig);
+            auth = getAuth(app);
+            db = getFirestore(app);
+            debugLog("Firebase Initialized");
+        } catch (error) {
+            debugLog("Firebase Initialization Error", error);
+            showToast("ফায়ারবেস ইনিশিয়ালাইজেশনে সমস্যা হয়েছে।", "error");
+            hideLoader();
+        }
+
+        // Authentication and Dashboard Initialization Flow
+        debugLog("Authentication Check Started");
+        document.getElementById("loader-status-text").innerText = "অথেন্টিকেশন যাচাই করা হচ্ছে...";
+
+        onAuthStateChanged(auth, async (user) => {
+            if (!user) {
+                debugLog("User not authenticated. Redirecting to /login");
+                window.location.href = "/login";
+                return;
+            }
+
+            debugLog("User Authenticated", { uid: user.uid });
+            document.getElementById("loader-status-text").innerText = "রিসেলার ডাটা লোড হচ্ছে...";
+
+            try {
+                debugLog("Reseller Document Checking");
+                const resellerDocRef = doc(db, "reseller", user.uid);
+                const resellerSnap = await getDoc(resellerDocRef);
+
+                if (!resellerSnap.exists()) {
+                    debugLog("Reseller Document Not Found. Redirecting to /signed1");
+                    window.location.href = "/signed1";
+                    return;
+                }
+
+                debugLog("Reseller Document Found");
+                const resellerData = resellerSnap.data();
+                
+                // Set Welcome Name
+                const resellerName = resellerData.name || resellerData.fullName || "রিসেলার";
+                document.getElementById("header-welcome").innerText = `স্বাগতম, ${resellerName}`;
+
+                // Initialize Dashboard Components
+                initBalanceCard(resellerData);
+                initAccountStatus(resellerData);
+                initRealtimeSync(user.uid);
+                
+                // Fetch Banners
+                await fetchAndInitBanners();
+
+                debugLog("Dashboard Initialized");
+                hideLoader();
+
+            } catch (error) {
+                debugLog("Firestore Error", error);
+                hideLoader();
+                if (error.code === 'permission-denied') {
+                    showToast("আপনার ফায়ারবেস পারমিশন ডিনাইড হয়েছে। সঠিক একাউন্ট দিয়ে লগইন করুন।", "error");
+                } else if (error.code === 'unavailable') {
+                    showToast("ইন্টারনেট সংযোগ বিচ্ছিন্ন অথবা সার্ভার ব্যস্ত রয়েছে।", "warning");
+                } else {
+                    showToast("ডাটা লোড করার সময় একটি ত্রুটি ঘটেছে।", "error");
+                }
+            }
+        });
+
+        // Balance Card & Toggle Logic
+        function initBalanceCard(data) {
+            currentBalanceValue = typeof data.balance === 'number' ? data.balance : (parseFloat(data.balance) || 0);
+            updateBalanceDisplay();
+
+            const toggleBtn = document.getElementById("balance-toggle-btn");
+            toggleBtn.addEventListener("click", () => {
+                isBalanceHidden = !isBalanceHidden;
+                updateBalanceDisplay();
+                const eyeIcon = document.getElementById("eye-icon");
+                if (isBalanceHidden) {
+                    eyeIcon.innerHTML = '<path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line>';
+                    debugLog("Balance Hidden");
+                } else {
+                    eyeIcon.innerHTML = '<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle>';
+                    debugLog("Balance Visible");
+                }
+            });
+        }
+
+        function updateBalanceDisplay() {
+            const balanceEl = document.getElementById("balance-display");
+            const withdrawBtnWrapper = document.getElementById("withdraw-btn-wrapper");
+            const withdrawBadgeContainer = document.getElementById("withdraw-badge-container");
+
+            if (isBalanceHidden) {
+                balanceEl.innerText = "৳ ••••••";
+            } else {
+                balanceEl.innerText = `৳ ${currentBalanceValue.toLocaleString('en-BD', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+            }
+
+            // Withdraw Button Condition (>= 300 BDT)
+            if (currentBalanceValue >= 300) {
+                withdrawBtnWrapper.style.display = "block";
+                withdrawBadgeContainer.innerHTML = '<span class="badge-withdraw">Withdraw Available</span>';
+                debugLog("Withdraw Button Visibility", "Visible (>= 300)");
+            } else {
+                withdrawBtnWrapper.style.display = "none";
+                withdrawBadgeContainer.innerHTML = '';
+                debugLog("Withdraw Button Visibility", "Hidden (< 300)");
+            }
+        }
+
+        // Account Status System
+        function initAccountStatus(data) {
+            const container = document.getElementById("account-status-container");
+            container.innerHTML = "";
+
+            const isRejected = data.reject === true;
+            const isVerified = data.verified === true;
+            const isActive = data.active === true;
+
+            if (isRejected) {
+                container.innerHTML = `
+                    <div class="status-item">
+                        <div class="status-label">
+                            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line></svg>
+                            একাউন্ট স্ট্যাটাস
+                        </div>
+                        <span class="badge danger">একাউন্ট রিজেক্ট করা হয়েছে</span>
+                    </div>
+                `;
+                debugLog("Account Status Loaded", "Rejected");
+                return;
+            }
+
+            // Verified Status
+            const verifiedBadge = isVerified 
+                ? '<span class="badge success"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg> একাউন্ট ভেরিফাইড</span>'
+                : '<span class="badge warning">একাউন্ট ভেরিফাইড হয়নি</span>';
+
+            container.innerHTML += `
+                <div class="status-item">
+                    <div class="status-label">
+                        <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                        ভেরিফিকেশন স্ট্যাটাস
+                    </div>
+                    ${verifiedBadge}
+                </div>
+            `;
+
+            // Active Status
+            const activeBadge = isActive
+                ? '<span class="badge success"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg> একাউন্ট এক্টিভ</span>'
+                : '<span class="badge warning">এক্টিভ করা হয়েছে</span>';
+
+            container.innerHTML += `
+                <div class="status-item">
+                    <div class="status-label">
+                        <svg viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                        একটিভেশন স্ট্যাটাস
+                    </div>
+                    ${activeBadge}
+                </div>
+            `;
+
+            debugLog("Account Status Loaded", { verified: isVerified, active: isActive });
+        }
+
+        // Real-Time Data Sync (onSnapshot)
+        function initRealtimeSync(uid) {
+            const docRef = doc(db, "reseller", uid);
+            unsubscribeReseller = onSnapshot(docRef, (docSnap) => {
+                if (docSnap.exists()) {
+                    const freshData = docSnap.data();
+                    debugLog("Real-Time Update Received");
+                    
+                    // Update Balance
+                    const newBalance = typeof freshData.balance === 'number' ? freshData.balance : (parseFloat(freshData.balance) || 0);
+                    if (newBalance !== currentBalanceValue) {
+                        currentBalanceValue = newBalance;
+                        updateBalanceDisplay();
+                    }
+
+                    // Update Account Status
+                    initAccountStatus(freshData);
+                }
+            }, (error) => {
+                debugLog("Real-Time Snapshot Error", error);
+            });
+        }
+
+        // Banner Fetch and Seamless Vertical Infinite Slider
+        async function fetchAndInitBanners() {
+            debugLog("Banner Fetch Started");
+            const bannerTrack = document.getElementById("banner-track");
+            const bannerSkeleton = document.getElementById("banner-skeleton");
+
+            try {
+                const bannersQuery = query(
+                    collection(db, "reseller_banners"),
+                    orderBy("createdAt", "desc")
+                );
+                const querySnapshot = await getDocs(bannersQuery);
+                debugLog("Banner Fetch Successful", { count: querySnapshot.size });
+
+                bannerSkeleton.style.display = "none";
+                bannerTrack.style.display = "flex";
+
+                if (querySnapshot.empty) {
+                    bannerTrack.innerHTML = `
+                        <div class="banner-slide">
+                            <img src="https://reseller.ghotimarket.com/photo/logo.png" alt="Ghoti Market Banner" style="padding: 40px; background: #fff;">
+                        </div>
+                    `;
+                    debugLog("Banner Count", 0);
+                    return;
+                }
+
+                let banners = [];
+                querySnapshot.forEach((doc) => {
+                    banners.push(doc.data());
+                });
+
+                debugLog("Banner Count", banners.length);
+
+                // Build Slides HTML
+                let slidesHTML = "";
+                banners.forEach((banner) => {
+                    const imgUrl = banner.bannerLink || "";
+                    const clickUrl = banner.clickLink || "";
+                    
+                    if (imgUrl) {
+                        slidesHTML += `
+                            <div class="banner-slide" data-link="${clickUrl}">
+                                <img src="${imgUrl}" alt="Reseller Banner" loading="lazy">
+                            </div>
+                        `;
+                    }
+                });
+
+                if (slidesHTML === "") {
+                    bannerTrack.innerHTML = `<div class="banner-slide"><img src="https://reseller.ghotimarket.com/photo/logo.png" alt="Default"></div>`;
+                    return;
+                }
+
+                // If multiple banners, implement seamless vertical infinite slider clone logic
+                if (banners.length > 1) {
+                    // Clone first slide to the end for seamless loop
+                    const firstSlideHTML = bannerTrack.children.length > 0 ? banners[0] : null;
+                    bannerTrack.innerHTML = slidesHTML;
+                    
+                    // Append clone of the first slide
+                    if (firstSlideHTML && firstSlideHTML.bannerLink) {
+                        bannerTrack.innerHTML += `
+                            <div class="banner-slide" data-link="${firstSlideHTML.clickLink || ""}">
+                                <img src="${firstSlideHTML.bannerLink}" alt="Reseller Banner Clone" loading="lazy">
+                            </div>
+                        `;
+                    }
+
+                    let currentIndex = 0;
+                    const totalSlides = banners.length;
+                    const slideInterval = 3500; // 3.5 seconds
+
+                    function slideBanners() {
+                        currentIndex++;
+                        bannerTrack.style.transition = "transform 0.6s cubic-bezier(0.25, 1, 0.5, 1)";
+                        bannerTrack.style.transform = `translateY(-${currentIndex * 100}%)`;
+
+                        if (currentIndex === totalSlides) {
+                            setTimeout(() => {
+                                bannerTrack.style.transition = "none";
+                                currentIndex = 0;
+                                bannerTrack.style.transform = `translateY(0%)`;
+                            }, 600); // match transition duration
+                        }
+                    }
+
+                    let sliderTimer = setInterval(slideBanners, slideInterval);
+
+                    // Touch / Swipe support for vertical slider
+                    let touchStartY = 0;
+                    let touchEndY = 0;
+                    const containerEl = document.getElementById("banner-container");
+
+                    containerEl.addEventListener("touchstart", (e) => {
+                        touchStartY = e.touches[0].clientY;
+                        clearInterval(sliderTimer);
+                    }, { passive: true });
+
+                    containerEl.addEventListener("touchend", (e) => {
+                        touchEndY = e.changedTouches[0].clientY;
+                        handleSwipe();
+                        sliderTimer = setInterval(slideBanners, slideInterval);
+                    }, { passive: true });
+
+                    function handleSwipe() {
+                        if (touchStartY - touchEndY > 50) {
+                            // Swipe Up -> Next Banner
+                            slideBanners();
+                        } else if (touchEndY - touchStartY > 50) {
+                            // Swipe Down -> Prev Banner
+                            if (currentIndex > 0) {
+                                currentIndex--;
+                                bannerTrack.style.transition = "transform 0.6s cubic-bezier(0.25, 1, 0.5, 1)";
+                                bannerTrack.style.transform = `translateY(-${currentIndex * 100}%)`;
+                            }
+                        }
+                    }
+
+                    debugLog("Banner Slider Initialized", "Infinite Vertical Loop Active");
+
+                } else {
+                    bannerTrack.innerHTML = slidesHTML;
+                    debugLog("Banner Slider Initialized", "Static Single Banner");
+                }
+
+                // Banner Click System
+                document.querySelectorAll(".banner-slide").forEach(slide => {
+                    slide.addEventListener("click", () => {
+                        const rawLink = slide.getAttribute("data-link");
+                        debugLog("Banner Clicked", rawLink);
+
+                        if (!rawLink || rawLink.trim() === "" || rawLink === "null" || rawLink === "undefined") {
+                            return; // Do nothing if empty link
+                        }
+
+                        try {
+                            const parsedUrl = new URL(rawLink, window.location.origin);
+                            window.location.href = parsedUrl.href;
+                        } catch (e) {
+                            debugLog("Invalid Banner Click Link", rawLink);
+                        }
+                    });
+                });
+
+            } catch (error) {
+                debugLog("Banner Loading Error", error);
+                bannerSkeleton.style.display = "none";
+                bannerTrack.style.display = "flex";
+                bannerTrack.innerHTML = `<div class="banner-slide"><div style="color: #fff; padding: 20px; font-size: 14px;">ব্যানার লোড করতে সমস্যা হয়েছে</div></div>`;
+            }
+        }
+
+        // Global Error Listener
+        window.addEventListener("error", (event) => {
+            debugLog("Unexpected Error", event.message);
+        });
+
+        // Cleanup listener on unload
+        window.addEventListener("beforeunload", () => {
+            if (typeof unsubscribeReseller === 'function') {
+                unsubscribeReseller();
+            }
+        });
+    </script>
+</body>
+</html>
