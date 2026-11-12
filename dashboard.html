@@ -1,1393 +1,744 @@
 <!DOCTYPE html>
 <html lang="bn">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
-  <title>রিসেলার ড্যাশবোর্ড | Reseller Ghoti Market</title>
-  <meta name="description" content="Reseller Ghoti Market-এর রিসেলার ড্যাশবোর্ড থেকে পণ্য দেখুন, ব্যালেন্স পরিচালনা করুন, অর্ডার ও লেনদেনের হিসাব রাখুন।" />
-  <meta name="robots" content="noindex, nofollow" />
-  <meta name="theme-color" content="#FF6B35" />
-
-  <!-- Favicon -->
-  <link rel="icon" type="image/png" href="https://reseller.ghotimarket.com/photo/favicon.png" />
-  <link rel="apple-touch-icon" href="https://reseller.ghotimarket.com/photo/favicon.png" />
-
-  <!-- Google Fonts: Hind Siliguri -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet" />
-
-  <style>
-    :root {
-      --primary: #FF6B35;
-      --secondary: #FF6A00;
-      --accent: #FFA500;
-      --background: #FFF7F1;
-      --text: #171717;
-      --white: #FFFFFF;
-      --success: #16A34A;
-      --danger: #DC2626;
-      --muted: #777777;
-      --border-light: rgba(255, 107, 53, 0.12);
-      --shadow-soft: 0 8px 24px -4px rgba(23, 23, 23, 0.06), 0 2px 6px -1px rgba(23, 23, 23, 0.03);
-      --shadow-hover: 0 14px 30px -6px rgba(255, 107, 53, 0.18);
-      --radius-lg: 20px;
-      --radius-md: 16px;
-      --radius-sm: 12px;
-    }
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      -webkit-tap-highlight-color: transparent;
-    }
-
-    html, body {
-      width: 100%;
-      min-height: 100vh;
-      font-family: 'Hind Siliguri', -apple-system, BlinkMacSystemFont, sans-serif;
-      background-color: var(--background);
-      color: var(--text);
-      overflow-x: hidden;
-      line-height: 1.45;
-    }
-
-    /* =========================================
-       1. INITIAL FULLSCREEN VERIFICATION LOADER
-       ========================================= */
-    #app-loader {
-      position: fixed;
-      inset: 0;
-      z-index: 9999;
-      background: var(--background);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 24px;
-      transition: opacity 0.35s ease, visibility 0.35s ease;
-    }
-
-    #app-loader.hidden {
-      opacity: 0;
-      visibility: hidden;
-      pointer-events: none;
-    }
-
-    .loader-card {
-      background: var(--white);
-      border-radius: var(--radius-lg);
-      padding: 32px 28px;
-      width: 100%;
-      max-width: 360px;
-      text-align: center;
-      box-shadow: var(--shadow-soft);
-      border: 1px solid var(--border-light);
-    }
-
-    .loader-logo {
-      height: 44px;
-      width: auto;
-      margin: 0 auto 20px;
-      display: block;
-      object-fit: contain;
-    }
-
-    .spinner-ring {
-      width: 44px;
-      height: 44px;
-      border: 3.5px solid rgba(255, 107, 53, 0.16);
-      border-top-color: var(--primary);
-      border-radius: 50%;
-      margin: 0 auto 16px;
-      animation: spin 0.85s linear infinite;
-    }
-
-    @keyframes spin {
-      to { transform: rotate(360deg); }
-    }
-
-    .loader-title {
-      font-size: 18px;
-      font-weight: 700;
-      color: var(--text);
-      margin-bottom: 4px;
-    }
-
-    .loader-step {
-      font-size: 14px;
-      color: var(--muted);
-      font-weight: 500;
-    }
-
-    /* =========================================
-       MAIN APP WRAPPER (Hidden until verified)
-       ========================================= */
-    #dashboard-app {
-      display: none;
-      flex-direction: column;
-      min-height: 100vh;
-      padding-bottom: calc(82px + env(safe-area-inset-bottom));
-    }
-
-    #dashboard-app.visible {
-      display: flex;
-      animation: fadeInApp 0.4s ease forwards;
-    }
-
-    @keyframes fadeInApp {
-      from { opacity: 0; transform: translateY(6px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    @media (min-width: 768px) {
-      #dashboard-app {
-        padding-bottom: 32px;
-      }
-    }
-
-    .container {
-      width: 100%;
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 16px;
-    }
-
-    @media (min-width: 768px) {
-      .container {
-        padding: 0 24px;
-      }
-    }
-
-    /* =========================================
-       2. PROFESSIONAL HEADER
-       ========================================= */
-    .app-header {
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      background: rgba(255, 255, 255, 0.92);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      border-bottom: 1px solid rgba(255, 107, 53, 0.1);
-      padding: 10px 0;
-    }
-
-    .header-inner {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-    }
-
-    .brand-link {
-      display: flex;
-      align-items: center;
-      text-decoration: none;
-      flex-shrink: 0;
-    }
-
-    .brand-logo {
-      height: 36px;
-      width: auto;
-      object-fit: contain;
-      display: block;
-    }
-
-    @media (min-width: 768px) {
-      .brand-logo {
-        height: 44px;
-      }
-    }
-
-    .user-profile-pill {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      background: var(--background);
-      border: 1px solid rgba(255, 107, 53, 0.18);
-      padding: 6px 12px 6px 14px;
-      border-radius: 50px;
-      text-decoration: none;
-      color: var(--text);
-      transition: all 0.2s ease;
-      max-width: 62%;
-    }
-
-    .user-profile-pill:hover, .user-profile-pill:active {
-      background: #FFEFE3;
-      border-color: var(--primary);
-      transform: translateY(-1px);
-    }
-
-    .user-text-group {
-      display: flex;
-      flex-direction: column;
-      text-align: right;
-      overflow: hidden;
-    }
-
-    .welcome-label {
-      font-size: 11px;
-      font-weight: 500;
-      color: var(--muted);
-      line-height: 1.1;
-    }
-
-    .user-display-name {
-      font-size: 14px;
-      font-weight: 700;
-      color: var(--text);
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      line-height: 1.25;
-    }
-
-    .profile-icon-circle {
-      width: 34px;
-      height: 34px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, var(--primary), var(--secondary));
-      color: var(--white);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-      box-shadow: 0 3px 8px rgba(255, 107, 53, 0.28);
-    }
-
-    .profile-icon-circle svg {
-      width: 18px;
-      height: 18px;
-    }
-
-    /* =========================================
-       3. HOMEPAGE VERTICAL INFINITE BANNER SLIDER
-       ========================================= */
-    .banner-section {
-      margin-top: 16px;
-      display: none; /* Hidden until banners load */
-    }
-
-    .banner-section.active {
-      display: block;
-    }
-
-    .banner-outer-wrapper {
-      width: 100%;
-      max-width: 981px;
-      margin: 0 auto;
-      border-radius: var(--radius-lg);
-      overflow: hidden;
-      box-shadow: var(--shadow-soft);
-      background: var(--white);
-      border: 1px solid rgba(255, 107, 53, 0.12);
-      position: relative;
-      aspect-ratio: 981 / 636;
-      touch-action: pan-x;
-      user-select: none;
-    }
-
-    .banner-track {
-      width: 100%;
-      height: 100%;
-      display: flex;
-      flex-direction: column;
-      will-change: transform;
-    }
-
-    .banner-slide {
-      width: 100%;
-      height: 100%;
-      flex-shrink: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background-color: var(--white);
-      position: relative;
-    }
-
-    .banner-slide.clickable {
-      cursor: pointer;
-    }
-
-    .banner-slide.non-clickable {
-      cursor: default;
-    }
-
-    .banner-image {
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-      display: block;
-      pointer-events: none;
-    }
-
-    /* Subtle Vertical Pagination Dots */
-    .banner-dots {
-      position: absolute;
-      right: 10px;
-      top: 50%;
-      transform: translateY(-50%);
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-      z-index: 10;
-      background: rgba(23, 23, 23, 0.28);
-      backdrop-filter: blur(4px);
-      padding: 6px 4px;
-      border-radius: 20px;
-    }
-
-    .banner-dot {
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background: rgba(255, 255, 255, 0.55);
-      transition: all 0.3s ease;
-    }
-
-    .banner-dot.active {
-      height: 16px;
-      border-radius: 6px;
-      background: var(--white);
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      .banner-track {
-        transition: none !important;
-      }
-    }
-
-    /* =========================================
-       4. LIVE BALANCE CARD
-       ========================================= */
-    .balance-section {
-      margin-top: 18px;
-    }
-
-    .balance-card {
-      background: linear-gradient(135deg, #FF6B35 0%, #FF6A00 55%, #FF8C1A 100%);
-      border-radius: var(--radius-lg);
-      padding: 22px 20px;
-      color: var(--white);
-      box-shadow: 0 12px 28px -6px rgba(255, 106, 0, 0.38);
-      position: relative;
-      overflow: hidden;
-    }
-
-    /* Subtle decorative circles inside gradient card */
-    .balance-card::before {
-      content: "";
-      position: absolute;
-      top: -40px;
-      right: -30px;
-      width: 140px;
-      height: 140px;
-      border-radius: 50%;
-      background: rgba(255, 255, 255, 0.1);
-      pointer-events: none;
-    }
-
-    .balance-card::after {
-      content: "";
-      position: absolute;
-      bottom: -50px;
-      left: 20%;
-      width: 120px;
-      height: 120px;
-      border-radius: 50%;
-      background: rgba(255, 255, 255, 0.07);
-      pointer-events: none;
-    }
-
-    @media (min-width: 768px) {
-      .balance-card {
-        padding: 28px 32px;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 24px;
-      }
-    }
-
-    .balance-info-area {
-      position: relative;
-      z-index: 2;
-    }
-
-    .balance-heading {
-      font-size: 14px;
-      font-weight: 500;
-      color: rgba(255, 255, 255, 0.92);
-      margin-bottom: 6px;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .balance-row {
-      display: flex;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 12px;
-    }
-
-    .balance-amount-wrapper {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .balance-value {
-      font-size: 30px;
-      font-weight: 700;
-      letter-spacing: -0.3px;
-      color: var(--white);
-      line-height: 1.15;
-    }
-
-    @media (min-width: 768px) {
-      .balance-value {
-        font-size: 36px;
-      }
-    }
-
-    .eye-toggle-btn {
-      background: rgba(255, 255, 255, 0.18);
-      border: 1px solid rgba(255, 255, 255, 0.25);
-      color: var(--white);
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      transition: background 0.2s ease, transform 0.15s ease;
-    }
-
-    .eye-toggle-btn:hover {
-      background: rgba(255, 255, 255, 0.28);
-    }
-
-    .eye-toggle-btn:active {
-      transform: scale(0.93);
-    }
-
-    .eye-toggle-btn svg {
-      width: 19px;
-      height: 19px;
-    }
-
-    .withdraw-btn {
-      display: none; /* Shown only when balance >= 300 */
-      align-items: center;
-      gap: 6px;
-      background: var(--white);
-      color: var(--secondary);
-      border: none;
-      padding: 7px 15px;
-      border-radius: 50px;
-      font-family: inherit;
-      font-size: 13.5px;
-      font-weight: 700;
-      cursor: pointer;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
-      transition: all 0.2s ease;
-    }
-
-    .withdraw-btn.visible {
-      display: inline-flex;
-      animation: popIn 0.25s ease;
-    }
-
-    .withdraw-btn:hover {
-      background: #FFF7F1;
-      transform: translateY(-1px);
-    }
-
-    .withdraw-btn:active {
-      transform: scale(0.96);
-    }
-
-    @keyframes popIn {
-      from { opacity: 0; transform: scale(0.9); }
-      to { opacity: 1; transform: scale(1); }
-    }
-
-    .balance-actions-area {
-      position: relative;
-      z-index: 2;
-      margin-top: 16px;
-    }
-
-    @media (min-width: 768px) {
-      .balance-actions-area {
-        margin-top: 0;
-      }
-    }
-
-    .add-balance-btn {
-      width: 100%;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      background: var(--white);
-      color: var(--primary);
-      border: none;
-      padding: 12px 22px;
-      border-radius: var(--radius-sm);
-      font-family: inherit;
-      font-size: 15px;
-      font-weight: 700;
-      cursor: pointer;
-      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
-      transition: all 0.22s ease;
-    }
-
-    @media (min-width: 768px) {
-      .add-balance-btn {
-        width: auto;
-        padding: 13px 26px;
-      }
-    }
-
-    .add-balance-btn:hover {
-      background: #FFF9F5;
-      transform: translateY(-2px);
-      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
-    }
-
-    .add-balance-btn:active {
-      transform: scale(0.98);
-    }
-
-    .add-balance-btn svg {
-      width: 20px;
-      height: 20px;
-    }
-
-    /* =========================================
-       5. MAIN DASHBOARD NAVIGATION CARDS (12 ITEMS)
-       ========================================= */
-    .nav-grid-section {
-      margin-top: 20px;
-    }
-
-    .nav-cards-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 12px;
-    }
-
-    @media (min-width: 640px) {
-      .nav-cards-grid {
-        grid-template-columns: repeat(3, 1fr);
-        gap: 16px;
-      }
-    }
-
-    @media (min-width: 1024px) {
-      .nav-cards-grid {
-        grid-template-columns: repeat(4, 1fr);
-        gap: 18px;
-      }
-    }
-
-    .nav-card {
-      background: var(--white);
-      border-radius: 18px;
-      padding: 14px 14px;
-      min-height: 96px;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      text-decoration: none;
-      color: var(--text);
-      box-shadow: var(--shadow-soft);
-      border: 1px solid rgba(255, 107, 53, 0.08);
-      transition: transform 0.2s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.2s ease, border-color 0.2s ease;
-      cursor: pointer;
-    }
-
-    @media (min-width: 768px) {
-      .nav-card {
-        padding: 18px 18px;
-        min-height: 104px;
-        gap: 14px;
-      }
-    }
-
-    .nav-card:hover {
-      transform: translateY(-3px);
-      box-shadow: var(--shadow-hover);
-      border-color: rgba(255, 107, 53, 0.32);
-    }
-
-    .nav-card:active {
-      transform: scale(0.97);
-    }
-
-    .nav-card-icon {
-      width: 44px;
-      height: 44px;
-      border-radius: 13px;
-      background: #FFF3EB;
-      color: var(--primary);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-      transition: background 0.2s ease, color 0.2s ease;
-    }
-
-    .nav-card:hover .nav-card-icon {
-      background: var(--primary);
-      color: var(--white);
-    }
-
-    .nav-card-icon svg {
-      width: 24px;
-      height: 24px;
-      stroke-width: 2.1;
-    }
-
-    .nav-card-title {
-      font-size: 14.5px;
-      font-weight: 700;
-      color: var(--text);
-      line-height: 1.3;
-      display: -webkit-box;
-      -webkit-line-clamp: 2;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
-      word-break: break-word;
-    }
-
-    @media (min-width: 768px) {
-      .nav-card-title {
-        font-size: 15.5px;
-      }
-    }
-
-    /* =========================================
-       6. ACCOUNT STATUS SYSTEM
-       ========================================= */
-    .status-section {
-      margin-top: 22px;
-    }
-
-    .status-card {
-      background: var(--white);
-      border-radius: var(--radius-lg);
-      padding: 20px;
-      box-shadow: var(--shadow-soft);
-      border: 1px solid rgba(255, 107, 53, 0.1);
-    }
-
-    .status-heading {
-      font-size: 16px;
-      font-weight: 700;
-      color: var(--text);
-      margin-bottom: 14px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .status-heading-dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: var(--primary);
-    }
-
-    .status-badges-container {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-    }
-
-    .status-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 9px 15px;
-      border-radius: 12px;
-      font-size: 14px;
-      font-weight: 600;
-      border: 1px solid transparent;
-    }
-
-    .status-badge svg {
-      width: 18px;
-      height: 18px;
-      flex-shrink: 0;
-    }
-
-    /* Verified: Green */
-    .status-verified {
-      background: #ECFDF5;
-      color: #15803D;
-      border-color: #BBF7D0;
-    }
-
-    /* Active: Green/Orange Accent */
-    .status-active {
-      background: #F0FDF4;
-      color: #16A34A;
-      border-color: #86EFAC;
-    }
-
-    /* Not Verified: Neutral Orange */
-    .status-not-verified {
-      background: #FFF7ED;
-      color: #EA580C;
-      border-color: #FED7AA;
-    }
-
-    /* Inactive: Grey */
-    .status-inactive {
-      background: #F3F4F6;
-      color: #4B5563;
-      border-color: #E5E7EB;
-    }
-
-    /* Rejected: Red */
-    .status-rejected {
-      background: #FEF2F2;
-      color: #DC2626;
-      border-color: #FECACA;
-      width: 100%;
-    }
-
-    /* =========================================
-       7. FOOTER (Privacy Policy & Terms)
-       ========================================= */
-    .app-footer {
-      margin-top: 28px;
-      padding: 24px 16px;
-      text-align: center;
-      border-top: 1px solid rgba(255, 107, 53, 0.12);
-    }
-
-    .footer-logo {
-      height: 32px;
-      width: auto;
-      margin: 0 auto 12px;
-      display: block;
-      object-fit: contain;
-    }
-
-    .footer-links {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 18px;
-      margin-bottom: 10px;
-      flex-wrap: wrap;
-    }
-
-    .footer-link {
-      font-size: 13.5px;
-      font-weight: 600;
-      color: var(--text);
-      text-decoration: none;
-      transition: color 0.2s ease;
-    }
-
-    .footer-link:hover {
-      color: var(--primary);
-    }
-
-    .footer-divider {
-      color: #D1D5DB;
-      font-size: 12px;
-    }
-
-    .footer-copyright {
-      font-size: 12.5px;
-      color: var(--muted);
-    }
-
-    /* =========================================
-       8. MOBILE BOTTOM NAVIGATION (Mobile Only)
-       ========================================= */
-    .mobile-bottom-nav {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      z-index: 900;
-      background: var(--white);
-      box-shadow: 0 -6px 24px rgba(23, 23, 23, 0.07);
-      border-top: 1px solid rgba(255, 107, 53, 0.1);
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      padding-bottom: env(safe-area-inset-bottom);
-      height: calc(66px + env(safe-area-inset-bottom));
-    }
-
-    @media (min-width: 768px) {
-      .mobile-bottom-nav {
-        display: none !important;
-      }
-    }
-
-    .bottom-nav-item {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 3px;
-      text-decoration: none;
-      color: var(--muted);
-      font-size: 11.5px;
-      font-weight: 600;
-      position: relative;
-      transition: color 0.2s ease;
-    }
-
-    .bottom-nav-item svg {
-      width: 22px;
-      height: 22px;
-      transition: transform 0.2s ease;
-    }
-
-    .bottom-nav-item.active {
-      color: var(--primary);
-    }
-
-    .bottom-nav-item.active::before {
-      content: "";
-      position: absolute;
-      top: 0;
-      width: 34px;
-      height: 3.5px;
-      border-radius: 0 0 4px 4px;
-      background: var(--primary);
-    }
-
-    .bottom-nav-item.active svg {
-      transform: translateY(-1px);
-    }
-
-    /* =========================================
-       SKELETON PLACEHOLDERS
-       ========================================= */
-    .skeleton {
-      background: linear-gradient(90deg, rgba(255,255,255,0.2) 25%, rgba(255,255,255,0.42) 50%, rgba(255,255,255,0.2) 75%);
-      background-size: 200% 100%;
-      animation: shimmer 1.4s infinite;
-      border-radius: 8px;
-      display: inline-block;
-    }
-
-    .skeleton-dark {
-      background: linear-gradient(90deg, #F3E8E0 25%, #FBEFE7 50%, #F3E8E0 75%);
-      background-size: 200% 100%;
-      animation: shimmer 1.4s infinite;
-      border-radius: 8px;
-      display: inline-block;
-    }
-
-    @keyframes shimmer {
-      0% { background-position: 200% 0; }
-      100% { background-position: -200% 0; }
-    }
-
-    /* =========================================
-       12. CUSTOM ERROR MODAL / TOAST SYSTEM
-       ========================================= */
-    .custom-modal-backdrop {
-      position: fixed;
-      inset: 0;
-      z-index: 10000;
-      background: rgba(23, 23, 23, 0.55);
-      backdrop-filter: blur(4px);
-      display: none;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-    }
-
-    .custom-modal-backdrop.open {
-      display: flex;
-      animation: fadeInModal 0.2s ease;
-    }
-
-    @keyframes fadeInModal {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
-
-    .custom-modal-box {
-      background: var(--white);
-      border-radius: var(--radius-lg);
-      padding: 26px 22px;
-      width: 100%;
-      max-width: 380px;
-      text-align: center;
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
-    }
-
-    .modal-icon-wrap {
-      width: 54px;
-      height: 54px;
-      border-radius: 50%;
-      background: #FEF2F2;
-      color: var(--danger);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin: 0 auto 14px;
-    }
-
-    .modal-icon-wrap svg {
-      width: 28px;
-      height: 28px;
-    }
-
-    .modal-title {
-      font-size: 18px;
-      font-weight: 700;
-      color: var(--text);
-      margin-bottom: 8px;
-    }
-
-    .modal-message {
-      font-size: 14.5px;
-      color: #4B5563;
-      margin-bottom: 20px;
-      line-height: 1.5;
-    }
-
-    .modal-action-btn {
-      background: var(--primary);
-      color: var(--white);
-      border: none;
-      border-radius: 12px;
-      padding: 11px 24px;
-      font-family: inherit;
-      font-size: 14.5px;
-      font-weight: 700;
-      cursor: pointer;
-      width: 100%;
-      transition: background 0.2s ease;
-    }
-
-    .modal-action-btn:hover {
-      background: var(--secondary);
-    }
-
-    /* Non-blocking Toast for minor background errors */
-    .custom-toast {
-      position: fixed;
-      top: 74px;
-      left: 50%;
-      transform: translateX(-50%) translateY(-20px);
-      z-index: 9500;
-      background: var(--text);
-      color: var(--white);
-      padding: 12px 18px;
-      border-radius: 14px;
-      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.22);
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-size: 13.5px;
-      font-weight: 500;
-      max-width: calc(100vw - 32px);
-      opacity: 0;
-      pointer-events: none;
-      transition: all 0.28s ease;
-    }
-
-    .custom-toast.show {
-      opacity: 1;
-      transform: translateX(-50%) translateY(0);
-      pointer-events: auto;
-    }
-
-    .custom-toast svg {
-      width: 20px;
-      height: 20px;
-      color: var(--accent);
-      flex-shrink: 0;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reseller Dashboard | Reseller Ghoti Market</title>
+    <meta name="description" content="Reseller Ghoti Market-এর রিসেলার ড্যাশবোর্ড থেকে পণ্য, অর্ডার, ব্যালেন্স ও ব্যবসার কার্যক্রম পরিচালনা করুন।">
+    <meta name="robots" content="noindex, nofollow">
+    <link rel="icon" type="image/png" href="https://reseller.ghotimarket.com/photo/favicon.png">
+    
+    <!-- Google Font: Hind Siliguri -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Pure CSS Stylesheet -->
+    <style>
+        :root {
+            --primary: #FF6B35;
+            --secondary: #FF6A00;
+            --accent: #FFA500;
+            --background: #FFF7F1;
+            --text: #171717;
+            --text-muted: #737373;
+            --white: #FFFFFF;
+            --success: #16A34A;
+            --danger: #DC2626;
+            --warning: #D97706;
+            --border: #FEE2E2;
+            --shadow: 0 4px 20px -2px rgba(255, 107, 53, 0.08);
+            --card-shadow: 0 8px 30px rgba(0, 0, 0, 0.04);
+            --radius-lg: 20px;
+            --radius-md: 14px;
+            --radius-sm: 10px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Hind Siliguri', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: var(--background);
+            color: var(--text);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            padding-bottom: 90px;
+        }
+
+        @media (min-width: 1024px) {
+            body {
+                padding-bottom: 0;
+            }
+        }
+
+        .container {
+            width: 100%;
+            max-width: 981px;
+            margin: 0 auto;
+            padding: 0 16px;
+        }
+
+        /* Header Design */
+        .app-header {
+            background: var(--white);
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.02);
+        }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 64px;
+        }
+
+        .brand-area {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+        }
+
+        .brand-logo {
+            width: 38px;
+            height: 38px;
+            object-fit: contain;
+            border-radius: 8px;
+        }
+
+        .welcome-text {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .welcome-label {
+            font-size: 11px;
+            color: var(--text-muted);
+            line-height: 1;
+        }
+
+        .reseller-name {
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--text);
+            line-height: 1.3;
+        }
+
+        .profile-menu-btn {
+            background: var(--background);
+            border: 1px solid var(--border);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: var(--primary);
+            transition: all 0.2s ease;
+        }
+
+        .profile-menu-btn:hover {
+            background: var(--primary);
+            color: var(--white);
+        }
+
+        /* Banner Slider System */
+        .banner-section {
+            margin: 16px 0;
+        }
+
+        .banner-container {
+            width: 100%;
+            max-width: 981px;
+            aspect-ratio: 3 / 1;
+            max-height: 327px;
+            background: #FFE5D0;
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            position: relative;
+            box-shadow: var(--card-shadow);
+        }
+
+        .banner-track {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        .banner-slide {
+            min-width: 100%;
+            height: 100%;
+            flex-shrink: 0;
+        }
+
+        .banner-slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            background: #fff;
+        }
+
+        /* Balance Card */
+        .balance-card {
+            background: linear-gradient(135deg, #FF6B35 0%, #FF8C42 100%);
+            border-radius: var(--radius-lg);
+            padding: 20px;
+            color: var(--white);
+            margin-bottom: 20px;
+            box-shadow: 0 10px 25px rgba(255, 107, 53, 0.25);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .balance-card::before {
+            content: '';
+            position: absolute;
+            top: -50px;
+            right: -50px;
+            width: 150px;
+            height: 150px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        .balance-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .balance-title {
+            font-size: 13px;
+            font-weight: 500;
+            opacity: 0.9;
+        }
+
+        .eye-toggle-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: var(--white);
+            transition: background 0.2s;
+        }
+
+        .eye-toggle-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .balance-amount {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            letter-spacing: -0.5px;
+        }
+
+        .withdraw-action-area {
+            margin-top: 12px;
+        }
+
+        .withdraw-btn {
+            background: var(--white);
+            color: var(--primary);
+            border: none;
+            width: 100%;
+            padding: 12px;
+            border-radius: var(--radius-sm);
+            font-weight: 700;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            text-decoration: none;
+        }
+
+        .withdraw-btn:hover {
+            background: #FFF1EE;
+        }
+
+        .pay-due-btn {
+            background: var(--danger);
+            color: var(--white);
+        }
+
+        .withdraw-progress-wrapper {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 12px;
+            border-radius: var(--radius-sm);
+        }
+
+        .progress-text {
+            font-size: 12px;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .progress-bar-container {
+            width: 100%;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            background: var(--white);
+            border-radius: 3px;
+            width: 0%;
+            transition: width 0.6s ease;
+        }
+
+        /* Section Headings */
+        .section-header-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* Feature Cards Grid */
+        .features-section {
+            margin-bottom: 24px;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+
+        @media (min-width: 768px) {
+            .features-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .features-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+
+        .feature-card {
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            padding: 16px 14px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: var(--text);
+            box-shadow: var(--card-shadow);
+            transition: all 0.25s ease;
+            height: 68px;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-2px);
+            border-color: var(--primary);
+            box-shadow: var(--shadow);
+        }
+
+        .feature-icon-box {
+            width: 40px;
+            height: 40px;
+            background: #FFF1EE;
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+            flex-shrink: 0;
+        }
+
+        .feature-name {
+            font-size: 13px;
+            font-weight: 600;
+            line-height: 1.25;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        /* Account Status Section */
+        .status-card {
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 16px 20px;
+            margin-bottom: 20px;
+            box-shadow: var(--card-shadow);
+        }
+
+        .status-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .status-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 13px;
+            font-weight: 600;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #F9FAFB;
+        }
+
+        .status-item:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .status-badge {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .status-badge.success { background: #DCFCE7; color: var(--success); }
+        .status-badge.warning { background: #FEF3C7; color: var(--warning); }
+        .status-badge.danger { background: #FEE2E2; color: var(--danger); }
+        .status-badge.neutral { background: #F3F4F6; color: var(--text-muted); }
+
+        /* Privacy Policy & Terms Links */
+        .policy-links {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .policy-btn {
+            flex: 1;
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            padding: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            text-decoration: none;
+            color: var(--text);
+            font-size: 13px;
+            font-weight: 600;
+            box-shadow: var(--card-shadow);
+            transition: all 0.2s;
+        }
+
+        .policy-btn:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        /* Mobile Bottom Navigation */
+        .mobile-bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: var(--white);
+            border-top: 1px solid var(--border);
+            display: flex;
+            justify-content: space-around;
+            padding: 8px 0;
+            z-index: 1000;
+            box-shadow: 0 -4px 20px rgba(0,0,0,0.05);
+            border-top-left-radius: var(--radius-lg);
+            border-top-right-radius: var(--radius-lg);
+        }
+
+        @media (min-width: 1024px) {
+            .mobile-bottom-nav {
+                display: none;
+            }
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+            color: var(--text-muted);
+            font-size: 11px;
+            font-weight: 600;
+            gap: 4px;
+            transition: color 0.2s;
+            flex: 1;
+        }
+
+        .nav-item.active {
+            color: var(--primary);
+        }
+
+        .nav-item svg {
+            width: 22px;
+            height: 22px;
+        }
+
+        /* Toast Container */
+        .toast-container {
+            position: fixed;
+            top: 76px;
+            right: 16px;
+            z-index: 2000;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            max-width: 320px;
+            width: 100%;
+            pointer-events: none;
+        }
+
+        .toast {
+            background: var(--white);
+            border-left: 4px solid var(--primary);
+            padding: 12px 16px;
+            border-radius: var(--radius-sm);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text);
+            pointer-events: auto;
+            animation: slideInRight 0.3s ease forwards;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .toast.error { border-left-color: var(--danger); }
+        .toast.success { border-left-color: var(--success); }
+
+        @keyframes slideInRight {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        @keyframes fadeOut {
+            to { opacity: 0; transform: translateY(-10px); }
+        }
+
+        /* Skeleton Loading */
+        .skeleton {
+            background: linear-gradient(90deg, #F3F4F6 25%, #E5E7EB 50%, #F3F4F6 75%);
+            background-size: 200% 100%;
+            animation: shimmer 1.5s infinite;
+            border-radius: var(--radius-sm);
+        }
+
+        @keyframes shimmer {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+
+        .skeleton-header { height: 64px; width: 100%; }
+        .skeleton-banner { width: 100%; aspect-ratio: 3/1; border-radius: var(--radius-lg); margin: 16px 0; }
+        .skeleton-balance { height: 120px; border-radius: var(--radius-lg); margin-bottom: 20px; }
+        .skeleton-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 24px; }
+        @media (min-width: 768px) { .skeleton-grid { grid-template-columns: repeat(3, 1fr); } }
+        @media (min-width: 1024px) { .skeleton-grid { grid-template-columns: repeat(4, 1fr); } }
+        .skeleton-card { height: 68px; border-radius: var(--radius-md); }
+
+        .d-none { display: none !important; }
+    </style>
 </head>
 <body>
 
-  <!-- 1. INITIAL FULLSCREEN LOADER -->
-  <div id="app-loader" role="status" aria-live="polite">
-    <div class="loader-card">
-      <img src="https://reseller.ghotimarket.com/photo/logo.png" alt="Reseller Ghoti Market" class="loader-logo" />
-      <div class="spinner-ring"></div>
-      <div class="loader-title">রিসেলার ড্যাশবোর্ড</div>
-      <div class="loader-step" id="loader-step-text">সিস্টেম চালু হচ্ছে...</div>
-    </div>
-  </div>
+    <!-- Toast Container -->
+    <div id="toastContainer" class="toast-container"></div>
 
-  <!-- 12. CUSTOM ERROR MODAL -->
-  <div id="error-modal" class="custom-modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="error-modal-title">
-    <div class="custom-modal-box">
-      <div class="modal-icon-wrap">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="12" cy="12" r="10"></circle>
-          <line x1="12" y1="8" x2="12" y2="12"></line>
-          <line x1="12" y1="16" x2="12.01" y2="16"></line>
-        </svg>
-      </div>
-      <h3 class="modal-title" id="error-modal-title">সতর্কবার্তা</h3>
-      <p class="modal-message" id="error-modal-msg">দুঃখিত! একটি সমস্যা হয়েছে। অনুগ্রহ করে কিছুক্ষণ পর আবার চেষ্টা করুন।</p>
-      <button type="button" class="modal-action-btn" id="error-modal-btn">ঠিক আছে</button>
-    </div>
-  </div>
-
-  <!-- 12. CUSTOM ERROR TOAST -->
-  <div id="error-toast" class="custom-toast" role="alert">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
-      <line x1="12" y1="9" x2="12" y2="13"></line>
-      <line x1="12" y1="17" x2="12.01" y2="17"></line>
-    </svg>
-    <span id="error-toast-msg"></span>
-  </div>
-
-  <!-- MAIN DASHBOARD CONTENT -->
-  <div id="dashboard-app">
-
-    <!-- 2. PROFESSIONAL HEADER -->
-    <header class="app-header">
-      <div class="container header-inner">
-        <a href="/dashboard" class="brand-link" aria-label="Reseller Ghoti Market হোম">
-          <img src="https://reseller.ghotimarket.com/photo/logo.png" alt="Reseller Ghoti Market Logo" class="brand-logo" />
-        </a>
-
-        <a href="/profile" class="user-profile-pill" aria-label="প্রোফাইল তথ্য">
-          <div class="user-text-group">
-            <span class="welcome-label">স্বাগতম</span>
-            <span class="user-display-name" id="header-user-name">রিসেলার</span>
-          </div>
-          <div class="profile-icon-circle">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-              <circle cx="12" cy="7" r="4"></circle>
-            </svg>
-          </div>
-        </a>
-      </div>
-    </header>
-
-    <main class="container">
-
-      <!-- 3. HOMEPAGE VERTICAL INFINITE BANNER SLIDER -->
-      <section class="banner-section" id="banner-section" aria-label="প্রমোশনাল ব্যানার">
-        <div class="banner-outer-wrapper" id="banner-viewport">
-          <div class="banner-track" id="banner-track"></div>
-          <div class="banner-dots" id="banner-dots"></div>
-        </div>
-      </section>
-
-      <!-- 4. LIVE BALANCE CARD -->
-      <section class="balance-section" aria-label="ব্যালেন্স তথ্য">
-        <div class="balance-card">
-          <div class="balance-info-area">
-            <div class="balance-heading">
-              <span>আপনার বর্তমান ব্যালেন্স</span>
+    <!-- Initial Skeleton Load View -->
+    <div id="skeletonView">
+        <div class="skeleton skeleton-header"></div>
+        <div class="container">
+            <div class="skeleton skeleton-banner"></div>
+            <div class="skeleton skeleton-balance"></div>
+            <div class="skeleton-grid">
+                <div class="skeleton skeleton-card"></div>
+                <div class="skeleton skeleton-card"></div>
+                <div class="skeleton skeleton-card"></div>
+                <div class="skeleton skeleton-card"></div>
+                <div class="skeleton skeleton-card"></div>
+                <div class="skeleton skeleton-card"></div>
+                <div class="skeleton skeleton-card"></div>
+                <div class="skeleton skeleton-card"></div>
             </div>
-            <div class="balance-row">
-              <div class="balance-amount-wrapper">
-                <div class="balance-value" id="balance-display">
-                  <span class="skeleton" style="width: 140px; height: 32px;"></span>
-                </div>
-                <button type="button" class="eye-toggle-btn" id="balance-toggle-btn" aria-label="ব্যালেন্স লুকান বা দেখুন" title="ব্যালেন্স লুকান/দেখুন">
-                  <!-- Eye Open SVG -->
-                  <svg id="icon-eye-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-                    <circle cx="12" cy="12" r="3"></circle>
-                  </svg>
-                  <!-- Eye Off SVG -->
-                  <svg id="icon-eye-closed" style="display: none;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
-                    <line x1="1" y1="1" x2="23" y2="23"></line>
-                  </svg>
+        </div>
+    </div>
+
+    <!-- Main Dashboard View -->
+    <div id="dashboardMain" class="d-none">
+        
+        <!-- Premium Header -->
+        <header class="app-header">
+            <div class="container header-content">
+                <a href="/dashboard" class="brand-area">
+                    <img src="https://reseller.ghotimarket.com/photo/logo.png" alt="Ghoti Market Logo" class="brand-logo" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij48cGF0aCBmaWxsPSIjRkY2QjM1IiBkPSJNMTIgMkwyIDIybDEwLTcgMTAtNy0xMCA3eiIvPjwvc3ZnPg=='">
+                    <div class="welcome-text">
+                        <span class="welcome-label">স্বাগতম,</span>
+                        <span class="reseller-name" id="headerResellerName">লোড হচ্ছে...</span>
+                    </div>
+                </a>
+                <button class="profile-menu-btn" id="profileMenuBtn" title="প্রোফাইল মেনু">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
                 </button>
-              </div>
-
-              <button type="button" class="withdraw-btn" id="withdraw-btn">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
-                  <line x1="12" y1="19" x2="12" y2="5"></line>
-                  <polyline points="5 12 12 5 19 12"></polyline>
-                </svg>
-                <span>Withdraw</span>
-              </button>
             </div>
-          </div>
+        </header>
 
-          <div class="balance-actions-area">
-            <button type="button" class="add-balance-btn" id="add-balance-btn">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="12" cy="12" r="10"></circle>
-                <line x1="12" y1="8" x2="12" y2="16"></line>
-                <line x1="8" y1="12" x2="16" y2="12"></line>
-              </svg>
-              <span>ব্যালেন্স যুক্ত করুন</span>
-            </button>
-          </div>
-        </div>
-      </section>
+        <main class="container" style="margin-top: 16px;">
+            
+            <!-- Banner Slider System -->
+            <section class="banner-section" id="bannerSection">
+                <div class="banner-container">
+                    <div class="banner-track" id="bannerTrack">
+                        <!-- Banners dynamically inserted -->
+                    </div>
+                </div>
+            </section>
 
-      <!-- 5. MAIN DASHBOARD NAVIGATION CARDS (12 OPTIONS) -->
-      <section class="nav-grid-section" aria-label="ড্যাশবোর্ড মেনু">
-        <div class="nav-cards-grid" id="nav-cards-grid">
-
-          <!-- ১. সকল পণ্য দেখুন -->
-          <a href="/all-product" class="nav-card" data-nav="সকল পণ্য দেখুন">
-            <div class="nav-card-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
-                <line x1="3" y1="6" x2="21" y2="6"></line>
-                <path d="M16 10a4 4 0 0 1-8 0"></path>
-              </svg>
+            <!-- Reseller Balance Card -->
+            <div class="balance-card">
+                <div class="balance-header">
+                    <span class="balance-title">আপনার বর্তমান ব্যালেন্স</span>
+                    <button class="eye-toggle-btn" id="eyeToggleBtn" title="ব্যালেন্স লুকান/দেখুন">
+                        <svg id="eyeIconOpen" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                        <svg id="eyeIconClosed" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="d-none"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line></svg>
+                    </button>
+                </div>
+                <div class="balance-amount" id="balanceDisplay">৳ 0.00</div>
+                <div class="withdraw-action-area" id="withdrawActionArea"></div>
             </div>
-            <span class="nav-card-title">সকল পণ্য দেখুন</span>
-          </a>
 
-          <!-- ২. ক্যাটাগরি দেখুন -->
-          <a href="/categories" class="nav-card" data-nav="ক্যাটাগরি দেখুন">
-            <div class="nav-card-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-                <rect x="3" y="3" width="7" height="7" rx="1.5"></rect>
-                <rect x="14" y="3" width="7" height="7" rx="1.5"></rect>
-                <rect x="14" y="14" width="7" height="7" rx="1.5"></rect>
-                <rect x="3" y="14" width="7" height="7" rx="1.5"></rect>
-              </svg>
+            <!-- Premium Dashboard Feature Cards -->
+            <section class="features-section">
+                <h2 class="section-header-title">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+                    আপনার প্রয়োজনীয় সবকিছু
+                </h2>
+                <div class="features-grid" id="featuresGrid"></div>
+            </section>
+
+            <!-- Account Status Section -->
+            <div class="status-card">
+                <h2 class="section-header-title" style="margin-bottom: 12px;">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                    আপনার অ্যাকাউন্টের অবস্থা
+                </h2>
+                <div class="status-list" id="accountStatusList"></div>
             </div>
-            <span class="nav-card-title">ক্যাটাগরি দেখুন</span>
-          </a>
 
-          <!-- ৩. ফেভারিট পণ্য দেখুন -->
-          <a href="/favorite" class="nav-card" data-nav="ফেভারিট পণ্য দেখুন">
-            <div class="nav-card-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
-              </svg>
+            <!-- Privacy Policy & Terms Links -->
+            <div class="policy-links">
+                <a href="/privacy-policy" class="policy-btn">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                    প্রাইভেসি পলিসি
+                </a>
+                <a href="/terms" class="policy-btn">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                    টার্মস / শর্তাবলী
+                </a>
             </div>
-            <span class="nav-card-title">ফেভারিট পণ্য দেখুন</span>
-          </a>
 
-          <!-- ৪. ফোন নাম্বার চেকিং -->
-          <a href="/phone" class="nav-card" data-nav="ফোন নাম্বার চেকিং">
-            <div class="nav-card-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-                <rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect>
-                <line x1="12" y1="18" x2="12.01" y2="18"></line>
-              </svg>
-            </div>
-            <span class="nav-card-title">ফোন নাম্বার চেকিং</span>
-          </a>
+        </main>
 
-          <!-- ৫. লেনদেন হিস্ট্রি দেখুন -->
-          <a href="/transactions" class="nav-card" data-nav="লেনদেন হিস্ট্রি দেখুন">
-            <div class="nav-card-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-                <polyline points="14 2 14 8 20 8"></polyline>
-                <line x1="16" y1="13" x2="8" y2="13"></line>
-                <line x1="16" y1="17" x2="8" y2="17"></line>
-                <polyline points="10 9 9 9 8 9"></polyline>
-              </svg>
-            </div>
-            <span class="nav-card-title">লেনদেন হিস্ট্রি দেখুন</span>
-          </a>
+        <!-- Mobile Bottom Navigation -->
+        <nav class="mobile-bottom-nav">
+            <a href="/dashboard" class="nav-item active">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+                হোম
+            </a>
+            <a href="/all-product" class="nav-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
+                পণ্য
+            </a>
+            <a href="/orders" class="nav-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 1h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg>
+                অর্ডার
+            </a>
+            <a href="/support" class="nav-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
+                হেল্প
+            </a>
+        </nav>
 
-          <!-- ৬. অর্ডার গুলো দেখুন -->
-          <a href="/orders" class="nav-card" data-nav="অর্ডার গুলো দেখুন">
-            <div class="nav-card-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-                <line x1="16.5" y1="9.4" x2="7.5" y2="4.21"></line>
-                <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
-                <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
-                <line x1="12" y1="22.08" x2="12" y2="12"></line>
-              </svg>
-            </div>
-            <span class="nav-card-title">অর্ডার গুলো দেখুন</span>
-          </a>
+    </div>
 
-          <!-- ৭. প্রফিট হিসাব করুন -->
-          <a href="/profit" class="nav-card" data-nav="প্রফিট হিসাব করুন">
-            <div class="nav-card-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-                <line x1="18" y1="20" x2="18" y2="10"></line>
-                <line x1="12" y1="20" x2="12" y2="4"></line>
-                <line x1="6" y1="20" x2="6" y2="14"></line>
-              </svg>
-            </div>
-            <span class="nav-card-title">প্রফিট হিসাব করুন</span>
-          </a>
+    <!-- Firebase SDK 10.8.0 Modular Script -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        import { getFirestore, doc, getDoc, collection, query, orderBy, getDocs, onSnapshot } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-          <!-- ৮. নোটিশ দেখুন -->
-          <a href="/notice" class="nav-card" data-nav="নোটিশ দেখুন">
-            <div class="nav-card-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
-                <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
-              </svg>
-            </div>
-            <span class="nav-card-title">নোটিশ দেখুন</span>
-          </a>
+        // Debug System Logging Function
+        function debugLog(message, data = null) {
+            console.log("[RESELLER DASHBOARD DEBUG]", message, data || "");
+        }
 
-          <!-- ৯. আইডিয়া -->
-          <a href="/idea" class="nav-card" data-nav="আইডিয়া">
-            <div class="nav-card-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M9 18h6"></path>
-                <path d="M10 22h4"></path>
-                <path d="M15.09 14c.18-.98.65-1.74 1.41-2.5A4.65 4.65 0 0 0 18 8 6 6 0 0 0 6 8c0 1 .23 2.23 1.5 3.5A4.61 4.61 0 0 1 8.91 14"></path>
-              </svg>
-            </div>
-            <span class="nav-card-title">আইডিয়া</span>
-          </a>
+        // Custom Toast System (No browser default alerts/confirms used)
+        function showToast(message, type = "info") {
+            const container = document.getElementById("toastContainer");
+            if (!container) return;
+            
+            const existingToasts = container.querySelectorAll('.toast');
+            for (let t of existingToasts) {
+                if (t.textContent.includes(message)) return;
+            }
 
-          <!-- ১০. প্রোডাক্ট রিকোয়েস্ট -->
-          <a href="/product-request" class="nav-card" data-nav="প্রোডাক্ট রিকোয়েস্ট">
-            <div class="nav-card-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-                <polyline points="14 2 14 8 20 8"></polyline>
-                <line x1="12" y1="18" x2="12" y2="12"></line>
-                <line x1="9" y1="15" x2="15" y2="15"></line>
-              </svg>
-            </div>
-            <span class="nav-card-title">প্রোডাক্ট রিকোয়েস্ট</span>
-          </a>
+            const toast = document.createElement("div");
+            toast.className = `toast ${type}`;
+            toast.innerHTML = `<span>${message}</span>`;
+            
+            container.appendChild(toast);
 
-          <!-- ১১. ম্যাসেজ টেমপ্লেট -->
-          <a href="/tamplate" class="nav-card" data-nav="ম্যাসেজ টেমপ্লেট">
-            <div class="nav-card-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
-              </svg>
-            </div>
-            <span class="nav-card-title">ম্যাসেজ টেমপ্লেট</span>
-          </a>
+            setTimeout(() => {
+                toast.style.animation = "fadeOut 0.3s ease forwards";
+                setTimeout(() => toast.remove(), 300);
+            }, 3500);
+        }
 
-          <!-- ১২. হেল্প নিন -->
-          <a href="/support" class="nav-card" data-nav="হেল্প নিন">
-            <div class="nav-card-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M3 18v-6a9 9 0 0 1 18 0v6"></path>
-                <path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"></path>
-              </svg>
-            </div>
-            <span class="nav-card-title">হেল্প নিন</span>
-          </a>
+        // Feature Cards Dataset
+        const featureCardsData = [
+            { name: "সকল পণ্য দেখুন", url: "/all-product", svg: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>' },
+            { name: "ক্যাটাগরি দেখুন", url: "/categories", svg: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>' },
+            { name: "ফেভারিট পণ্য দেখুন", url: "/favorite", svg: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>' },
+            { name: "ফোন নাম্বার চেকিং", url: "/phone", svg: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect><line x1="12" y1="18" x2="12.01" y2="18"></line></svg>' },
+            { name: "লেনদেন হিস্ট্রি দেখুন", url: "/transactions", svg: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>' },
+            { name: "অর্ডার গুলো দেখুন", url: "/orders", svg: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 1h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg>' },
+            { name: "প্রফিট হিসাব করুন", url: "/profit", svg: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>' },
+            { name: "নোটিশ দেখুন", url: "/notice", svg: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>' },
+            { name: "আইডিয়া", url: "/idea", svg: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>' },
+            { name: "প্রডাক্ট রিকোয়েস্ট", url: "/product-request", svg: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>' },
+            { name: "ম্যাসেজ টেমপ্লেট", url: "/tamplate", svg: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>' },
+            { name: "হেল্প নিন", url: "/support", svg: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>' }
+        ];
 
-        </div>
-      </section>
+        function renderFeatureCards() {
+            const grid = document.getElementById("featuresGrid");
+            if (!grid) return;
+            grid.innerHTML = featureCardsData.map(card => `
+                <a href="${card.url}" class="feature-card" onclick="debugLog('Card Clicked', '${card.name}')">
+                    <div class="feature-icon-box">${card.svg}</div>
+                    <span class="feature-name">${card.name}</span>
+                </a>
+            `).join("");
+            debugLog("Dashboard Cards Initialized");
+        }
 
-      <!-- 6. ACCOUNT STATUS SYSTEM -->
-      <section class="status-section" aria-label="একাউন্টের অবস্থা">
-        <div class="status-card">
-          <h2 class="status-heading">
-            <span class="status-heading-dot"></span>
-            <span>আপনার একাউন্টের অবস্থা</span>
-          </h2>
-          <div class="status-badges-container" id="account-status-container">
-            <span class="skeleton-dark" style="width: 150px; height: 36px;"></span>
-            <span class="skeleton-dark" style="width: 140px; height: 36px;"></span>
-          </div>
-        </div>
-      </section>
-
-    </main>
-
-    <!-- 7. FOOTER -->
-    <footer class="app-footer">
-      <div class="container">
-        <img src="https://reseller.ghotimarket.com/photo/logo.png" alt="Reseller Ghoti Market" class="footer-logo" />
-        <div class="footer-links">
-          <a href="/privacy-policy" class="footer-link">প্রাইভেসি পলিসি</a>
-          <span class="footer-divider">|</span>
-          <a href="/terms" class="footer-link">টার্মস/শর্তাবলী</a>
-        </div>
-        <p class="footer-copyright">© Reseller Ghoti Market. সর্বস্বত্ব সংরক্ষিত।</p>
-      </div>
-    </footer>
-
-  </div>
-
-  <!-- 8. MOBILE BOTTOM NAVIGATION -->
-  <nav class="mobile-bottom-nav" id="mobile-bottom-nav" style="display: none;" aria-label="মোবাইল নেভিগেশন">
-    <a href="/dashboard" class="bottom-nav-item active" data-nav="হোম">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-        <polyline points="9 22 9 12 15 12 15 22"></polyline>
-      </svg>
-      <span>হোম</span>
-    </a>
-
-    <a href="/all-product" class="bottom-nav-item" data-nav="পণ্য">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
-        <line x1="3" y1="6" x2="21" y2="6"></line>
-        <path d="M16 10a4 4 0 0 1-8 0"></path>
-      </svg>
-      <span>পণ্য</span>
-    </a>
-
-    <a href="/categories" class="bottom-nav-item" data-nav="ক্যাটাগরি">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-        <rect x="3" y="3" width="7" height="7" rx="1.5"></rect>
-        <rect x="14" y="3" width="7" height="7" rx="1.5"></rect>
-        <rect x="14" y="14" width="7" height="7" rx="1.5"></rect>
-        <rect x="3" y="14" width="7" height="7" rx="1.5"></rect>
-      </svg>
-      <span>ক্যাটাগরি</span>
-    </a>
-
-    <a href="/orders" class="bottom-nav-item" data-nav="অর্ডার">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-        <line x1="16.5" y1="9.4" x2="7.5" y2="4.21"></line>
-        <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
-        <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
-        <line x1="12" y1="22.08" x2="12" y2="12"></line>
-      </svg>
-      <span>অর্ডার</span>
-    </a>
-  </nav>
-
-  <!-- FIREBASE MODULAR SDK 10.8.0 & DASHBOARD LOGIC -->
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-    import {
-      getFirestore,
-      doc,
-      onSnapshot,
-      collection,
-      query,
-      orderBy
-    } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
-
-    /* =====================================================================
-       13. PROFESSIONAL DEBUG SYSTEM
-       ===================================================================== */
-    function debugLog(message, data = null) {
-      if (data !== null && data !== undefined) {
-        console.log("[RESELLER DASHBOARD DEBUG]", message, data);
-      } else {
-        console.log("[RESELLER DASHBOARD DEBUG]", message);
-      }
-    }
-
-    const firebaseConfig = {
+       const firebaseConfig = {
   apiKey: "AIzaSyDCIRWmozT0XcEXuXtQ6RDiDo6vtT1T9mU",
   authDomain: "paikarisell-ghotimarket.firebaseapp.com",
   projectId: "paikarisell-ghotimarket",
@@ -1397,618 +748,293 @@
   measurementId: "G-E3HR2F9TC5"
 };
 
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-    const db = getFirestore(app);
-    debugLog("Firebase Initialized");
-
-    /* =====================================================================
-       DOM REFERENCES & STATE MANAGEMENT
-       ===================================================================== */
-    const appLoader = document.getElementById("app-loader");
-    const loaderStepText = document.getElementById("loader-step-text");
-    const dashboardApp = document.getElementById("dashboard-app");
-    const mobileBottomNav = document.getElementById("mobile-bottom-nav");
-
-    const headerUserName = document.getElementById("header-user-name");
-    const balanceDisplay = document.getElementById("balance-display");
-    const balanceToggleBtn = document.getElementById("balance-toggle-btn");
-    const iconEyeOpen = document.getElementById("icon-eye-open");
-    const iconEyeClosed = document.getElementById("icon-eye-closed");
-    const withdrawBtn = document.getElementById("withdraw-btn");
-    const addBalanceBtn = document.getElementById("add-balance-btn");
-    const statusContainer = document.getElementById("account-status-container");
-
-    const bannerSection = document.getElementById("banner-section");
-    const bannerViewport = document.getElementById("banner-viewport");
-    const bannerTrack = document.getElementById("banner-track");
-    const bannerDots = document.getElementById("banner-dots");
-
-    const errorModal = document.getElementById("error-modal");
-    const errorModalMsg = document.getElementById("error-modal-msg");
-    const errorModalBtn = document.getElementById("error-modal-btn");
-    const errorToast = document.getElementById("error-toast");
-    const errorToastMsg = document.getElementById("error-toast-msg");
-
-    // Active Firestore Unsubscribe References
-    let unsubscribeReseller = null;
-    let unsubscribeBanners = null;
-    let currentSubscribedUid = null;
-    let isDashboardRevealed = false;
-
-    // Balance State
-    let currentBalanceAmount = 0;
-    let isBalanceHidden = false;
-
-    // Banner Slider State
-    let bannerAutoTimer = null;
-    let bannerResumeTimer = null;
-    let currentSlideIndex = 1; // 1 because index 0 is cloned last slide
-    let totalRealSlides = 0;
-    let isSliderTransitioning = false;
-    let touchStartY = 0;
-    let touchEndY = 0;
-    let lastBannerSignature = "";
-
-    /* =====================================================================
-       12. CUSTOM ERROR POPUP & TOAST FUNCTIONS
-       ===================================================================== */
-    function showErrorModal(message, onConfirm = null) {
-      errorModalMsg.textContent = message;
-      errorModal.classList.add("open");
-      errorModalBtn.onclick = () => {
-        errorModal.classList.remove("open");
-        if (typeof onConfirm === "function") onConfirm();
-      };
-    }
-
-    let toastTimeout = null;
-    function showErrorToast(message) {
-      errorToastMsg.textContent = message;
-      errorToast.classList.add("show");
-      clearTimeout(toastTimeout);
-      toastTimeout = setTimeout(() => {
-        errorToast.classList.remove("show");
-      }, 4500);
-    }
-
-    function handleFirebaseError(error, context = "general") {
-      console.error("[FIREBASE ERROR OBJECT]", error);
-      const code = error?.code || "unknown";
-      console.error("[FIREBASE ERROR CODE]", code);
-
-      if (code === "permission-denied") {
-        debugLog("Firestore Permission Error", { code });
-        showErrorModal("আপনার তথ্য দেখার অনুমতি পাওয়া যায়নি। সাপোর্টে যোগাযোগ করুন।");
-        return;
-      }
-
-      if (code === "unavailable" || code === "network-request-failed" || !navigator.onLine) {
-        debugLog("Network Error", { code });
-        if (context === "banner") {
-          showErrorToast("ব্যানার লোড করতে সমস্যা হয়েছে।");
-        } else {
-          showErrorModal("ইন্টারনেট সংযোগে সমস্যা হয়েছে। অনুগ্রহ করে আবার চেষ্টা করুন।");
+        let app, auth, db;
+        try {
+            app = initializeApp(firebaseConfig);
+            auth = getAuth(app);
+            db = getFirestore(app);
+            debugLog("Firebase Initialized");
+        } catch (e) {
+            debugLog("Firebase Initialization Error", e.message);
         }
-        return;
-      }
 
-      if (context === "banner") {
-        debugLog("Unexpected Error", { context, code });
-        showErrorToast("ব্যানার লোড করতে সমস্যা হয়েছে।");
-      } else {
-        debugLog("Unexpected Error", { context, code });
-        showErrorModal("দুঃখিত! একটি সমস্যা হয়েছে। অনুগ্রহ করে কিছুক্ষণ পর আবার চেষ্টা করুন।");
-      }
-    }
-
-    /* =====================================================================
-       HELPER: FORMAT BANGLA CURRENCY
-       ===================================================================== */
-    function formatBanglaCurrency(amount) {
-      const numeric = Number(amount);
-      const safeAmount = Number.isFinite(numeric) ? numeric : 0;
-      const formatted = safeAmount.toLocaleString("bn-BD", {
-        minimumFractionDigits: 2,
-        maximumFractionDigits: 2
-      });
-      return `৳ ${formatted}`;
-    }
-
-    /* =====================================================================
-       4. BALANCE DISPLAY, HIDE/SHOW & WITHDRAW VISIBILITY
-       ===================================================================== */
-    function renderBalanceUI() {
-      if (isBalanceHidden) {
-        balanceDisplay.textContent = "৳ ••••••";
-        iconEyeOpen.style.display = "none";
-        iconEyeClosed.style.display = "block";
-      } else {
-        balanceDisplay.textContent = formatBanglaCurrency(currentBalanceAmount);
-        iconEyeOpen.style.display = "block";
-        iconEyeClosed.style.display = "none";
-      }
-
-      if (currentBalanceAmount >= 300) {
-        if (!withdrawBtn.classList.contains("visible")) {
-          withdrawBtn.classList.add("visible");
-          debugLog("Withdraw Button Visibility Updated", { visible: true, balance: currentBalanceAmount });
+        function formatBDT(amount) {
+            return `৳ ${Number(amount).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
         }
-      } else {
-        if (withdrawBtn.classList.contains("visible")) {
-          withdrawBtn.classList.remove("visible");
-          debugLog("Withdraw Button Visibility Updated", { visible: false, balance: currentBalanceAmount });
-        }
-      }
-    }
 
-    balanceToggleBtn.addEventListener("click", () => {
-      isBalanceHidden = !isBalanceHidden;
-      renderBalanceUI();
-      if (isBalanceHidden) {
-        debugLog("Balance Hidden");
-      } else {
-        debugLog("Balance Shown");
-      }
-    });
+        let isBalanceHidden = localStorage.getItem("rgm_balance_hidden") === "true";
 
-    withdrawBtn.addEventListener("click", () => {
-      debugLog("Navigation Clicked", { destination: "/withdraw" });
-      window.location.href = "/withdraw";
-    });
-
-    addBalanceBtn.addEventListener("click", () => {
-      debugLog("Navigation Clicked", { destination: "/add-balance" });
-      window.location.href = "/add-balance";
-    });
-
-    /* =====================================================================
-       6. ACCOUNT STATUS RENDERER
-       ===================================================================== */
-    function renderAccountStatus(data) {
-      const isRejected = data.reject === true;
-      const isVerified = data.verified === true;
-      const isActive = data.active === true;
-
-      statusContainer.innerHTML = "";
-
-      if (isRejected) {
-        const badge = document.createElement("div");
-        badge.className = "status-badge status-rejected";
-        badge.innerHTML = `
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="12" cy="12" r="10"></circle>
-            <line x1="15" y1="9" x2="9" y2="15"></line>
-            <line x1="9" y1="9" x2="15" y2="15"></line>
-          </svg>
-          <span>একাউন্ট রিজেক্ট করা হয়েছে</span>
-        `;
-        statusContainer.appendChild(badge);
-        debugLog("Account Status Updated", { reject: true });
-        return;
-      }
-
-      // Verified Status Badge
-      const verifiedBadge = document.createElement("div");
-      if (isVerified) {
-        verifiedBadge.className = "status-badge status-verified";
-        verifiedBadge.innerHTML = `
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
-            <polyline points="22 4 12 14.01 9 11.01"></polyline>
-          </svg>
-          <span>একাউন্ট ভেরিফাইড</span>
-        `;
-      } else {
-        verifiedBadge.className = "status-badge status-not-verified";
-        verifiedBadge.innerHTML = `
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="12" cy="12" r="10"></circle>
-            <line x1="12" y1="8" x2="12" y2="12"></line>
-            <line x1="12" y1="16" x2="12.01" y2="16"></line>
-          </svg>
-          <span>একাউন্ট ভেরিফাইড হয়নি</span>
-        `;
-      }
-      statusContainer.appendChild(verifiedBadge);
-
-      // Active Status Badge
-      const activeBadge = document.createElement("div");
-      if (isActive) {
-        activeBadge.className = "status-badge status-active";
-        activeBadge.innerHTML = `
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
-            <polyline points="9 12 11 14 15 10"></polyline>
-          </svg>
-          <span>একাউন্ট এক্টিভ</span>
-        `;
-      } else {
-        activeBadge.className = "status-badge status-inactive";
-        activeBadge.innerHTML = `
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="12" cy="12" r="10"></circle>
-            <line x1="8" y1="12" x2="16" y2="12"></line>
-          </svg>
-          <span>একাউন্ট এক্টিভ করা হয়নি</span>
-        `;
-      }
-      statusContainer.appendChild(activeBadge);
-
-      debugLog("Account Status Updated", {
-        reject: false,
-        verified: isVerified,
-        active: isActive
-      });
-    }
-
-    /* =====================================================================
-       3. SEAMLESS VERTICAL TOP-TO-BOTTOM INFINITE BANNER SLIDER
-       ===================================================================== */
-    function stopBannerAutoSlide() {
-      if (bannerAutoTimer) {
-        clearInterval(bannerAutoTimer);
-        bannerAutoTimer = null;
-      }
-      if (bannerResumeTimer) {
-        clearTimeout(bannerResumeTimer);
-        bannerResumeTimer = null;
-      }
-    }
-
-    function isValidDestinationUrl(url) {
-      if (typeof url !== "string") return false;
-      const trimmed = url.trim();
-      if (!trimmed) return false;
-      if (trimmed.startsWith("/")) return true;
-      try {
-        const parsed = new URL(trimmed);
-        return parsed.protocol === "https:" || parsed.protocol === "http:";
-      } catch {
-        return false;
-      }
-    }
-
-    function createBannerSlideElement(bannerItem, realIndex) {
-      const slide = document.createElement("div");
-      const validUrl = isValidDestinationUrl(bannerItem.clickLink);
-
-      slide.className = `banner-slide ${validUrl ? "clickable" : "non-clickable"}`;
-      slide.dataset.realIndex = String(realIndex);
-
-      const img = document.createElement("img");
-      img.src = bannerItem.bannerLink;
-      img.alt = "Reseller Ghoti Market Banner";
-      img.className = "banner-image";
-      img.loading = realIndex === 0 ? "eager" : "lazy";
-      img.decoding = "async";
-
-      slide.appendChild(img);
-
-      if (validUrl) {
-        slide.addEventListener("click", () => {
-          const targetUrl = bannerItem.clickLink.trim();
-          debugLog("Banner Clicked", { url: targetUrl, index: realIndex });
-          window.location.href = targetUrl;
-        });
-      }
-
-      return slide;
-    }
-
-    function updateBannerDots() {
-      if (totalRealSlides <= 1) return;
-      let activeReal = currentSlideIndex - 1;
-      if (activeReal < 0) activeReal = totalRealSlides - 1;
-      if (activeReal >= totalRealSlides) activeReal = 0;
-
-      const dots = bannerDots.querySelectorAll(".banner-dot");
-      dots.forEach((dot, idx) => {
-        dot.classList.toggle("active", idx === activeReal);
-      });
-    }
-
-    function applyTrackPosition(index, animate = true) {
-      const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-      if (animate && !prefersReducedMotion) {
-        bannerTrack.style.transition = "transform 750ms cubic-bezier(0.25, 1, 0.5, 1)";
-      } else {
-        bannerTrack.style.transition = "none";
-      }
-      bannerTrack.style.transform = `translate3d(0, -${index * 100}%, 0)`;
-    }
-
-    // Top-to-Bottom slide means visual content moves downwards (index decreases from N -> N-1 -> ... -> 0 -> jump to N)
-    function slideTopToBottomNext() {
-      if (totalRealSlides <= 1 || isSliderTransitioning) return;
-      isSliderTransitioning = true;
-      currentSlideIndex -= 1;
-      applyTrackPosition(currentSlideIndex, true);
-      updateBannerDots();
-    }
-
-    function slideBottomToTopPrev() {
-      if (totalRealSlides <= 1 || isSliderTransitioning) return;
-      isSliderTransitioning = true;
-      currentSlideIndex += 1;
-      applyTrackPosition(currentSlideIndex, true);
-      updateBannerDots();
-    }
-
-    function startBannerAutoSlide() {
-      stopBannerAutoSlide();
-      if (totalRealSlides <= 1) return;
-      const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-      if (prefersReducedMotion) return;
-
-      bannerAutoTimer = setInterval(() => {
-        slideTopToBottomNext();
-      }, 4000);
-    }
-
-    function pauseAndScheduleResume() {
-      stopBannerAutoSlide();
-      bannerResumeTimer = setTimeout(() => {
-        startBannerAutoSlide();
-      }, 5000);
-    }
-
-    // Handle Seamless Loop Reset on Transition End
-    bannerTrack.addEventListener("transitionend", () => {
-      isSliderTransitioning = false;
-      if (totalRealSlides <= 1) return;
-
-      // Reached cloned last slide at index 0 -> silently jump to real last slide (totalRealSlides)
-      if (currentSlideIndex <= 0) {
-        currentSlideIndex = totalRealSlides;
-        applyTrackPosition(currentSlideIndex, false);
-      }
-      // Reached cloned first slide at index (totalRealSlides + 1) -> silently jump to real first slide (1)
-      else if (currentSlideIndex >= totalRealSlides + 1) {
-        currentSlideIndex = 1;
-        applyTrackPosition(currentSlideIndex, false);
-      }
-    });
-
-    // Touch Swipe Gesture Support
-    bannerViewport.addEventListener("touchstart", (e) => {
-      if (totalRealSlides <= 1) return;
-      touchStartY = e.changedTouches[0].screenY;
-      stopBannerAutoSlide();
-    }, { passive: true });
-
-    bannerViewport.addEventListener("touchend", (e) => {
-      if (totalRealSlides <= 1) return;
-      touchEndY = e.changedTouches[0].screenY;
-      const deltaY = touchEndY - touchStartY;
-
-      if (Math.abs(deltaY) > 35) {
-        if (deltaY > 0) {
-          // Swiped Top to Bottom
-          slideTopToBottomNext();
-        } else {
-          // Swiped Bottom to Top
-          slideBottomToTopPrev();
-        }
-      }
-      pauseAndScheduleResume();
-    }, { passive: true });
-
-    function buildBannerSlider(banners) {
-      stopBannerAutoSlide();
-      bannerTrack.innerHTML = "";
-      bannerDots.innerHTML = "";
-
-      if (!banners || banners.length === 0) {
-        bannerSection.classList.remove("active");
-        totalRealSlides = 0;
-        return;
-      }
-
-      totalRealSlides = banners.length;
-      bannerSection.classList.add("active");
-
-      // Single Banner: Static, no cloning, no animation
-      if (totalRealSlides === 1) {
-        const singleSlide = createBannerSlideElement(banners[0], 0);
-        bannerTrack.appendChild(singleSlide);
-        currentSlideIndex = 0;
-        applyTrackPosition(0, false);
-        bannerDots.style.display = "none";
-        debugLog("Banner Slider Initialized", { mode: "static", count: 1 });
-        return;
-      }
-
-      // Multiple Banners: Clone Last at Start (index 0) & Clone First at End (index N+1)
-      bannerDots.style.display = "flex";
-
-      const cloneLast = createBannerSlideElement(banners[totalRealSlides - 1], totalRealSlides - 1);
-      bannerTrack.appendChild(cloneLast);
-
-      banners.forEach((item, idx) => {
-        const slideEl = createBannerSlideElement(item, idx);
-        bannerTrack.appendChild(slideEl);
-
-        const dot = document.createElement("span");
-        dot.className = `banner-dot ${idx === 0 ? "active" : ""}`;
-        bannerDots.appendChild(dot);
-      });
-
-      const cloneFirst = createBannerSlideElement(banners[0], 0);
-      bannerTrack.appendChild(cloneFirst);
-
-      currentSlideIndex = 1;
-      isSliderTransitioning = false;
-      applyTrackPosition(currentSlideIndex, false);
-      updateBannerDots();
-      startBannerAutoSlide();
-
-      debugLog("Banner Slider Initialized", {
-        mode: "vertical-infinite-top-to-bottom",
-        count: totalRealSlides
-      });
-    }
-
-    function initBannerListener() {
-      if (unsubscribeBanners) return;
-      debugLog("Banner Loading Started");
-      loaderStepText.textContent = "ব্যানার লোড হচ্ছে...";
-
-      const bannersQuery = query(
-        collection(db, "reseller_banners"),
-        orderBy("createdAt", "desc")
-      );
-
-      unsubscribeBanners = onSnapshot(
-        bannersQuery,
-        (snapshot) => {
-          const validBanners = [];
-          snapshot.forEach((docSnap) => {
-            const d = docSnap.data();
-            if (d && typeof d.bannerLink === "string" && d.bannerLink.trim() !== "") {
-              validBanners.push({
-                id: docSnap.id,
-                bannerLink: d.bannerLink.trim(),
-                clickLink: typeof d.clickLink === "string" ? d.clickLink.trim() : ""
-              });
+        document.addEventListener("DOMContentLoaded", () => {
+            renderFeatureCards();
+            
+            debugLog("Authentication Check Started");
+            if (!auth) {
+                window.location.href = "/login";
+                return;
             }
-          });
 
-          const newSignature = JSON.stringify(validBanners);
-          if (newSignature !== lastBannerSignature) {
-            lastBannerSignature = newSignature;
-            debugLog("Banner Loading Successful", { count: validBanners.length });
-            buildBannerSlider(validBanners);
-          }
-        },
-        (error) => {
-          handleFirebaseError(error, "banner");
-          bannerSection.classList.remove("active");
+            onAuthStateChanged(auth, async (user) => {
+                if (!user) {
+                    debugLog("Authentication Check Failed: User not logged in");
+                    window.location.href = "/login";
+                    return;
+                }
+
+                debugLog("User Authenticated");
+                const uid = user.uid;
+                debugLog("UID Received", uid);
+
+                try {
+                    debugLog("Reseller Document Checking", uid);
+                    const resellerDocRef = doc(db, "reseller", uid);
+                    const resellerSnap = await getDoc(resellerDocRef);
+
+                    if (!resellerSnap.exists()) {
+                        debugLog("Reseller Document Not Found");
+                        window.location.href = "/signed1";
+                        return;
+                    }
+
+                    debugLog("Reseller Document Found");
+                    const data = resellerSnap.data();
+
+                    const nameEl = document.getElementById("headerResellerName");
+                    if (nameEl) nameEl.textContent = data.name || "রিসেলার";
+
+                    renderAccountStatus(data);
+                    setupBalanceSystem(uid);
+                    setupBannerSlider();
+
+                    document.getElementById("skeletonView").classList.add("d-none");
+                    document.getElementById("dashboardMain").classList.remove("d-none");
+
+                } catch (error) {
+                    debugLog("Firestore Error", error.message);
+                    if (error.code === "permission-denied") {
+                        showToast("Firestore Permission Denied: প্রবেশাধিকার সংরক্ষিত।", "error");
+                    } else if (error.code === "unavailable" || error.message.includes("network")) {
+                        debugLog("Firestore Network Error encountered. Bypassing redirection.");
+                        showToast("নেটওয়ার্ক ত্রুটি! ইন্টারনেট সংযোগ চেক করুন।", "error");
+                    } else {
+                        showToast("ডেটা লোড করার সময় সমস্যা হয়েছে।", "error");
+                    }
+                }
+            });
+        });
+
+        function renderAccountStatus(data) {
+            const listEl = document.getElementById("accountStatusList");
+            if (!listEl) return;
+
+            const isReject = data.reject === true;
+            const isVerified = data.verified === true;
+            const isActive = data.active === true;
+            let html = "";
+
+            if (isReject) {
+                html = `
+                    <div class="status-item">
+                        <span>অ্যাকাউন্ট স্ট্যাটাস</span>
+                        <div class="status-badge danger">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line></svg>
+                            একাউন্ট রিজেক্ট করা হয়েছে
+                        </div>
+                    </div>
+                `;
+            } else {
+                const verifiedClass = isVerified ? "success" : "warning";
+                const verifiedText = isVerified ? "একাউন্ট ভেরিফাইড" : "একাউন্ট ভেরিফাইড হয়নি";
+                const verifiedIcon = isVerified ? '<polyline points="20 6 9 17 4 12"></polyline>' : '<circle cx="12" cy="12" r="10"></circle>';
+
+                const activeClass = isActive ? "success" : "neutral";
+                const activeText = isActive ? "একাউন্ট এক্টিভ" : "একাউন্ট এক্টিভ নয়";
+                const activeIcon = isActive ? '<polyline points="20 6 9 17 4 12"></polyline>' : '<circle cx="12" cy="12" r="10"></circle>';
+
+                html = `
+                    <div class="status-item">
+                        <span>ভেরিফিকেশন স্ট্যাটাস</span>
+                        <div class="status-badge ${verifiedClass}">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">${verifiedIcon}</svg>
+                            ${verifiedText}
+                        </div>
+                    </div>
+                    <div class="status-item">
+                        <span>সক্রিয়তা স্ট্যাটাস</span>
+                        <div class="status-badge ${activeClass}">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">${activeIcon}</svg>
+                            ${activeText}
+                        </div>
+                    </div>
+                `;
+            }
+
+            listEl.innerHTML = html;
+            debugLog("Account Status Loaded");
         }
-      );
-    }
 
-    /* =====================================================================
-       10. LISTENER CLEANUP MANAGEMENT
-       ===================================================================== */
-    function cleanupAllListeners() {
-      if (typeof unsubscribeReseller === "function") {
-        unsubscribeReseller();
-        unsubscribeReseller = null;
-      }
-      if (typeof unsubscribeBanners === "function") {
-        unsubscribeBanners();
-        unsubscribeBanners = null;
-      }
-      stopBannerAutoSlide();
-      currentSubscribedUid = null;
-      lastBannerSignature = "";
-    }
+        function setupBalanceSystem(uid) {
+            debugLog("Balance Loading Started");
+            const balanceRef = doc(db, "reseller", uid);
 
-    window.addEventListener("beforeunload", () => {
-      cleanupAllListeners();
-    });
+            onSnapshot(balanceRef, (docSnap) => {
+                if (!docSnap.exists()) return;
+                const data = docSnap.data();
+                const balance = Number(data.balance || 0);
 
-    /* =====================================================================
-       REVEAL DASHBOARD ONCE VERIFIED
-       ===================================================================== */
-    function revealDashboard() {
-      if (isDashboardRevealed) return;
-      isDashboardRevealed = true;
-      loaderStepText.textContent = "ড্যাশবোর্ড প্রস্তুত";
-      appLoader.classList.add("hidden");
-      dashboardApp.classList.add("visible");
-      mobileBottomNav.style.display = "grid";
-      debugLog("Dashboard Ready");
-    }
-
-    /* =====================================================================
-       1. FIREBASE AUTHENTICATION & RESELLER DOCUMENT CHECK
-       ===================================================================== */
-    debugLog("Authentication Check Started");
-    loaderStepText.textContent = "অ্যাকাউন্ট যাচাই করা হচ্ছে...";
-
-    onAuthStateChanged(auth, (user) => {
-      // Condition 1: Not Logged In
-      if (!user) {
-        cleanupAllListeners();
-        window.location.href = "/login";
-        return;
-      }
-
-      // Prevent duplicate listeners for the same user
-      if (currentSubscribedUid === user.uid && unsubscribeReseller) {
-        return;
-      }
-
-      cleanupAllListeners();
-      currentSubscribedUid = user.uid;
-
-      debugLog("User Authenticated");
-      debugLog("UID Received", { uid: user.uid });
-      debugLog("Reseller Document Checking", { path: `reseller/${user.uid}` });
-      loaderStepText.textContent = "রিসেলার তথ্য যাচাই হচ্ছে...";
-
-      const resellerDocRef = doc(db, "reseller", user.uid);
-
-      unsubscribeReseller = onSnapshot(
-        resellerDocRef,
-        (docSnapshot) => {
-          // Document Not Found -> Redirect to /signed1
-          if (!docSnapshot.exists()) {
-            debugLog("Reseller Document Not Found", { uid: user.uid });
-            cleanupAllListeners();
-            window.location.href = "/signed1";
-            return;
-          }
-
-          const resellerData = docSnapshot.data() || {};
-
-          if (!isDashboardRevealed) {
-            debugLog("Reseller Document Found");
-            debugLog("Dashboard Loading Started");
-            debugLog("Balance Listener Started");
-            initBannerListener();
-          }
-
-          // Update Header User Name
-          const displayName =
-            resellerData.name ||
-            resellerData.fullName ||
-            resellerData.shopName ||
-            user.displayName ||
-            "রিসেলার";
-          headerUserName.textContent = displayName;
-
-          // Update Live Balance
-          const parsedBalance = Number(resellerData.balance ?? 0);
-          currentBalanceAmount = Number.isFinite(parsedBalance) ? parsedBalance : 0;
-          renderBalanceUI();
-          debugLog("Balance Updated", { balance: currentBalanceAmount });
-
-          // Update Account Status
-          renderAccountStatus(resellerData);
-
-          // Reveal Dashboard UI
-          revealDashboard();
-        },
-        (error) => {
-          // Do NOT redirect to /signed1 on Firestore permission or server errors
-          handleFirebaseError(error, "reseller");
+                debugLog("Balance Received", balance);
+                updateBalanceUI(balance);
+            }, (error) => {
+                debugLog("Firestore Error in Balance Listener", error.message);
+            });
         }
-      );
-    });
 
-    /* =====================================================================
-       NAVIGATION CLICK DEBUG LOGGING
-       ===================================================================== */
-    document.querySelectorAll("[data-nav]").forEach((navElement) => {
-      navElement.addEventListener("click", () => {
-        const label = navElement.getAttribute("data-nav");
-        const href = navElement.getAttribute("href");
-        debugLog("Navigation Clicked", { label, href });
-      });
-    });
-  </script>
+        function updateBalanceUI(balance) {
+            const displayEl = document.getElementById("balanceDisplay");
+            const actionArea = document.getElementById("withdrawActionArea");
+
+            if (displayEl) {
+                displayEl.textContent = isBalanceHidden ? "৳ ••••••" : formatBDT(balance);
+            }
+
+            if (!actionArea) return;
+
+            if (balance < 0) {
+                debugLog("Negative Balance Detected", balance);
+                actionArea.innerHTML = `
+                    <a href="/pay-due" class="withdraw-btn pay-due-btn" onclick="debugLog('Pay Due Clicked')">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
+                        পাওনা টাকা পরিশোধ করুন (${formatBDT(balance)})
+                    </a>
+                `;
+            } else if (balance >= 300) {
+                debugLog("Withdraw Eligibility Checked: Eligible");
+                actionArea.innerHTML = `
+                    <a href="/withdraw" class="withdraw-btn" onclick="debugLog('Withdraw Clicked')">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                        টাকা উত্তোলন করুন
+                    </a>
+                `;
+            } else {
+                debugLog("Withdraw Eligibility Checked: Ineligible, showing progress");
+                const needed = 300 - balance;
+                const progress = Math.min((balance / 300) * 100, 100);
+                actionArea.innerHTML = `
+                    <div class="withdraw-progress-wrapper">
+                        <div class="progress-text">${formatBDT(needed)} আরও আয় করলে টাকা উত্তোলন করতে পারবেন।</div>
+                        <div class="progress-bar-container">
+                            <div class="progress-bar-fill" style="width: ${progress}%"></div>
+                        </div>
+                    </div>
+                `;
+            }
+        }
+
+        document.getElementById("eyeToggleBtn")?.addEventListener("click", () => {
+            isBalanceHidden = !isBalanceHidden;
+            localStorage.setItem("rgm_balance_hidden", isBalanceHidden);
+
+            const openIcon = document.getElementById("eyeIconOpen");
+            const closedIcon = document.getElementById("eyeIconClosed");
+
+            if (isBalanceHidden) {
+                openIcon.classList.add("d-none");
+                closedIcon.classList.remove("d-none");
+                debugLog("Balance Hidden");
+            } else {
+                openIcon.classList.remove("d-none");
+                closedIcon.classList.add("d-none");
+                debugLog("Balance Shown");
+            }
+        });
+
+        async function setupBannerSlider() {
+            debugLog("Banner Fetch Started");
+            const track = document.getElementById("bannerTrack");
+            const section = document.getElementById("bannerSection");
+            if (!track || !section) return;
+
+            try {
+                const bannersQuery = query(collection(db, "reseller_banners"), orderBy("createdAt", "desc"));
+                const querySnapshot = await getDocs(bannersQuery);
+
+                debugLog("Banner Fetch Successful");
+                const banners = [];
+                querySnapshot.forEach((doc) => {
+                    banners.push(doc.data());
+                });
+
+                debugLog("Banner Count Received", banners.length);
+
+                if (banners.length === 0) {
+                    section.style.display = "none";
+                    return;
+                }
+
+                if (banners.length === 1) {
+                    const b = banners[0];
+                    track.innerHTML = `
+                        <div class="banner-slide" ${b.clickLink ? `onclick="window.location.href='${b.clickLink}'; debugLog('Banner Clicked', '${b.clickLink}')"` : ''} style="${b.clickLink ? 'cursor: pointer;' : 'cursor: default;'}">
+                            <img src="${b.bannerLink}" alt="Banner" loading="lazy">
+                        </div>
+                    `;
+                    debugLog("Banner Slider Initialized (Single)");
+                    return;
+                }
+
+                const extendedBanners = [...banners, banners[0]];
+                track.innerHTML = extendedBanners.map(b => `
+                    <div class="banner-slide" ${b.clickLink ? `onclick="window.location.href='${b.clickLink}'; debugLog('Banner Clicked', '${b.clickLink}')"` : ''} style="${b.clickLink ? 'cursor: pointer;' : 'cursor: default;'}">
+                        <img src="${b.bannerLink}" alt="Banner" loading="lazy">
+                    </div>
+                `).join("");
+
+                let currentIndex = 0;
+                const totalBanners = banners.length;
+                
+                function slideBanners() {
+                    currentIndex++;
+                    track.style.transition = "transform 0.5s cubic-bezier(0.25, 1, 0.5, 1)";
+                    track.style.transform = `translateY(-${currentIndex * 100}%)`;
+
+                    if (currentIndex === totalBanners) {
+                        setTimeout(() => {
+                            track.style.transition = "none";
+                            currentIndex = 0;
+                            track.style.transform = `translateY(0px)`;
+                        }, 500);
+                    }
+                }
+
+                let autoSlideInterval = setInterval(slideBanners, 3500);
+
+                track.addEventListener("mouseenter", () => clearInterval(autoSlideInterval));
+                track.addEventListener("mouseleave", () => autoSlideInterval = setInterval(slideBanners, 3500));
+
+                let touchStartY = 0;
+                track.addEventListener("touchstart", (e) => {
+                    touchStartY = e.touches[0].clientY;
+                    clearInterval(autoSlideInterval);
+                }, { passive: true });
+
+                track.addEventListener("touchend", (e) => {
+                    let touchEndY = e.changedTouches[0].clientY;
+                    if (touchStartY - touchEndY > 50) {
+                        slideBanners();
+                    } else if (touchEndY - touchStartY > 50) {
+                        currentIndex = (currentIndex - 1 + totalBanners) % totalBanners;
+                        track.style.transition = "transform 0.5s ease";
+                        track.style.transform = `translateY(-${currentIndex * 100}%)`;
+                    }
+                    autoSlideInterval = setInterval(slideBanners, 3500);
+                }, { passive: true });
+
+                debugLog("Banner Slider Initialized");
+
+            } catch (error) {
+                debugLog("Banner Fetch Error", error.message);
+                section.style.display = "none";
+            }
+        }
+    </script>
 </body>
 </html>
