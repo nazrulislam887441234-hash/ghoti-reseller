@@ -1,0 +1,1260 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
+  <title>সকল ক্যাটাগরি | Reseller Ghoti Market</title>
+  <meta name="description" content="Reseller Ghoti Market-এর সকল পণ্যের ক্যাটাগরি দেখুন এবং আপনার পছন্দের পণ্য খুঁজে নিন।" />
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="icon" type="image/png" href="https://reseller.ghotimarket.com/photo/favicon.png" />
+  
+  <!-- Google Fonts for Clean Bengali & English Typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --primary: #FF6B35;
+      --secondary: #FF6A00;
+      --accent: #FFA500;
+      --background: #FFF7F1;
+      --text: #171717;
+      --white: #FFFFFF;
+      --text-muted: #64748B;
+      --border-color: #FFE4D4;
+      --card-shadow: 0 2px 10px rgba(255, 107, 53, 0.06);
+      --card-shadow-hover: 0 10px 24px rgba(255, 106, 0, 0.14);
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 16px;
+      --transition: all 0.25s cubic-bezier(0.25, 0.8, 0.25, 1);
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html, body {
+      width: 100%;
+      max-width: 100%;
+      overflow-x: hidden;
+      background-color: var(--background);
+      color: var(--text);
+      font-family: 'Hind Siliguri', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Full Page Auth Gate Loader */
+    #auth-gate {
+      position: fixed;
+      inset: 0;
+      background-color: var(--background);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      padding: 20px;
+      text-align: center;
+    }
+
+    .auth-spinner {
+      width: 44px;
+      height: 44px;
+      border: 4px solid var(--border-color);
+      border-top-color: var(--primary);
+      border-radius: 50%;
+      animation: spin 0.85s linear infinite;
+      margin-bottom: 16px;
+    }
+
+    .auth-gate-text {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .auth-error-card {
+      background: var(--white);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      padding: 28px 24px;
+      max-width: 400px;
+      width: 100%;
+      box-shadow: var(--card-shadow);
+    }
+
+    .auth-error-card svg {
+      width: 48px;
+      height: 48px;
+      color: #DC2626;
+      margin-bottom: 12px;
+    }
+
+    .auth-error-card h2 {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: var(--text);
+    }
+
+    .auth-error-card p {
+      font-size: 14px;
+      color: var(--text-muted);
+      margin-bottom: 18px;
+    }
+
+    /* Main App Container (Hidden until Auth + Reseller Doc Verified) */
+    #app-container {
+      display: none;
+      min-height: 100vh;
+      flex-direction: column;
+    }
+
+    /* Premium Header */
+    .site-header {
+      background: linear-gradient(135deg, var(--white) 0%, #FFF9F5 100%);
+      border-bottom: 1px solid var(--border-color);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 12px rgba(23, 23, 23, 0.03);
+    }
+
+    .header-inner {
+      max-width: 1440px;
+      margin: 0 auto;
+      padding: 12px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .header-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .brand-group {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 0;
+    }
+
+    .brand-logo {
+      height: 36px;
+      width: auto;
+      object-fit: contain;
+      flex-shrink: 0;
+    }
+
+    .header-divider {
+      width: 1px;
+      height: 28px;
+      background-color: var(--border-color);
+      flex-shrink: 0;
+    }
+
+    .title-group {
+      min-width: 0;
+    }
+
+    .page-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.2;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .page-subtitle {
+      font-size: 12px;
+      color: var(--text-muted);
+      line-height: 1.3;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    /* Search Bar */
+    .search-wrapper {
+      position: relative;
+      width: 100%;
+    }
+
+    .search-input {
+      width: 100%;
+      height: 40px;
+      padding: 0 38px 0 38px;
+      border: 1.5px solid var(--border-color);
+      border-radius: 999px;
+      background-color: var(--white);
+      color: var(--text);
+      font-family: inherit;
+      font-size: 14px;
+      outline: none;
+      transition: var(--transition);
+    }
+
+    .search-input::placeholder {
+      color: #94A3B8;
+    }
+
+    .search-input:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.14);
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 13px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 17px;
+      height: 17px;
+      color: var(--primary);
+      pointer-events: none;
+    }
+
+    .clear-search-btn {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 24px;
+      height: 24px;
+      border: none;
+      background: #F1F5F9;
+      color: var(--text-muted);
+      border-radius: 50%;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .clear-search-btn:hover {
+      background: #E2E8F0;
+      color: var(--text);
+    }
+
+    .clear-search-btn svg {
+      width: 14px;
+      height: 14px;
+    }
+
+    /* Main Content Area */
+    .main-content {
+      max-width: 1440px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 14px 8px 40px;
+      flex: 1;
+    }
+
+    /* Info Strip */
+    .status-strip {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 4px 10px;
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: var(--white);
+      border: 1px solid var(--border-color);
+      padding: 3px 10px;
+      border-radius: 999px;
+      font-weight: 600;
+      color: var(--secondary);
+    }
+
+    /* Responsive Category Grid (Mobile First: 5 columns even at 320px) */
+    .category-grid {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 6px;
+      width: 100%;
+    }
+
+    /* Category Card */
+    .category-card {
+      background: var(--white);
+      border: 1px solid rgba(255, 107, 53, 0.12);
+      border-radius: var(--radius-sm);
+      padding: 5px 4px 6px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      cursor: pointer;
+      box-shadow: var(--card-shadow);
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .category-card::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 2.5px;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+      transform: scaleX(0);
+      transition: transform 0.25s ease;
+    }
+
+    .category-card:hover {
+      transform: translateY(-3px);
+      border-color: rgba(255, 107, 53, 0.45);
+      box-shadow: var(--card-shadow-hover);
+    }
+
+    .category-card:hover::after {
+      transform: scaleX(1);
+    }
+
+    .category-card:active {
+      transform: scale(0.97);
+    }
+
+    .category-image-wrap {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      border-radius: 6px;
+      overflow: hidden;
+      background-color: #FFF3EB;
+      margin-bottom: 5px;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .category-image {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.3s ease;
+    }
+
+    .category-card:hover .category-image {
+      transform: scale(1.06);
+    }
+
+    .placeholder-svg {
+      width: 52%;
+      height: 52%;
+      color: var(--primary);
+      opacity: 0.75;
+    }
+
+    .category-name {
+      font-size: 10.5px;
+      font-weight: 600;
+      color: var(--text);
+      line-height: 1.25;
+      width: 100%;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      word-break: break-word;
+    }
+
+    /* Loading Skeleton */
+    .skeleton-card {
+      background: var(--white);
+      border: 1px solid rgba(255, 107, 53, 0.08);
+      border-radius: var(--radius-sm);
+      padding: 5px 4px 7px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .skeleton-img {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      border-radius: 6px;
+      margin-bottom: 6px;
+      background: linear-gradient(90deg, #F8EDE6 25%, #FFF7F2 50%, #F8EDE6 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.4s infinite linear;
+    }
+
+    .skeleton-text {
+      width: 82%;
+      height: 10px;
+      border-radius: 4px;
+      background: linear-gradient(90deg, #F8EDE6 25%, #FFF7F2 50%, #F8EDE6 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.4s infinite linear;
+    }
+
+    /* Load More Section */
+    .pagination-section {
+      margin-top: 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+      color: var(--white);
+      border: none;
+      border-radius: 999px;
+      padding: 11px 28px;
+      font-family: inherit;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 4px 14px rgba(255, 106, 0, 0.28);
+      transition: var(--transition);
+    }
+
+    .btn-primary:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(255, 106, 0, 0.36);
+    }
+
+    .btn-primary:disabled {
+      opacity: 0.75;
+      cursor: not-allowed;
+    }
+
+    .btn-spinner {
+      width: 16px;
+      height: 16px;
+      border: 2.5px solid rgba(255, 255, 255, 0.35);
+      border-top-color: var(--white);
+      border-radius: 50%;
+      animation: spin 0.75s linear infinite;
+      display: none;
+    }
+
+    .btn-primary.is-loading .btn-spinner {
+      display: inline-block;
+    }
+
+    /* State Containers (Empty / Search Empty / Error) */
+    .state-box {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      background: var(--white);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      padding: 36px 20px;
+      margin: 16px auto;
+      max-width: 480px;
+      box-shadow: var(--card-shadow);
+    }
+
+    .state-box svg {
+      width: 64px;
+      height: 64px;
+      margin-bottom: 14px;
+      color: var(--primary);
+    }
+
+    .state-box.error-state svg {
+      color: #DC2626;
+    }
+
+    .state-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 6px;
+    }
+
+    .state-desc {
+      font-size: 13.5px;
+      color: var(--text-muted);
+      margin-bottom: 18px;
+    }
+
+    /* Tablet Breakpoint: 7 Columns */
+    @media (min-width: 640px) {
+      .header-inner {
+        padding: 14px 20px;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      .search-wrapper {
+        max-width: 340px;
+      }
+
+      .brand-logo {
+        height: 42px;
+      }
+
+      .page-title {
+        font-size: 20px;
+      }
+
+      .page-subtitle {
+        font-size: 13px;
+      }
+
+      .main-content {
+        padding: 18px 20px 48px;
+      }
+
+      .category-grid {
+        grid-template-columns: repeat(7, minmax(0, 1fr));
+        gap: 10px;
+      }
+
+      .category-card {
+        border-radius: var(--radius-md);
+        padding: 8px 6px 10px;
+      }
+
+      .category-image-wrap {
+        border-radius: 8px;
+        margin-bottom: 7px;
+      }
+
+      .category-name {
+        font-size: 12px;
+      }
+    }
+
+    /* Laptop & Desktop Breakpoint: 10 Columns */
+    @media (min-width: 1024px) {
+      .header-inner {
+        padding: 16px 28px;
+      }
+
+      .search-wrapper {
+        max-width: 400px;
+      }
+
+      .brand-logo {
+        height: 46px;
+      }
+
+      .page-title {
+        font-size: 22px;
+      }
+
+      .main-content {
+        padding: 22px 28px 56px;
+      }
+
+      .category-grid {
+        grid-template-columns: repeat(10, minmax(0, 1fr));
+        gap: 12px;
+      }
+
+      .category-card {
+        padding: 9px 7px 11px;
+      }
+
+      .category-name {
+        font-size: 12.5px;
+      }
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    @keyframes shimmer {
+      0% { background-position: 200% 0; }
+      100% { background-position: -200% 0; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Authentication & Reseller Verification Gate -->
+  <div id="auth-gate" role="status" aria-live="polite">
+    <div id="auth-loading-view">
+      <div class="auth-spinner" style="margin: 0 auto 16px;"></div>
+      <p class="auth-gate-text">অ্যাকাউন্ট যাচাই করা হচ্ছে, অনুগ্রহ করে অপেক্ষা করুন...</p>
+    </div>
+    <div id="auth-error-view" class="auth-error-card" style="display: none;">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="10"></circle>
+        <line x1="12" y1="8" x2="12" y2="12"></line>
+        <line x1="12" y1="16" x2="12.01" y2="16"></line>
+      </svg>
+      <h2 id="auth-error-title">যাচাইকরণ ব্যর্থ হয়েছে</h2>
+      <p id="auth-error-message">সার্ভারের সাথে সংযোগ স্থাপন করা সম্ভব হয়নি।</p>
+      <button type="button" id="auth-retry-btn" class="btn-primary">আবার চেষ্টা করুন</button>
+    </div>
+  </div>
+
+  <!-- Main Protected Application -->
+  <div id="app-container">
+    <header class="site-header">
+      <div class="header-inner">
+        <div class="header-top">
+          <div class="brand-group">
+            <img
+              src="https://reseller.ghotimarket.com/photo/logo.png"
+              alt="Reseller Ghoti Market Logo"
+              class="brand-logo"
+            />
+            <div class="header-divider"></div>
+            <div class="title-group">
+              <h1 class="page-title">সকল ক্যাটাগরি</h1>
+              <p class="page-subtitle">আপনার পছন্দের ক্যাটাগরি থেকে পণ্য খুঁজে নিন।</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="search-wrapper">
+          <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+          <input
+            type="text"
+            id="category-search"
+            class="search-input"
+            placeholder="ক্যাটাগরির নাম লিখে খুঁজুন..."
+            autocomplete="off"
+            aria-label="ক্যাটাগরি খুঁজুন"
+          />
+          <button type="button" id="clear-search-btn" class="clear-search-btn" aria-label="অনুসন্ধান মুছুন">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="18" y1="6" x2="6" y2="18"></line>
+              <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <main class="main-content">
+      <div class="status-strip">
+        <span id="category-counter" class="status-badge">লোড হচ্ছে...</span>
+        <span id="search-hint-text"></span>
+      </div>
+
+      <!-- Category Grid -->
+      <section id="category-grid" class="category-grid" aria-label="ক্যাটাগরি তালিকা"></section>
+
+      <!-- Empty State (No Categories in DB) -->
+      <div id="empty-state" class="state-box">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="3" width="7" height="7" rx="1.5"></rect>
+          <rect x="14" y="3" width="7" height="7" rx="1.5"></rect>
+          <rect x="14" y="14" width="7" height="7" rx="1.5"></rect>
+          <rect x="3" y="14" width="7" height="7" rx="1.5"></rect>
+        </svg>
+        <h2 class="state-title">বর্তমানে কোনো ক্যাটাগরি পাওয়া যায়নি।</h2>
+        <p class="state-desc">নতুন ক্যাটাগরি যুক্ত হলে এখানে দেখতে পাবেন।</p>
+      </div>
+
+      <!-- Search Not Found State -->
+      <div id="search-empty-state" class="state-box">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="8"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          <line x1="8" y1="11" x2="14" y2="11"></line>
+        </svg>
+        <h2 class="state-title">দুঃখিত! আপনার খোঁজা ক্যাটাগরি পাওয়া যায়নি।</h2>
+        <p id="search-empty-sub" class="state-desc">অন্য কোনো নাম দিয়ে খুঁজুন অথবা নিচের বাটন থেকে আরও ক্যাটাগরি লোড করে চেষ্টা করুন।</p>
+      </div>
+
+      <!-- Error State -->
+      <div id="error-state" class="state-box error-state">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
+          <line x1="12" y1="9" x2="12" y2="13"></line>
+          <line x1="12" y1="17" x2="12.01" y2="17"></line>
+        </svg>
+        <h2 id="error-state-title" class="state-title">দুঃখিত! ক্যাটাগরি লোড করতে সমস্যা হয়েছে। আবার চেষ্টা করুন।</h2>
+        <p id="error-state-desc" class="state-desc">অনুগ্রহ করে নিচের বাটনে ক্লিক করে পুনরায় চেষ্টা করুন।</p>
+        <button type="button" id="retry-fetch-btn" class="btn-primary">আবার চেষ্টা করুন</button>
+      </div>
+
+      <!-- Pagination Load More Section -->
+      <div id="pagination-section" class="pagination-section" style="display: none;">
+        <button type="button" id="load-more-btn" class="btn-primary">
+          <span class="btn-spinner" aria-hidden="true"></span>
+          <span id="load-more-text">আরও দেখুন</span>
+        </button>
+      </div>
+    </main>
+  </div>
+
+  <!-- Firebase Modular SDK 10.8.0 -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+    import {
+      getFirestore,
+      collection,
+      doc,
+      getDoc,
+      getDocs,
+      query,
+      orderBy,
+      limit,
+      startAfter
+    } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+    // =========================================================================
+    // DEBUG SYSTEM
+    // =========================================================================
+    function debugLog(message, data = null) {
+      console.log("[RESELLER CATEGORY DEBUG]", message, data || "");
+    }
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDCIRWmozT0XcEXuXtQ6RDiDo6vtT1T9mU",
+  authDomain: "paikarisell-ghotimarket.firebaseapp.com",
+  projectId: "paikarisell-ghotimarket",
+  storageBucket: "paikarisell-ghotimarket.firebasestorage.app",
+  messagingSenderId: "464086432830",
+  appId: "1:464086432830:web:a10fdd9884954e380e656f",
+  measurementId: "G-E3HR2F9TC5"
+};
+    let app, auth, db;
+    try {
+      app = initializeApp(firebaseConfig);
+      auth = getAuth(app);
+      db = getFirestore(app);
+      debugLog("Firebase Initialized", { projectId: firebaseConfig.projectId });
+    } catch (err) {
+      debugLog("Unexpected Error", { code: err?.code, error: err });
+      showAuthError("সিস্টেম ত্রুটি", "Firebase চালু করতে সমস্যা হয়েছে। অনুগ্রহ করে পেজটি রিফ্রেশ করুন।");
+    }
+
+    // =========================================================================
+    // APPLICATION STATE
+    // =========================================================================
+    const PAGE_SIZE = 50;
+    const state = {
+      categories: [],          // All downloaded unique categories
+      loadedIds: new Set(),    // Prevent duplicate document rendering
+      lastVisible: null,       // Last Firestore DocumentSnapshot for startAfter
+      isFetching: false,       // Lock to prevent concurrent pagination requests
+      hasMore: true,           // Whether more documents might exist
+      isInitialLoaded: false,  // Tracks first batch completion
+      searchQuery: "",         // Current search input
+      currentUserUid: null     // Authenticated user's UID
+    };
+
+    // =========================================================================
+    // DOM REFERENCES
+    // =========================================================================
+    const authGate = document.getElementById("auth-gate");
+    const authLoadingView = document.getElementById("auth-loading-view");
+    const authErrorView = document.getElementById("auth-error-view");
+    const authErrorTitle = document.getElementById("auth-error-title");
+    const authErrorMessage = document.getElementById("auth-error-message");
+    const authRetryBtn = document.getElementById("auth-retry-btn");
+
+    const appContainer = document.getElementById("app-container");
+    const categoryGrid = document.getElementById("category-grid");
+    const categoryCounter = document.getElementById("category-counter");
+    const searchHintText = document.getElementById("search-hint-text");
+
+    const searchInput = document.getElementById("category-search");
+    const clearSearchBtn = document.getElementById("clear-search-btn");
+
+    const emptyState = document.getElementById("empty-state");
+    const searchEmptyState = document.getElementById("search-empty-state");
+    const errorState = document.getElementById("error-state");
+    const errorStateTitle = document.getElementById("error-state-title");
+    const errorStateDesc = document.getElementById("error-state-desc");
+    const retryFetchBtn = document.getElementById("retry-fetch-btn");
+
+    const paginationSection = document.getElementById("pagination-section");
+    const loadMoreBtn = document.getElementById("load-more-btn");
+    const loadMoreText = document.getElementById("load-more-text");
+
+    // =========================================================================
+    // AUTHENTICATION & RESELLER DOCUMENT CHECK
+    // =========================================================================
+    function showAuthError(title, message) {
+      authLoadingView.style.display = "none";
+      authErrorTitle.textContent = title;
+      authErrorMessage.textContent = message;
+      authErrorView.style.display = "block";
+    }
+
+    async function verifyResellerDocument(user) {
+      authLoadingView.style.display = "block";
+      authErrorView.style.display = "none";
+
+      try {
+        debugLog("Reseller Document Checking", { uid: user.uid });
+        const resellerRef = doc(db, "reseller", user.uid);
+        const resellerSnap = await getDoc(resellerRef);
+
+        if (resellerSnap.exists()) {
+          debugLog("Reseller Document Found", { uid: user.uid });
+          authGate.style.display = "none";
+          appContainer.style.display = "flex";
+          fetchInitialCategories();
+        } else {
+          debugLog("Reseller Document Not Found", { uid: user.uid });
+          window.location.href = "/signup1";
+        }
+      } catch (error) {
+        debugLog("Firestore Error", { code: error?.code, error });
+        if (error?.code === "permission-denied") {
+          showAuthError(
+            "অনুমতি পাওয়া যায়নি",
+            "আপনার রিসেলার অ্যাকাউন্টের তথ্য দেখার অনুমতি নেই। অনুগ্রহ করে সাপোর্টে যোগাযোগ করুন।"
+          );
+        } else if (!navigator.onLine || error?.code === "unavailable") {
+          showAuthError(
+            "ইন্টারনেট সংযোগ সমস্যা",
+            "ইন্টারনেট সংযোগে সমস্যা হয়েছে। অনুগ্রহ করে সংযোগ পরীক্ষা করে আবার চেষ্টা করুন।"
+          );
+        } else {
+          // Server error হলে ভুল করে /signup1 এ পাঠানো হবে না
+          showAuthError(
+            "সার্ভার ত্রুটি",
+            "অ্যাকাউন্ট যাচাই করতে সাময়িক সমস্যা হয়েছে। অনুগ্রহ করে আবার চেষ্টা করুন।"
+          );
+        }
+      }
+    }
+
+    authRetryBtn.addEventListener("click", () => {
+      if (auth.currentUser) {
+        verifyResellerDocument(auth.currentUser);
+      } else {
+        window.location.reload();
+      }
+    });
+
+    debugLog("Authentication Started");
+    onAuthStateChanged(
+      auth,
+      (user) => {
+        if (!user) {
+          debugLog("Authentication Error", { reason: "No active session, redirecting to /login" });
+          window.location.href = "/login";
+          return;
+        }
+
+        state.currentUserUid = user.uid;
+        debugLog("User Authenticated");
+        debugLog("UID Received", { uid: user.uid });
+        verifyResellerDocument(user);
+      },
+      (error) => {
+        debugLog("Authentication Error", { code: error?.code, error });
+        showAuthError(
+          "অথেনটিকেশন ত্রুটি",
+          "লগইন সেশন যাচাই করতে সমস্যা হয়েছে। অনুগ্রহ করে আবার চেষ্টা করুন।"
+        );
+      }
+    );
+
+    // =========================================================================
+    // SKELETON & SVG PLACEHOLDER HELPERS
+    // =========================================================================
+    function showInitialSkeletons(count = 10) {
+      categoryGrid.innerHTML = "";
+      hideAllStates();
+      const fragment = document.createDocumentFragment();
+
+      for (let i = 0; i < count; i++) {
+        const card = document.createElement("div");
+        card.className = "skeleton-card";
+        card.setAttribute("aria-hidden", "true");
+
+        const imgBox = document.createElement("div");
+        imgBox.className = "skeleton-img";
+
+        const textBox = document.createElement("div");
+        textBox.className = "skeleton-text";
+
+        card.appendChild(imgBox);
+        card.appendChild(textBox);
+        fragment.appendChild(card);
+      }
+
+      categoryGrid.appendChild(fragment);
+    }
+
+    function createDefaultCategorySVG() {
+      const svgNS = "http://www.w3.org/2000/svg";
+      const svg = document.createElementNS(svgNS, "svg");
+      svg.setAttribute("viewBox", "0 0 24 24");
+      svg.setAttribute("fill", "none");
+      svg.setAttribute("stroke", "currentColor");
+      svg.setAttribute("stroke-width", "1.8");
+      svg.setAttribute("stroke-linecap", "round");
+      svg.setAttribute("stroke-linejoin", "round");
+      svg.setAttribute("class", "placeholder-svg");
+
+      const paths = [
+        { d: "M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" },
+        { points: "3.27 6.96 12 12.01 20.73 6.96" },
+        { x1: "12", y1: "22.08", x2: "12", y2: "12" }
+      ];
+
+      const path1 = document.createElementNS(svgNS, "path");
+      path1.setAttribute("d", paths[0].d);
+
+      const polyline = document.createElementNS(svgNS, "polyline");
+      polyline.setAttribute("points", paths[1].points);
+
+      const line = document.createElementNS(svgNS, "line");
+      line.setAttribute("x1", paths[2].x1);
+      line.setAttribute("y1", paths[2].y1);
+      line.setAttribute("x2", paths[2].x2);
+      line.setAttribute("y2", paths[2].y2);
+
+      svg.appendChild(path1);
+      svg.appendChild(polyline);
+      svg.appendChild(line);
+      return svg;
+    }
+
+    function createCategoryCardElement(cat) {
+      const article = document.createElement("article");
+      article.className = "category-card";
+      article.setAttribute("role", "button");
+      article.setAttribute("tabindex", "0");
+      article.setAttribute("aria-label", cat.categoryName || "ক্যাটাগরি");
+      article.dataset.id = cat.id;
+
+      const imgWrap = document.createElement("div");
+      imgWrap.className = "category-image-wrap";
+
+      const imageUrl = typeof cat.categoryImage === "string" ? cat.categoryImage.trim() : "";
+
+      if (imageUrl) {
+        const img = document.createElement("img");
+        img.className = "category-image";
+        img.src = imageUrl;
+        img.alt = cat.categoryName || "Category Image";
+        img.loading = "lazy";
+        img.decoding = "async";
+
+        img.addEventListener("error", () => {
+          imgWrap.innerHTML = "";
+          imgWrap.appendChild(createDefaultCategorySVG());
+        }, { once: true });
+
+        imgWrap.appendChild(img);
+      } else {
+        imgWrap.appendChild(createDefaultCategorySVG());
+      }
+
+      const nameEl = document.createElement("h3");
+      nameEl.className = "category-name";
+      nameEl.textContent = cat.categoryName || "নামহীন ক্যাটাগরি";
+      nameEl.title = cat.categoryName || "";
+
+      article.appendChild(imgWrap);
+      article.appendChild(nameEl);
+
+      // Navigation Handler using Document ID safely encoded
+      const navigateToCategory = () => {
+        debugLog("Category Clicked", { id: cat.id, name: cat.categoryName });
+        const encodedId = encodeURIComponent(cat.id);
+        window.location.href = "/category?" + encodedId;
+      };
+
+      article.addEventListener("click", navigateToCategory);
+      article.addEventListener("keydown", (e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          navigateToCategory();
+        }
+      });
+
+      return article;
+    }
+
+    // =========================================================================
+    // UI STATE & RENDERING MANAGEMENT
+    // =========================================================================
+    function hideAllStates() {
+      emptyState.style.display = "none";
+      searchEmptyState.style.display = "none";
+      errorState.style.display = "none";
+    }
+
+    function updateStatusCounter(displayedCount) {
+      const totalLoaded = state.categories.length;
+      if (state.searchQuery) {
+        categoryCounter.textContent = `খুঁজে পাওয়া গেছে: ${displayedCount}টি (লোডকৃত ${totalLoaded}টির মধ্যে)`;
+        searchHintText.textContent = state.hasMore ? "আরও ক্যাটাগরি দেখতে নিচে লোড করুন" : "";
+      } else {
+        categoryCounter.textContent = `মোট লোডকৃত ক্যাটাগরি: ${totalLoaded}টি`;
+        searchHintText.textContent = state.hasMore ? "প্রতিবারে সর্বোচ্চ ৫০টি করে লোড হয়" : "সব ক্যাটাগরি দেখানো হয়েছে";
+      }
+    }
+
+    function updatePaginationUI() {
+      if (state.hasMore && state.categories.length > 0) {
+        paginationSection.style.display = "flex";
+      } else {
+        paginationSection.style.display = "none";
+      }
+    }
+
+    function renderCategories() {
+      hideAllStates();
+
+      if (state.categories.length === 0 && state.isInitialLoaded) {
+        categoryGrid.innerHTML = "";
+        emptyState.style.display = "flex";
+        paginationSection.style.display = "none";
+        updateStatusCounter(0);
+        return;
+      }
+
+      const term = state.searchQuery.trim().toLowerCase();
+      const filteredList = term
+        ? state.categories.filter((item) =>
+            (item.categoryName || "").toLowerCase().includes(term)
+          )
+        : state.categories;
+
+      categoryGrid.innerHTML = "";
+
+      if (filteredList.length === 0 && term) {
+        searchEmptyState.style.display = "flex";
+        updateStatusCounter(0);
+        updatePaginationUI();
+        return;
+      }
+
+      const fragment = document.createDocumentFragment();
+      for (let i = 0; i < filteredList.length; i++) {
+        fragment.appendChild(createCategoryCardElement(filteredList[i]));
+      }
+
+      categoryGrid.appendChild(fragment);
+      updateStatusCounter(filteredList.length);
+      updatePaginationUI();
+    }
+
+    function handleFirestoreFetchError(error, isInitial) {
+      debugLog("Firestore Error", { code: error?.code, error });
+
+      let title = "দুঃখিত! ক্যাটাগরি লোড করতে সমস্যা হয়েছে। আবার চেষ্টা করুন।";
+      let desc = "অনুগ্রহ করে নিচের বাটনে ক্লিক করে পুনরায় চেষ্টা করুন।";
+
+      if (!navigator.onLine || error?.code === "unavailable") {
+        title = "ইন্টারনেট সংযোগে সমস্যা হয়েছে। অনুগ্রহ করে আবার চেষ্টা করুন।";
+        desc = "আপনার ইন্টারনেট সংযোগ সচল আছে কিনা তা নিশ্চিত করুন।";
+      } else if (error?.code === "permission-denied") {
+        title = "ক্যাটাগরি দেখার অনুমতি পাওয়া যায়নি। অনুগ্রহ করে সাপোর্টে যোগাযোগ করুন।";
+        desc = "Firestore নিরাপত্তা নীতির কারণে তথ্য দেখানো সম্ভব হচ্ছে না।";
+      }
+
+      if (isInitial) {
+        categoryGrid.innerHTML = "";
+        hideAllStates();
+        errorStateTitle.textContent = title;
+        errorStateDesc.textContent = desc;
+        errorState.style.display = "flex";
+        paginationSection.style.display = "none";
+        categoryCounter.textContent = "লোড ব্যর্থ হয়েছে";
+      } else {
+        // Pagination error: keep already loaded categories intact and show retry inside pagination area
+        errorStateTitle.textContent = title;
+        errorStateDesc.textContent = desc;
+        errorState.style.display = "flex";
+      }
+    }
+
+    // =========================================================================
+    // FIRESTORE PAGINATION SYSTEM (STRICTLY 50 PER REQUEST)
+    // =========================================================================
+    async function fetchInitialCategories() {
+      if (state.isFetching) return;
+      state.isFetching = true;
+
+      debugLog("Initial Category Fetch Started");
+      showInitialSkeletons(10);
+
+      try {
+        const firstQuery = query(
+          collection(db, "categories"),
+          orderBy("createdAt", "desc"),
+          limit(PAGE_SIZE)
+        );
+
+        const snapshot = await getDocs(firstQuery);
+        debugLog("Initial Category Fetch Successful");
+        debugLog("Category Count Received", { count: snapshot.size });
+
+        state.categories = [];
+        state.loadedIds.clear();
+
+        snapshot.forEach((docSnap) => {
+          if (!state.loadedIds.has(docSnap.id)) {
+            const data = docSnap.data();
+            state.loadedIds.add(docSnap.id);
+            state.categories.push({
+              id: docSnap.id,
+              categoryName: data.categoryName || "",
+              categoryImage: data.categoryImage || "",
+              createdAt: data.createdAt || null
+            });
+          }
+        });
+
+        if (snapshot.docs.length > 0) {
+          state.lastVisible = snapshot.docs[snapshot.docs.length - 1];
+          debugLog("Last Document Updated", { lastDocId: state.lastVisible.id });
+        } else {
+          state.lastVisible = null;
+        }
+
+        if (snapshot.size < PAGE_SIZE) {
+          state.hasMore = false;
+          debugLog("No More Categories");
+        } else {
+          state.hasMore = true;
+        }
+
+        state.isInitialLoaded = true;
+        renderCategories();
+      } catch (error) {
+        handleFirestoreFetchError(error, true);
+      } finally {
+        state.isFetching = false;
+      }
+    }
+
+    async function fetchNextCategories() {
+      if (state.isFetching || !state.hasMore || !state.lastVisible) return;
+      state.isFetching = true;
+
+      debugLog("Next Category Fetch Started", { afterDocId: state.lastVisible.id });
+      loadMoreBtn.disabled = true;
+      loadMoreBtn.classList.add("is-loading");
+      loadMoreText.textContent = "লোড হচ্ছে...";
+      errorState.style.display = "none";
+
+      try {
+        const nextQuery = query(
+          collection(db, "categories"),
+          orderBy("createdAt", "desc"),
+          startAfter(state.lastVisible),
+          limit(PAGE_SIZE)
+        );
+
+        const snapshot = await getDocs(nextQuery);
+        debugLog("Next Category Fetch Successful");
+        debugLog("Category Count Received", { count: snapshot.size });
+
+        snapshot.forEach((docSnap) => {
+          if (!state.loadedIds.has(docSnap.id)) {
+            const data = docSnap.data();
+            state.loadedIds.add(docSnap.id);
+            state.categories.push({
+              id: docSnap.id,
+              categoryName: data.categoryName || "",
+              categoryImage: data.categoryImage || "",
+              createdAt: data.createdAt || null
+            });
+          }
+        });
+
+        if (snapshot.docs.length > 0) {
+          state.lastVisible = snapshot.docs[snapshot.docs.length - 1];
+          debugLog("Last Document Updated", { lastDocId: state.lastVisible.id });
+        }
+
+        if (snapshot.size < PAGE_SIZE) {
+          state.hasMore = false;
+          debugLog("No More Categories");
+        }
+
+        renderCategories();
+      } catch (error) {
+        handleFirestoreFetchError(error, false);
+      } finally {
+        state.isFetching = false;
+        loadMoreBtn.disabled = false;
+        loadMoreBtn.classList.remove("is-loading");
+        loadMoreText.textContent = "আরও দেখুন";
+      }
+    }
+
+    // =========================================================================
+    // EVENT LISTENERS (LOAD MORE, RETRY & INSTANT LOCAL SEARCH)
+    // =========================================================================
+    loadMoreBtn.addEventListener("click", () => {
+      debugLog("Load More Clicked");
+      fetchNextCategories();
+    });
+
+    retryFetchBtn.addEventListener("click", () => {
+      if (!state.isInitialLoaded) {
+        fetchInitialCategories();
+      } else {
+        fetchNextCategories();
+      }
+    });
+
+    searchInput.addEventListener("input", (e) => {
+      const value = e.target.value;
+      state.searchQuery = value;
+      clearSearchBtn.style.display = value.length > 0 ? "flex" : "none";
+
+      debugLog("Category Search Started", { query: value });
+      renderCategories();
+
+      const term = value.trim().toLowerCase();
+      const matchCount = term
+        ? state.categories.filter((c) => (c.categoryName || "").toLowerCase().includes(term)).length
+        : state.categories.length;
+
+      debugLog("Category Search Result", { query: value, matchedCount: matchCount });
+    });
+
+    clearSearchBtn.addEventListener("click", () => {
+      searchInput.value = "";
+      state.searchQuery = "";
+      clearSearchBtn.style.display = "none";
+      searchInput.focus();
+      debugLog("Category Search Result", { query: "", matchedCount: state.categories.length });
+      renderCategories();
+    });
+  </script>
+</body>
+</html>
