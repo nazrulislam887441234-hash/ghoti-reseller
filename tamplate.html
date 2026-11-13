@@ -1,0 +1,1069 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>মেসেজ টেমপ্লেট | Reseller Ghoti Market</title>
+    <meta name="description" content="Reseller Ghoti Market-এর প্রস্তুত মেসেজ টেমপ্লেট ব্যবহার করে সহজে ও পেশাদারভাবে কাস্টমারের সাথে যোগাযোগ করুন।">
+    <meta name="robots" content="noindex, nofollow">
+    <link rel="icon" href="https://reseller.ghotimarket.com/photo/favicon.png" type="image/png">
+    
+    <!-- Google Fonts: Hind Siliguri -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary: #FF6B35;
+            --secondary: #FF6A00;
+            --accent: #FFA500;
+            --background: #FFF7F1;
+            --text: #171717;
+            --white: #FFFFFF;
+            --success: #16A34A;
+            --danger: #DC2626;
+            --gray-100: #F3F4F6;
+            --gray-200: #E5E7EB;
+            --gray-500: #6B7280;
+            --gray-700: #374151;
+            --shadow: 0 4px 6px -1px rgba(255, 107, 53, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Hind Siliguri', sans-serif;
+        }
+
+        body {
+            background-color: var(--background);
+            color: var(--text);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Initial Auth Loader Overlay */
+        #auth-loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--background);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.3s ease;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid var(--gray-200);
+            border-top: 4px solid var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 16px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* App Container */
+        #app-container {
+            display: none;
+            flex: 1;
+            flex-direction: column;
+        }
+
+        /* Header */
+        header {
+            background: var(--white);
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 16px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .brand-box {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+        }
+
+        .brand-logo {
+            width: 45px;
+            height: 45px;
+            object-fit: contain;
+        }
+
+        .brand-title-group h1 {
+            font-size: 1.25rem;
+            color: var(--text);
+            font-weight: 700;
+            line-height: 1.2;
+        }
+
+        .brand-title-group p {
+            font-size: 0.85rem;
+            color: var(--gray-500);
+        }
+
+        .header-btn {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: var(--white);
+            border: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .header-btn:hover {
+            opacity: 0.9;
+            transform: translateY(-1px);
+        }
+
+        /* Main Content Wrapper */
+        main {
+            max-width: 900px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 24px 16px;
+            flex: 1;
+        }
+
+        /* Introduction Card */
+        .intro-card {
+            background: var(--white);
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: var(--shadow);
+            margin-bottom: 24px;
+            border-left: 5px solid var(--primary);
+        }
+
+        .intro-card h2 {
+            font-size: 1.4rem;
+            color: var(--text);
+            margin-bottom: 12px;
+            font-weight: 700;
+        }
+
+        .intro-card p {
+            font-size: 0.95rem;
+            color: var(--gray-700);
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .intro-highlights {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 12px;
+        }
+
+        .highlight-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            background: var(--background);
+            padding: 12px;
+            border-radius: 10px;
+        }
+
+        .highlight-item svg {
+            width: 22px;
+            height: 22px;
+            fill: var(--primary);
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .highlight-item div h4 {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        .highlight-item div p {
+            font-size: 0.8rem;
+            color: var(--gray-500);
+            margin: 0;
+            line-height: 1.3;
+        }
+
+        /* Search Section */
+        .search-box {
+            position: relative;
+            margin-bottom: 24px;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 14px 16px 14px 48px;
+            border: 2px solid var(--gray-200);
+            border-radius: 12px;
+            font-size: 1rem;
+            outline: none;
+            background: var(--white);
+            transition: var(--transition);
+        }
+
+        .search-box input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.15);
+        }
+
+        .search-box svg {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 20px;
+            height: 20px;
+            fill: var(--gray-500);
+        }
+
+        /* Templates List & Cards */
+        .templates-container {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .template-card {
+            background: var(--white);
+            border-radius: 14px;
+            padding: 20px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--gray-200);
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .template-card:hover {
+            transform: translateY(-2px);
+            border-color: var(--accent);
+            box-shadow: 0 10px 15px -3px rgba(255, 107, 53, 0.1);
+        }
+
+        .template-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 12px;
+        }
+
+        .template-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--text);
+        }
+
+        .template-date {
+            font-size: 0.75rem;
+            color: var(--gray-500);
+            background: var(--gray-100);
+            padding: 4px 8px;
+            border-radius: 6px;
+            white-space: nowrap;
+        }
+
+        .message-content {
+            white-space: pre-wrap;
+            overflow-wrap: anywhere;
+            word-break: normal;
+            font-size: 0.95rem;
+            color: var(--gray-700);
+            background: var(--background);
+            padding: 14px;
+            border-radius: 10px;
+            line-height: 1.6;
+            border-left: 3px solid var(--accent);
+        }
+
+        .template-note {
+            background: #FEF3C7;
+            border-left: 3px solid #D97706;
+            padding: 10px 14px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            color: #92400E;
+        }
+
+        .template-footer {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 4px;
+        }
+
+        .copy-btn {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: var(--white);
+            border: none;
+            padding: 10px 18px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .copy-btn:hover {
+            opacity: 0.9;
+        }
+
+        .copy-btn:active {
+            transform: scale(0.98);
+        }
+
+        .copy-btn svg {
+            width: 16px;
+            height: 16px;
+            fill: var(--white);
+        }
+
+        /* Loading Skeletons */
+        .skeleton-card {
+            background: var(--white);
+            border-radius: 14px;
+            padding: 20px;
+            box-shadow: var(--shadow);
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            animation: pulse 1.5s infinite;
+        }
+
+        .skeleton-line {
+            height: 16px;
+            background: var(--gray-200);
+            border-radius: 4px;
+        }
+
+        .skeleton-line.title { width: 60%; height: 20px; }
+        .skeleton-line.content { height: 80px; }
+        .skeleton-line.btn { width: 140px; height: 36px; align-self: flex-end; }
+
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+
+        /* States & Indicators */
+        .state-container {
+            text-align: center;
+            padding: 40px 20px;
+            background: var(--white);
+            border-radius: 14px;
+            box-shadow: var(--shadow);
+            margin-top: 20px;
+        }
+
+        .state-container svg {
+            width: 48px;
+            height: 48px;
+            fill: var(--gray-500);
+            margin-bottom: 12px;
+        }
+
+        .state-container h3 {
+            font-size: 1.1rem;
+            color: var(--text);
+            margin-bottom: 6px;
+        }
+
+        .state-container p {
+            font-size: 0.9rem;
+            color: var(--gray-500);
+            margin-bottom: 16px;
+        }
+
+        .retry-btn {
+            background: var(--primary);
+            color: var(--white);
+            border: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        #pagination-loader {
+            display: flex;
+            justify-content: center;
+            padding: 20px 0;
+        }
+
+        .small-spinner {
+            width: 30px;
+            height: 30px;
+            border: 3px solid var(--gray-200);
+            border-top: 3px solid var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        .end-of-list {
+            text-align: center;
+            padding: 24px;
+            color: var(--gray-500);
+            font-size: 0.9rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .end-of-list svg {
+            width: 24px;
+            height: 24px;
+            fill: var(--success);
+        }
+
+        /* Toast Notification */
+        #toast-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 10000;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            max-width: 350px;
+            width: 100%;
+            pointer-events: none;
+        }
+
+        .toast {
+            background: var(--text);
+            color: var(--white);
+            padding: 14px 18px;
+            border-radius: 10px;
+            box-shadow: 0 10px 15px -3px rgba(0,0,0,0.2);
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            pointer-events: auto;
+            animation: slideIn 0.3s ease, fadeOut 0.3s ease 2.7s forwards;
+        }
+
+        .toast.success { background: var(--success); }
+        .toast.error { background: var(--danger); }
+        .toast.warning { background: var(--accent); color: var(--text); }
+
+        @keyframes slideIn {
+            from { transform: translateY(100%); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        @keyframes fadeOut {
+            to { opacity: 0; transform: translateY(10px); }
+        }
+
+        /* Responsive Breakpoints */
+        @media (min-width: 768px) {
+            .templates-container {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 20px;
+            }
+            .intro-card {
+                padding: 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Initial Loading / Auth Check Overlay -->
+    <div id="auth-loader">
+        <div class="spinner"></div>
+        <p style="font-weight: 600; color: var(--gray-700);">যাচাই করা হচ্ছে...</p>
+    </div>
+
+    <!-- Main App Container -->
+    <div id="app-container">
+        <!-- Header -->
+        <header>
+            <div class="header-container">
+                <a href="#" class="brand-box">
+                    <img src="https://reseller.ghotimarket.com/photo/logo.png" alt="Logo" class="brand-logo">
+                    <div class="brand-title-group">
+                        <h1>মেসেজ টেমপ্লেট</h1>
+                        <p>Reseller Ghoti Market</p>
+                    </div>
+                </a>
+                <a href="/dashboard" class="header-btn">
+                    <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+                    ড্যাশবোর্ড
+                </a>
+            </div>
+        </header>
+
+        <!-- Main Body -->
+        <main>
+            <!-- Introduction Section -->
+            <section class="intro-card">
+                <h2>স্মার্টভাবে কাস্টমারের সাথে যোগাযোগ করুন!</h2>
+                <p>এই প্রস্তুতকৃত মেসেজ টেমপ্লেটগুলো ব্যবহার করার ফলে কাস্টমারের সাথে যোগাযোগ করা আরও সহজ, দ্রুত ও পেশাদার হবে। প্রতিবার নতুন করে মেসেজ লেখার প্রয়োজন নেই। আপনার প্রয়োজন অনুযায়ী একটি টেমপ্লেট নির্বাচন করে এক ক্লিকেই কপি করুন এবং কাস্টমারকে পাঠিয়ে দিন।</p>
+                
+                <div class="intro-highlights">
+                    <div class="highlight-item">
+                        <svg viewBox="0 0 24 24"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/></svg>
+                        <div>
+                            <h4>সময় বাঁচান</h4>
+                            <p>বারবার নতুন মেসেজ লেখার প্রয়োজন নেই।</p>
+                        </div>
+                    </div>
+                    <div class="highlight-item">
+                        <svg viewBox="0 0 24 24"><path d="M12 3c-4.97 0-9 4.03-9 9 0 2.12.74 4.07 1.97 5.61L4.35 19l1.39 1.39 1.39-1.39C8.93 20.26 10.88 21 13 21c4.97 0 9-4.03 9-9s-4.03-9-9-9zm0 16c-3.87 0-7-3.13-7-7s3.13-7 7-7 7 3.13 7 7-3.13 7-7 7zm1-11h-2v6h6v-2h-4z"/></svg>
+                        <div>
+                            <h4>পেশাদার যোগাযোগ</h4>
+                            <p>সুন্দর ও গোছানোভাবে কথা বলুন।</p>
+                        </div>
+                    </div>
+                    <div class="highlight-item">
+                        <svg viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
+                        <div>
+                            <h4>এক ক্লিকে কপি</h4>
+                            <p>প্রয়োজনীয় মেসেজ দ্রুত কপি করুন।</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Search Bar -->
+            <div class="search-box">
+                <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+                <input type="text" id="searchInput" placeholder="মেসেজের শিরোনাম বা লেখা খুঁজুন...">
+            </div>
+
+            <!-- Templates List Container -->
+            <div id="templatesList" class="templates-container">
+                <!-- Initial Skeletons -->
+                <div class="skeleton-card"><div class="skeleton-line title"></div><div class="skeleton-line content"></div><div class="skeleton-line btn"></div></div>
+                <div class="skeleton-card"><div class="skeleton-line title"></div><div class="skeleton-line content"></div><div class="skeleton-line btn"></div></div>
+            </div>
+
+            <!-- Pagination Loading Indicator -->
+            <div id="pagination-loader" style="display: none;">
+                <div class="small-spinner"></div>
+            </div>
+
+            <!-- Sentinel for Infinite Scroll -->
+            <div id="scrollSentinel" style="height: 10px;"></div>
+        </main>
+    </div>
+
+    <!-- Toast Container -->
+    <div id="toast-container"></div>
+
+    <!-- Firebase SDK 10.8.0 Modular -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        import { getFirestore, doc, getDoc, collection, query, orderBy, limit, startAfter, getDocs } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+   const firebaseConfig = {
+  apiKey: "AIzaSyDCIRWmozT0XcEXuXtQ6RDiDo6vtT1T9mU",
+  authDomain: "paikarisell-ghotimarket.firebaseapp.com",
+  projectId: "paikarisell-ghotimarket",
+  storageBucket: "paikarisell-ghotimarket.firebasestorage.app",
+  messagingSenderId: "464086432830",
+  appId: "1:464086432830:web:a10fdd9884954e380e656f",
+  measurementId: "G-E3HR2F9TC5"
+};
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const auth = getAuth(app);
+
+        debugLog("Firebase Initialized");
+
+        // Global Variables for Pagination & State
+        let allLoadedTemplates = [];
+        let lastVisibleDoc = null;
+        let isLoading = false;
+        let hasMoreTemplates = true;
+        let observer = null;
+
+        // Debug Logger Function
+        function debugLog(message, data = null) {
+            console.log("[RESELLER TEMPLATE DEBUG]", message, data || "");
+        }
+
+        // Custom Toast System
+        function showToast(message, type = "success") {
+            const container = document.getElementById("toast-container");
+            // Prevent duplicate identical toasts
+            const existingToasts = container.querySelectorAll(".toast");
+            for (let t of existingToasts) {
+                if (t.textContent.includes(message)) return;
+            }
+
+            const toast = document.createElement("div");
+            toast.className = `toast ${type}`;
+            
+            let iconSvg = "";
+            if(type === "success") {
+                iconSvg = '<svg viewBox="0 0 24 24" width="18" height="18" fill="#fff"><path d="M9 16.2l-4.2-4.2-1.4 1.4 5.6 5.6 12-12-1.4-1.4z"/></svg>';
+            } else if(type === "error") {
+                iconSvg = '<svg viewBox="0 0 24 24" width="18" height="18" fill="#fff"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>';
+            } else {
+                iconSvg = '<svg viewBox="0 0 24 24" width="18" height="18" fill="#fff"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>';
+            }
+
+            toast.innerHTML = `${iconSvg} <span>${message}</span>`;
+            container.appendChild(toast);
+
+            setTimeout(() => {
+                toast.remove();
+            }, 3000);
+        }
+
+        // Format Timestamp to Bengali Date
+        fnFormatDate = function(timestamp) {
+            if (!timestamp) return "";
+            try {
+                const date = timestamp.toDate ? timestamp.toDate() : new Date(timestamp);
+                return new Intl.DateTimeFormat('bn-BD', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric'
+                }).format(date);
+            } catch (e) {
+                return "";
+            }
+        };
+
+        // Authentication & Authorization Check
+        debugLog("Authentication Started");
+        onAuthStateChanged(auth, async (user) => {
+            if (!user) {
+                debugLog("Authentication Error: User not logged in");
+                window.location.href = "/login";
+                return;
+            }
+
+            debugLog("User Authenticated");
+            debugLog("UID Received", user.uid);
+            debugLog("Reseller Document Checking");
+
+            try {
+                const resellerRef = doc(db, "reseller", user.uid);
+                const resellerSnap = await getDoc(resellerRef);
+
+                if (resellerSnap.exists()) {
+                    debugLog("Reseller Document Found");
+                    // Hide Loader and Show App
+                    document.getElementById("auth-loader").style.opacity = "0";
+                    setTimeout(() => {
+                        document.getElementById("auth-loader").style.display = "none";
+                        document.getElementById("app-container").style.display = "flex";
+                    }, 300);
+
+                    // Fetch Initial Templates
+                    fetchTemplates(true);
+                    setupInfiniteScroll();
+                    setupSearch();
+
+                } else {
+                    debugLog("Reseller Document Not Found");
+                    window.location.href = "/signed1";
+                }
+            } catch (error) {
+                debugLog("Firestore Error", error.code || error.message);
+                const loader = document.getElementById("auth-loader");
+                
+                // Network Error vs Permission Denied Handling
+                if (error.code === "permission-denied") {
+                    debugLog("Authentication Error", "Permission Denied");
+                    loader.innerHTML = `
+                        <div style="text-align:center; padding: 20px;">
+                            <h3 style="color:var(--danger); margin-bottom:10px;">অনুমতি ত্রুটি (Permission Denied)</h3>
+                            <p style="color:var(--gray-700); margin-bottom:15px;">মেসেজ টেমপ্লেট দেখার অনুমতি পাওয়া যায়নি। অনুগ্রহ করে সাপোর্টে যোগাযোগ করুন।</p>
+                            <button class="retry-btn" onclick="window.location.reload()">পুনরায় চেষ্টা করুন</button>
+                        </div>
+                    `;
+                } else if (error.code === "unavailable" || error.message.includes("network") || !navigator.onLine) {
+                    debugLog("Network Error", error.message);
+                    loader.innerHTML = `
+                        <div style="text-align:center; padding: 20px;">
+                            <h3 style="color:var(--primary); margin-bottom:10px;">ইন্টারনেট সংযোগে সমস্যা</h3>
+                            <p style="color:var(--gray-700); margin-bottom:15px;">ইন্টারনেট সংযোগে সমস্যা হয়েছে। অনুগ্রহ করে আবার চেষ্টা করুন।</p>
+                            <button class="retry-btn" onclick="window.location.reload()">পুনরায় চেষ্টা করুন</button>
+                        </div>
+                    `;
+                } else {
+                    debugLog("Unexpected Error", error);
+                    loader.innerHTML = `
+                        <div style="text-align:center; padding: 20px;">
+                            <h3 style="color:var(--danger); margin-bottom:10px;">একটি অনাকাঙ্ক্ষিত ত্রুটি ঘটেছে</h3>
+                            <p style="color:var(--gray-700); margin-bottom:15px;">অনুগ্রহ করে পেজটি রিফ্রেশ করুন।</p>
+                            <button class="retry-btn" onclick="window.location.reload()">রিফ্রেশ করুন</button>
+                        </div>
+                    `;
+                }
+            }
+        });
+
+        // Fetch Templates from Firestore
+        async function fetchTemplates(isInitial = false) {
+            if (isLoading || (!hasMoreTemplates && !isInitial)) return;
+            isLoading = true;
+
+            if (isInitial) {
+                debugLog("Initial Template Fetch Started");
+            } else {
+                debugLog("Next 10 Templates Fetch Started");
+                document.getElementById("pagination-loader").style.display = "flex";
+            }
+
+            try {
+                let q;
+                if (isInitial || !lastVisibleDoc) {
+                    q = query(
+                        collection(db, "massage_tamplates"),
+                        orderBy("createdAt", "desc"),
+                        limit(10)
+                    );
+                } else {
+                    q = query(
+                        collection(db, "massage_tamplates"),
+                        orderBy("createdAt", "desc"),
+                        startAfter(lastVisibleDoc),
+                        limit(10)
+                    );
+                }
+
+                const querySnapshot = await getDocs(q);
+                
+                if (isInitial) {
+                    debugLog("Initial Template Fetch Successful");
+                } else {
+                    debugLog("Next Templates Fetch Successful");
+                    document.getElementById("pagination-loader").style.display = "none";
+                }
+
+                debugLog("Template Count Received", querySnapshot.size);
+
+                if (querySnapshot.empty) {
+                    if (isInitial) {
+                        renderEmptyState();
+                    } else {
+                        debugLog("No More Templates");
+                        hasMoreTemplates = false;
+                        renderEndOfList();
+                    }
+                    isLoading = false;
+                    return;
+                }
+
+                let newTemplates = [];
+                querySnapshot.forEach((docSnap) => {
+                    const data = docSnap.data();
+                    newTemplates.push({
+                        id: docSnap.id,
+                        title: data.title || "শিরোনামহীন টেমপ্লেট",
+                        message: data.message || "",
+                        note: data.note || "",
+                        createdAt: data.createdAt || null
+                    });
+                });
+
+                lastVisibleDoc = querySnapshot.docs[querySnapshot.docs.length - 1];
+                debugLog("Last Document Updated");
+
+                if (isInitial) {
+                    allLoadedTemplates = newTemplates;
+                } else {
+                    // Prevent duplicate docs
+                    const existingIds = new Set(allLoadedTemplates.map(t => t.id));
+                    newTemplates.forEach(t => {
+                        if (!existingIds.has(t.id)) {
+                            allLoadedTemplates.push(t);
+                        }
+                    });
+                }
+
+                if (querySnapshot.size < 10) {
+                    hasMoreTemplates = false;
+                }
+
+                renderTemplates(allLoadedTemplates);
+
+            } catch (error) {
+                debugLog("Firestore Error", error.code || error.message);
+                if (isInitial) {
+                    renderErrorState("ইন্টারনেট সংযোগে সমস্যা হয়েছে বা ফায়ারস্টোর ডেটা ফেচ করতে সমস্যা হচ্ছে।");
+                } else {
+                    document.getElementById("pagination-loader").style.display = "none";
+                    showToast("পরবর্তী টেমপ্লেট লোড করতে সমস্যা হয়েছে।", "error");
+                }
+            } finally {
+                isLoading = false;
+            }
+        }
+
+        // Render Templates to DOM (Safe DOM Rendering)
+        function renderTemplates(templates) {
+            const container = document.getElementById("templatesList");
+            container.innerHTML = "";
+
+            if (templates.length === 0) {
+                renderEmptyState();
+                return;
+            }
+
+            const fragment = document.createDocumentFragment();
+
+            templates.forEach((item) => {
+                const card = document.createElement("div");
+                card.className = "template-card";
+                card.setAttribute("data-id", item.id);
+
+                // Header & Date
+                const headerDiv = document.createElement("div");
+                headerDiv.className = "template-header";
+
+                const titleEl = document.createElement("div");
+                titleEl.className = "template-title";
+                titleEl.textContent = item.title;
+                headerDiv.appendChild(titleEl);
+
+                if (item.createdAt) {
+                    const dateEl = document.createElement("div");
+                    dateEl.className = "template-date";
+                    dateEl.textContent = fnFormatDate(item.createdAt);
+                    headerDiv.appendChild(dateEl);
+                }
+                card.appendChild(headerDiv);
+
+                // Message Content
+                const messageEl = document.createElement("div");
+                messageEl.className = "message-content";
+                messageEl.textContent = item.message;
+                card.appendChild(messageEl);
+
+                // Note Section (if exists)
+                if (item.note && item.note.trim() !== "") {
+                    const noteEl = document.createElement("div");
+                    noteEl.className = "template-note";
+                    noteEl.textContent = `নোট: ${item.note}`;
+                    card.appendChild(noteEl);
+                }
+
+                // Footer & Copy Button
+                const footerDiv = document.createElement("div");
+                footerDiv.className = "template-footer";
+
+                const copyBtn = document.createElement("button");
+                copyBtn.className = "copy-btn";
+                copyBtn.innerHTML = `
+                    <svg viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
+                    <span>মেসেজ কপি করুন</span>
+                `;
+
+                // One-click Copy Event Listener with Duplicate Click Prevention
+                let isCopying = false;
+                copyBtn.addEventListener("click", async () => {
+                    if (isCopying) return;
+                    isCopying = true;
+                    debugLog("Copy Started", item.id);
+
+                    const originalHTML = copyBtn.innerHTML;
+                    copyBtn.innerHTML = `<span>কপি হচ্ছে...</span>`;
+                    copyBtn.style.opacity = "0.7";
+
+                    try {
+                        await navigator.clipboard.writeText(item.message);
+                        debugLog("Copy Successful", item.id);
+                        showToast("মেসেজ সফলভাবে কপি হয়েছে! এখন কাস্টমারকে পাঠাতে পারেন।", "success");
+                        
+                        copyBtn.innerHTML = `
+                            <svg viewBox="0 0 24 24"><path d="M9 16.2l-4.2-4.2-1.4 1.4 5.6 5.6 12-12-1.4-1.4z"/></svg>
+                            <span>কপি হয়েছে</span>
+                        `;
+                    } catch (err) {
+                        debugLog("Copy Failed", err);
+                        // Fallback mechanism for restricted environments
+                        try {
+                            const textArea = document.createElement("textarea");
+                            textArea.value = item.message;
+                            textArea.style.position = "fixed";
+                            document.body.appendChild(textArea);
+                            textArea.focus();
+                            textArea.select();
+                            const successful = document.execCommand('copy');
+                            document.body.removeChild(textArea);
+                            
+                            if (successful) {
+                                debugLog("Copy Successful (Fallback)", item.id);
+                                showToast("মেসেজ সফলভাবে কপি হয়েছে! এখন কাস্টমারকে পাঠাতে পারেন।", "success");
+                                copyBtn.innerHTML = `
+                                    <svg viewBox="0 0 24 24"><path d="M9 16.2l-4.2-4.2-1.4 1.4 5.6 5.6 12-12-1.4-1.4z"/></svg>
+                                    <span>কপি হয়েছে</span>
+                                `;
+                            } else {
+                                throw new Error("Fallback failed");
+                            }
+                        } catch (fallbackErr) {
+                            debugLog("Copy Failed Completely", fallbackErr);
+                            showToast("মেসেজ কপি করা যায়নি। অনুগ্রহ করে আবার চেষ্টা করুন।", "error");
+                            copyBtn.innerHTML = originalHTML;
+                        }
+                    }
+
+                    setTimeout(() => {
+                        copyBtn.innerHTML = originalHTML;
+                        copyBtn.style.opacity = "1";
+                        isCopying = false;
+                    }, 2000);
+                });
+
+                footerDiv.appendChild(copyBtn);
+                card.appendChild(footerDiv);
+
+                fragment.appendChild(card);
+            });
+
+            container.appendChild(fragment);
+        }
+
+        // Empty State Render
+        function renderEmptyState() {
+            const container = document.getElementById("templatesList");
+            container.innerHTML = `
+                <div class="state-container" style="grid-column: 1 / -1;">
+                    <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+                    <h3>এখনো কোনো মেসেজ টেমপ্লেট নেই</h3>
+                    <p>নতুন মেসেজ টেমপ্লেট যুক্ত হলে এখানে দেখতে পাবেন।</p>
+                </div>
+            `;
+        }
+
+        // End of List Render
+        function renderEndOfList() {
+            const container = document.getElementById("templatesList");
+            const existingEnd = document.getElementById("endOfListIndicator");
+            if(existingEnd) return;
+
+            const endDiv = document.createElement("div");
+            endDiv.id = "endOfListIndicator";
+            endDiv.className = "end-of-list";
+            endDiv.style.gridColumn = "1 / -1";
+            endDiv.innerHTML = `
+                <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+                <span>আপনি সব মেসেজ টেমপ্লেট দেখে ফেলেছেন।</span>
+            `;
+            container.parentNode.appendChild(endDiv);
+        }
+
+        // Error State Render
+        function renderErrorState(message) {
+            const container = document.getElementById("templatesList");
+            container.innerHTML = `
+                <div class="state-container" style="grid-column: 1 / -1;">
+                    <svg viewBox="0 0 24 24" style="fill: var(--danger);"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
+                    <h3>ত্রুটি ঘটেছে</h3>
+                    <p>${message}</p>
+                    <button class="retry-btn" onclick="window.location.reload()">পুনরায় চেষ্টা করুন</button>
+                </div>
+            `;
+        }
+
+        // Infinite Scroll using IntersectionObserver
+        function setupInfiniteScroll() {
+            debugLog("Infinite Scroll Initialized");
+            const sentinel = document.getElementById("scrollSentinel");
+            
+            const options = {
+                root: null,
+                rootMargin: '200px',
+                threshold: 0.1
+            };
+
+            observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting && !isLoading && hasMoreTemplates) {
+                        debugLog("Scroll Sentinel Triggered");
+                        fetchTemplates(false);
+                    }
+                });
+            }, options);
+
+            observer.observe(sentinel);
+        }
+
+        // Search System (Client-side search within downloaded templates)
+        function setupSearch() {
+            const searchInput = document.getElementById("searchInput");
+            
+            searchInput.addEventListener("input", (e) => {
+                const keyword = e.target.value.trim().toLowerCase();
+                debugLog("Search Started", keyword);
+
+                if (keyword === "") {
+                    renderTemplates(allLoadedTemplates);
+                    return;
+                }
+
+                const filtered = allLoadedTemplates.filter(item => {
+                    const titleMatch = item.title && item.title.toLowerCase().includes(keyword);
+                    const messageMatch = item.message && item.message.toLowerCase().includes(keyword);
+                    const noteMatch = item.note && item.note.toLowerCase().includes(keyword);
+                    return titleMatch || messageMatch || noteMatch;
+                });
+
+                debugLog("Search Result Received", filtered.length);
+
+                if (filtered.length === 0) {
+                    const container = document.getElementById("templatesList");
+                    container.innerHTML = `
+                        <div class="state-container" style="grid-column: 1 / -1;">
+                            <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+                            <h3>আপনার খোঁজা মেসেজটি পাওয়া যায়নি</h3>
+                            <p>অন্য কোনো কিওয়ার্ড দিয়ে চেষ্টা করুন।</p>
+                        </div>
+                    `;
+                } else {
+                    renderTemplates(filtered);
+                }
+            });
+        }
+    </script>
+</body>
+</html>
