@@ -655,7 +655,7 @@
         }
 
         // Format Timestamp to Bengali Date
-        fnFormatDate = function(timestamp) {
+        function fnFormatDate(timestamp) {
             if (!timestamp) return "";
             try {
                 const date = timestamp.toDate ? timestamp.toDate() : new Date(timestamp);
