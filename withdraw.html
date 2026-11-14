@@ -1802,7 +1802,7 @@
       el.finalConfirmBtn.disabled = true;
       el.cancelModalBtn.disabled = true;
       el.confirmModal.classList.remove("open");
-      setLoading(true, "সার্ভারে ব্যালেন্স যাচাই ও আবেদন জমা হচ্ছে...");
+      setLoading(true, "আপনার তথ্য যাচাই হচ্ছে");
 
       const withdrawAmount = amountCheck.amount;
       const paymentNumber = numberCheck.number;
@@ -1850,7 +1850,7 @@
         });
 
         // Firestore save succeeded! Now notify Admin via Cloudflare Worker.
-        setLoading(true, "অ্যাডমিনকে নোটিফিকেশন পাঠানো হচ্ছে...");
+        setLoading(true, "আবেদন চেক করা হচ্ছে....");
         const notifyResult = await sendTelegramNotification({
           uid: state.uid,
           amount: withdrawAmount,
@@ -1862,13 +1862,13 @@
 
         if (notifyResult.ok) {
           el.successModalSubtext.textContent =
-            "আপনার আবেদন এবং অ্যাডমিন নোটিফিকেশন সফলভাবে সম্পন্ন হয়েছে। শীঘ্রই পেমেন্ট প্রক্রিয়া করা হবে।";
+            "আপনার আবেদন সফলভাবে সম্পন্ন হয়েছে। শীঘ্রই পেমেন্ট প্রক্রিয়া করা হবে।";
         } else {
           // Do NOT delete or duplicate Firestore request if Telegram notification fails
           el.successModalSubtext.textContent =
-            "আপনার Withdraw Request সফলভাবে জমা হয়েছে, তবে তাৎক্ষণিক Telegram Notification পাঠানো যায়নি। আমাদের টিম ড্যাশবোর্ড থেকে আবেদনটি দেখতে পাবে।";
+            "আপনার Withdraw Request সফলভাবে জমা হয়েছে, Notification পাঠানো যায়নি। আমাদের টিম ড্যাশবোর্ড থেকে আবেদনটি দেখতে পাবে।";
           showToast(
-            "Withdraw Request জমা হয়েছে, কিন্তু Telegram Notification পাঠানো যায়নি।",
+            "Withdraw Request জমা হয়েছে, Notification পাঠানো যায়নি।",
             "warning",
             6000
           );
