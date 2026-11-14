@@ -1,0 +1,1944 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Withdraw Balance | GHOTI RESELLER</title>
+  <link rel="icon" type="image/png" href="https://reseller.ghotimarket.com/photo/favicon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --primary: #FF6B35;
+      --secondary: #FF6A00;
+      --primary-dark: #e5531d;
+      --primary-soft: #fff2ec;
+      --primary-border: #ffd2c0;
+      --bg-page: #f6f7fb;
+      --bg-card: #ffffff;
+      --text-main: #181c25;
+      --text-muted: #5e6675;
+      --border-color: #e4e7ee;
+      --success: #129a57;
+      --success-bg: #eaf9f1;
+      --success-border: #b7ebd0;
+      --warning: #d97706;
+      --warning-bg: #fef7ec;
+      --warning-border: #fde0b4;
+      --danger: #dc2626;
+      --danger-bg: #fef2f2;
+      --danger-border: #fecaca;
+      --shadow-sm: 0 2px 8px rgba(17, 24, 39, 0.04);
+      --shadow-md: 0 8px 24px rgba(17, 24, 39, 0.07);
+      --shadow-lg: 0 18px 40px rgba(17, 24, 39, 0.14);
+      --radius-lg: 16px;
+      --radius-md: 12px;
+      --radius-sm: 8px;
+      --transition: all 0.22s cubic-bezier(0.25, 0.8, 0.25, 1);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Hind Siliguri', 'Inter', sans-serif;
+      background-color: var(--bg-page);
+      color: var(--text-main);
+      line-height: 1.55;
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .num {
+      font-family: 'Inter', sans-serif;
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* Header */
+    .topbar {
+      background: var(--bg-card);
+      border-bottom: 1px solid var(--border-color);
+      position: sticky;
+      top: 0;
+      z-index: 40;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .topbar-inner {
+      max-width: 780px;
+      margin: 0 auto;
+      padding: 14px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: var(--text-main);
+    }
+
+    .brand img {
+      height: 38px;
+      width: auto;
+      object-fit: contain;
+    }
+
+    .brand-title {
+      font-weight: 700;
+      font-size: 18px;
+      letter-spacing: -0.01em;
+    }
+
+    .brand-badge {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      background: var(--primary-soft);
+      color: var(--primary);
+      padding: 3px 9px;
+      border-radius: 999px;
+      border: 1px solid var(--primary-border);
+    }
+
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-muted);
+      padding: 7px 12px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border-color);
+      background: #fff;
+      transition: var(--transition);
+    }
+
+    .back-link:hover {
+      color: var(--primary);
+      border-color: var(--primary-border);
+      background: var(--primary-soft);
+    }
+
+    /* Main Container */
+    .container {
+      max-width: 780px;
+      margin: 28px auto 64px;
+      padding: 0 18px;
+    }
+
+    .page-header {
+      margin-bottom: 22px;
+    }
+
+    .page-header h1 {
+      font-size: 26px;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-bottom: 4px;
+    }
+
+    .page-header p {
+      font-size: 15px;
+      color: var(--text-muted);
+    }
+
+    /* Offline Banner */
+    .network-banner {
+      display: none;
+      align-items: center;
+      gap: 10px;
+      background: var(--danger-bg);
+      border: 1px solid var(--danger-border);
+      color: var(--danger);
+      padding: 12px 16px;
+      border-radius: var(--radius-md);
+      margin-bottom: 18px;
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .network-banner.show {
+      display: flex;
+    }
+
+    /* Cards */
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      box-shadow: var(--shadow-md);
+      margin-bottom: 20px;
+    }
+
+    /* Balance Hero Card */
+    .balance-card {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+      color: #ffffff;
+      border: none;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .balance-card::after {
+      content: "";
+      position: absolute;
+      right: -40px;
+      top: -40px;
+      width: 190px;
+      height: 190px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.11);
+      pointer-events: none;
+    }
+
+    .balance-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 12px;
+      margin-bottom: 12px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .balance-label {
+      font-size: 14px;
+      font-weight: 500;
+      opacity: 0.92;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .uid-pill {
+      font-size: 12px;
+      background: rgba(0, 0, 0, 0.18);
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .balance-amount {
+      font-size: 40px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      position: relative;
+      z-index: 1;
+      margin-bottom: 14px;
+    }
+
+    .balance-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      font-size: 13px;
+      opacity: 0.95;
+      padding-top: 12px;
+      border-top: 1px solid rgba(255, 255, 255, 0.22);
+      position: relative;
+      z-index: 1;
+    }
+
+    .balance-meta span {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* Status Banners */
+    .status-alert {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 15px 18px;
+      border-radius: var(--radius-md);
+      margin-bottom: 20px;
+      font-size: 15px;
+      font-weight: 600;
+    }
+
+    .status-alert.success {
+      background: var(--success-bg);
+      border: 1px solid var(--success-border);
+      color: var(--success);
+    }
+
+    .status-alert.warning {
+      background: var(--warning-bg);
+      border: 1px solid var(--warning-border);
+      color: var(--warning);
+    }
+
+    .status-alert.danger {
+      background: var(--danger-bg);
+      border: 1px solid var(--danger-border);
+      color: var(--danger);
+    }
+
+    .status-alert svg {
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    /* Progress Card (< 300 BDT) */
+    .progress-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .progress-title {
+      font-size: 17px;
+      font-weight: 700;
+    }
+
+    .progress-pct {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--primary);
+      background: var(--primary-soft);
+      padding: 2px 10px;
+      border-radius: 999px;
+    }
+
+    .progress-track {
+      width: 100%;
+      height: 14px;
+      background: #eceff5;
+      border-radius: 999px;
+      overflow: hidden;
+      margin-bottom: 18px;
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      border-radius: 999px;
+      transition: width 0.85s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .progress-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+
+    .stat-box {
+      background: var(--bg-page);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 12px 14px;
+      text-align: center;
+    }
+
+    .stat-box-label {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-bottom: 2px;
+    }
+
+    .stat-box-val {
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    .stat-box-val.highlight {
+      color: var(--primary);
+    }
+
+    /* Section Headings */
+    .section-title {
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--text-main);
+    }
+
+    .step-badge {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: var(--primary);
+      color: #fff;
+      font-size: 12px;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Inter', sans-serif;
+    }
+
+    /* Payment Method Cards */
+    .method-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+      margin-bottom: 24px;
+    }
+
+    .method-card {
+      position: relative;
+      border: 2px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 18px 16px;
+      background: #fff;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      transition: var(--transition);
+      user-select: none;
+    }
+
+    .method-card:hover {
+      border-color: var(--primary-border);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .method-card.selected {
+      border-color: var(--primary);
+      background: var(--primary-soft);
+      box-shadow: 0 6px 18px rgba(255, 107, 53, 0.16);
+    }
+
+    .method-card img {
+      height: 44px;
+      width: auto;
+      max-width: 130px;
+      object-fit: contain;
+    }
+
+    .method-name {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    .method-check {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: var(--primary);
+      color: #fff;
+      display: none;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .method-card.selected .method-check {
+      display: flex;
+    }
+
+    /* Form Controls */
+    .form-section {
+      display: none;
+      animation: fadeSlideIn 0.25s ease forwards;
+    }
+
+    .form-section.visible {
+      display: block;
+    }
+
+    @keyframes fadeSlideIn {
+      from {
+        opacity: 0;
+        transform: translateY(8px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-label-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+
+    .form-label {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text-main);
+    }
+
+    .quick-max-btn {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--primary);
+      background: var(--primary-soft);
+      border: 1px solid var(--primary-border);
+      border-radius: 6px;
+      padding: 3px 9px;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .quick-max-btn:hover {
+      background: var(--primary);
+      color: #fff;
+    }
+
+    .input-wrap {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .input-prefix {
+      position: absolute;
+      left: 14px;
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--text-muted);
+      pointer-events: none;
+    }
+
+    .form-input {
+      width: 100%;
+      height: 50px;
+      border: 1.5px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 0 16px;
+      font-size: 16px;
+      font-family: 'Inter', 'Hind Siliguri', sans-serif;
+      font-weight: 600;
+      color: var(--text-main);
+      background: #fff;
+      transition: var(--transition);
+      outline: none;
+    }
+
+    .form-input.has-prefix {
+      padding-left: 36px;
+    }
+
+    .form-input:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 4px rgba(255, 107, 53, 0.14);
+    }
+
+    .form-input.invalid {
+      border-color: var(--danger);
+      box-shadow: 0 0 0 4px rgba(220, 38, 38, 0.1);
+    }
+
+    .input-error {
+      display: none;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--danger);
+      margin-top: 6px;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .input-error.show {
+      display: flex;
+    }
+
+    /* Live Preview Box */
+    .live-preview {
+      margin-top: 10px;
+      background: var(--bg-page);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-sm);
+      padding: 11px 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+      font-size: 13px;
+    }
+
+    .live-preview span {
+      color: var(--text-muted);
+    }
+
+    .live-preview strong {
+      color: var(--text-main);
+      font-family: 'Inter', sans-serif;
+    }
+
+    .live-preview strong.ok {
+      color: var(--success);
+    }
+
+    .live-preview strong.bad {
+      color: var(--danger);
+    }
+
+    /* Primary Submit Button */
+    .btn-primary {
+      width: 100%;
+      height: 52px;
+      border: none;
+      border-radius: var(--radius-md);
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: #fff;
+      font-family: 'Hind Siliguri', sans-serif;
+      font-size: 17px;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      box-shadow: 0 8px 20px rgba(255, 107, 53, 0.28);
+      transition: var(--transition);
+    }
+
+    .btn-primary:hover:not(:disabled) {
+      transform: translateY(-1px);
+      box-shadow: 0 10px 24px rgba(255, 107, 53, 0.36);
+    }
+
+    .btn-primary:disabled {
+      opacity: 0.55;
+      cursor: not-allowed;
+      box-shadow: none;
+      transform: none;
+    }
+
+    /* Active Request Card */
+    .pending-card {
+      border: 1.5px solid var(--warning-border);
+      background: #fffdf9;
+    }
+
+    .pending-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 10px;
+      padding-bottom: 14px;
+      margin-bottom: 16px;
+      border-bottom: 1px solid var(--warning-border);
+    }
+
+    .pending-title {
+      font-size: 18px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--text-main);
+    }
+
+    .status-pill-pending {
+      background: var(--warning-bg);
+      color: var(--warning);
+      border: 1px solid var(--warning-border);
+      font-size: 13px;
+      font-weight: 700;
+      padding: 4px 12px;
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .pulse-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--warning);
+      animation: pulse 1.5s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.85); }
+    }
+
+    .detail-list {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+      margin-bottom: 16px;
+    }
+
+    .detail-item {
+      background: #fff;
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-sm);
+      padding: 12px 14px;
+    }
+
+    .detail-item-label {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-bottom: 3px;
+    }
+
+    .detail-item-val {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    /* Missing Profile Card */
+    .missing-card {
+      text-align: center;
+      padding: 36px 24px;
+    }
+
+    .missing-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: var(--danger-bg);
+      color: var(--danger);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 14px;
+    }
+
+    .missing-card h2 {
+      font-size: 20px;
+      margin-bottom: 8px;
+    }
+
+    .missing-card p {
+      color: var(--text-muted);
+      margin-bottom: 20px;
+      font-size: 15px;
+    }
+
+    /* Skeleton Loader */
+    .skeleton-box {
+      background: linear-gradient(90deg, #eceff4 25%, #f6f8fb 50%, #eceff4 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.3s infinite linear;
+      border-radius: var(--radius-md);
+    }
+
+    @keyframes shimmer {
+      0% { background-position: 200% 0; }
+      100% { background-position: -200% 0; }
+    }
+
+    /* Custom Modal */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.58);
+      backdrop-filter: blur(3px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 18px;
+      z-index: 100;
+    }
+
+    .modal-backdrop.open {
+      display: flex;
+      animation: fadeIn 0.2s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    .modal-box {
+      background: #fff;
+      border-radius: var(--radius-lg);
+      max-width: 450px;
+      width: 100%;
+      padding: 24px;
+      box-shadow: var(--shadow-lg);
+      animation: popUp 0.22s ease;
+    }
+
+    @keyframes popUp {
+      from { transform: scale(0.95); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+
+    .modal-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .modal-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      background: var(--primary-soft);
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .modal-icon.success {
+      background: var(--success-bg);
+      color: var(--success);
+    }
+
+    .modal-title {
+      font-size: 19px;
+      font-weight: 700;
+    }
+
+    .summary-table {
+      background: var(--bg-page);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 14px 16px;
+      margin: 16px 0 20px;
+    }
+
+    .summary-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 7px 0;
+      font-size: 14px;
+      border-bottom: 1px dashed var(--border-color);
+    }
+
+    .summary-row:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+
+    .summary-row:first-child {
+      padding-top: 0;
+    }
+
+    .summary-row span {
+      color: var(--text-muted);
+    }
+
+    .summary-row strong {
+      color: var(--text-main);
+      font-weight: 700;
+    }
+
+    .modal-actions {
+      display: grid;
+      grid-template-columns: 1fr 1.3fr;
+      gap: 10px;
+    }
+
+    .btn-secondary {
+      height: 46px;
+      border-radius: var(--radius-md);
+      border: 1.5px solid var(--border-color);
+      background: #fff;
+      color: var(--text-main);
+      font-family: 'Hind Siliguri', sans-serif;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .btn-secondary:hover {
+      background: var(--bg-page);
+    }
+
+    .btn-confirm {
+      height: 46px;
+      border-radius: var(--radius-md);
+      border: none;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: #fff;
+      font-family: 'Hind Siliguri', sans-serif;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .btn-confirm:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    /* Loading Overlay */
+    .loading-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(255, 255, 255, 0.82);
+      backdrop-filter: blur(2px);
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      z-index: 150;
+    }
+
+    .loading-overlay.active {
+      display: flex;
+    }
+
+    .spinner {
+      width: 44px;
+      height: 44px;
+      border: 4px solid var(--primary-soft);
+      border-top-color: var(--primary);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .loading-text {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text-main);
+    }
+
+    /* Custom Toast */
+    .toast-container {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 200;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      max-width: 360px;
+      width: calc(100% - 40px);
+    }
+
+    .toast {
+      background: #181c25;
+      color: #fff;
+      padding: 13px 16px;
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-lg);
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 14px;
+      font-weight: 500;
+      border-left: 4px solid var(--primary);
+      animation: toastSlide 0.25s ease;
+    }
+
+    .toast.success { border-left-color: var(--success); }
+    .toast.error { border-left-color: var(--danger); }
+    .toast.warning { border-left-color: var(--warning); }
+
+    @keyframes toastSlide {
+      from { transform: translateX(20px); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    @media (max-width: 600px) {
+      .balance-amount {
+        font-size: 32px;
+      }
+      .progress-stats {
+        grid-template-columns: 1fr;
+      }
+      .detail-list {
+        grid-template-columns: 1fr;
+      }
+      .modal-actions {
+        grid-template-columns: 1fr;
+      }
+      .card {
+        padding: 18px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Navigation -->
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a href="https://reseller.ghotimarket.com" class="brand">
+        <img src="https://reseller.ghotimarket.com/photo/logo.png" alt="GHOTI RESELLER Logo" />
+        <div>
+          <div class="brand-title">GHOTI RESELLER</div>
+        </div>
+        <span class="brand-badge">Payout</span>
+      </a>
+      <a href="/" class="back-link">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="M12 19l-7-7 7-7"/></svg>
+        <span>ড্যাশবোর্ড</span>
+      </a>
+    </div>
+  </header>
+
+  <!-- Toast Container -->
+  <div id="toastContainer" class="toast-container" aria-live="polite"></div>
+
+  <!-- Loading Overlay -->
+  <div id="loadingOverlay" class="loading-overlay">
+    <div class="spinner"></div>
+    <div id="loadingText" class="loading-text">তথ্য যাচাই করা হচ্ছে...</div>
+  </div>
+
+  <!-- Main Content -->
+  <main class="container">
+    <div class="page-header">
+      <h1>টাকা উত্তোলন (Withdraw)</h1>
+      <p>আপনার অর্জিত রিসেলার ব্যালেন্স থেকে সরাসরি bKash অথবা Nagad-এ টাকা উত্তোলনের আবেদন করুন।</p>
+    </div>
+
+    <!-- Offline Network Banner -->
+    <div id="networkBanner" class="network-banner">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="1" y1="1" x2="23" y2="23"/><path d="M16.72 11.06A10.94 10.94 0 0 1 19 12.55"/><path d="M5 12.55a10.94 10.94 0 0 1 5.17-2.39"/><path d="M10.71 5.05A16 16 0 0 1 22.58 9"/><path d="M1.42 9a15.91 15.91 0 0 1 4.7-2.88"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><line x1="12" y1="20" x2="12.01" y2="20"/></svg>
+      <span>ইন্টারনেট সংযোগ বিচ্ছিন্ন রয়েছে। অনুগ্রহ করে আপনার নেটওয়ার্ক সংযোগ পরীক্ষা করুন।</span>
+    </div>
+
+    <!-- Skeleton Loader View -->
+    <section id="skeletonView">
+      <div class="skeleton-box" style="height: 165px; margin-bottom: 20px;"></div>
+      <div class="skeleton-box" style="height: 56px; margin-bottom: 20px;"></div>
+      <div class="skeleton-box" style="height: 260px;"></div>
+    </section>
+
+    <!-- Missing Reseller Document View -->
+    <section id="missingProfileView" class="card missing-card hidden">
+      <div class="missing-icon">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+      </div>
+      <h2>রিসেলার প্রোফাইল পাওয়া যায়নি</h2>
+      <p>আপনার অ্যাকাউন্টের রিসেলার তথ্য এখনো সম্পূর্ণ হয়নি। উত্তোলন সুবিধা চালু করতে অনুগ্রহ করে নিবন্ধন ধাপ সম্পূর্ণ করুন।</p>
+      <button type="button" id="redirectSignedBtn" class="btn-primary" style="max-width: 280px;">
+        <span>প্রোফাইল সম্পন্ন করুন</span>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg>
+      </button>
+    </section>
+
+    <!-- Main Dashboard View -->
+    <section id="mainContentView" class="hidden">
+      <!-- Current Balance Card -->
+      <div class="card balance-card">
+        <div class="balance-top">
+          <div class="balance-label">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
+            <span>বর্তমান উত্তোলনযোগ্য ব্যালেন্স</span>
+          </div>
+          <div id="userUidBadge" class="uid-pill">UID: ---</div>
+        </div>
+        <div id="balanceAmountDisplay" class="balance-amount num">৳0</div>
+        <div class="balance-meta">
+          <span>
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="20 6 9 17 4 12"/></svg>
+            ন্যূনতম যোগ্যতা: ৳300
+          </span>
+          <span>
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            সর্বনিম্ন উত্তোলন: ৳100
+          </span>
+        </div>
+      </div>
+
+      <!-- Existing Request View (Duplicate Protection) -->
+      <div id="pendingRequestSection" class="card pending-card hidden">
+        <div class="pending-header">
+          <div class="pending-title">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#d97706" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            <span>চলমান উত্তোলনের আবেদন</span>
+          </div>
+          <span class="status-pill-pending">
+            <span class="pulse-dot"></span>
+            আবেদন প্রক্রিয়াধীন
+          </span>
+        </div>
+
+        <div class="status-alert warning" style="margin-bottom: 16px;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+          <span>আপনার আগের Withdraw Request এখনো প্রক্রিয়াধীন রয়েছে। আগের আবেদন সম্পন্ন না হওয়া পর্যন্ত নতুন আবেদন করতে পারবেন না।</span>
+        </div>
+
+        <div class="detail-list">
+          <div class="detail-item">
+            <div class="detail-item-label">আবেদনকৃত পরিমাণ (Amount)</div>
+            <div id="pendingAmountVal" class="detail-item-val num">৳0</div>
+          </div>
+          <div class="detail-item">
+            <div class="detail-item-label">পেমেন্ট মাধ্যম (Method)</div>
+            <div id="pendingMethodVal" class="detail-item-val">---</div>
+          </div>
+          <div class="detail-item">
+            <div class="detail-item-label">পেমেন্ট নম্বর (Number)</div>
+            <div id="pendingNumberVal" class="detail-item-val num">---</div>
+          </div>
+          <div class="detail-item">
+            <div class="detail-item-label">আবেদনের তারিখ ও সময়</div>
+            <div id="pendingDateVal" class="detail-item-val">---</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Insufficient Balance (< 300) Progress Card -->
+      <div id="insufficientProgressSection" class="card hidden">
+        <div class="status-alert danger">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          <span>আপনার বর্তমান ব্যালেন্স ৩০০ টাকার কম। Withdraw করার জন্য অ্যাকাউন্টে ন্যূনতম ৳300 থাকতে হবে।</span>
+        </div>
+
+        <div class="progress-header">
+          <span class="progress-title">ন্যূনতম ব্যালেন্স অগ্রগতি</span>
+          <span id="progressPercentText" class="progress-pct num">0%</span>
+        </div>
+
+        <div class="progress-track">
+          <div id="progressBarFill" class="progress-fill"></div>
+        </div>
+
+        <div class="progress-stats">
+          <div class="stat-box">
+            <div class="stat-box-label">বর্তমান Balance</div>
+            <div id="statCurrentBal" class="stat-box-val num">৳0</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-box-label">প্রয়োজন</div>
+            <div class="stat-box-val num">৳300</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-box-label">আরও বাকি</div>
+            <div id="statRemainingBal" class="stat-box-val highlight num">৳300</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Eligible Withdraw Interface (>= 300 & No Existing Request) -->
+      <div id="eligibleWithdrawSection" class="hidden">
+        <div class="status-alert success">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+          <span>আপনার ব্যালেন্স Withdraw করার জন্য প্রস্তুত!</span>
+        </div>
+
+        <form id="withdrawForm" class="card" novalidate>
+          <!-- Step 1: Payment Method -->
+          <div class="section-title">
+            <span class="step-badge">1</span>
+            <span>পেমেন্ট মাধ্যম নির্বাচন করুন</span>
+          </div>
+
+          <div class="method-grid">
+            <div class="method-card" data-method="bkash" tabindex="0" role="radio" aria-checked="false">
+              <div class="method-check">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              </div>
+              <img src="https://paikarisell.ghotimarket.com/photo/bkash.png" alt="bKash Logo" />
+              <span class="method-name">bKash</span>
+            </div>
+
+            <div class="method-card" data-method="nagad" tabindex="0" role="radio" aria-checked="false">
+              <div class="method-check">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              </div>
+              <img src="https://paikarisell.ghotimarket.com/photo/nagad.png" alt="Nagad Logo" />
+              <span class="method-name">Nagad</span>
+            </div>
+          </div>
+
+          <!-- Step 2 & 3: Inputs shown after selecting payment method -->
+          <div id="formInputsSection" class="form-section">
+            <div class="section-title">
+              <span class="step-badge">2</span>
+              <span>উত্তোলনের পরিমাণ ও নম্বর দিন</span>
+            </div>
+
+            <!-- Amount Input -->
+            <div class="form-group">
+              <div class="form-label-row">
+                <label for="withdrawAmount" class="form-label">উত্তোলনের পরিমাণ (টাকা)</label>
+                <button type="button" id="maxAmountBtn" class="quick-max-btn">সর্বোচ্চ ব্যালেন্স বসান</button>
+              </div>
+              <div class="input-wrap">
+                <span class="input-prefix num">৳</span>
+                <input
+                  type="text"
+                  id="withdrawAmount"
+                  class="form-input has-prefix num"
+                  inputmode="numeric"
+                  autocomplete="off"
+                  placeholder="সর্বনিম্ন 100"
+                />
+              </div>
+              <div id="amountError" class="input-error">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                <span id="amountErrorText"></span>
+              </div>
+
+              <div class="live-preview">
+                <div>
+                  <span>বর্তমান ব্যালেন্স: </span>
+                  <strong id="previewCurrentBal">৳0</strong>
+                </div>
+                <div>
+                  <span>উত্তোলনের পর অবশিষ্ট থাকবে: </span>
+                  <strong id="previewRemainingBal">৳0</strong>
+                </div>
+              </div>
+            </div>
+
+            <!-- Payment Number Input -->
+            <div class="form-group">
+              <div class="form-label-row">
+                <label for="paymentNumber" id="paymentNumberLabel" class="form-label">মোবাইল নম্বর (১১ ডিজিট)</label>
+              </div>
+              <div class="input-wrap">
+                <input
+                  type="tel"
+                  id="paymentNumber"
+                  class="form-input num"
+                  inputmode="numeric"
+                  maxlength="11"
+                  autocomplete="off"
+                  placeholder="01XXXXXXXXX"
+                />
+              </div>
+              <div id="numberError" class="input-error">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                <span id="numberErrorText"></span>
+              </div>
+            </div>
+
+            <button type="submit" id="openConfirmBtn" class="btn-primary">
+              <span>Withdraw Request জমা দিন</span>
+              <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+            </button>
+          </div>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <!-- Custom Confirmation Modal -->
+  <div id="confirmModal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="confirmModalTitle">
+    <div class="modal-box">
+      <div class="modal-header">
+        <div class="modal-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </div>
+        <h3 id="confirmModalTitle" class="modal-title">Withdraw আবেদন নিশ্চিত করুন</h3>
+      </div>
+      <p style="font-size: 14px; color: var(--text-muted);">আবেদন জমা দেওয়ার আগে নিচের তথ্যগুলো ভালোভাবে যাচাই করে নিন:</p>
+
+      <div class="summary-table">
+        <div class="summary-row">
+          <span>পেমেন্ট মাধ্যম</span>
+          <strong id="modalMethod">---</strong>
+        </div>
+        <div class="summary-row">
+          <span>পেমেন্ট নম্বর</span>
+          <strong id="modalNumber" class="num">---</strong>
+        </div>
+        <div class="summary-row">
+          <span>Withdraw Amount</span>
+          <strong id="modalAmount" class="num" style="color: var(--primary);">৳0</strong>
+        </div>
+        <div class="summary-row">
+          <span>বর্তমান ব্যালেন্স</span>
+          <strong id="modalCurrentBal" class="num">৳0</strong>
+        </div>
+        <div class="summary-row">
+          <span>অবশিষ্ট ব্যালেন্স</span>
+          <strong id="modalRemainingBal" class="num" style="color: var(--success);">৳0</strong>
+        </div>
+      </div>
+
+      <div class="modal-actions">
+        <button type="button" id="cancelModalBtn" class="btn-secondary">বাতিল করুন</button>
+        <button type="button" id="finalConfirmBtn" class="btn-confirm">Withdraw Request Confirm করুন</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Custom Success Modal -->
+  <div id="successModal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="successModalTitle">
+    <div class="modal-box" style="text-align: center;">
+      <div class="modal-icon success" style="width: 56px; height: 56px; margin: 0 auto 14px; border-radius: 50%;">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+      </div>
+      <h3 id="successModalTitle" class="modal-title" style="margin-bottom: 8px;">আপনার Withdraw Request সফলভাবে জমা হয়েছে।</h3>
+      <p id="successModalSubtext" style="font-size: 14px; color: var(--text-muted); margin-bottom: 20px;">
+        অ্যাডমিন যাচাই করার পর আপনার নির্ধারিত নম্বরে টাকা পাঠিয়ে দেওয়া হবে।
+      </p>
+      <button type="button" id="closeSuccessModalBtn" class="btn-primary">ঠিক আছে</button>
+    </div>
+  </div>
+
+  <!-- Firebase Modular SDK v10.14.1 -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
+    import {
+      getFirestore,
+      doc,
+      getDoc,
+      runTransaction,
+      serverTimestamp
+    } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
+    const FIREBASE_CONFIG = {
+      apiKey: "AIzaSyDCIRWmozT0XcEXuXtQ6RDiDo6vtT1T9mU",
+  authDomain: "paikarisell-ghotimarket.firebaseapp.com",
+  projectId: "paikarisell-ghotimarket",
+  storageBucket: "paikarisell-ghotimarket.firebasestorage.app",
+  messagingSenderId: "464086432830",
+  appId: "1:464086432830:web:a10fdd9884954e380e656f",
+  measurementId: "G-E3HR2F9TC5"
+};
+
+    const WORKER_URL = "https://ghoti-reseller-withdraw-notify.nazrulislam887441234.workers.dev";
+
+    const MIN_ELIGIBLE_BALANCE = 300;
+    const MIN_WITHDRAW_AMOUNT = 100;
+
+    // Initialize Firebase
+    const app = initializeApp(FIREBASE_CONFIG);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    // Application State
+    const state = {
+      user: null,
+      uid: null,
+      balance: 0,
+      selectedMethod: null, // 'bkash' | 'nagad'
+      existingWithdrawDoc: null,
+      isSubmitting: false
+    };
+
+    // DOM Elements
+    const el = {
+      skeletonView: document.getElementById("skeletonView"),
+      missingProfileView: document.getElementById("missingProfileView"),
+      mainContentView: document.getElementById("mainContentView"),
+      redirectSignedBtn: document.getElementById("redirectSignedBtn"),
+      networkBanner: document.getElementById("networkBanner"),
+      loadingOverlay: document.getElementById("loadingOverlay"),
+      loadingText: document.getElementById("loadingText"),
+      toastContainer: document.getElementById("toastContainer"),
+
+      balanceAmountDisplay: document.getElementById("balanceAmountDisplay"),
+      userUidBadge: document.getElementById("userUidBadge"),
+
+      pendingRequestSection: document.getElementById("pendingRequestSection"),
+      pendingAmountVal: document.getElementById("pendingAmountVal"),
+      pendingMethodVal: document.getElementById("pendingMethodVal"),
+      pendingNumberVal: document.getElementById("pendingNumberVal"),
+      pendingDateVal: document.getElementById("pendingDateVal"),
+
+      insufficientProgressSection: document.getElementById("insufficientProgressSection"),
+      progressPercentText: document.getElementById("progressPercentText"),
+      progressBarFill: document.getElementById("progressBarFill"),
+      statCurrentBal: document.getElementById("statCurrentBal"),
+      statRemainingBal: document.getElementById("statRemainingBal"),
+
+      eligibleWithdrawSection: document.getElementById("eligibleWithdrawSection"),
+      withdrawForm: document.getElementById("withdrawForm"),
+      methodCards: document.querySelectorAll(".method-card"),
+      formInputsSection: document.getElementById("formInputsSection"),
+      withdrawAmount: document.getElementById("withdrawAmount"),
+      maxAmountBtn: document.getElementById("maxAmountBtn"),
+      amountError: document.getElementById("amountError"),
+      amountErrorText: document.getElementById("amountErrorText"),
+      previewCurrentBal: document.getElementById("previewCurrentBal"),
+      previewRemainingBal: document.getElementById("previewRemainingBal"),
+      paymentNumber: document.getElementById("paymentNumber"),
+      paymentNumberLabel: document.getElementById("paymentNumberLabel"),
+      numberError: document.getElementById("numberError"),
+      numberErrorText: document.getElementById("numberErrorText"),
+      openConfirmBtn: document.getElementById("openConfirmBtn"),
+
+      confirmModal: document.getElementById("confirmModal"),
+      modalMethod: document.getElementById("modalMethod"),
+      modalNumber: document.getElementById("modalNumber"),
+      modalAmount: document.getElementById("modalAmount"),
+      modalCurrentBal: document.getElementById("modalCurrentBal"),
+      modalRemainingBal: document.getElementById("modalRemainingBal"),
+      cancelModalBtn: document.getElementById("cancelModalBtn"),
+      finalConfirmBtn: document.getElementById("finalConfirmBtn"),
+
+      successModal: document.getElementById("successModal"),
+      successModalSubtext: document.getElementById("successModalSubtext"),
+      closeSuccessModalBtn: document.getElementById("closeSuccessModalBtn")
+    };
+
+    // =========================================================================
+    // 2. UI HELPERS (Custom Toast, Loading Overlay, Network Status)
+    // =========================================================================
+    function showToast(message, type = "info", duration = 4500) {
+      const toast = document.createElement("div");
+      toast.className = `toast ${type}`;
+
+      let iconSvg = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>`;
+      if (type === "success") {
+        iconSvg = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#129a57" stroke-width="2.4"><polyline points="20 6 9 17 4 12"/></svg>`;
+      } else if (type === "error") {
+        iconSvg = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>`;
+      } else if (type === "warning") {
+        iconSvg = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#d97706" stroke-width="2.2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>`;
+      }
+
+      toast.innerHTML = `<div style="flex-shrink:0;margin-top:1px;">${iconSvg}</div><div>${message}</div>`;
+      el.toastContainer.appendChild(toast);
+
+      setTimeout(() => {
+        toast.style.opacity = "0";
+        toast.style.transform = "translateX(20px)";
+        toast.style.transition = "all 0.25s ease";
+        setTimeout(() => toast.remove(), 260);
+      }, duration);
+    }
+
+    function setLoading(active, text = "অপেক্ষা করুন...") {
+      el.loadingText.textContent = text;
+      if (active) {
+        el.loadingOverlay.classList.add("active");
+      } else {
+        el.loadingOverlay.classList.remove("active");
+      }
+    }
+
+    function updateNetworkUI() {
+      if (!navigator.onLine) {
+        el.networkBanner.classList.add("show");
+      } else {
+        el.networkBanner.classList.remove("show");
+      }
+    }
+
+    window.addEventListener("online", () => {
+      updateNetworkUI();
+      showToast("ইন্টারনেট সংযোগ পুনরায় স্থাপিত হয়েছে।", "success", 3000);
+    });
+    window.addEventListener("offline", () => {
+      updateNetworkUI();
+      showToast("ইন্টারনেট সংযোগ বিচ্ছিন্ন হয়েছে।", "error", 5000);
+    });
+    updateNetworkUI();
+
+    function formatCurrency(val) {
+      const num = Math.floor(Number(val) || 0);
+      return `৳${num.toLocaleString("en-US")}`;
+    }
+
+    function formatTimestamp(ts) {
+      if (!ts) return "এইমাত্র জমা হয়েছে";
+      try {
+        const date = typeof ts.toDate === "function" ? ts.toDate() : new Date(ts);
+        return date.toLocaleString("bn-BD", {
+          year: "numeric",
+          month: "short",
+          day: "numeric",
+          hour: "2-digit",
+          minute: "2-digit"
+        });
+      } catch {
+        return "প্রক্রিয়াধীন";
+      }
+    }
+
+    // =========================================================================
+    // 3. AUTHENTICATION & DATA LOADING
+    // =========================================================================
+    el.redirectSignedBtn.addEventListener("click", () => {
+      window.location.href = "/signed1";
+    });
+
+    onAuthStateChanged(auth, async (user) => {
+      if (!user) {
+        showToast("আপনি লগইন করা নেই। লগইন পেজে পাঠানো হচ্ছে...", "warning", 2500);
+        setTimeout(() => {
+          window.location.replace("/login");
+        }, 700);
+        return;
+      }
+
+      state.user = user;
+      state.uid = user.uid;
+      await loadResellerAndWithdrawState();
+    });
+
+    async function loadResellerAndWithdrawState() {
+      if (!navigator.onLine) {
+        showToast("ইন্টারনেট সংযোগ নেই। তথ্য লোড করা যাচ্ছে না।", "error");
+        return;
+      }
+
+      try {
+        const resellerRef = doc(db, "reseller", state.uid);
+        const withdrawRef = doc(db, "withdraw", state.uid);
+
+        const [resellerSnap, withdrawSnap] = await Promise.all([
+          getDoc(resellerRef),
+          getDoc(withdrawRef)
+        ]);
+
+        el.skeletonView.classList.add("hidden");
+
+        // Check reseller/{uid} existence
+        if (!resellerSnap.exists()) {
+          el.missingProfileView.classList.remove("hidden");
+          showToast("আপনার রিসেলার অ্যাকাউন্ট তথ্য পাওয়া যায়নি।", "error");
+          setTimeout(() => {
+            window.location.href = "/signed1";
+          }, 3500);
+          return;
+        }
+
+        const resellerData = resellerSnap.data();
+        const rawBalance = Number(resellerData.balance);
+        state.balance = Number.isFinite(rawBalance) && rawBalance > 0 ? Math.floor(rawBalance) : 0;
+
+        // Check if withdraw/{uid} document already exists
+        if (withdrawSnap.exists()) {
+          state.existingWithdrawDoc = withdrawSnap.data();
+        } else {
+          state.existingWithdrawDoc = null;
+        }
+
+        renderMainDashboard();
+      } catch (error) {
+        console.error("Firestore Load Error:", error);
+        el.skeletonView.classList.add("hidden");
+        showToast("সার্ভার থেকে তথ্য লোড করতে সমস্যা হয়েছে। পেজটি রিফ্রেশ করুন।", "error");
+      }
+    }
+
+    function renderMainDashboard() {
+      el.mainContentView.classList.remove("hidden");
+      el.balanceAmountDisplay.textContent = formatCurrency(state.balance);
+      el.userUidBadge.textContent = `UID: ${state.uid.slice(0, 8)}...`;
+
+      // Reset sections
+      el.pendingRequestSection.classList.add("hidden");
+      el.insufficientProgressSection.classList.add("hidden");
+      el.eligibleWithdrawSection.classList.add("hidden");
+
+      // Priority 1: Duplicate Withdraw Protection (Active Request exists)
+      if (state.existingWithdrawDoc) {
+        el.pendingRequestSection.classList.remove("hidden");
+        el.pendingAmountVal.textContent = formatCurrency(state.existingWithdrawDoc.amount);
+        el.pendingMethodVal.textContent = state.existingWithdrawDoc.PM === "bkash" ? "bKash" : "Nagad";
+        el.pendingNumberVal.textContent = state.existingWithdrawDoc.paymentNumber || "---";
+        el.pendingDateVal.textContent = formatTimestamp(state.existingWithdrawDoc.createdAt);
+        return;
+      }
+
+      // Priority 2: Minimum Balance Threshold (300 BDT)
+      if (state.balance < MIN_ELIGIBLE_BALANCE) {
+        el.insufficientProgressSection.classList.remove("hidden");
+        const pct = Math.min(100, Math.max(0, Math.round((state.balance / MIN_ELIGIBLE_BALANCE) * 100)));
+        const remaining = Math.max(0, MIN_ELIGIBLE_BALANCE - state.balance);
+
+        el.progressPercentText.textContent = `${pct}%`;
+        el.statCurrentBal.textContent = formatCurrency(state.balance);
+        el.statRemainingBal.textContent = formatCurrency(remaining);
+
+        // Smooth animation trigger
+        requestAnimationFrame(() => {
+          setTimeout(() => {
+            el.progressBarFill.style.width = `${pct}%`;
+          }, 60);
+        });
+        return;
+      }
+
+      // Priority 3: Eligible to Withdraw
+      el.eligibleWithdrawSection.classList.remove("hidden");
+      el.previewCurrentBal.textContent = formatCurrency(state.balance);
+      el.previewRemainingBal.textContent = formatCurrency(state.balance);
+    }
+
+    // =========================================================================
+    // 4. PAYMENT METHOD SELECTION
+    // =========================================================================
+    function selectPaymentMethod(method) {
+      if (method !== "bkash" && method !== "nagad") return;
+      state.selectedMethod = method;
+
+      el.methodCards.forEach((card) => {
+        const isSelected = card.dataset.method === method;
+        card.classList.toggle("selected", isSelected);
+        card.setAttribute("aria-checked", isSelected ? "true" : "false");
+      });
+
+      const methodTitle = method === "bkash" ? "bKash" : "Nagad";
+      el.paymentNumberLabel.textContent = `${methodTitle} নম্বর (১১ ডিজিট)`;
+      el.formInputsSection.classList.add("visible");
+    }
+
+    el.methodCards.forEach((card) => {
+      card.addEventListener("click", () => selectPaymentMethod(card.dataset.method));
+      card.addEventListener("keydown", (e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          selectPaymentMethod(card.dataset.method);
+        }
+      });
+    });
+
+    // =========================================================================
+    // 5. LIVE VALIDATION (AMOUNT & 11-DIGIT NUMBER)
+    // =========================================================================
+    function validateAmount(showErr = true) {
+      const raw = el.withdrawAmount.value.trim();
+
+      if (!raw) {
+        if (showErr) setFieldError(el.withdrawAmount, el.amountError, el.amountErrorText, "উত্তোলনের পরিমাণ লিখুন।");
+        updateLivePreview(0, false);
+        return { valid: false, amount: 0 };
+      }
+
+      if (!/^\d+$/.test(raw)) {
+        if (showErr) setFieldError(el.withdrawAmount, el.amountError, el.amountErrorText, "শুধুমাত্র পূর্ণসংখ্যা (Numeric) লিখুন। দশমিক বা অক্ষর গ্রহণযোগ্য নয়।");
+        updateLivePreview(0, false);
+        return { valid: false, amount: 0 };
+      }
+
+      const amount = parseInt(raw, 10);
+
+      if (amount <= 0) {
+        if (showErr) setFieldError(el.withdrawAmount, el.amountError, el.amountErrorText, "০ বা ঋণাত্মক পরিমাণ গ্রহণযোগ্য নয়।");
+        updateLivePreview(0, false);
+        return { valid: false, amount: 0 };
+      }
+
+      if (amount < MIN_WITHDRAW_AMOUNT) {
+        if (showErr) setFieldError(el.withdrawAmount, el.amountError, el.amountErrorText, `সর্বনিম্ন উত্তোলনের পরিমাণ ৳${MIN_WITHDRAW_AMOUNT}।`);
+        updateLivePreview(amount, false);
+        return { valid: false, amount };
+      }
+
+      if (amount > state.balance) {
+        if (showErr) setFieldError(el.withdrawAmount, el.amountError, el.amountErrorText, `আপনার বর্তমান ব্যালেন্স (${formatCurrency(state.balance)}) এর চেয়ে বেশি টাকা উত্তোলন করা যাবে না।`);
+        updateLivePreview(amount, false);
+        return { valid: false, amount };
+      }
+
+      clearFieldError(el.withdrawAmount, el.amountError);
+      updateLivePreview(amount, true);
+      return { valid: true, amount };
+    }
+
+    function updateLivePreview(amount, isValid) {
+      el.previewCurrentBal.textContent = formatCurrency(state.balance);
+      if (!amount || amount <= 0) {
+        el.previewRemainingBal.textContent = formatCurrency(state.balance);
+        el.previewRemainingBal.className = "";
+        return;
+      }
+
+      const rem = state.balance - amount;
+      if (rem < 0) {
+        el.previewRemainingBal.textContent = "ব্যালেন্স অপর্যাপ্ত";
+        el.previewRemainingBal.className = "bad";
+      } else {
+        el.previewRemainingBal.textContent = formatCurrency(rem);
+        el.previewRemainingBal.className = isValid ? "ok" : "";
+      }
+    }
+
+    function validatePaymentNumber(showErr = true) {
+      const num = el.paymentNumber.value.trim();
+
+      if (!num) {
+        if (showErr) setFieldError(el.paymentNumber, el.numberError, el.numberErrorText, "১১ ডিজিটের মোবাইল নম্বর প্রদান করুন।");
+        return { valid: false, number: "" };
+      }
+
+      // Must be strictly 11 digits starting with 01
+      if (!/^01\d{9}$/.test(num)) {
+        if (showErr) setFieldError(el.paymentNumber, el.numberError, el.numberErrorText, "সঠিক ১১ ডিজিটের বাংলাদেশি মোবাইল নম্বর দিন (যেমন: 01XXXXXXXXX)। +88 দেওয়ার প্রয়োজন নেই।");
+        return { valid: false, number: num };
+      }
+
+      clearFieldError(el.paymentNumber, el.numberError);
+      return { valid: true, number: num };
+    }
+
+    function setFieldError(inputEl, errBox, errTextEl, msg) {
+      inputEl.classList.add("invalid");
+      errTextEl.textContent = msg;
+      errBox.classList.add("show");
+    }
+
+    function clearFieldError(inputEl, errBox) {
+      inputEl.classList.remove("invalid");
+      errBox.classList.remove("show");
+    }
+
+    // Strip non-digits on input
+    el.withdrawAmount.addEventListener("input", () => {
+      el.withdrawAmount.value = el.withdrawAmount.value.replace(/[^\d]/g, "");
+      validateAmount(true);
+    });
+
+    el.paymentNumber.addEventListener("input", () => {
+      el.paymentNumber.value = el.paymentNumber.value.replace(/[^\d]/g, "").slice(0, 11);
+      validatePaymentNumber(true);
+    });
+
+    el.maxAmountBtn.addEventListener("click", () => {
+      el.withdrawAmount.value = String(state.balance);
+      validateAmount(true);
+    });
+
+    // =========================================================================
+    // 6. CONFIRMATION MODAL & ATOMIC FIRESTORE TRANSACTION
+    // =========================================================================
+    el.withdrawForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+
+      if (!navigator.onLine) {
+        showToast("ইন্টারনেট সংযোগ নেই। আবেদন জমা দেওয়া সম্ভব নয়।", "error");
+        return;
+      }
+
+      if (state.isSubmitting) {
+        showToast("আপনার আবেদন প্রক্রিয়াকরণ চলছে, অনুগ্রহ করে অপেক্ষা করুন।", "warning");
+        return;
+      }
+
+      if (!state.selectedMethod) {
+        showToast("অনুগ্রহ করে প্রথমে bKash অথবা Nagad নির্বাচন করুন।", "error");
+        return;
+      }
+
+      const amountCheck = validateAmount(true);
+      const numberCheck = validatePaymentNumber(true);
+
+      if (!amountCheck.valid) {
+        el.withdrawAmount.focus();
+        showToast("সঠিক উত্তোলনের পরিমাণ প্রদান করুন।", "error");
+        return;
+      }
+
+      if (!numberCheck.valid) {
+        el.paymentNumber.focus();
+        showToast("সঠিক ১১ ডিজিটের মোবাইল নম্বর প্রদান করুন।", "error");
+        return;
+      }
+
+      // Populate Confirmation Modal
+      const methodLabel = state.selectedMethod === "bkash" ? "bKash" : "Nagad";
+      const remaining = state.balance - amountCheck.amount;
+
+      el.modalMethod.textContent = methodLabel;
+      el.modalNumber.textContent = numberCheck.number;
+      el.modalAmount.textContent = formatCurrency(amountCheck.amount);
+      el.modalCurrentBal.textContent = formatCurrency(state.balance);
+      el.modalRemainingBal.textContent = formatCurrency(remaining);
+
+      el.confirmModal.classList.add("open");
+    });
+
+    el.cancelModalBtn.addEventListener("click", () => {
+      if (!state.isSubmitting) {
+        el.confirmModal.classList.remove("open");
+      }
+    });
+
+    el.finalConfirmBtn.addEventListener("click", async () => {
+      if (state.isSubmitting) {
+        showToast("ডুপ্লিকেট সাবমিট প্রতিরোধ করা হয়েছে। অনুগ্রহ করে অপেক্ষা করুন।", "warning");
+        return;
+      }
+
+      if (!navigator.onLine) {
+        showToast("ইন্টারনেট সংযোগ বিচ্ছিন্ন হয়েছে।", "error");
+        return;
+      }
+
+      const amountCheck = validateAmount(true);
+      const numberCheck = validatePaymentNumber(true);
+      if (!state.selectedMethod || !amountCheck.valid || !numberCheck.valid) {
+        el.confirmModal.classList.remove("open");
+        return;
+      }
+
+      state.isSubmitting = true;
+      el.finalConfirmBtn.disabled = true;
+      el.cancelModalBtn.disabled = true;
+      el.confirmModal.classList.remove("open");
+      setLoading(true, "সার্ভারে ব্যালেন্স যাচাই ও আবেদন জমা হচ্ছে...");
+
+      const withdrawAmount = amountCheck.amount;
+      const paymentNumber = numberCheck.number;
+      const paymentMethod = state.selectedMethod; // 'bkash' or 'nagad'
+
+      try {
+        // Atomic Firestore Transaction: Re-verify latest balance & existing request
+        await runTransaction(db, async (transaction) => {
+          const resellerRef = doc(db, "reseller", state.uid);
+          const withdrawRef = doc(db, "withdraw", state.uid);
+
+          const [freshResellerSnap, freshWithdrawSnap] = await Promise.all([
+            transaction.get(resellerRef),
+            transaction.get(withdrawRef)
+          ]);
+
+          if (!freshResellerSnap.exists()) {
+            throw new Error("RESELLER_NOT_FOUND");
+          }
+
+          const latestBalance = Math.floor(Number(freshResellerSnap.data().balance) || 0);
+          state.balance = latestBalance;
+
+          if (latestBalance < MIN_ELIGIBLE_BALANCE) {
+            throw new Error("BALANCE_BELOW_THRESHOLD");
+          }
+
+          if (withdrawAmount < MIN_WITHDRAW_AMOUNT || withdrawAmount > latestBalance) {
+            throw new Error("INVALID_AMOUNT_VS_BALANCE");
+          }
+
+          // Block if an active request document already exists
+          if (freshWithdrawSnap.exists()) {
+            throw new Error("DUPLICATE_EXISTING_REQUEST");
+          }
+
+          // Write strictly to withdraw/{uid} without status field
+          transaction.set(withdrawRef, {
+            uid: state.uid,
+            amount: Number(withdrawAmount),
+            paymentNumber: paymentNumber,
+            PM: paymentMethod,
+            createdAt: serverTimestamp()
+          });
+        });
+
+        // Firestore save succeeded! Now notify Admin via Cloudflare Worker.
+        setLoading(true, "অ্যাডমিনকে নোটিফিকেশন পাঠানো হচ্ছে...");
+        const notifyResult = await sendTelegramNotification({
+          uid: state.uid,
+          amount: withdrawAmount,
+          PM: paymentMethod,
+          paymentNumber: paymentNumber
+        });
+
+        setLoading(false);
+
+        if (notifyResult.ok) {
+          el.successModalSubtext.textContent =
+            "আপনার আবেদন এবং অ্যাডমিন নোটিফিকেশন সফলভাবে সম্পন্ন হয়েছে। শীঘ্রই পেমেন্ট প্রক্রিয়া করা হবে।";
+        } else {
+          // Do NOT delete or duplicate Firestore request if Telegram notification fails
+          el.successModalSubtext.textContent =
+            "আপনার Withdraw Request সফলভাবে জমা হয়েছে, তবে তাৎক্ষণিক Telegram Notification পাঠানো যায়নি। আমাদের টিম ড্যাশবোর্ড থেকে আবেদনটি দেখতে পাবে।";
+          showToast(
+            "Withdraw Request জমা হয়েছে, কিন্তু Telegram Notification পাঠানো যায়নি।",
+            "warning",
+            6000
+          );
+        }
+
+        el.successModal.classList.add("open");
+        await loadResellerAndWithdrawState();
+
+      } catch (err) {
+        setLoading(false);
+        console.error("Withdraw Submit Error:", err);
+
+        const code = err?.message || "";
+        if (code === "RESELLER_NOT_FOUND") {
+          showToast("রিসেলার প্রোফাইল পাওয়া যায়নি।", "error");
+        } else if (code === "BALANCE_BELOW_THRESHOLD") {
+          showToast("আপনার সর্বশেষ ব্যালেন্স ৩০০ টাকার কম হওয়ায় আবেদন বাতিল হয়েছে।", "error");
+          await loadResellerAndWithdrawState();
+        } else if (code === "INVALID_AMOUNT_VS_BALANCE") {
+          showToast("আপনার বর্তমান ব্যালেন্সের চেয়ে বেশি টাকা উত্তোলন করা সম্ভব নয়।", "error");
+          await loadResellerAndWithdrawState();
+        } else if (code === "DUPLICATE_EXISTING_REQUEST") {
+          showToast("আপনার একটি আবেদন ইতিমধ্যে প্রক্রিয়াধীন রয়েছে।", "warning");
+          await loadResellerAndWithdrawState();
+        } else if (err?.code === "permission-denied") {
+          showToast("নিরাপত্তা নীতিমালার কারণে আবেদনটি প্রত্যাখ্যান করা হয়েছে। ব্যালেন্স ও তথ্য যাচাই করুন।", "error");
+        } else {
+          showToast("Firestore ত্রুটির কারণে আবেদন জমা হয়নি। অনুগ্রহ করে আবার চেষ্টা করুন।", "error");
+        }
+      } finally {
+        state.isSubmitting = false;
+        el.finalConfirmBtn.disabled = false;
+        el.cancelModalBtn.disabled = false;
+      }
+    });
+
+    el.closeSuccessModalBtn.addEventListener("click", () => {
+      el.successModal.classList.remove("open");
+    });
+
+    // =========================================================================
+    // 7. CLOUDFLARE WORKER NOTIFICATION CALL
+    // =========================================================================
+    async function sendTelegramNotification(payload) {
+      try {
+        if (!state.user) return { ok: false };
+        const idToken = await state.user.getIdToken(true);
+
+        const response = await fetch(WORKER_URL, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${idToken}`
+          },
+          body: JSON.stringify(payload)
+        });
+
+        if (!response.ok) {
+          const errData = await response.json().catch(() => ({}));
+          console.warn("Worker Notification Rejected:", response.status, errData);
+          return { ok: false };
+        }
+
+        const data = await response.json();
+        return { ok: Boolean(data.success) };
+      } catch (networkOrWorkerErr) {
+        console.error("Worker Fetch Error:", networkOrWorkerErr);
+        return { ok: false };
+      }
+    }
+  </script>
+</body>
+</html>
