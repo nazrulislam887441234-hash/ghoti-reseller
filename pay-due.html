@@ -1,0 +1,1029 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>ব্যালেন্স লোড করুন | Reseller Ghoti Market</title>
+    
+    <!-- Favicon & Logo Links -->
+    <link rel="icon" type="image/png" href="https://reseller.ghotimarket.com/photo/favicon.png">
+    
+    <!-- Google Fonts (Hind Siliguri) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- CSS Styles -->
+    <style>
+        :root {
+            --primary: #FF6B35;
+            --secondary: #FF6A00;
+            --accent: #FFA500;
+            --background: #FFF7F1;
+            --text: #171717;
+            --text-muted: #666666;
+            --white: #FFFFFF;
+            --success: #16A34A;
+            --danger: #DC2626;
+            --border: #E5E7EB;
+            --card-shadow: 0 10px 25px -5px rgba(255, 107, 53, 0.1), 0 8px 10px -6px rgba(255, 107, 53, 0.1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Hind Siliguri', sans-serif;
+        }
+
+        body {
+            background-color: var(--background);
+            color: var(--text);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+
+        /* Initial Auth Loading Screen */
+        #auth-loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--background);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.3s ease;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid #FFE3D4;
+            border-top: 4px solid var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 16px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .container {
+            width: 100%;
+            max-width: 650px;
+            margin: 0 auto;
+            display: none; /* Shown after auth check */
+            flex-direction: column;
+            gap: 24px;
+            padding-bottom: 40px;
+        }
+
+        /* Header Branding */
+        .app-header {
+            text-align: center;
+            padding: 10px 0;
+        }
+
+        .app-logo {
+            width: 70px;
+            height: 70px;
+            object-fit: contain;
+            margin-bottom: 10px;
+            border-radius: 14px;
+            box-shadow: 0 4px 12px rgba(255, 107, 53, 0.15);
+        }
+
+        .app-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--text);
+        }
+
+        /* Cards General Style */
+        .card {
+            background: var(--white);
+            border-radius: 20px;
+            padding: 24px;
+            box-shadow: var(--card-shadow);
+            border: 1px solid rgba(255, 107, 53, 0.1);
+        }
+
+        /* Balance Card */
+        .balance-card {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: var(--white);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .balance-card::after {
+            content: '';
+            position: absolute;
+            top: -50px;
+            right: -50px;
+            width: 150px;
+            height: 150px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+        }
+
+        .balance-title {
+            font-size: 16px;
+            font-weight: 500;
+            opacity: 0.9;
+            margin-bottom: 8px;
+        }
+
+        .balance-amount {
+            font-size: 36px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        .balance-status-text {
+            font-size: 14px;
+            margin-top: 6px;
+            opacity: 0.95;
+            background: rgba(0, 0, 0, 0.15);
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+        }
+
+        /* Info Section */
+        .section-heading {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: var(--text);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .info-desc {
+            font-size: 14px;
+            line-height: 1.6;
+            color: var(--text-muted);
+            margin-bottom: 16px;
+        }
+
+        .examples-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-top: 16px;
+        }
+
+        @media (max-width: 480px) {
+            .examples-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .example-mini-card {
+            background: var(--background);
+            border-radius: 12px;
+            padding: 14px;
+            border: 1px solid rgba(255, 107, 53, 0.15);
+            text-align: center;
+        }
+
+        .example-mini-card h4 {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 6px;
+        }
+
+        .example-mini-card p {
+            font-size: 12px;
+            color: var(--text-muted);
+            line-height: 1.4;
+        }
+
+        /* Payment Methods */
+        .methods-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-top: 12px;
+        }
+
+        .method-card {
+            border: 2px solid var(--border);
+            border-radius: 16px;
+            padding: 18px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            background: var(--white);
+            position: relative;
+        }
+
+        .method-card.selected {
+            border-color: var(--primary);
+            background: rgba(255, 107, 53, 0.03);
+            box-shadow: 0 4px 12px rgba(255, 107, 53, 0.15);
+        }
+
+        .method-card img {
+            width: 60px;
+            height: 60px;
+            object-fit: contain;
+            margin-bottom: 10px;
+        }
+
+        .method-name {
+            font-weight: 600;
+            font-size: 16px;
+        }
+
+        .method-check {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 24px;
+            height: 24px;
+            background: var(--primary);
+            border-radius: 50%;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+        }
+
+        .method-card.selected .method-check {
+            display: flex;
+        }
+
+        /* Number Display Section */
+        .number-box-wrapper {
+            display: none;
+            margin-top: 20px;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .number-display-card {
+            background: var(--background);
+            border: 1px dashed var(--primary);
+            border-radius: 14px;
+            padding: 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .number-label {
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-bottom: 2px;
+        }
+
+        .number-value {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--primary);
+            letter-spacing: 1px;
+        }
+
+        .copy-btn {
+            background: var(--primary);
+            color: var(--white);
+            border: none;
+            padding: 10px 18px;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: background 0.2s;
+        }
+
+        .copy-btn:hover {
+            background: var(--secondary);
+        }
+
+        /* Instructions */
+        .instructions-box {
+            display: none;
+            margin-top: 20px;
+            background: #FFFBF8;
+            border: 1px solid rgba(255, 107, 53, 0.2);
+            border-radius: 14px;
+            padding: 18px;
+        }
+
+        .instructions-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .instructions-list li {
+            font-size: 14px;
+            color: var(--text);
+            display: flex;
+            gap: 10px;
+            line-height: 1.5;
+        }
+
+        .step-num {
+            background: var(--primary);
+            color: var(--white);
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 700;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        /* Submission Form */
+        .submission-form {
+            display: none;
+            margin-top: 20px;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .form-label {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 14px 16px;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            font-size: 16px;
+            outline: none;
+            transition: border-color 0.2s;
+            background: var(--white);
+        }
+
+        .form-input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.1);
+        }
+
+        .submit-btn {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: var(--white);
+            border: none;
+            padding: 16px;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: opacity 0.2s;
+            box-shadow: 0 4px 15px rgba(255, 107, 53, 0.3);
+            margin-top: 8px;
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        /* Custom Modal System */
+        .modal-backdrop {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+            padding: 20px;
+            backdrop-filter: blur(4px);
+        }
+
+        .modal-content {
+            background: var(--white);
+            width: 100%;
+            max-width: 420px;
+            border-radius: 24px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+            animation: modalPop 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        @keyframes modalPop {
+            0% { transform: scale(0.8); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .modal-icon {
+            width: 64px;
+            height: 64px;
+            background: rgba(22, 163, 74, 0.1);
+            color: var(--success);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 16px;
+        }
+
+        .modal-icon.error {
+            background: rgba(220, 38, 38, 0.1);
+            color: var(--danger);
+        }
+
+        .modal-title {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: var(--text);
+        }
+
+        .modal-desc {
+            font-size: 14px;
+            color: var(--text-muted);
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .modal-details {
+            background: var(--background);
+            border-radius: 12px;
+            padding: 14px;
+            text-align: left;
+            margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            font-size: 13px;
+        }
+
+        .modal-detail-row {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .modal-btn {
+            background: var(--primary);
+            color: var(--white);
+            border: none;
+            width: 100%;
+            padding: 14px;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .modal-btn:hover {
+            background: var(--secondary);
+        }
+
+        /* Toast Notification */
+        #toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: #1E293B;
+            color: var(--white);
+            padding: 12px 24px;
+            border-radius: 30px;
+            font-size: 14px;
+            font-weight: 500;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            z-index: 10001;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        #toast.show {
+            transform: translateX(-50%) translateY(0);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Auth Loading Screen -->
+    <div id="auth-loader">
+        <div class="spinner"></div>
+        <p style="font-weight: 600; color: var(--text-muted);">অ্যাকাউন্ট যাচাই করা হচ্ছে...</p>
+    </div>
+
+    <!-- Main Content Container -->
+    <div class="container" id="main-container">
+        
+        <!-- Header -->
+        <header class="app-header">
+            <img src="https://reseller.ghotimarket.com/photo/logo.png" alt="Ghoti Market Logo" class="app-logo">
+            <h1 class="app-title">ব্যালেন্স লোড করুন</h1>
+        </header>
+
+        <!-- Current Balance & Due Card -->
+        <div class="card balance-card">
+            <div class="balance-title">আপনার বর্তমান ব্যালেন্স</div>
+            <div class="balance-amount" id="balance-display">৳ 0.00</div>
+            <div class="balance-status-text" id="balance-status-desc">লোড হচ্ছে...</div>
+        </div>
+
+        <!-- Information Section -->
+        <div class="card">
+            <h2 class="section-heading">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+                কেন আপনার ব্যালেন্স লোড করবেন?
+            </h2>
+            <p class="info-desc">
+                আপনার অ্যাকাউন্টে আগের কোনো কাজের জন্য পাওনা টাকা থাকলে এখানে ব্যালেন্স লোড করে সেই পাওনা পরিশোধ করতে পারবেন। পাশাপাশি চাইলে ভবিষ্যতে বিভিন্ন সেবা ব্যবহারের জন্য অতিরিক্ত ব্যালেন্সও যুক্ত করে রাখতে পারবেন।
+            </p>
+            <div style="font-size: 13px; font-weight: 600; color: var(--primary); margin-bottom: 8px;">ব্যালেন্স সমন্বয় পদ্ধতি:</div>
+            <div class="examples-grid">
+                <div class="example-mini-card">
+                    <h4>উদাহরণ ১</h4>
+                    <p>পাওনা: ৳৩০০<br>লোড: ৳৫০০<br><b>অবশিষ্ট ব্যালেন্স: ৳২০০</b></p>
+                </div>
+                <div class="example-mini-card">
+                    <h4>উদাহরণ ২</h4>
+                    <p>পাওনা: ৳৩০০<br>লোড: ৳৩০০<br><b>অবশিষ্ট ব্যালেন্স: ৳০</b></p>
+                </div>
+                <div class="example-mini-card">
+                    <h4>উদাহরণ ৩</h4>
+                    <p>পাওনা: ৳৩০০<br>লোড: ৳২০০<br><b>অবশিষ্ট পাওনা: ৳১০০</b></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Payment Method Selection -->
+        <div class="card">
+            <h2 class="section-heading">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect><line x1="1" y1="10" x2="23" y2="10"></line></svg>
+                পেমেন্ট মেথড নির্বাচন করুন
+            </h2>
+            
+            <div class="methods-grid">
+                <div class="method-card" data-method="bkash" onclick="selectPaymentMethod('bkash')">
+                    <div class="method-check">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                    </div>
+                    <img src="https://paikarisell.ghotimarket.com/photo/bkash.png" alt="bKash Logo">
+                    <span class="method-name">বিকাশ</span>
+                </div>
+                
+                <div class="method-card" data-method="nagad" onclick="selectPaymentMethod('nagad')">
+                    <div class="method-check">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                    </div>
+                    <img src="https://paikarisell.ghotimarket.com/photo/nagad.png" alt="Nagad Logo">
+                    <span class="method-name">নগদ</span>
+                </div>
+            </div>
+
+            <!-- Number Display Box -->
+            <div class="number-box-wrapper" id="number-box">
+                <div class="number-display-card">
+                    <div>
+                        <div class="number-label">টাকা পাঠানোর নম্বর</div>
+                        <div class="number-value" id="payment-hotline">01727003670</div>
+                    </div>
+                    <button class="copy-btn" onclick="copyPaymentNumber()">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                        কপি করুন
+                    </button>
+                </div>
+            </div>
+
+            <!-- Payment Instructions Box -->
+            <div class="instructions-box" id="instructions-box">
+                <h3 id="instruction-heading" style="font-size: 15px; font-weight: 700; color: var(--primary);">নির্দেশনা</h3>
+                <ul class="instructions-list" id="instruction-steps">
+                    <!-- Dynamic Steps -->
+                </ul>
+            </div>
+
+            <!-- Submission Form -->
+            <form class="submission-form" id="submission-form" onsubmit="handlePaymentSubmit(event)">
+                <div class="form-group">
+                    <label class="form-label">কত টাকা পাঠিয়েছেন?</label>
+                    <input type="number" id="input-amount" class="form-input" placeholder="টাকার পরিমাণ লিখুন (যেমন: 500)" min="1" step="1" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">কোন নাম্বার থেকে টাকা পাঠিয়েছেন?</label>
+                    <input type="text" id="input-send-number" class="form-input" placeholder="01XXXXXXXXX" maxlength="15" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Transaction ID</label>
+                    <input type="text" id="input-trxid" class="form-input" placeholder="আপনার Transaction ID লিখুন" required style="text-transform: uppercase;">
+                </div>
+
+                <button type="submit" class="submit-btn" id="submit-btn-elem">পেমেন্ট তথ্য জমা দিন</button>
+            </form>
+        </div>
+
+    </div>
+
+    <!-- Custom Success/Error Modal -->
+    <div class="modal-backdrop" id="custom-modal">
+        <div class="modal-content">
+            <div class="modal-icon" id="modal-icon-container">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            </div>
+            <h3 class="modal-title" id="modal-title">সফল হয়েছে!</h3>
+            <p class="modal-desc" id="modal-desc">আপনার পেমেন্টের তথ্য সফলভাবে জমা হয়েছে।</p>
+            
+            <div class="modal-details" id="modal-details-box" style="display: none;">
+                <div class="modal-detail-row"><span>পরিমাণ:</span> <strong id="m-amount">৳0</strong></div>
+                <div class="modal-detail-row"><span>মেথড:</span> <strong id="m-method">BKASH</strong></div>
+                <div class="modal-detail-row"><span>ট্রানজেকশন আইডি:</span> <strong id="m-trx">TRX123</strong></div>
+                <div class="modal-detail-row"><span>স্ট্যাটাস:</span> <strong style="color: var(--accent);">যাচাইয়ের অপেক্ষায় (Pending)</strong></div>
+            </div>
+
+            <button class="modal-btn" id="modal-action-btn" onclick="closeModal()">ঠিক আছে</button>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--success)" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
+        <span id="toast-text">পেমেন্ট নম্বর কপি হয়েছে।</span>
+    </div>
+
+    <!-- Firebase SDK 10.8.0 Modular -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        import { getFirestore, doc, getDoc, collection, addDoc, setDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+      const firebaseConfig = {
+  apiKey: "AIzaSyDCIRWmozT0XcEXuXtQ6RDiDo6vtT1T9mU",
+  authDomain: "paikarisell-ghotimarket.firebaseapp.com",
+  projectId: "paikarisell-ghotimarket",
+  storageBucket: "paikarisell-ghotimarket.firebasestorage.app",
+  messagingSenderId: "464086432830",
+  appId: "1:464086432830:web:a10fdd9884954e380e656f",
+  measurementId: "G-E3HR2F9TC5"
+};
+        // Cloudflare Worker Endpoint URL
+        const WORKER_URL = "https://reseller-paydue.ghotimarket.com";
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        let currentUser = null;
+        let currentResellerData = null;
+        let selectedPaymentMethod = null;
+        const PAYMENT_HOTLINE = "01727003670";
+
+        // Debug Logging System
+        function debugLog(message, data = null) {
+            console.log("[RESELLER PAY DUE DEBUG]", message, data || "");
+        }
+
+        debugLog("Firebase Initialized");
+
+        // Authentication & Reseller Verification
+        document.addEventListener("DOMContentLoaded", () => {
+            debugLog("Authentication Started");
+            onAuthStateChanged(auth, async (user) => {
+                if (!user) {
+                    debugLog("Authentication Error: User not logged in, redirecting to /login");
+                    window.location.href = "/login";
+                    return;
+                }
+
+                try {
+                    currentUser = user;
+                    debugLog("User Authenticated", { uid: user.uid });
+                    
+                    const resellerDocRef = doc(db, "reseller", user.uid);
+                    const resellerSnap = await getDoc(resellerDocRef);
+
+                    if (!resellerSnap.exists()) {
+                        debugLog("Reseller Document Not Found, redirecting to /signed1");
+                        window.location.href = "/signed1";
+                        return;
+                    }
+
+                    currentResellerData = resellerSnap.data();
+                    debugLog("Reseller Document Found", currentResellerData);
+
+                    renderBalance(currentResellerData.balance || 0);
+
+                    // Show Main Interface
+                    document.getElementById("auth-loader").style.opacity = "0";
+                    setTimeout(() => {
+                        document.getElementById("auth-loader").style.display = "none";
+                        document.getElementById("main-container").style.display = "flex";
+                    }, 300);
+
+                } catch (error) {
+                    debugLog("Firestore Error / Network Error during verification", error);
+                    if (error.code === 'permission-denied') {
+                        showCustomModal("অনুমতি অস্বীকৃত", "আপনার অ্যাকাউন্টটি এই পেজটি অ্যাক্সেস করার অনুমতি রাখছে না। সঠিক অ্যাকাউন্টে লগইন করুন।", true);
+                    } else {
+                        // Do not redirect on network error as requested
+                        showCustomModal("নেটওয়ার্ক ত্রুটি", "সার্ভারের সাথে সংযোগ স্থাপন করা সম্ভব হয়নি। অনুগ্রহ করে ইন্টারনেট কানেকশন চেক করুন।", true);
+                    }
+                }
+            });
+        });
+
+        // Render Balance Card
+        function renderBalance(balance) {
+            debugLog("Current Balance Received", balance);
+            const displayElem = document.getElementById("balance-display");
+            const statusElem = document.getElementById("balance-status-desc");
+
+            if (balance > 0) {
+                displayElem.innerText = `৳ ${balance.toLocaleString('en-IN', {minimumFractionDigits: 2})}`;
+                statusElem.innerText = "আপনার অ্যাকাউন্টে ইতিবাচক ব্যালেন্স রয়েছে";
+            } else if (balance < 0) {
+                const dueAmount = Math.abs(balance);
+                displayElem.innerText = `-৳ ${dueAmount.toLocaleString('en-IN', {minimumFractionDigits: 2})}`;
+                statusElem.innerText = `আপনার মোট পাওনা ৳ ${dueAmount}`;
+            } else {
+                displayElem.innerText = `৳ 0.00`;
+                statusElem.innerText = "আপনার কোনো বকেয়া নেই";
+            }
+        }
+
+        // Payment Method Selection Handler
+        window.selectPaymentMethod = function(method) {
+            selectedPaymentMethod = method;
+            debugLog("Payment Method Selected", method);
+
+            document.querySelectorAll(".method-card").forEach(card => {
+                card.classList.remove("selected");
+            });
+
+            const selectedCard = document.querySelector(`[data-method="${method}"]`);
+            if (selectedCard) {
+                selectedCard.classList.add("selected");
+            }
+
+            // Show Number Box & Instructions & Form
+            document.getElementById("number-box").style.display = "block";
+            const instrBox = document.getElementById("instructions-box");
+            instrBox.style.display = "block";
+
+            const headingElem = document.getElementById("instruction-heading");
+            const stepsList = document.getElementById("instruction-steps");
+            stepsList.innerHTML = "";
+
+            let steps = [];
+            if (method === 'bkash') {
+                headingElem.innerText = "বিকাশের মাধ্যমে টাকা পাঠানোর নিয়ম";
+                steps = [
+                    "বিকাশ অ্যাপ অথবা *247# ডায়াল করে উপরে দেওয়া নম্বরে Send Money করুন।",
+                    "আপনার অ্যাকাউন্টে যত টাকা যুক্ত করতে চান, ঠিক তত টাকা Send Money করুন।",
+                    "টাকা পাঠানোর পর যে নম্বর থেকে টাকা পাঠিয়েছেন, সেই নম্বর এবং Transaction ID সংগ্রহ করুন।",
+                    "সবশেষে নিচের ফর্মে প্রয়োজনীয় তথ্য পূরণ করে Submit করুন।"
+                ];
+            } else if (method === 'nagad') {
+                headingElem.innerText = "নগদের মাধ্যমে টাকা পাঠানোর নিয়ম";
+                steps = [
+                    "নগদ অ্যাপ অথবা *167# ডায়াল করে উপরে দেওয়া নম্বরে Send Money করুন।",
+                    "আপনার অ্যাকাউন্টে যত টাকা যুক্ত করতে চান, ঠিক তত টাকা Send Money করুন।",
+                    "টাকা পাঠানোর পর যে নম্বর থেকে টাকা পাঠিয়েছেন, সেই নম্বর এবং Transaction ID সংগ্রহ করুন।",
+                    "সবশেষে নিচের ফর্মে প্রয়োজনীয় তথ্য পূরণ করে Submit করুন।"
+                ];
+            }
+
+            steps.forEach((stepText, idx) => {
+                const li = document.createElement("li");
+                li.innerHTML = `<div class="step-num">${idx + 1}</div> <div>${stepText}</div>`;
+                stepsList.appendChild(li);
+            });
+
+            document.getElementById("submission-form").style.display = "flex";
+            debugLog("Payment Instructions Loaded");
+        }
+
+        // Copy Number Function
+        window.copyPaymentNumber = function() {
+            navigator.clipboard.writeText(PAYMENT_HOTLINE).then(() => {
+                showToast("পেমেন্ট নম্বর কপি হয়েছে।");
+            }).catch(err => {
+                debugLog("Copy failed", err);
+            });
+        }
+
+        // Toast Notification Trigger
+        function showToast(message) {
+            const toast = document.getElementById("toast");
+            document.getElementById("toast-text").innerText = message;
+            toast.classList.add("show");
+            setTimeout(() => {
+                toast.classList.remove("show");
+            }, 3000);
+        }
+
+        // Payment Submission Handler
+        window.handlePaymentSubmit = async function(event) {
+            event.preventDefault();
+            debugLog("Payment Submission Started");
+
+            if (!selectedPaymentMethod) {
+                showCustomModal("মেথড নির্বাচন করুন", "অনুগ্রহ করে বিকাশ অথবা নগদ সিলেক্ট করুন।", true);
+                return;
+            }
+
+            const amountVal = document.getElementById("input-amount").value.trim();
+            const sendNumVal = document.getElementById("input-send-number").value.trim();
+            const trxIdVal = document.getElementById("input-trxid").value.trim().toUpperCase();
+
+            // Validation: Amount
+            debugLog("Amount Validation Started", amountVal);
+            const parsedAmount = Number(amountVal);
+            if (isNaN(parsedAmount) || parsedAmount <= 0 || !Number.isInteger(parsedAmount)) {
+                showCustomModal("ভুল পরিমাণ", "টাকার পরিমাণ অবশ্যই ১ বা তার বেশি পূর্ণসংখ্যা হতে হবে।", true);
+                return;
+            }
+
+            // Validation: Mobile Number normalization & check
+            debugLog("Mobile Number Validation", sendNumVal);
+            let normalizedNum = sendNumVal.replace(/\s+/g, '');
+            if (normalizedNum.startsWith("+88")) {
+                normalizedNum = normalizedNum.slice(3);
+            } else if (normalizedNum.startsWith("88") && normalizedNum.length === 13) {
+                normalizedNum = normalizedNum.slice(2);
+            }
+
+            const mobileRegex = /^01[0-9]{9}$/;
+            if (!mobileRegex.test(normalizedNum)) {
+                showCustomModal("ভুল মোবাইল নম্বর", "অবশ্যই ১১ ডিজিটের সঠিক বাংলাদেশি মোবাইল নম্বর দিতে হবে (যেমন: 017XXXXXXXX)।", true);
+                return;
+            }
+
+            // Validation: Transaction ID
+            if (!trxIdVal || trxIdVal.length < 3) {
+                showCustomModal("ভুল Transaction ID", "সঠিক Transaction ID প্রদান করুন।", true);
+                return;
+            }
+
+            const submitBtn = document.getElementById("submit-btn-elem");
+            submitBtn.disabled = true;
+            submitBtn.innerText = "যাচাই ও জমা দেওয়া হচ্ছে...";
+
+            try {
+                // 1. Save to Firestore
+                debugLog("Firestore Document Creation Started");
+                const paymentDocData = {
+                    uid: currentUser.uid,
+                    amount: parsedAmount,
+                    sendMoneyNumber: normalizedNum,
+                    transactionId: trxIdVal,
+                    PM: selectedPaymentMethod,
+                    paymentNumber: PAYMENT_HOTLINE,
+                    createdAt: serverTimestamp(),
+                    status: "pending"
+                };
+
+                await setDoc(doc(db, "reseller_add_balance", currentUser.uid), paymentDocData);
+                debugLog("Firestore Document Created with UID", currentUser.uid);
+
+                // 2. Generate Firebase ID Token & Call Worker for Telegram Notification
+                debugLog("Firebase ID Token Generation Started");
+                const idToken = await currentUser.getIdToken();
+                debugLog("Firebase ID Token Generated");
+
+                debugLog("Worker Request Started");
+                try {
+                    const workerResponse = await fetch(WORKER_URL, {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                            "Authorization": `Bearer ${idToken}`
+                        },
+                        body: JSON.stringify({
+                            uid: currentUser.uid,
+                            amount: parsedAmount,
+                            sendMoneyNumber: normalizedNum,
+                            transactionId: trxIdVal,
+                            PM: selectedPaymentMethod,
+                            paymentNumber: PAYMENT_HOTLINE
+                        })
+                    });
+
+                    if (workerResponse.ok) {
+                        debugLog("Worker Notification Successful");
+                    } else {
+                        debugLog("Worker Notification Failed", await workerResponse.text());
+                    }
+                } catch (workerErr) {
+                    debugLog("Worker Notification Failed (Network/CORS)", workerErr);
+                    // As per instructions, do not delete firestore doc if notification fails, just log warning
+                }
+
+                debugLog("Payment Submission Successful");
+                showSuccessModal(parsedAmount, selectedPaymentMethod, trxIdVal, normalizedNum);
+                document.getElementById("submission-form").reset();
+                selectedPaymentMethod = null;
+                document.querySelectorAll(".method-card").forEach(c => c.classList.remove("selected"));
+                document.getElementById("number-box").style.display = "none";
+                document.getElementById("instructions-box").style.display = "none";
+                document.getElementById("submission-form").style.display = "none";
+
+            } catch (firestoreErr) {
+                debugLog("Firestore Error", firestoreErr);
+                showCustomModal("সংরক্ষণ ত্রুটি", "পেমেন্ট তথ্য সংরক্ষণ করতে সমস্যা হয়েছে। আবার চেষ্টা করুন।", true);
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.innerText = "পেমেন্ট তথ্য জমা দিন";
+            }
+        }
+
+        // Custom Modal Helpers
+        function showCustomModal(title, desc, isError = false) {
+            const modal = document.getElementById("custom-modal");
+            const iconBox = document.getElementById("modal-icon-container");
+            document.getElementById("modal-title").innerText = title;
+            document.getElementById("modal-desc").innerText = desc;
+            document.getElementById("modal-details-box").style.display = "none";
+            
+            const actionBtn = document.getElementById("modal-action-btn");
+            actionBtn.onclick = closeModal;
+            actionBtn.innerText = "ঠিক আছে";
+
+            if (isError) {
+                iconBox.className = "modal-icon error";
+                iconBox.innerHTML = `<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>`;
+            } else {
+                iconBox.className = "modal-icon";
+                iconBox.innerHTML = `<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>`;
+            }
+
+            modal.style.display = "flex";
+        }
+
+        function showSuccessModal(amount, pm, trx, sender) {
+            const modal = document.getElementById("custom-modal");
+            const iconBox = document.getElementById("modal-icon-container");
+            iconBox.className = "modal-icon";
+            iconBox.innerHTML = `<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>`;
+
+            document.getElementById("modal-title").innerText = "পেমেন্ট তথ্য সফলভাবে জমা হয়েছে!";
+            document.getElementById("modal-desc").innerText = "আপনার পেমেন্টের তথ্য আমরা পেয়েছি। যাচাই সম্পন্ন হলে আপনার ব্যালেন্স আপডেট করা হবে।";
+            
+            document.getElementById("m-amount").innerText = `৳${amount}`;
+            document.getElementById("m-method").innerText = pm.toUpperCase();
+            document.getElementById("m-trx").innerText = trx;
+            document.getElementById("modal-details-box").style.display = "flex";
+
+            const actionBtn = document.getElementById("modal-action-btn");
+            actionBtn.innerText = "ড্যাশবোর্ডে ফিরে যান";
+            actionBtn.onclick = () => {
+                window.location.href = "/dashboard";
+            };
+
+            modal.style.display = "flex";
+        }
+
+        window.closeModal = function() {
+            document.getElementById("custom-modal").style.display = "none";
+        }
+    </script>
+</body>
+</html>
