@@ -1,0 +1,1200 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <meta name="theme-color" content="#FF6B35">
+    <title>সকল পণ্য - Reseller Ghoti Market</title>
+    <link rel="icon" type="image/png" href="https://reseller.ghotimarket.com/photo/favicon.png">
+    
+    <!-- Google Fonts: Hind Siliguri for clean Bengali typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary: #FF6B35;
+            --secondary: #FF6A00;
+            --accent: #FFA500;
+            --primary-light: #FFF3ED;
+            --bg-body: #F5F6F8;
+            --bg-card: #FFFFFF;
+            --text-main: #1F2937;
+            --text-muted: #6B7280;
+            --border-color: #E5E7EB;
+            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.06);
+            --shadow-md: 0 4px 12px rgba(255, 107, 53, 0.14);
+            --radius-sm: 6px;
+            --radius-md: 10px;
+            --radius-lg: 14px;
+            --transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: 'Hind Siliguri', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            line-height: 1.45;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Auth Verification Overlay */
+        #auth-gate {
+            position: fixed;
+            inset: 0;
+            background-color: #FFFFFF;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        #auth-gate.hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        .auth-logo {
+            height: 44px;
+            width: auto;
+            object-fit: contain;
+        }
+
+        .spinner {
+            width: 34px;
+            height: 34px;
+            border: 3px solid var(--primary-light);
+            border-top-color: var(--primary);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        .auth-text {
+            font-size: 15px;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        /* Header */
+        .header {
+            background-color: var(--bg-card);
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .header-container {
+            max-width: 1440px;
+            margin: 0 auto;
+            padding: 10px 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+        }
+
+        .brand-link {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+        }
+
+        .brand-logo {
+            height: 36px;
+            width: auto;
+            object-fit: contain;
+            display: block;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nav-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 7px 14px;
+            background-color: var(--primary-light);
+            color: var(--primary);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+            border-radius: var(--radius-sm);
+            transition: var(--transition);
+        }
+
+        .nav-btn:hover {
+            background-color: var(--primary);
+            color: #FFFFFF;
+        }
+
+        .nav-btn svg {
+            width: 17px;
+            height: 17px;
+        }
+
+        /* Main Container */
+        .main-container {
+            max-width: 1440px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 16px 12px 48px;
+            flex: 1;
+        }
+
+        @media (min-width: 768px) {
+            .main-container {
+                padding: 20px 20px 56px;
+            }
+        }
+
+        /* Filter & Section Top Bar */
+        .toolbar {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 12px 14px;
+            margin-bottom: 16px;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .toolbar-title-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .toolbar-icon {
+            width: 22px;
+            height: 22px;
+            color: var(--primary);
+            flex-shrink: 0;
+        }
+
+        .page-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--text-main);
+        }
+
+        .filter-controls {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .filter-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 7px 14px;
+            border-radius: 50px;
+            border: 1.5px solid var(--border-color);
+            background-color: #FFFFFF;
+            color: var(--text-main);
+            font-family: inherit;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            user-select: none;
+        }
+
+        .filter-pill svg {
+            width: 16px;
+            height: 16px;
+            transition: var(--transition);
+        }
+
+        .filter-pill:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .filter-pill.active {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-color: var(--primary);
+            color: #FFFFFF;
+            box-shadow: 0 3px 10px rgba(255, 107, 53, 0.28);
+        }
+
+        .filter-pill:disabled {
+            opacity: 0.65;
+            cursor: not-allowed;
+        }
+
+        /* Responsive Product Grid: Mobile (4), Laptop (6), Desktop (8) */
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 8px;
+        }
+
+        @media (min-width: 768px) {
+            .product-grid {
+                grid-template-columns: repeat(6, minmax(0, 1fr));
+                gap: 12px;
+            }
+        }
+
+        @media (min-width: 1200px) {
+            .product-grid {
+                grid-template-columns: repeat(8, minmax(0, 1fr));
+                gap: 14px;
+            }
+        }
+
+        /* Product Card */
+        .product-card {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            cursor: pointer;
+            transition: var(--transition);
+            position: relative;
+            text-decoration: none;
+            color: inherit;
+            animation: fadeInUp 0.35s ease forwards;
+        }
+
+        @media (min-width: 768px) {
+            .product-card {
+                border-radius: var(--radius-md);
+            }
+        }
+
+        .product-card:hover {
+            transform: translateY(-3px);
+            border-color: var(--primary);
+            box-shadow: var(--shadow-md);
+        }
+
+        .product-card:active {
+            transform: scale(0.98);
+        }
+
+        /* 1:1 Square Image Wrapper */
+        .card-image-wrap {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            background-color: #F3F4F6;
+            overflow: hidden;
+        }
+
+        .image-skeleton {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(90deg, #F0F1F3 25%, #E2E4E8 50%, #F0F1F3 75%);
+            background-size: 200% 100%;
+            animation: shimmer 1.4s infinite linear;
+            z-index: 1;
+            transition: opacity 0.25s ease;
+        }
+
+        .image-skeleton.loaded {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .product-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.35s ease, opacity 0.25s ease;
+            opacity: 0;
+        }
+
+        .product-img.visible {
+            opacity: 1;
+        }
+
+        .product-card:hover .product-img.visible {
+            transform: scale(1.05);
+        }
+
+        /* Free Delivery Badge */
+        .free-delivery-badge {
+            position: absolute;
+            top: 4px;
+            left: 4px;
+            z-index: 2;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: #FFFFFF;
+            font-size: 9px;
+            font-weight: 700;
+            line-height: 1.2;
+            padding: 2px 5px;
+            border-radius: 3px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.18);
+            letter-spacing: 0.1px;
+            pointer-events: none;
+        }
+
+        @media (min-width: 768px) {
+            .free-delivery-badge {
+                top: 7px;
+                left: 7px;
+                font-size: 11px;
+                padding: 3px 7px;
+                border-radius: 4px;
+            }
+        }
+
+        /* Card Content (Optimized for 4-column mobile view) */
+        .card-body {
+            padding: 6px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            flex: 1;
+            gap: 4px;
+        }
+
+        @media (min-width: 768px) {
+            .card-body {
+                padding: 9px 10px;
+                gap: 6px;
+            }
+        }
+
+        .product-title {
+            font-size: 11px;
+            font-weight: 500;
+            color: var(--text-main);
+            line-height: 1.3;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            word-break: break-word;
+            min-height: 2.6em;
+        }
+
+        @media (min-width: 768px) {
+            .product-title {
+                font-size: 13.5px;
+                line-height: 1.35;
+                min-height: 2.7em;
+            }
+        }
+
+        .product-price {
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--primary);
+            line-height: 1.2;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        @media (min-width: 768px) {
+            .product-price {
+                font-size: 15px;
+            }
+        }
+
+        /* Skeleton Loading Cards */
+        .skeleton-card {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            overflow: hidden;
+        }
+
+        @media (min-width: 768px) {
+            .skeleton-card {
+                border-radius: var(--radius-md);
+            }
+        }
+
+        .skeleton-box {
+            background: linear-gradient(90deg, #F0F1F3 25%, #E3E5E9 50%, #F0F1F3 75%);
+            background-size: 200% 100%;
+            animation: shimmer 1.4s infinite linear;
+        }
+
+        .skeleton-img {
+            width: 100%;
+            aspect-ratio: 1 / 1;
+        }
+
+        .skeleton-body {
+            padding: 6px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        @media (min-width: 768px) {
+            .skeleton-body {
+                padding: 10px;
+                gap: 8px;
+            }
+        }
+
+        .skeleton-line-1 {
+            height: 11px;
+            border-radius: 3px;
+            width: 90%;
+        }
+
+        .skeleton-line-2 {
+            height: 11px;
+            border-radius: 3px;
+            width: 65%;
+        }
+
+        .skeleton-price {
+            height: 13px;
+            border-radius: 3px;
+            width: 50%;
+            margin-top: 2px;
+        }
+
+        /* Empty & Error States */
+        .state-container {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 44px 20px;
+            margin-top: 8px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .state-container.visible {
+            display: flex;
+        }
+
+        .state-icon {
+            width: 54px;
+            height: 54px;
+            color: var(--primary);
+            background-color: var(--primary-light);
+            padding: 12px;
+            border-radius: 50%;
+            margin-bottom: 14px;
+        }
+
+        .state-icon.error {
+            color: #DC2626;
+            background-color: #FEF2F2;
+        }
+
+        .state-title {
+            font-size: 17px;
+            font-weight: 700;
+            color: var(--text-main);
+            margin-bottom: 6px;
+        }
+
+        .state-desc {
+            font-size: 14px;
+            color: var(--text-muted);
+            max-width: 480px;
+            margin-bottom: 16px;
+            word-break: break-word;
+        }
+
+        .index-link-box {
+            display: none;
+            margin-bottom: 16px;
+            padding: 10px 14px;
+            background-color: #FFFBEB;
+            border: 1px solid #FCD34D;
+            border-radius: var(--radius-sm);
+            font-size: 13px;
+            color: #92400E;
+            max-width: 540px;
+        }
+
+        .index-link-box a {
+            color: var(--secondary);
+            font-weight: 700;
+            text-decoration: underline;
+            word-break: break-all;
+        }
+
+        /* Pagination & Load More Area */
+        .pagination-area {
+            margin-top: 24px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: #FFFFFF;
+            border: none;
+            border-radius: 50px;
+            padding: 11px 28px;
+            font-family: inherit;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(255, 107, 53, 0.25);
+            transition: var(--transition);
+        }
+
+        .btn-primary:hover:not(:disabled) {
+            background: linear-gradient(135deg, var(--secondary), var(--accent));
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(255, 107, 53, 0.35);
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.72;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn-spinner {
+            width: 17px;
+            height: 17px;
+            border: 2.5px solid rgba(255, 255, 255, 0.35);
+            border-top-color: #FFFFFF;
+            border-radius: 50%;
+            animation: spin 0.75s linear infinite;
+            display: none;
+        }
+
+        .btn-primary.loading .btn-spinner {
+            display: inline-block;
+        }
+
+        .end-message {
+            display: none;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-muted);
+            padding: 10px 20px;
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 50px;
+        }
+
+        .end-message.visible {
+            display: inline-block;
+        }
+
+        /* Footer */
+        .footer {
+            background-color: var(--bg-card);
+            border-top: 1px solid var(--border-color);
+            padding: 16px;
+            text-align: center;
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-top: auto;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes shimmer {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(8px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Authentication & Reseller Verification Gate -->
+    <div id="auth-gate" role="status" aria-live="polite">
+        <img src="https://reseller.ghotimarket.com/photo/logo.png" alt="Reseller Ghoti Market" class="auth-logo">
+        <div class="spinner"></div>
+        <p class="auth-text" id="auth-status-text">অ্যাকাউন্ট যাচাই করা হচ্ছে...</p>
+    </div>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="header-container">
+            <a href="/" class="brand-link" aria-label="Reseller Ghoti Market হোম">
+                <img src="https://reseller.ghotimarket.com/photo/logo.png" alt="Reseller Ghoti Market" class="brand-logo">
+            </a>
+            <div class="header-actions">
+                <a href="/dashboard" class="nav-btn">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="3" y="3" width="7" height="7"></rect>
+                        <rect x="14" y="3" width="7" height="7"></rect>
+                        <rect x="14" y="14" width="7" height="7"></rect>
+                        <rect x="3" y="14" width="7" height="7"></rect>
+                    </svg>
+                    <span>ড্যাশবোর্ড</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-container">
+        <!-- Toolbar & Free Delivery Filter -->
+        <section class="toolbar" aria-label="পণ্য ফিল্টার">
+            <div class="toolbar-title-group">
+                <svg class="toolbar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                    <path d="M16 10a4 4 0 0 1-8 0"></path>
+                </svg>
+                <h1 class="page-title" id="section-heading">সকল পণ্য</h1>
+            </div>
+
+            <div class="filter-controls">
+                <button type="button" id="btn-all-products" class="filter-pill active" aria-pressed="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="9" cy="21" r="1"></circle>
+                        <circle cx="20" cy="21" r="1"></circle>
+                        <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                    </svg>
+                    <span>সকল পণ্য</span>
+                </button>
+
+                <button type="button" id="btn-free-delivery" class="filter-pill" aria-pressed="false">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="1" y="3" width="15" height="13"></rect>
+                        <polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon>
+                        <circle cx="5.5" cy="18.5" r="2.5"></circle>
+                        <circle cx="18.5" cy="18.5" r="2.5"></circle>
+                    </svg>
+                    <span>ফ্রি ডেলিভারি</span>
+                </button>
+            </div>
+        </section>
+
+        <!-- Product Grid -->
+        <section id="product-grid" class="product-grid" aria-live="polite"></section>
+
+        <!-- Empty State -->
+        <div id="empty-state" class="state-container" role="status">
+            <svg class="state-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+                <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+                <line x1="12" y1="22.08" x2="12" y2="12"></line>
+            </svg>
+            <h2 class="state-title" id="empty-state-message">বর্তমানে কোনো প্রোডাক্ট পাওয়া যায়নি।</h2>
+            <p class="state-desc">নতুন প্রোডাক্ট যুক্ত হলে এখানে দেখতে পাবেন।</p>
+        </div>
+
+        <!-- Error State -->
+        <div id="error-state" class="state-container" role="alert">
+            <svg class="state-icon error" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="12" y1="8" x2="12" y2="12"></line>
+                <line x1="12" y1="16" x2="12.01" y2="16"></line>
+            </svg>
+            <h2 class="state-title">প্রোডাক্ট লোড করতে সমস্যা হয়েছে</h2>
+            <p class="state-desc" id="error-state-message">ইন্টারনেট সংযোগ বা সার্ভার সমস্যার কারণে তথ্য লোড করা যায়নি।</p>
+            <div id="index-link-box" class="index-link-box">
+                Firestore Composite Index প্রয়োজন। নিচের লিংকে ক্লিক করে Index তৈরি করুন:<br>
+                <a id="firestore-index-anchor" href="#" target="_blank" rel="noopener noreferrer">Index তৈরি করুন</a>
+            </div>
+            <button type="button" id="btn-retry" class="btn-primary">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="23 4 23 10 17 10"></polyline>
+                    <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path>
+                </svg>
+                <span>আবার চেষ্টা করুন</span>
+            </button>
+        </div>
+
+        <!-- Pagination Controls -->
+        <div class="pagination-area">
+            <button type="button" id="btn-load-more" class="btn-primary" style="display: none;">
+                <span class="btn-spinner" aria-hidden="true"></span>
+                <span id="btn-load-more-text">আরোও দেখুন</span>
+            </button>
+            <div id="end-message" class="end-message">আপনি সব প্রোডাক্ট দেখে ফেলেছেন।</div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        &copy; ২০২৬ Reseller Ghoti Market - সর্বস্বত্ব সংরক্ষিত
+    </footer>
+
+    <!-- Firebase Modular SDK (v10.14.1) -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
+        import {
+            getFirestore,
+            doc,
+            getDoc,
+            collection,
+            query,
+            where,
+            orderBy,
+            limit,
+            startAfter,
+            getDocs
+        } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
+
+      const firebaseConfig = {
+  apiKey: "AIzaSyDCIRWmozT0XcEXuXtQ6RDiDo6vtT1T9mU",
+  authDomain: "paikarisell-ghotimarket.firebaseapp.com",
+  projectId: "paikarisell-ghotimarket",
+  storageBucket: "paikarisell-ghotimarket.firebasestorage.app",
+  messagingSenderId: "464086432830",
+  appId: "1:464086432830:web:a10fdd9884954e380e656f",
+  measurementId: "G-E3HR2F9TC5"
+};
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        // Constants
+        const PAGE_SIZE = 20;
+
+        // Inline SVG Fallback Image (Data URI - Zero External Dependency)
+        const FALLBACK_IMAGE_URI = "data:image/svg+xml;charset=UTF-8," + encodeURIComponent(
+            `<svg xmlns="http://www.w3.org/2000/svg" width="400" height="400" viewBox="0 0 400 400">
+                <rect width="400" height="400" fill="#F3F4F6"/>
+                <g transform="translate(150, 145)" fill="none" stroke="#9CA3AF" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="10" y="10" width="80" height="80" rx="8"/>
+                    <circle cx="35" cy="35" r="7"/>
+                    <path d="M90 65 L68 43 L22 89"/>
+                </g>
+                <text x="200" y="268" font-family="sans-serif" font-size="16" fill="#6B7280" text-anchor="middle">ছবি পাওয়া যায়নি</text>
+            </svg>`
+        );
+
+        // Application State
+        const state = {
+            isVerifiedReseller: false,
+            filterMode: "all", // "all" | "freeDelivery"
+            cursors: {
+                all: null,
+                freeDelivery: null
+            },
+            hasMore: {
+                all: true,
+                freeDelivery: true
+            },
+            renderedIds: new Set(),
+            isLoading: false,
+            activeRequestToken: 0
+        };
+
+        // DOM Elements
+        const dom = {
+            authGate: document.getElementById("auth-gate"),
+            authStatusText: document.getElementById("auth-status-text"),
+            sectionHeading: document.getElementById("section-heading"),
+            btnAllProducts: document.getElementById("btn-all-products"),
+            btnFreeDelivery: document.getElementById("btn-free-delivery"),
+            productGrid: document.getElementById("product-grid"),
+            emptyState: document.getElementById("empty-state"),
+            emptyStateMessage: document.getElementById("empty-state-message"),
+            errorState: document.getElementById("error-state"),
+            errorStateMessage: document.getElementById("error-state-message"),
+            indexLinkBox: document.getElementById("index-link-box"),
+            firestoreIndexAnchor: document.getElementById("firestore-index-anchor"),
+            btnRetry: document.getElementById("btn-retry"),
+            btnLoadMore: document.getElementById("btn-load-more"),
+            btnLoadMoreText: document.getElementById("btn-load-more-text"),
+            endMessage: document.getElementById("end-message")
+        };
+
+        // Format Price in Bengali Numerals
+        function formatBengaliPrice(priceValue) {
+            const numericPrice = Number(priceValue);
+            if (Number.isNaN(numericPrice)) {
+                return "৳ ০";
+            }
+            const formatted = numericPrice.toLocaleString("bn-BD");
+            return `৳ ${formatted}`;
+        }
+
+        // Render Skeleton Placeholders
+        function renderSkeletons(count = PAGE_SIZE) {
+            const fragment = document.createDocumentFragment();
+            for (let i = 0; i < count; i++) {
+                const card = document.createElement("div");
+                card.className = "skeleton-card";
+                card.setAttribute("aria-hidden", "true");
+                card.innerHTML = `
+                    <div class="skeleton-box skeleton-img"></div>
+                    <div class="skeleton-body">
+                        <div class="skeleton-box skeleton-line-1"></div>
+                        <div class="skeleton-box skeleton-line-2"></div>
+                        <div class="skeleton-box skeleton-price"></div>
+                    </div>
+                `;
+                fragment.appendChild(card);
+            }
+            dom.productGrid.innerHTML = "";
+            dom.productGrid.appendChild(fragment);
+        }
+
+        // Create Single Product Card Element
+        function createProductCard(docId, data) {
+            const card = document.createElement("article");
+            card.className = "product-card";
+            card.setAttribute("role", "button");
+            card.setAttribute("tabindex", "0");
+
+            const productName = typeof data.productName === "string" && data.productName.trim() !== ""
+                ? data.productName.trim()
+                : "নামহীন পণ্য";
+            const priceText = formatBengaliPrice(data.price);
+            const isFreeDelivery = data.freeDelivery === true;
+            const imageUrl = Array.isArray(data.images) && data.images.length > 0 && typeof data.images[0] === "string" && data.images[0].trim() !== ""
+                ? data.images[0].trim()
+                : FALLBACK_IMAGE_URI;
+
+            card.setAttribute("aria-label", `${productName} - ${priceText}`);
+
+            // Image Wrapper
+            const imageWrap = document.createElement("div");
+            imageWrap.className = "card-image-wrap";
+
+            const skeleton = document.createElement("div");
+            skeleton.className = "image-skeleton";
+
+            const img = document.createElement("img");
+            img.className = "product-img";
+            img.alt = productName;
+            img.loading = "lazy";
+            img.decoding = "async";
+
+            img.addEventListener("load", () => {
+                skeleton.classList.add("loaded");
+                img.classList.add("visible");
+            });
+
+            img.addEventListener("error", () => {
+                if (img.src !== FALLBACK_IMAGE_URI) {
+                    img.src = FALLBACK_IMAGE_URI;
+                }
+                skeleton.classList.add("loaded");
+                img.classList.add("visible");
+            });
+
+            img.src = imageUrl;
+
+            imageWrap.appendChild(skeleton);
+            imageWrap.appendChild(img);
+
+            // Free Delivery Badge (Only if freeDelivery === true)
+            if (isFreeDelivery) {
+                const badge = document.createElement("span");
+                badge.className = "free-delivery-badge";
+                badge.textContent = "ফ্রি ডেলিভারি!";
+                imageWrap.appendChild(badge);
+            }
+
+            // Card Body (Strictly only Product Name and Price)
+            const cardBody = document.createElement("div");
+            cardBody.className = "card-body";
+
+            const titleEl = document.createElement("h3");
+            titleEl.className = "product-title";
+            titleEl.textContent = productName;
+
+            const priceEl = document.createElement("div");
+            priceEl.className = "product-price";
+            priceEl.textContent = priceText;
+
+            cardBody.appendChild(titleEl);
+            cardBody.appendChild(priceEl);
+
+            card.appendChild(imageWrap);
+            card.appendChild(cardBody);
+
+            // Navigation to Product Details Page using Document ID
+            const navigateToDetails = () => {
+                window.location.href = `/product?${encodeURIComponent(docId)}`;
+            };
+
+            card.addEventListener("click", navigateToDetails);
+            card.addEventListener("keydown", (event) => {
+                if (event.key === "Enter" || event.key === " ") {
+                    event.preventDefault();
+                    navigateToDetails();
+                }
+            });
+
+            return card;
+        }
+
+        // Build Firestore Query for Current Filter & Pagination Cursor
+        function buildProductsQuery(mode, cursorDoc) {
+            const productsRef = collection(db, "products");
+            const constraints = [
+                where("approved", "==", true),
+                where("active", "==", true)
+            ];
+
+            if (mode === "freeDelivery") {
+                constraints.push(where("freeDelivery", "==", true));
+            }
+
+            constraints.push(orderBy("createdAt", "desc"));
+
+            if (cursorDoc) {
+                constraints.push(startAfter(cursorDoc));
+            }
+
+            constraints.push(limit(PAGE_SIZE));
+
+            return query(productsRef, ...constraints);
+        }
+
+        // Reset UI States before Fresh Query
+        function hideAllStatusBanners() {
+            dom.emptyState.classList.remove("visible");
+            dom.errorState.classList.remove("visible");
+            dom.indexLinkBox.style.display = "none";
+            dom.endMessage.classList.remove("visible");
+        }
+
+        // Update Filter Toggle Buttons UI
+        function updateFilterButtonsUI() {
+            const isFree = state.filterMode === "freeDelivery";
+
+            dom.btnAllProducts.classList.toggle("active", !isFree);
+            dom.btnAllProducts.setAttribute("aria-pressed", String(!isFree));
+
+            dom.btnFreeDelivery.classList.toggle("active", isFree);
+            dom.btnFreeDelivery.setAttribute("aria-pressed", String(isFree));
+
+            dom.sectionHeading.textContent = isFree ? "ফ্রি ডেলিভারি পণ্য" : "সকল পণ্য";
+        }
+
+        // Load Products (Initial or Load More)
+        async function fetchProducts({ isLoadMore = false } = {}) {
+            if (!state.isVerifiedReseller) return;
+            if (isLoadMore && state.isLoading) return;
+
+            const currentMode = state.filterMode;
+            const requestToken = ++state.activeRequestToken;
+
+            state.isLoading = true;
+            hideAllStatusBanners();
+
+            if (!isLoadMore) {
+                state.cursors[currentMode] = null;
+                state.hasMore[currentMode] = true;
+                state.renderedIds.clear();
+                dom.btnLoadMore.style.display = "none";
+                renderSkeletons(PAGE_SIZE);
+            } else {
+                dom.btnLoadMore.disabled = true;
+                dom.btnLoadMore.classList.add("loading");
+                dom.btnLoadMoreText.textContent = "লোড হচ্ছে...";
+            }
+
+            try {
+                const cursorToUse = isLoadMore ? state.cursors[currentMode] : null;
+                const productsQuery = buildProductsQuery(currentMode, cursorToUse);
+                const snapshot = await getDocs(productsQuery);
+
+                // Ignore stale response if user switched filter while request was in-flight
+                if (requestToken !== state.activeRequestToken || currentMode !== state.filterMode) {
+                    return;
+                }
+
+                if (!isLoadMore) {
+                    dom.productGrid.innerHTML = "";
+                }
+
+                const docs = snapshot.docs;
+
+                // Handle Empty Result on Initial Load
+                if (docs.length === 0 && !isLoadMore) {
+                    state.hasMore[currentMode] = false;
+                    dom.btnLoadMore.style.display = "none";
+                    dom.emptyStateMessage.textContent = currentMode === "freeDelivery"
+                        ? "বর্তমানে কোনো ফ্রি ডেলিভারি প্রোডাক্ট নেই।"
+                        : "বর্তমানে কোনো প্রোডাক্ট পাওয়া যায়নি।";
+                    dom.emptyState.classList.add("visible");
+                    return;
+                }
+
+                // Append Valid Products
+                const fragment = document.createDocumentFragment();
+                docs.forEach((docSnap) => {
+                    const data = docSnap.data();
+
+                    // Strict client-side verification safeguard
+                    if (data.approved !== true || data.active !== true) return;
+                    if (currentMode === "freeDelivery" && data.freeDelivery !== true) return;
+
+                    // Prevent duplicate rendering
+                    if (state.renderedIds.has(docSnap.id)) return;
+                    state.renderedIds.add(docSnap.id);
+
+                    const cardEl = createProductCard(docSnap.id, data);
+                    fragment.appendChild(cardEl);
+                });
+
+                dom.productGrid.appendChild(fragment);
+
+                // Update Pagination Cursor for Active Filter Mode
+                if (docs.length > 0) {
+                    state.cursors[currentMode] = docs[docs.length - 1];
+                }
+
+                // Determine if More Pages Exist
+                if (docs.length < PAGE_SIZE) {
+                    state.hasMore[currentMode] = false;
+                    dom.btnLoadMore.style.display = "none";
+                    if (state.renderedIds.size > 0) {
+                        dom.endMessage.classList.add("visible");
+                    }
+                } else {
+                    state.hasMore[currentMode] = true;
+                    dom.btnLoadMore.style.display = "inline-flex";
+                }
+
+            } catch (error) {
+                // Ignore errors from superseded requests
+                if (requestToken !== state.activeRequestToken || currentMode !== state.filterMode) {
+                    return;
+                }
+
+                console.error("Firestore Product Query Error:", error);
+
+                if (!isLoadMore) {
+                    dom.productGrid.innerHTML = "";
+                }
+                dom.btnLoadMore.style.display = "none";
+
+                // Detect Missing Firestore Composite Index Error
+                const errorMsg = error && error.message ? error.message : "";
+                const indexUrlMatch = errorMsg.match(/https:\/\/console\.firebase\.google\.com[^\s]+/);
+
+                if (error.code === "failed-precondition" || indexUrlMatch) {
+                    dom.errorStateMessage.textContent = "ডাটাবেস কুয়েরির জন্য প্রয়োজনীয় Composite Index অনুপস্থিত রয়েছে।";
+                    if (indexUrlMatch) {
+                        dom.firestoreIndexAnchor.href = indexUrlMatch[0];
+                        dom.indexLinkBox.style.display = "block";
+                    }
+                } else {
+                    dom.errorStateMessage.textContent = "প্রোডাক্ট লোড করতে সমস্যা হয়েছে। অনুগ্রহ করে ইন্টারনেট সংযোগ পরীক্ষা করে আবার চেষ্টা করুন।";
+                }
+
+                dom.errorState.classList.add("visible");
+            } finally {
+                if (requestToken === state.activeRequestToken) {
+                    state.isLoading = false;
+                    dom.btnLoadMore.disabled = false;
+                    dom.btnLoadMore.classList.remove("loading");
+                    dom.btnLoadMoreText.textContent = "আরোও দেখুন";
+                }
+            }
+        }
+
+        // Switch Filter Handler
+        function switchFilter(newMode) {
+            if (state.filterMode === newMode && !dom.errorState.classList.contains("visible")) {
+                return;
+            }
+            state.filterMode = newMode;
+            updateFilterButtonsUI();
+            fetchProducts({ isLoadMore: false });
+        }
+
+        // Event Listeners
+        dom.btnAllProducts.addEventListener("click", () => switchFilter("all"));
+        dom.btnFreeDelivery.addEventListener("click", () => switchFilter("freeDelivery"));
+
+        dom.btnLoadMore.addEventListener("click", () => {
+            if (!state.isLoading && state.hasMore[state.filterMode]) {
+                fetchProducts({ isLoadMore: true });
+            }
+        });
+
+        dom.btnRetry.addEventListener("click", () => {
+            const hasExistingItems = state.renderedIds.size > 0;
+            fetchProducts({ isLoadMore: hasExistingItems });
+        });
+
+        // Step 1 & 2: Firebase Authentication & Reseller Document Verification
+        onAuthStateChanged(auth, async (user) => {
+            if (!user) {
+                window.location.replace("/login");
+                return;
+            }
+
+            try {
+                dom.authStatusText.textContent = "রিসেলার প্রোফাইল যাচাই করা হচ্ছে...";
+                const resellerRef = doc(db, "reseller", user.uid);
+                const resellerSnap = await getDoc(resellerRef);
+
+                if (!resellerSnap.exists()) {
+                    window.location.replace("/signup1");
+                    return;
+                }
+
+                // Verification Successful -> Unlock UI & Load Products
+                state.isVerifiedReseller = true;
+                dom.authGate.classList.add("hidden");
+                fetchProducts({ isLoadMore: false });
+
+            } catch (error) {
+                console.error("Reseller Verification Error:", error);
+                dom.authGate.classList.add("hidden");
+                dom.errorStateMessage.textContent = "আপনার রিসেলার অ্যাকাউন্ট যাচাই করা সম্ভব হয়নি। অনুগ্রহ করে আবার চেষ্টা করুন।";
+                dom.errorState.classList.add("visible");
+                dom.btnRetry.onclick = () => window.location.reload();
+            }
+        });
+    </script>
+</body>
+</html>
