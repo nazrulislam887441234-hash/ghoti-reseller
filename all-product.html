@@ -1126,8 +1126,8 @@
                         dom.indexLinkBox.style.display = "block";
                     }
                 } else {
-                    dom.errorStateMessage.textContent = "প্রোডাক্ট লোড করতে সমস্যা হয়েছে। অনুগ্রহ করে ইন্টারনেট সংযোগ পরীক্ষা করে আবার চেষ্টা করুন।";
-                }
+    dom.errorStateMessage.textContent = `Error (${error.code || 'unknown'}): ${error.message}`;
+}
 
                 dom.errorState.classList.add("visible");
             } finally {
