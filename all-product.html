@@ -976,8 +976,7 @@
         // Build Firestore Query for Current Filter & Pagination Cursor
 function buildProductsQuery(mode, cursorDoc) {
     const productsRef = collection(db, "products");
-    const now = Date.now(); // 👈 এখনকার মিলিসেকেন্ড
-
+    const now = Date.now() + 5 * 60 * 1000; 
     const constraints = [
         where("approved", "==", true),
         where("active", "==", true),
