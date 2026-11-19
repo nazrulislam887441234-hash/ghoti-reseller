@@ -973,28 +973,33 @@
         }
 
         // Build Firestore Query for Current Filter & Pagination Cursor
-        function buildProductsQuery(mode, cursorDoc) {
-            const productsRef = collection(db, "products");
-            const constraints = [
-                where("approved", "==", true),
-                where("active", "==", true)
-            ];
+        // Build Firestore Query for Current Filter & Pagination Cursor
+function buildProductsQuery(mode, cursorDoc) {
+    const productsRef = collection(db, "products");
+    const now = Date.now(); // 👈 এখনকার মিলিসেকেন্ড
 
-            if (mode === "freeDelivery") {
-                constraints.push(where("freeDelivery", "==", true));
-            }
+    const constraints = [
+        where("approved", "==", true),
+        where("active", "==", true),
+        // 🔥 মেয়াদ শেষ প্রোডাক্ট বাদ দেওয়ার ফিল্টার
+        where("profileUnlockedUntil", ">", now)
+    ];
 
-            constraints.push(orderBy("createdAt", "desc"));
+    if (mode === "freeDelivery") {
+        constraints.push(where("freeDelivery", "==", true));
+    }
 
-            if (cursorDoc) {
-                constraints.push(startAfter(cursorDoc));
-            }
+    // 👈 সাজানো আগের মতোই createdAt দিয়ে
+    constraints.push(orderBy("createdAt", "desc"));
 
-            constraints.push(limit(PAGE_SIZE));
+    if (cursorDoc) {
+        constraints.push(startAfter(cursorDoc));
+    }
 
-            return query(productsRef, ...constraints);
-        }
+    constraints.push(limit(PAGE_SIZE));
 
+    return query(productsRef, ...constraints);
+}
         // Reset UI States before Fresh Query
         function hideAllStatusBanners() {
             dom.emptyState.classList.remove("visible");
@@ -1069,19 +1074,22 @@
                 // Append Valid Products
                 const fragment = document.createDocumentFragment();
                 docs.forEach((docSnap) => {
-                    const data = docSnap.data();
+    const data = docSnap.data();
 
-                    // Strict client-side verification safeguard
-                    if (data.approved !== true || data.active !== true) return;
-                    if (currentMode === "freeDelivery" && data.freeDelivery !== true) return;
+    // Strict client-side verification safeguard
+    if (data.approved !== true || data.active !== true) return;
+    if (currentMode === "freeDelivery" && data.freeDelivery !== true) return;
 
-                    // Prevent duplicate rendering
-                    if (state.renderedIds.has(docSnap.id)) return;
-                    state.renderedIds.add(docSnap.id);
+    // 🔥 মেয়াদ শেষ হলে কার্ড বানাইও না
+    if (Number(data.profileUnlockedUntil) <= Date.now()) return;
 
-                    const cardEl = createProductCard(docSnap.id, data);
-                    fragment.appendChild(cardEl);
-                });
+    // Prevent duplicate rendering
+    if (state.renderedIds.has(docSnap.id)) return;
+    state.renderedIds.add(docSnap.id);
+
+    const cardEl = createProductCard(docSnap.id, data);
+    fragment.appendChild(cardEl);
+});
 
                 dom.productGrid.appendChild(fragment);
 
