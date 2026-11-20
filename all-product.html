@@ -783,15 +783,16 @@
             getDocs
         } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
 
-      const firebaseConfig = {
-  apiKey: "AIzaSyDCIRWmozT0XcEXuXtQ6RDiDo6vtT1T9mU",
-  authDomain: "paikarisell-ghotimarket.firebaseapp.com",
-  projectId: "paikarisell-ghotimarket",
-  storageBucket: "paikarisell-ghotimarket.firebasestorage.app",
-  messagingSenderId: "464086432830",
-  appId: "1:464086432830:web:a10fdd9884954e380e656f",
-  measurementId: "G-E3HR2F9TC5"
-};
+        const firebaseConfig = {
+            apiKey: "AIzaSyDCIRWmozT0XcEXuXtQ6RDiDo6vtT1T9mU",
+            authDomain: "paikarisell-ghotimarket.firebaseapp.com",
+            projectId: "paikarisell-ghotimarket",
+            storageBucket: "paikarisell-ghotimarket.firebasestorage.app",
+            messagingSenderId: "464086432830",
+            appId: "1:464086432830:web:a10fdd9884954e380e656f",
+            measurementId: "G-E3HR2F9TC5"
+        };
+
         // Initialize Firebase
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
@@ -899,7 +900,6 @@
 
             card.setAttribute("aria-label", `${productName} - ${priceText}`);
 
-            // Image Wrapper
             const imageWrap = document.createElement("div");
             imageWrap.className = "card-image-wrap";
 
@@ -930,7 +930,6 @@
             imageWrap.appendChild(skeleton);
             imageWrap.appendChild(img);
 
-            // Free Delivery Badge (Only if freeDelivery === true)
             if (isFreeDelivery) {
                 const badge = document.createElement("span");
                 badge.className = "free-delivery-badge";
@@ -938,7 +937,6 @@
                 imageWrap.appendChild(badge);
             }
 
-            // Card Body (Strictly only Product Name and Price)
             const cardBody = document.createElement("div");
             cardBody.className = "card-body";
 
@@ -956,7 +954,6 @@
             card.appendChild(imageWrap);
             card.appendChild(cardBody);
 
-            // Navigation to Product Details Page using Document ID
             const navigateToDetails = () => {
                 window.location.href = `/product?${encodeURIComponent(docId)}`;
             };
@@ -973,32 +970,31 @@
         }
 
         // Build Firestore Query for Current Filter & Pagination Cursor
-        // Build Firestore Query for Current Filter & Pagination Cursor
-function buildProductsQuery(mode, cursorDoc) {
-    const productsRef = collection(db, "products");
-    const now = Date.now() + 5 * 60 * 1000; 
-    const constraints = [
-        where("approved", "==", true),
-        where("active", "==", true),
-        // 🔥 মেয়াদ শেষ প্রোডাক্ট বাদ দেওয়ার ফিল্টার
-        where("profileUnlockedUntil", ">", now)
-    ];
+        function buildProductsQuery(mode, cursorDoc) {
+            const productsRef = collection(db, "products");
+            const now = Date.now();
+            const constraints = [
+                where("approved", "==", true),
+                where("active", "==", true),
+                where("profileUnlockedUntil", ">", now)
+            ];
 
-    if (mode === "freeDelivery") {
-        constraints.push(where("freeDelivery", "==", true));
-    }
+            if (mode === "freeDelivery") {
+                constraints.push(where("freeDelivery", "==", true));
+            }
 
-    // 👈 সাজানো আগের মতোই createdAt দিয়ে
-    constraints.push(orderBy("createdAt", "desc"));
+            constraints.push(orderBy("profileUnlockedUntil", "asc"));
+            constraints.push(orderBy("createdAt", "desc"));
 
-    if (cursorDoc) {
-        constraints.push(startAfter(cursorDoc));
-    }
+            if (cursorDoc) {
+                constraints.push(startAfter(cursorDoc));
+            }
 
-    constraints.push(limit(PAGE_SIZE));
+            constraints.push(limit(PAGE_SIZE));
 
-    return query(productsRef, ...constraints);
-}
+            return query(productsRef, ...constraints);
+        }
+
         // Reset UI States before Fresh Query
         function hideAllStatusBanners() {
             dom.emptyState.classList.remove("visible");
@@ -1048,7 +1044,6 @@ function buildProductsQuery(mode, cursorDoc) {
                 const productsQuery = buildProductsQuery(currentMode, cursorToUse);
                 const snapshot = await getDocs(productsQuery);
 
-                // Ignore stale response if user switched filter while request was in-flight
                 if (requestToken !== state.activeRequestToken || currentMode !== state.filterMode) {
                     return;
                 }
@@ -1059,7 +1054,6 @@ function buildProductsQuery(mode, cursorDoc) {
 
                 const docs = snapshot.docs;
 
-                // Handle Empty Result on Initial Load
                 if (docs.length === 0 && !isLoadMore) {
                     state.hasMore[currentMode] = false;
                     dom.btnLoadMore.style.display = "none";
@@ -1070,34 +1064,26 @@ function buildProductsQuery(mode, cursorDoc) {
                     return;
                 }
 
-                // Append Valid Products
                 const fragment = document.createDocumentFragment();
                 docs.forEach((docSnap) => {
-    const data = docSnap.data();
+                    const data = docSnap.data();
 
-    // Strict client-side verification safeguard
-    if (data.approved !== true || data.active !== true) return;
-    if (currentMode === "freeDelivery" && data.freeDelivery !== true) return;
+                    if (data.approved !== true || data.active !== true) return;
+                    if (currentMode === "freeDelivery" && data.freeDelivery !== true) return;
+                    if (Number(data.profileUnlockedUntil) <= Date.now()) return;
+                    if (state.renderedIds.has(docSnap.id)) return;
 
-    // 🔥 মেয়াদ শেষ হলে কার্ড বানাইও না
-    if (Number(data.profileUnlockedUntil) <= Date.now()) return;
-
-    // Prevent duplicate rendering
-    if (state.renderedIds.has(docSnap.id)) return;
-    state.renderedIds.add(docSnap.id);
-
-    const cardEl = createProductCard(docSnap.id, data);
-    fragment.appendChild(cardEl);
-});
+                    state.renderedIds.add(docSnap.id);
+                    const cardEl = createProductCard(docSnap.id, data);
+                    fragment.appendChild(cardEl);
+                });
 
                 dom.productGrid.appendChild(fragment);
 
-                // Update Pagination Cursor for Active Filter Mode
                 if (docs.length > 0) {
                     state.cursors[currentMode] = docs[docs.length - 1];
                 }
 
-                // Determine if More Pages Exist
                 if (docs.length < PAGE_SIZE) {
                     state.hasMore[currentMode] = false;
                     dom.btnLoadMore.style.display = "none";
@@ -1110,7 +1096,6 @@ function buildProductsQuery(mode, cursorDoc) {
                 }
 
             } catch (error) {
-                // Ignore errors from superseded requests
                 if (requestToken !== state.activeRequestToken || currentMode !== state.filterMode) {
                     return;
                 }
@@ -1122,7 +1107,6 @@ function buildProductsQuery(mode, cursorDoc) {
                 }
                 dom.btnLoadMore.style.display = "none";
 
-                // Detect Missing Firestore Composite Index Error
                 const errorMsg = error && error.message ? error.message : "";
                 const indexUrlMatch = errorMsg.match(/https:\/\/console\.firebase\.google\.com[^\s]+/);
 
@@ -1133,8 +1117,8 @@ function buildProductsQuery(mode, cursorDoc) {
                         dom.indexLinkBox.style.display = "block";
                     }
                 } else {
-    dom.errorStateMessage.textContent = `Error (${error.code || 'unknown'}): ${error.message}`;
-}
+                    dom.errorStateMessage.textContent = `Error (${error.code || 'unknown'}): ${error.message}`;
+                }
 
                 dom.errorState.classList.add("visible");
             } finally {
@@ -1189,7 +1173,6 @@ function buildProductsQuery(mode, cursorDoc) {
                     return;
                 }
 
-                // Verification Successful -> Unlock UI & Load Products
                 state.isVerifiedReseller = true;
                 dom.authGate.classList.add("hidden");
                 fetchProducts({ isLoadMore: false });
