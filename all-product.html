@@ -969,18 +969,21 @@
             return card;
         }
 
-        // Build Firestore Query for Current Filter & Pagination Cursor (profileUnlockedUntil temporarily disabled)
+        // Build Firestore Query for Current Filter & Pagination Cursor
         function buildProductsQuery(mode, cursorDoc) {
             const productsRef = collection(db, "products");
+            const now = Date.now();
             const constraints = [
                 where("approved", "==", true),
-                where("active", "==", true)
+                where("active", "==", true),
+                where("profileUnlockedUntil", ">", now)
             ];
 
             if (mode === "freeDelivery") {
                 constraints.push(where("freeDelivery", "==", true));
             }
 
+            constraints.push(orderBy("profileUnlockedUntil", "asc"));
             constraints.push(orderBy("createdAt", "desc"));
 
             if (cursorDoc) {
@@ -1067,6 +1070,7 @@
 
                     if (data.approved !== true || data.active !== true) return;
                     if (currentMode === "freeDelivery" && data.freeDelivery !== true) return;
+                    if (typeof data.profileUnlockedUntil !== "number" || data.profileUnlockedUntil <= Date.now()) return;
                     if (state.renderedIds.has(docSnap.id)) return;
 
                     state.renderedIds.add(docSnap.id);
