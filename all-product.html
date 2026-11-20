@@ -971,29 +971,27 @@
 
         // Build Firestore Query for Current Filter & Pagination Cursor
         function buildProductsQuery(mode, cursorDoc) {
-            const productsRef = collection(db, "products");
-            const now = Date.now();
-            const constraints = [
-                where("approved", "==", true),
-                where("active", "==", true),
-                where("profileUnlockedUntil", ">", now)
-            ];
+    const productsRef = collection(db, "products");
+    const constraints = [
+        where("approved", "==", true),
+        where("active", "==", true)
+    ];
 
-            if (mode === "freeDelivery") {
-                constraints.push(where("freeDelivery", "==", true));
-            }
+    if (mode === "freeDelivery") {
+        constraints.push(where("freeDelivery", "==", true));
+    }
 
-            constraints.push(orderBy("profileUnlockedUntil", "asc"));
-            constraints.push(orderBy("createdAt", "desc"));
+    constraints.push(orderBy("createdAt", "desc"));
 
-            if (cursorDoc) {
-                constraints.push(startAfter(cursorDoc));
-            }
+    if (cursorDoc) {
+        constraints.push(startAfter(cursorDoc));
+    }
 
-            constraints.push(limit(PAGE_SIZE));
+    constraints.push(limit(PAGE_SIZE));
 
-            return query(productsRef, ...constraints);
-        }
+    return query(productsRef, ...constraints);
+}
+
 
         // Reset UI States before Fresh Query
         function hideAllStatusBanners() {
