@@ -851,6 +851,11 @@
             endMessage: document.getElementById("end-message")
         };
 
+        // Helper: Check if product unlock time is still valid in JS
+        function isProductUnlocked(data) {
+            return typeof data.profileUnlockedUntil === "number" && data.profileUnlockedUntil > Date.now();
+        }
+
         // Format Price in Bengali Numerals
         function formatBengaliPrice(priceValue) {
             const numericPrice = Number(priceValue);
@@ -971,27 +976,26 @@
 
         // Build Firestore Query for Current Filter & Pagination Cursor
         function buildProductsQuery(mode, cursorDoc) {
-    const productsRef = collection(db, "products");
-    const constraints = [
-        where("approved", "==", true),
-        where("active", "==", true)
-    ];
+            const productsRef = collection(db, "products");
+            const constraints = [
+                where("approved", "==", true),
+                where("active", "==", true)
+            ];
 
-    if (mode === "freeDelivery") {
-        constraints.push(where("freeDelivery", "==", true));
-    }
+            if (mode === "freeDelivery") {
+                constraints.push(where("freeDelivery", "==", true));
+            }
 
-    constraints.push(orderBy("createdAt", "desc"));
+            constraints.push(orderBy("createdAt", "desc"));
 
-    if (cursorDoc) {
-        constraints.push(startAfter(cursorDoc));
-    }
+            if (cursorDoc) {
+                constraints.push(startAfter(cursorDoc));
+            }
 
-    constraints.push(limit(PAGE_SIZE));
+            constraints.push(limit(PAGE_SIZE));
 
-    return query(productsRef, ...constraints);
-}
-
+            return query(productsRef, ...constraints);
+        }
 
         // Reset UI States before Fresh Query
         function hideAllStatusBanners() {
@@ -1052,7 +1056,20 @@
 
                 const docs = snapshot.docs;
 
-                if (docs.length === 0 && !isLoadMore) {
+                // JS-side filtering for active, approved, freeDelivery, and profileUnlockedUntil
+                const validProducts = [];
+                docs.forEach((docSnap) => {
+                    const data = docSnap.data();
+                    if (data.approved !== true || data.active !== true) return;
+                    if (currentMode === "freeDelivery" && data.freeDelivery !== true) return;
+                    if (!isProductUnlocked(data)) return;
+                    if (state.renderedIds.has(docSnap.id)) return;
+
+                    state.renderedIds.add(docSnap.id);
+                    validProducts.push({ id: docSnap.id, data });
+                });
+
+                if (validProducts.length === 0 && !isLoadMore && state.renderedIds.size === 0) {
                     state.hasMore[currentMode] = false;
                     dom.btnLoadMore.style.display = "none";
                     dom.emptyStateMessage.textContent = currentMode === "freeDelivery"
@@ -1063,19 +1080,9 @@
                 }
 
                 const fragment = document.createDocumentFragment();
-                docs.forEach((docSnap) => {
-                    const data = docSnap.data();
-
-                    if (data.approved !== true || data.active !== true) return;
-                    if (currentMode === "freeDelivery" && data.freeDelivery !== true) return;
-                    if (typeof data.profileUnlockedUntil !== "number" || data.profileUnlockedUntil <= Date.now()) return;
-                    if (state.renderedIds.has(docSnap.id)) return;
-
-                    state.renderedIds.add(docSnap.id);
-                    const cardEl = createProductCard(docSnap.id, data);
-                    fragment.appendChild(cardEl);
+                validProducts.forEach(({ id, data }) => {
+                    fragment.appendChild(createProductCard(id, data));
                 });
-
                 dom.productGrid.appendChild(fragment);
 
                 if (docs.length > 0) {
@@ -1087,6 +1094,11 @@
                     dom.btnLoadMore.style.display = "none";
                     if (state.renderedIds.size > 0) {
                         dom.endMessage.classList.add("visible");
+                    } else {
+                        dom.emptyStateMessage.textContent = currentMode === "freeDelivery"
+                            ? "বর্তমানে কোনো ফ্রি ডেলিভারি প্রোডাক্ট নেই।"
+                            : "বর্তমানে কোনো প্রোডাক্ট পাওয়া যায়নি।";
+                        dom.emptyState.classList.add("visible");
                     }
                 } else {
                     state.hasMore[currentMode] = true;
