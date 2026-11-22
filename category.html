@@ -1,0 +1,2420 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
+  <title>ক্যাটাগরি পণ্য | Reseller Ghoti Market</title>
+  <meta name="description" content="Reseller Ghoti Market-এর নির্দিষ্ট ক্যাটাগরির অনুমোদিত ও সক্রিয় পণ্যসমূহ দেখুন।" />
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="icon" type="image/png" href="https://reseller.ghotimarket.com/photo/favicon.png" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --primary: #FF6B35;
+      --secondary: #FF6A00;
+      --accent: #FFA500;
+      --bg-page: #F8FAFC;
+      --bg-warm: #FFF7F2;
+      --surface: #FFFFFF;
+      --text-main: #171717;
+      --text-muted: #64748B;
+      --border-soft: #FFE4D4;
+      --border-gray: #E2E8F0;
+      --success-bg: #ECFDF5;
+      --success-text: #047857;
+      --danger-bg: #FEF2F2;
+      --danger-text: #B91C1C;
+      --shadow-card: 0 2px 10px rgba(23, 23, 23, 0.05);
+      --shadow-hover: 0 10px 24px rgba(255, 106, 0, 0.14);
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 16px;
+      --transition: all 0.24s cubic-bezier(0.25, 0.8, 0.25, 1);
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html, body {
+      width: 100%;
+      max-width: 100%;
+      overflow-x: hidden;
+      background-color: var(--bg-page);
+      color: var(--text-main);
+      font-family: 'Hind Siliguri', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Full-Screen Auth & Verification Gate */
+    #gate-overlay {
+      position: fixed;
+      inset: 0;
+      background: linear-gradient(180deg, var(--bg-warm) 0%, var(--bg-page) 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      z-index: 9999;
+      text-align: center;
+    }
+
+    .gate-card {
+      background: var(--surface);
+      border: 1px solid var(--border-soft);
+      border-radius: var(--radius-lg);
+      padding: 32px 24px;
+      max-width: 420px;
+      width: 100%;
+      box-shadow: var(--shadow-card);
+    }
+
+    .gate-spinner {
+      width: 44px;
+      height: 44px;
+      border: 4px solid var(--border-soft);
+      border-top-color: var(--primary);
+      border-radius: 50%;
+      animation: spin 0.85s linear infinite;
+      margin: 0 auto 16px;
+    }
+
+    .gate-icon-wrap {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: var(--danger-bg);
+      color: var(--danger-text);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 14px;
+    }
+
+    .gate-icon-wrap svg {
+      width: 28px;
+      height: 28px;
+    }
+
+    .gate-title {
+      font-size: 19px;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-bottom: 8px;
+    }
+
+    .gate-desc {
+      font-size: 14px;
+      color: var(--text-muted);
+      margin-bottom: 20px;
+    }
+
+    .gate-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+    }
+
+    /* App Wrapper */
+    #app-shell {
+      display: none;
+      min-height: 100vh;
+      flex-direction: column;
+    }
+
+    /* Sticky Header */
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 200;
+      background: linear-gradient(135deg, var(--surface) 0%, var(--bg-warm) 100%);
+      border-bottom: 1px solid var(--border-soft);
+      box-shadow: 0 2px 12px rgba(23, 23, 23, 0.04);
+    }
+
+    .header-container {
+      max-width: 1520px;
+      margin: 0 auto;
+      padding: 12px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 0;
+    }
+
+    .brand-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+      flex-shrink: 0;
+    }
+
+    .brand-logo {
+      height: 36px;
+      width: auto;
+      object-fit: contain;
+      display: block;
+    }
+
+    .header-sep {
+      width: 1px;
+      height: 26px;
+      background-color: var(--border-soft);
+      flex-shrink: 0;
+    }
+
+    .header-title-group {
+      min-width: 0;
+    }
+
+    .header-brand-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--secondary);
+      line-height: 1.2;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .header-sub {
+      font-size: 11.5px;
+      color: var(--text-muted);
+      line-height: 1.25;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+
+    .btn-ghost {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      border: 1px solid var(--border-soft);
+      background: var(--surface);
+      color: var(--text-main);
+      font-family: inherit;
+      font-size: 13px;
+      font-weight: 600;
+      text-decoration: none;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .btn-ghost:hover {
+      border-color: var(--primary);
+      color: var(--secondary);
+      background: var(--bg-warm);
+    }
+
+    .btn-ghost svg {
+      width: 16px;
+      height: 16px;
+      flex-shrink: 0;
+    }
+
+    /* Main Container */
+    .main-container {
+      max-width: 1520px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 16px 10px 52px;
+      flex: 1;
+    }
+
+    /* Category Banner */
+    .category-banner {
+      background: var(--surface);
+      border: 1px solid var(--border-soft);
+      border-radius: var(--radius-lg);
+      padding: 14px 16px;
+      margin-bottom: 14px;
+      box-shadow: var(--shadow-card);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .category-info {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      min-width: 0;
+    }
+
+    .category-thumb-box {
+      width: 60px;
+      height: 60px;
+      border-radius: var(--radius-md);
+      background: var(--bg-warm);
+      border: 1px solid var(--border-soft);
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .category-thumb {
+      width: 100%;
+      height: 100%;
+      aspect-ratio: 1 / 1;
+      object-fit: cover;
+      display: block;
+    }
+
+    .category-thumb-fallback {
+      width: 28px;
+      height: 28px;
+      color: var(--primary);
+    }
+
+    .category-text-meta {
+      min-width: 0;
+    }
+
+    .category-kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 11.5px;
+      font-weight: 700;
+      color: var(--secondary);
+      background: var(--bg-warm);
+      border: 1px solid var(--border-soft);
+      padding: 2px 9px;
+      border-radius: 999px;
+      margin-bottom: 4px;
+    }
+
+    .category-heading {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--text-main);
+      line-height: 1.25;
+      word-break: break-word;
+    }
+
+    .category-stats-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--bg-page);
+      border: 1px solid var(--border-gray);
+      padding: 6px 12px;
+      border-radius: 999px;
+      font-size: 12.5px;
+      font-weight: 600;
+      color: var(--text-muted);
+    }
+
+    /* Filter & Action Bar */
+    .filter-toolbar {
+      background: var(--surface);
+      border: 1px solid var(--border-gray);
+      border-radius: var(--radius-md);
+      padding: 10px 12px;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      flex-wrap: wrap;
+      box-shadow: 0 1px 6px rgba(23, 23, 23, 0.03);
+    }
+
+    .filter-tabs {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .filter-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 8px 16px;
+      border-radius: 999px;
+      border: 1.5px solid var(--border-gray);
+      background: var(--surface);
+      color: var(--text-main);
+      font-family: inherit;
+      font-size: 13.5px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .filter-btn svg {
+      width: 16px;
+      height: 16px;
+      flex-shrink: 0;
+    }
+
+    .filter-btn:hover:not(.active):not(:disabled) {
+      border-color: var(--primary);
+      background: var(--bg-warm);
+      color: var(--secondary);
+    }
+
+    .filter-btn.active {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+      border-color: var(--secondary);
+      color: var(--surface);
+      box-shadow: 0 4px 12px rgba(255, 106, 0, 0.25);
+    }
+
+    .filter-btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    .toolbar-right {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 12.5px;
+      color: var(--text-muted);
+    }
+
+    .btn-index-helper {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 12px;
+      border-radius: 999px;
+      border: 1px solid var(--border-soft);
+      background: var(--bg-warm);
+      color: var(--secondary);
+      font-family: inherit;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .btn-index-helper:hover {
+      background: #FFE8D9;
+      border-color: var(--primary);
+    }
+
+    .btn-index-helper svg {
+      width: 14px;
+      height: 14px;
+    }
+
+    /* Responsive Product Grid: Mobile 4, Tablet 6, Laptop 8, Desktop 10 */
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 8px;
+      width: 100%;
+    }
+
+    /* Product Card */
+    .product-card {
+      background: var(--surface);
+      border: 1px solid var(--border-gray);
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      cursor: pointer;
+      box-shadow: var(--shadow-card);
+      transition: var(--transition);
+      position: relative;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .product-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(255, 107, 53, 0.5);
+      box-shadow: var(--shadow-hover);
+    }
+
+    .product-card:active {
+      transform: scale(0.98);
+    }
+
+    .product-media {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      background-color: var(--bg-warm);
+      overflow: hidden;
+    }
+
+    .product-media.is-loading::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, #F3E8E2 25%, #FFF8F4 50%, #F3E8E2 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.3s infinite linear;
+      z-index: 1;
+    }
+
+    .product-img {
+      width: 100%;
+      height: 100%;
+      aspect-ratio: 1 / 1;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.3s ease, opacity 0.25s ease;
+    }
+
+    .product-card:hover .product-img {
+      transform: scale(1.05);
+    }
+
+    .product-fallback-box {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      color: var(--primary);
+      background: var(--bg-warm);
+      padding: 6px;
+      text-align: center;
+    }
+
+    .product-fallback-box svg {
+      width: 28px;
+      height: 28px;
+      opacity: 0.8;
+    }
+
+    .product-fallback-box span {
+      font-size: 10px;
+      font-weight: 600;
+      color: var(--text-muted);
+    }
+
+    .free-delivery-badge {
+      position: absolute;
+      top: 5px;
+      left: 5px;
+      z-index: 2;
+      background: linear-gradient(135deg, #059669 0%, #10B981 100%);
+      color: var(--surface);
+      font-size: 9.5px;
+      font-weight: 700;
+      padding: 2px 6px;
+      border-radius: 999px;
+      line-height: 1.25;
+      box-shadow: 0 2px 6px rgba(5, 150, 105, 0.3);
+      white-space: nowrap;
+    }
+
+    .product-body {
+      padding: 7px 7px 8px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 5px;
+      flex: 1;
+    }
+
+    .product-name {
+      font-size: 11.5px;
+      font-weight: 600;
+      color: var(--text-main);
+      line-height: 1.32;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      word-break: break-word;
+      min-height: calc(1.32em * 2);
+    }
+
+    .product-price-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 4px;
+      margin-top: auto;
+    }
+
+    .product-price {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--secondary);
+      line-height: 1.2;
+    }
+
+    /* Skeleton Card */
+    .skeleton-card {
+      background: var(--surface);
+      border: 1px solid var(--border-gray);
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .skeleton-square {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      background: linear-gradient(90deg, #F1F5F9 25%, #FFF7F2 50%, #F1F5F9 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.35s infinite linear;
+    }
+
+    .skeleton-lines {
+      padding: 7px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .skeleton-line-lg {
+      height: 11px;
+      width: 92%;
+      border-radius: 4px;
+      background: linear-gradient(90deg, #F1F5F9 25%, #FFF7F2 50%, #F1F5F9 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.35s infinite linear;
+    }
+
+    .skeleton-line-sm {
+      height: 12px;
+      width: 55%;
+      border-radius: 4px;
+      background: linear-gradient(90deg, #F1F5F9 25%, #FFF7F2 50%, #F1F5F9 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.35s infinite linear;
+    }
+
+    /* Empty / Error Boxes */
+    .state-card {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      background: var(--surface);
+      border: 1px solid var(--border-gray);
+      border-radius: var(--radius-lg);
+      padding: 40px 20px;
+      margin: 18px auto;
+      max-width: 520px;
+      box-shadow: var(--shadow-card);
+    }
+
+    .state-card svg {
+      width: 56px;
+      height: 56px;
+      margin-bottom: 12px;
+      color: var(--primary);
+    }
+
+    .state-card.is-error svg {
+      color: var(--danger-text);
+    }
+
+    .state-card h2 {
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-bottom: 6px;
+    }
+
+    .state-card p {
+      font-size: 13.5px;
+      color: var(--text-muted);
+      margin-bottom: 18px;
+    }
+
+    .state-btn-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+    }
+
+    /* Primary & Secondary Buttons */
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+      color: var(--surface);
+      border: none;
+      border-radius: 999px;
+      padding: 11px 26px;
+      font-family: inherit;
+      font-size: 14px;
+      font-weight: 700;
+      text-decoration: none;
+      cursor: pointer;
+      box-shadow: 0 4px 14px rgba(255, 106, 0, 0.28);
+      transition: var(--transition);
+    }
+
+    .btn-primary:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 18px rgba(255, 106, 0, 0.36);
+    }
+
+    .btn-primary:disabled {
+      opacity: 0.7;
+      cursor: not-allowed;
+    }
+
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      background: var(--surface);
+      color: var(--text-main);
+      border: 1.5px solid var(--border-gray);
+      border-radius: 999px;
+      padding: 10px 20px;
+      font-family: inherit;
+      font-size: 13.5px;
+      font-weight: 600;
+      text-decoration: none;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--primary);
+      background: var(--bg-warm);
+      color: var(--secondary);
+    }
+
+    .btn-spinner {
+      width: 16px;
+      height: 16px;
+      border: 2.5px solid rgba(255, 255, 255, 0.35);
+      border-top-color: var(--surface);
+      border-radius: 50%;
+      animation: spin 0.75s linear infinite;
+      display: none;
+    }
+
+    .btn-primary.is-loading .btn-spinner {
+      display: inline-block;
+    }
+
+    /* Pagination & End Message */
+    .pagination-wrap {
+      margin-top: 26px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      text-align: center;
+    }
+
+    .end-of-list-banner {
+      display: none;
+      align-items: center;
+      gap: 8px;
+      background: var(--surface);
+      border: 1px solid var(--border-soft);
+      color: var(--text-main);
+      padding: 10px 20px;
+      border-radius: 999px;
+      font-size: 13.5px;
+      font-weight: 600;
+      box-shadow: var(--shadow-card);
+    }
+
+    .end-of-list-banner svg {
+      width: 18px;
+      height: 18px;
+      color: #059669;
+      flex-shrink: 0;
+    }
+
+    /* Custom Modal Backdrop (Never uses browser alert/confirm) */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.58);
+      backdrop-filter: blur(2px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      z-index: 5000;
+    }
+
+    .modal-backdrop.is-open {
+      display: flex;
+    }
+
+    .modal-dialog {
+      background: var(--surface);
+      border: 1px solid var(--border-soft);
+      border-radius: var(--radius-lg);
+      max-width: 560px;
+      width: 100%;
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: 0 20px 45px rgba(15, 23, 42, 0.25);
+      animation: modalPop 0.2s ease-out;
+    }
+
+    .modal-header {
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--border-gray);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      background: var(--bg-warm);
+    }
+
+    .modal-title-group {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .modal-title-icon {
+      width: 34px;
+      height: 34px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+      color: var(--surface);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .modal-title-icon svg {
+      width: 18px;
+      height: 18px;
+    }
+
+    .modal-title {
+      font-size: 16.5px;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    .modal-close-btn {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      border: 1px solid var(--border-gray);
+      background: var(--surface);
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .modal-close-btn:hover {
+      background: var(--danger-bg);
+      color: var(--danger-text);
+      border-color: #FECACA;
+    }
+
+    .modal-close-btn svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    .modal-body {
+      padding: 18px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .modal-note {
+      font-size: 13.5px;
+      color: var(--text-main);
+      line-height: 1.55;
+    }
+
+    .index-box {
+      background: var(--bg-page);
+      border: 1px solid var(--border-gray);
+      border-radius: var(--radius-md);
+      padding: 12px 14px;
+    }
+
+    .index-box-label {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--secondary);
+      margin-bottom: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+    }
+
+    .index-fields-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12.5px;
+      margin-top: 6px;
+    }
+
+    .index-fields-table th,
+    .index-fields-table td {
+      border: 1px solid var(--border-gray);
+      padding: 6px 8px;
+      text-align: left;
+      background: var(--surface);
+    }
+
+    .index-fields-table th {
+      background: var(--bg-warm);
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    .index-raw-error {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 11.5px;
+      background: #0F172A;
+      color: #F8FAFC;
+      padding: 10px 12px;
+      border-radius: var(--radius-sm);
+      word-break: break-word;
+      max-height: 120px;
+      overflow-y: auto;
+    }
+
+    .modal-footer {
+      padding: 14px 20px;
+      border-top: 1px solid var(--border-gray);
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 10px;
+      background: var(--bg-page);
+    }
+
+    /* Toast Notification */
+    .toast-container {
+      position: fixed;
+      bottom: 18px;
+      right: 18px;
+      z-index: 6000;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      max-width: calc(100vw - 36px);
+    }
+
+    .toast-item {
+      background: #0F172A;
+      color: var(--surface);
+      padding: 10px 14px;
+      border-radius: var(--radius-md);
+      font-size: 13px;
+      font-weight: 600;
+      box-shadow: 0 10px 25px rgba(15, 23, 42, 0.25);
+      border-left: 4px solid var(--primary);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* Tablet Breakpoint: 6 Columns */
+    @media (min-width: 768px) {
+      .header-container {
+        padding: 14px 22px;
+      }
+
+      .brand-logo {
+        height: 40px;
+      }
+
+      .main-container {
+        padding: 20px 22px 60px;
+      }
+
+      .category-heading {
+        font-size: 22px;
+      }
+
+      .product-grid {
+        grid-template-columns: repeat(6, minmax(0, 1fr));
+        gap: 10px;
+      }
+
+      .product-card {
+        border-radius: var(--radius-md);
+      }
+
+      .product-body {
+        padding: 8px 9px 10px;
+      }
+
+      .product-name {
+        font-size: 12.5px;
+      }
+
+      .product-price {
+        font-size: 14px;
+      }
+
+      .free-delivery-badge {
+        top: 7px;
+        left: 7px;
+        font-size: 10.5px;
+        padding: 2.5px 8px;
+      }
+    }
+
+    /* Laptop Breakpoint: 8 Columns */
+    @media (min-width: 1024px) {
+      .header-container {
+        padding: 14px 28px;
+      }
+
+      .main-container {
+        padding: 22px 28px 64px;
+      }
+
+      .product-grid {
+        grid-template-columns: repeat(8, minmax(0, 1fr));
+        gap: 12px;
+      }
+
+      .product-name {
+        font-size: 13px;
+      }
+
+      .product-price {
+        font-size: 14.5px;
+      }
+    }
+
+    /* Large Desktop Breakpoint: 10 Columns */
+    @media (min-width: 1440px) {
+      .product-grid {
+        grid-template-columns: repeat(10, minmax(0, 1fr));
+        gap: 12px;
+      }
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    @keyframes shimmer {
+      0% { background-position: 200% 0; }
+      100% { background-position: -200% 0; }
+    }
+
+    @keyframes modalPop {
+      from { opacity: 0; transform: scale(0.96); }
+      to { opacity: 1; transform: scale(1); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Authentication & Reseller Verification Gate -->
+  <div id="gate-overlay" role="status" aria-live="polite">
+    <div id="gate-loading" class="gate-card">
+      <div class="gate-spinner"></div>
+      <h2 class="gate-title">অ্যাকাউন্ট যাচাই করা হচ্ছে</h2>
+      <p id="gate-loading-desc" class="gate-desc">অনুগ্রহ করে অপেক্ষা করুন, রিসেলার তথ্য পরীক্ষা করা হচ্ছে...</p>
+    </div>
+
+    <div id="gate-error" class="gate-card" style="display: none;">
+      <div class="gate-icon-wrap" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"></circle>
+          <line x1="12" y1="8" x2="12" y2="12"></line>
+          <line x1="12" y1="16" x2="12.01" y2="16"></line>
+        </svg>
+      </div>
+      <h2 id="gate-error-title" class="gate-title">যাচাইকরণ ব্যর্থ হয়েছে</h2>
+      <p id="gate-error-desc" class="gate-desc">সার্ভারের সাথে সংযোগ স্থাপন করা সম্ভব হয়নি।</p>
+      <div id="gate-error-actions" class="gate-actions">
+        <button type="button" id="gate-retry-btn" class="btn-primary">আবার চেষ্টা করুন</button>
+        <a href="/products" class="btn-secondary">সকল ক্যাটাগরি</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Protected Page -->
+  <div id="app-shell">
+    <header class="site-header">
+      <div class="header-container">
+        <div class="header-left">
+          <a href="https://reseller.ghotimarket.com" class="brand-link" aria-label="Reseller Ghoti Market Home">
+            <img
+              src="https://reseller.ghotimarket.com/photo/logo.png"
+              alt="Reseller Ghoti Market Logo"
+              class="brand-logo"
+            />
+          </a>
+          <div class="header-sep" aria-hidden="true"></div>
+          <div class="header-title-group">
+            <div class="header-brand-label">Reseller Ghoti Market</div>
+            <div class="header-sub">অনুমোদিত ও সক্রিয় পণ্য তালিকা</div>
+          </div>
+        </div>
+
+        <div class="header-right">
+          <a href="/products" class="btn-ghost" aria-label="সকল ক্যাটাগরিতে ফিরে যান">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="19" y1="12" x2="5" y2="12"></line>
+              <polyline points="12 19 5 12 12 5"></polyline>
+            </svg>
+            <span>ক্যাটাগরি</span>
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <main class="main-container">
+      <!-- Category Header Card -->
+      <section class="category-banner" aria-label="নির্বাচিত ক্যাটাগরি তথ্য">
+        <div class="category-info">
+          <div id="category-thumb-box" class="category-thumb-box" aria-hidden="true">
+            <svg class="category-thumb-fallback" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="3" width="7" height="7" rx="1.5"></rect>
+              <rect x="14" y="3" width="7" height="7" rx="1.5"></rect>
+              <rect x="14" y="14" width="7" height="7" rx="1.5"></rect>
+              <rect x="3" y="14" width="7" height="7" rx="1.5"></rect>
+            </svg>
+          </div>
+          <div class="category-text-meta">
+            <div class="category-kicker">
+              <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path>
+                <line x1="7" y1="7" x2="7.01" y2="7"></line>
+              </svg>
+              <span>ক্যাটাগরি</span>
+            </div>
+            <h1 id="category-title" class="category-heading">লোড হচ্ছে...</h1>
+          </div>
+        </div>
+
+        <div class="category-stats-pill">
+          <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <path d="M16 10a4 4 0 0 1-8 0"></path>
+          </svg>
+          <span id="product-count-label">প্রদর্শিত পণ্য: ০টি</span>
+        </div>
+      </section>
+
+      <!-- Filter Controls -->
+      <section class="filter-toolbar" aria-label="পণ্য ফিল্টার">
+        <div class="filter-tabs" role="tablist">
+          <button type="button" id="filter-all-btn" class="filter-btn active" role="tab" aria-selected="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="3" width="7" height="7"></rect>
+              <rect x="14" y="3" width="7" height="7"></rect>
+              <rect x="14" y="14" width="7" height="7"></rect>
+              <rect x="3" y="14" width="7" height="7"></rect>
+            </svg>
+            <span>সকল পণ্য</span>
+          </button>
+
+          <button type="button" id="filter-free-delivery-btn" class="filter-btn" role="tab" aria-selected="false">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="1" y="3" width="15" height="13"></rect>
+              <polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon>
+              <circle cx="5.5" cy="18.5" r="2.5"></circle>
+              <circle cx="18.5" cy="18.5" r="2.5"></circle>
+            </svg>
+            <span>ফ্রি ডেলিভারি</span>
+          </button>
+        </div>
+
+        <div class="toolbar-right">
+          <span id="active-filter-note">সকল অনুমোদিত পণ্য</span>
+          <button type="button" id="open-index-modal-btn" class="btn-index-helper" title="Firebase Index তথ্য দেখুন">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <ellipse cx="12" cy="5" rx="9" ry="3"></ellipse>
+              <path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"></path>
+              <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path>
+            </svg>
+            <span>Firebase Index</span>
+          </button>
+        </div>
+      </section>
+
+      <!-- Product Grid -->
+      <section id="product-grid" class="product-grid" aria-label="পণ্যের তালিকা"></section>
+
+      <!-- Empty State -->
+      <div id="empty-state-box" class="state-card" role="status">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"></circle>
+          <path d="M16 16s-1.5-2-4-2-4 2-4 2"></path>
+          <line x1="9" y1="9" x2="9.01" y2="9"></line>
+          <line x1="15" y1="9" x2="15.01" y2="9"></line>
+        </svg>
+        <h2 id="empty-state-title">এই ক্যাটাগরিতে বর্তমানে কোনো পণ্য পাওয়া যায়নি।</h2>
+        <p id="empty-state-desc">নতুন পণ্য যুক্ত হলে এখানে দেখতে পাবেন অথবা ফিল্টার পরিবর্তন করে দেখুন।</p>
+        <div class="state-btn-group">
+          <button type="button" id="empty-reset-filter-btn" class="btn-secondary" style="display: none;">সকল পণ্য দেখুন</button>
+          <a href="/products" class="btn-primary">অন্য ক্যাটাগরি দেখুন</a>
+        </div>
+      </div>
+
+      <!-- Error / Index State Box -->
+      <div id="error-state-box" class="state-card is-error" role="alert">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
+          <line x1="12" y1="9" x2="12" y2="13"></line>
+          <line x1="12" y1="17" x2="12.01" y2="17"></line>
+        </svg>
+        <h2 id="error-state-title">পণ্য লোড করতে সমস্যা হয়েছে।</h2>
+        <p id="error-state-desc">অনুগ্রহ করে আবার চেষ্টা করুন।</p>
+        <div class="state-btn-group">
+          <button type="button" id="error-retry-btn" class="btn-primary">আবার চেষ্টা করুন</button>
+          <button type="button" id="error-open-index-btn" class="btn-secondary" style="display: none;">Firebase Index দেখুন</button>
+        </div>
+      </div>
+
+      <!-- Pagination Area -->
+      <section id="pagination-area" class="pagination-wrap" aria-label="পেজিনেশন">
+        <button type="button" id="load-more-btn" class="btn-primary" style="display: none;">
+          <span class="btn-spinner" aria-hidden="true"></span>
+          <span id="load-more-label">আরোও দেখুন</span>
+        </button>
+
+        <div id="end-of-list-banner" class="end-of-list-banner" role="status">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+            <polyline points="22 4 12 14.01 9 11.01"></polyline>
+          </svg>
+          <span>আপনি এই ক্যাটাগরির সব পণ্য দেখে ফেলেছেন।</span>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- Firebase Index Management Custom Modal -->
+  <div id="index-modal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="index-modal-title">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <div class="modal-title-group">
+          <div class="modal-title-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <ellipse cx="12" cy="5" rx="9" ry="3"></ellipse>
+              <path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"></path>
+              <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path>
+            </svg>
+          </div>
+          <h2 id="index-modal-title" class="modal-title">Firebase Composite Index ব্যবস্থাপনা</h2>
+        </div>
+        <button type="button" id="close-index-modal-btn" class="modal-close-btn" aria-label="মোডাল বন্ধ করুন">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <p id="index-modal-summary" class="modal-note">
+          Firestore-এ একাধিক <strong>where</strong> এবং <strong>orderBy</strong> একসাথে ব্যবহার করলে Composite Index প্রয়োজন হয়। নিচে সংশ্লিষ্ট Query-এর তথ্য ও প্রয়োজনীয় Field দেওয়া হলো।
+        </p>
+
+        <div class="index-box">
+          <div class="index-box-label">সংশ্লিষ্ট Query</div>
+          <div id="index-query-name" class="modal-note" style="font-weight: 700;">সকল পণ্য কুয়েরি (Default Category Query)</div>
+        </div>
+
+        <div class="index-box">
+          <div class="index-box-label">প্রয়োজনীয় Index Field Configuration (Collection: products)</div>
+          <table class="index-fields-table">
+            <thead>
+              <tr>
+                <th>ক্রম</th>
+                <th>Field Path</th>
+                <th>Order / Direction</th>
+              </tr>
+            </thead>
+            <tbody id="index-fields-tbody"></tbody>
+          </table>
+        </div>
+
+        <div id="index-url-status-box" class="index-box">
+          <div class="index-box-label">Firebase Console Index Creation URL</div>
+          <p id="index-url-status-text" class="modal-note" style="font-size: 12.5px; color: var(--text-muted);">
+            Firestore ত্রুটি থেকে Creation URL পাওয়া গেলে নিচের বাটন থেকে সরাসরি Firebase Console-এ নতুন Tab-এ Index তৈরি করতে পারবেন।
+          </p>
+        </div>
+
+        <div id="index-raw-error-wrap" style="display: none;">
+          <div class="index-box-label" style="margin-bottom: 4px;">Firestore Error Details</div>
+          <div id="index-raw-error-text" class="index-raw-error"></div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" id="modal-dismiss-btn" class="btn-secondary">বন্ধ করুন</button>
+        <button type="button" id="modal-retry-query-btn" class="btn-secondary">আবার চেষ্টা করুন</button>
+        <a
+          id="firebase-create-index-link"
+          href="#"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="btn-primary"
+          style="display: none;"
+        >
+          <span>Firebase Index তৈরি করুন</span>
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+            <polyline points="15 3 21 3 21 9"></polyline>
+            <line x1="10" y1="14" x2="21" y2="3"></line>
+          </svg>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- General Message Modal (Replaces alert / confirm / prompt) -->
+  <div id="info-modal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="info-modal-title">
+    <div class="modal-dialog" style="max-width: 440px;">
+      <div class="modal-header">
+        <div class="modal-title-group">
+          <div class="modal-title-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="12" y1="16" x2="12" y2="12"></line>
+              <line x1="12" y1="8" x2="12.01" y2="8"></line>
+            </svg>
+          </div>
+          <h2 id="info-modal-title" class="modal-title">বার্তা</h2>
+        </div>
+        <button type="button" id="close-info-modal-btn" class="modal-close-btn" aria-label="বন্ধ করুন">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p id="info-modal-message" class="modal-note"></p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" id="info-modal-ok-btn" class="btn-primary">ঠিক আছে</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Container -->
+  <div id="toast-container" class="toast-container" aria-live="polite"></div>
+
+  <!-- Firebase Modular SDK (v10.8.0) -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+    import {
+      getFirestore,
+      collection,
+      doc,
+      getDoc,
+      getDocs,
+      query,
+      where,
+      orderBy,
+      limit,
+      startAfter
+    } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+    // =========================================================================
+    // 1. CONFIGURATION & CONSTANTS
+    // =========================================================================
+    const PAGE_SIZE = 20;
+
+    const firebaseConfig = {
+  apiKey: "AIzaSyDCIRWmozT0XcEXuXtQ6RDiDo6vtT1T9mU",
+  authDomain: "paikarisell-ghotimarket.firebaseapp.com",
+  projectId: "paikarisell-ghotimarket",
+  storageBucket: "paikarisell-ghotimarket.firebasestorage.app",
+  messagingSenderId: "464086432830",
+  appId: "1:464086432830:web:a10fdd9884954e380e656f",
+  measurementId: "G-E3HR2F9TC5"
+};
+
+    const INDEX_CONFIGS = {
+      default: {
+        label: "Default Category Query (সকল পণ্য)",
+        fields: [
+          { field: "categoryId", order: "Ascending" },
+          { field: "active", order: "Ascending" },
+          { field: "approved", order: "Ascending" },
+          { field: "createdAt", order: "Descending" }
+        ]
+      },
+      freeDelivery: {
+        label: "Free Delivery Category Query (ফ্রি ডেলিভারি)",
+        fields: [
+          { field: "categoryId", order: "Ascending" },
+          { field: "active", order: "Ascending" },
+          { field: "approved", order: "Ascending" },
+          { field: "freeDelivery", order: "Ascending" },
+          { field: "createdAt", order: "Descending" }
+        ]
+      }
+    };
+
+    // =========================================================================
+    // 2. APPLICATION STATE (SEPARATE CURSORS & REQUEST GUARD)
+    // =========================================================================
+    const state = {
+      categoryId: "",
+      categoryValid: false,
+      categoryData: null,
+      userUid: null,
+      resellerVerified: false,
+
+      activeFilter: "all", // "all" | "freeDelivery"
+      requestSeq: 0,       // Increments on filter/category change to ignore stale responses
+      isFetching: false,
+
+      feeds: {
+        all: {
+          items: [],
+          loadedIds: new Set(),
+          lastVisible: null,
+          hasMore: true,
+          initialized: false,
+          indexError: null
+        },
+        freeDelivery: {
+          items: [],
+          loadedIds: new Set(),
+          lastVisible: null,
+          hasMore: true,
+          initialized: false,
+          indexError: null
+        }
+      },
+
+      lastIndexError: null
+    };
+
+    // =========================================================================
+    // 3. DOM ELEMENTS
+    // =========================================================================
+    const gateOverlay = document.getElementById("gate-overlay");
+    const gateLoading = document.getElementById("gate-loading");
+    const gateLoadingDesc = document.getElementById("gate-loading-desc");
+    const gateError = document.getElementById("gate-error");
+    const gateErrorTitle = document.getElementById("gate-error-title");
+    const gateErrorDesc = document.getElementById("gate-error-desc");
+    const gateErrorActions = document.getElementById("gate-error-actions");
+    const gateRetryBtn = document.getElementById("gate-retry-btn");
+
+    const appShell = document.getElementById("app-shell");
+    const categoryThumbBox = document.getElementById("category-thumb-box");
+    const categoryTitle = document.getElementById("category-title");
+    const productCountLabel = document.getElementById("product-count-label");
+
+    const filterAllBtn = document.getElementById("filter-all-btn");
+    const filterFreeDeliveryBtn = document.getElementById("filter-free-delivery-btn");
+    const activeFilterNote = document.getElementById("active-filter-note");
+    const openIndexModalBtn = document.getElementById("open-index-modal-btn");
+
+    const productGrid = document.getElementById("product-grid");
+    const emptyStateBox = document.getElementById("empty-state-box");
+    const emptyStateTitle = document.getElementById("empty-state-title");
+    const emptyStateDesc = document.getElementById("empty-state-desc");
+    const emptyResetFilterBtn = document.getElementById("empty-reset-filter-btn");
+
+    const errorStateBox = document.getElementById("error-state-box");
+    const errorStateTitle = document.getElementById("error-state-title");
+    const errorStateDesc = document.getElementById("error-state-desc");
+    const errorRetryBtn = document.getElementById("error-retry-btn");
+    const errorOpenIndexBtn = document.getElementById("error-open-index-btn");
+
+    const loadMoreBtn = document.getElementById("load-more-btn");
+    const loadMoreLabel = document.getElementById("load-more-label");
+    const endOfListBanner = document.getElementById("end-of-list-banner");
+
+    // Modals & Toast
+    const indexModal = document.getElementById("index-modal");
+    const closeIndexModalBtn = document.getElementById("close-index-modal-btn");
+    const modalDismissBtn = document.getElementById("modal-dismiss-btn");
+    const modalRetryQueryBtn = document.getElementById("modal-retry-query-btn");
+    const indexModalSummary = document.getElementById("index-modal-summary");
+    const indexQueryName = document.getElementById("index-query-name");
+    const indexFieldsTbody = document.getElementById("index-fields-tbody");
+    const indexUrlStatusText = document.getElementById("index-url-status-text");
+    const indexRawErrorWrap = document.getElementById("index-raw-error-wrap");
+    const indexRawErrorText = document.getElementById("index-raw-error-text");
+    const firebaseCreateIndexLink = document.getElementById("firebase-create-index-link");
+
+    const infoModal = document.getElementById("info-modal");
+    const infoModalTitle = document.getElementById("info-modal-title");
+    const infoModalMessage = document.getElementById("info-modal-message");
+    const closeInfoModalBtn = document.getElementById("close-info-modal-btn");
+    const infoModalOkBtn = document.getElementById("info-modal-ok-btn");
+    const toastContainer = document.getElementById("toast-container");
+
+    // =========================================================================
+    // 4. CUSTOM MODAL & TOAST HELPERS (NO BROWSER ALERT/CONFIRM/PROMPT)
+    // =========================================================================
+    function showToast(message) {
+      const toast = document.createElement("div");
+      toast.className = "toast-item";
+      toast.setAttribute("role", "status");
+      toast.textContent = message;
+      toastContainer.appendChild(toast);
+
+      setTimeout(() => {
+        toast.style.opacity = "0";
+        toast.style.transform = "translateY(8px)";
+        toast.style.transition = "all 0.25s ease";
+        setTimeout(() => toast.remove(), 260);
+      }, 3200);
+    }
+
+    function openInfoModal(title, message) {
+      infoModalTitle.textContent = title;
+      infoModalMessage.textContent = message;
+      infoModal.classList.add("is-open");
+    }
+
+    function closeInfoModal() {
+      infoModal.classList.remove("is-open");
+    }
+
+    closeInfoModalBtn.addEventListener("click", closeInfoModal);
+    infoModalOkBtn.addEventListener("click", closeInfoModal);
+    infoModal.addEventListener("click", (e) => {
+      if (e.target === infoModal) closeInfoModal();
+    });
+
+    // =========================================================================
+    // 5. FIREBASE INDEX ERROR PARSER & MODAL HANDLER
+    // =========================================================================
+    function extractFirebaseIndexUrl(errorMessage = "") {
+      const match = String(errorMessage).match(/https:\/\/console\.firebase\.google\.com\/[^\s"'<>)]+/i);
+      if (!match) return null;
+      return match[0].replace(/[.,;]+$/, "");
+    }
+
+    function isMissingIndexError(error) {
+      const code = String(error?.code || "").toLowerCase();
+      const msg = String(error?.message || "").toLowerCase();
+      return (
+        code.includes("failed-precondition") ||
+        msg.includes("requires an index") ||
+        msg.includes("create_composite") ||
+        msg.includes("console.firebase.google.com")
+      );
+    }
+
+    function openIndexModal(payload = {}) {
+      const filterKey = payload.filterType || state.activeFilter;
+      const cfgKey = filterKey === "freeDelivery" ? "freeDelivery" : "default";
+      const cfg = INDEX_CONFIGS[cfgKey];
+      const errObj = payload.error || state.lastIndexError || null;
+      const rawMsg = errObj?.message || "";
+      const extractedUrl = payload.indexUrl || extractFirebaseIndexUrl(rawMsg);
+
+      indexQueryName.textContent = cfg.label;
+      indexFieldsTbody.innerHTML = "";
+
+      cfg.fields.forEach((item, idx) => {
+        const tr = document.createElement("tr");
+
+        const tdIdx = document.createElement("td");
+        tdIdx.textContent = toBengaliNumber(idx + 1);
+
+        const tdField = document.createElement("td");
+        tdField.textContent = item.field;
+
+        const tdOrder = document.createElement("td");
+        tdOrder.textContent = item.order;
+
+        tr.appendChild(tdIdx);
+        tr.appendChild(tdField);
+        tr.appendChild(tdOrder);
+        indexFieldsTbody.appendChild(tr);
+      });
+
+      if (extractedUrl) {
+        indexModalSummary.textContent =
+          "Firestore এই Query-এর জন্য একটি Composite Index চেয়েছে। নিচের 'Firebase Index তৈরি করুন' বাটনে ক্লিক করে নতুন Tab-এ Index তৈরি করুন। Index Ready হয়ে গেলে 'আবার চেষ্টা করুন' চাপুন।";
+        indexUrlStatusText.textContent =
+          "Firebase Console-এর আসল Index Creation লিংক পাওয়া গেছে। নতুন Tab-এ খুলে Create Index বাটনে ক্লিক করুন:";
+        firebaseCreateIndexLink.href = extractedUrl;
+        firebaseCreateIndexLink.style.display = "inline-flex";
+      } else {
+        indexModalSummary.textContent =
+          "এই Query চালানোর জন্য নিচের Field ক্রম অনুযায়ী Firestore Composite Index প্রয়োজন হতে পারে।";
+        indexUrlStatusText.textContent =
+          "বর্তমান ত্রুটি বার্তায় সরাসরি Creation URL পাওয়া যায়নি। নিচের Field Configuration অনুসরণ করে Firebase Console -> Firestore Database -> Indexes থেকে Composite Index তৈরি করুন (কোনো অনুমানকৃত লিংক ব্যবহার করা হয়নি)।";
+        firebaseCreateIndexLink.removeAttribute("href");
+        firebaseCreateIndexLink.style.display = "none";
+      }
+
+      if (rawMsg) {
+        indexRawErrorWrap.style.display = "block";
+        indexRawErrorText.textContent = rawMsg;
+      } else {
+        indexRawErrorWrap.style.display = "none";
+        indexRawErrorText.textContent = "";
+      }
+
+      indexModal.classList.add("is-open");
+    }
+
+    function closeIndexModal() {
+      indexModal.classList.remove("is-open");
+    }
+
+    closeIndexModalBtn.addEventListener("click", closeIndexModal);
+    modalDismissBtn.addEventListener("click", closeIndexModal);
+    indexModal.addEventListener("click", (e) => {
+      if (e.target === indexModal) closeIndexModal();
+    });
+
+    openIndexModalBtn.addEventListener("click", () => {
+      openIndexModal({
+        filterType: state.activeFilter,
+        error: state.lastIndexError
+      });
+    });
+
+    errorOpenIndexBtn.addEventListener("click", () => {
+      openIndexModal({
+        filterType: state.activeFilter,
+        error: state.lastIndexError
+      });
+    });
+
+    modalRetryQueryBtn.addEventListener("click", () => {
+      closeIndexModal();
+      resetAndFetchCurrentFilter(true);
+    });
+
+    // =========================================================================
+    // 6. NUMBER & TEXT FORMATTING HELPERS
+    // =========================================================================
+    function toBengaliNumber(num) {
+      const bengaliDigits = ["০", "১", "২", "৩", "৪", "৫", "৬", "৭", "৮", "৯"];
+      return String(num).replace(/\d/g, (d) => bengaliDigits[Number(d)]);
+    }
+
+    function formatBDTPrice(rawPrice) {
+      const numeric = Number(rawPrice);
+      if (!Number.isFinite(numeric) || numeric < 0) {
+        return "৳ ০";
+      }
+      const formatted = Math.round(numeric).toLocaleString("en-IN");
+      return `৳ ${toBengaliNumber(formatted)}`;
+    }
+
+    // =========================================================================
+    // 7. STRICT URL CATEGORY ID EXTRACTION & VALIDATION
+    // =========================================================================
+    function parseAndValidateCategoryId() {
+      // Reject if URL has extra query params with '&' or '='
+      const rawSearch = window.location.search || "";
+      if (!rawSearch.startsWith("?") || rawSearch.length <= 1) {
+        return { valid: false, id: "", reason: "URL-এ কোনো ক্যাটাগরি ID পাওয়া যায়নি।" };
+      }
+
+      const candidate = rawSearch.substring(1);
+
+      // Reject multiple query parameters (&), key=value strings (=), whitespace, or encoded slashes/percent issues
+      if (
+        candidate.includes("&") ||
+        candidate.includes("=") ||
+        candidate.includes("?") ||
+        candidate.includes("/") ||
+        candidate.includes("\\") ||
+        /\s/.test(candidate)
+      ) {
+        return {
+          valid: false,
+          id: "",
+          reason: "URL-এ অবৈধ বা অতিরিক্ত Query Parameter রয়েছে। সঠিক লিংক ব্যবহার করুন।"
+        };
+      }
+
+      // Allow standard Firestore document ID characters (letters, numbers, underscore, hyphen)
+      if (!/^[A-Za-z0-9_-]{3,128}$/.test(candidate)) {
+        return {
+          valid: false,
+          id: "",
+          reason: "ক্যাটাগরি ID সঠিক ফরম্যাটে নেই।"
+        };
+      }
+
+      return { valid: true, id: candidate, reason: "" };
+    }
+
+    // =========================================================================
+    // 8. GATE SCREEN HELPERS (AUTH / RESELLER / CATEGORY ERRORS)
+    // =========================================================================
+    function showGateLoading(msg) {
+      gateLoadingDesc.textContent = msg;
+      gateLoading.style.display = "block";
+      gateError.style.display = "none";
+      gateOverlay.style.display = "flex";
+      appShell.style.display = "none";
+    }
+
+    function showGateError(title, desc, options = {}) {
+      gateLoading.style.display = "none";
+      gateErrorTitle.textContent = title;
+      gateErrorDesc.textContent = desc;
+      gateErrorActions.innerHTML = "";
+
+      if (options.showProductsLink) {
+        const backBtn = document.createElement("a");
+        backBtn.href = "/products";
+        backBtn.className = "btn-primary";
+        backBtn.textContent = "/products পেজে ফিরুন";
+        gateErrorActions.appendChild(backBtn);
+      }
+
+      if (options.showRetry) {
+        const retryBtn = document.createElement("button");
+        retryBtn.type = "button";
+        retryBtn.className = options.showProductsLink ? "btn-secondary" : "btn-primary";
+        retryBtn.textContent = "আবার চেষ্টা করুন";
+        retryBtn.addEventListener("click", () => {
+          if (typeof options.onRetry === "function") {
+            options.onRetry();
+          } else {
+            window.location.reload();
+          }
+        });
+        gateErrorActions.appendChild(retryBtn);
+      }
+
+      if (!options.showProductsLink && !options.showRetry) {
+        const homeBtn = document.createElement("a");
+        homeBtn.href = "/products";
+        homeBtn.className = "btn-primary";
+        homeBtn.textContent = "ক্যাটাগরি পেজে যান";
+        gateErrorActions.appendChild(homeBtn);
+      }
+
+      gateError.style.display = "block";
+      gateOverlay.style.display = "flex";
+      appShell.style.display = "none";
+    }
+
+    // =========================================================================
+    // 9. INITIALIZE FIREBASE & SEQUENTIAL SECURITY FLOW
+    // =========================================================================
+    let app, auth, db;
+    try {
+      app = initializeApp(firebaseConfig);
+      auth = getAuth(app);
+      db = getFirestore(app);
+    } catch (initErr) {
+      showGateError(
+        "Firebase চালু করা যায়নি",
+        "সিস্টেম কনফিগারেশন লোড করতে সমস্যা হয়েছে। অনুগ্রহ করে পেজটি রিফ্রেশ করুন।",
+        { showRetry: true }
+      );
+      throw initErr;
+    }
+
+    const urlValidation = parseAndValidateCategoryId();
+
+    onAuthStateChanged(
+      auth,
+      async (user) => {
+        // Step 1: Must be logged in
+        if (!user) {
+          window.location.replace("/login");
+          return;
+        }
+
+        state.userUid = user.uid;
+
+        // Validate URL Category ID before running Firestore queries
+        if (!urlValidation.valid) {
+          showGateError(
+            "এই ক্যাটাগরিটি খুঁজে পাওয়া যায়নি।",
+            urlValidation.reason,
+            { showProductsLink: true }
+          );
+          return;
+        }
+
+        state.categoryId = urlValidation.id;
+        await runAuthResellerAndCategoryChecks(user.uid, state.categoryId);
+      },
+      () => {
+        showGateError(
+          "লগইন যাচাই করতে সমস্যা হয়েছে",
+          "আপনার সেশন যাচাই করা যায়নি। অনুগ্রহ করে আবার চেষ্টা করুন।",
+          { showRetry: true }
+        );
+      }
+    );
+
+    async function runAuthResellerAndCategoryChecks(uid, catId) {
+      try {
+        // Step 2 & 3: Verify reseller/{uid}
+        showGateLoading("রিসেলার অ্যাকাউন্ট যাচাই করা হচ্ছে...");
+        const resellerRef = doc(db, "reseller", uid);
+        const resellerSnap = await getDoc(resellerRef);
+
+        if (!resellerSnap.exists()) {
+          window.location.replace("/signup1");
+          return;
+        }
+
+        state.resellerVerified = true;
+
+        // Step 4: Verify categories/{categoryId}
+        showGateLoading("ক্যাটাগরির তথ্য যাচাই করা হচ্ছে...");
+        const categoryRef = doc(db, "categories", catId);
+        const categorySnap = await getDoc(categoryRef);
+
+        if (!categorySnap.exists()) {
+          state.categoryValid = false;
+          showGateError(
+            "এই ক্যাটাগরিটি খুঁজে পাওয়া যায়নি।",
+            "আপনি যে ক্যাটাগরিটি খুঁজছেন তা বিদ্যমান নেই বা সরিয়ে ফেলা হয়েছে।",
+            { showProductsLink: true }
+          );
+          return;
+        }
+
+        const catData = categorySnap.data() || {};
+        state.categoryData = {
+          id: categorySnap.id,
+          categoryName: String(catData.categoryName || "").trim() || "নামহীন ক্যাটাগরি",
+          categoryImage: String(catData.categoryImage || "").trim()
+        };
+        state.categoryValid = true;
+
+        // Render Category Header & Show App Shell
+        renderCategoryHeader(state.categoryData);
+        gateOverlay.style.display = "none";
+        appShell.style.display = "flex";
+
+        // Step 5: Load initial 20 products for default filter
+        state.requestSeq += 1;
+        await fetchProductsPage({
+          filterType: state.activeFilter,
+          isInitial: true,
+          seq: state.requestSeq
+        });
+      } catch (err) {
+        const code = String(err?.code || "");
+        if (!navigator.onLine || code === "unavailable") {
+          showGateError(
+            "ইন্টারনেট সংযোগে সমস্যা হয়েছে",
+            "সার্ভারের সাথে সংযোগ পাওয়া যায়নি। ইন্টারনেট সংযোগ পরীক্ষা করে আবার চেষ্টা করুন।",
+            {
+              showRetry: true,
+              onRetry: () => runAuthResellerAndCategoryChecks(uid, catId)
+            }
+          );
+        } else if (code === "permission-denied") {
+          showGateError(
+            "অনুমতি পাওয়া যায়নি",
+            "Firestore নিরাপত্তা নীতির কারণে এই তথ্য যাচাই করা যাচ্ছে না।",
+            {
+              showRetry: true,
+              showProductsLink: true,
+              onRetry: () => runAuthResellerAndCategoryChecks(uid, catId)
+            }
+          );
+        } else {
+          showGateError(
+            "যাচাইকরণে সমস্যা হয়েছে",
+            "ক্যাটাগরি বা অ্যাকাউন্ট যাচাই করার সময় একটি ত্রুটি ঘটেছে।",
+            {
+              showRetry: true,
+              showProductsLink: true,
+              onRetry: () => runAuthResellerAndCategoryChecks(uid, catId)
+            }
+          );
+        }
+      }
+    }
+
+    gateRetryBtn.addEventListener("click", () => {
+      if (auth.currentUser && urlValidation.valid) {
+        runAuthResellerAndCategoryChecks(auth.currentUser.uid, urlValidation.id);
+      } else {
+        window.location.reload();
+      }
+    });
+
+    // =========================================================================
+    // 10. CATEGORY HEADER RENDERING
+    // =========================================================================
+    function renderCategoryHeader(cat) {
+      document.title = `${cat.categoryName} | Reseller Ghoti Market`;
+      categoryTitle.textContent = cat.categoryName;
+
+      categoryThumbBox.innerHTML = "";
+      if (cat.categoryImage) {
+        const img = document.createElement("img");
+        img.src = cat.categoryImage;
+        img.alt = cat.categoryName;
+        img.className = "category-thumb";
+        img.loading = "eager";
+        img.decoding = "async";
+        img.addEventListener(
+          "error",
+          () => {
+            categoryThumbBox.innerHTML = `<svg class="category-thumb-fallback" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"></rect><rect x="14" y="3" width="7" height="7" rx="1.5"></rect><rect x="14" y="14" width="7" height="7" rx="1.5"></rect><rect x="3" y="14" width="7" height="7" rx="1.5"></rect></svg>`;
+          },
+          { once: true }
+        );
+        categoryThumbBox.appendChild(img);
+      } else {
+        categoryThumbBox.innerHTML = `<svg class="category-thumb-fallback" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"></rect><rect x="14" y="3" width="7" height="7" rx="1.5"></rect><rect x="14" y="14" width="7" height="7" rx="1.5"></rect><rect x="3" y="14" width="7" height="7" rx="1.5"></rect></svg>`;
+      }
+    }
+
+    // =========================================================================
+    // 11. FIRESTORE PRODUCT QUERIES (STRICT LIMIT 20, SEPARATE CURSORS)
+    // =========================================================================
+    function buildProductQuery(filterType, cursorDoc = null) {
+      const productsCol = collection(db, "products");
+      const constraints = [
+        where("categoryId", "==", state.categoryId),
+        where("active", "==", true),
+        where("approved", "==", true)
+      ];
+
+      if (filterType === "freeDelivery") {
+        constraints.push(where("freeDelivery", "==", true));
+      }
+
+      constraints.push(orderBy("createdAt", "desc"));
+
+      if (cursorDoc) {
+        constraints.push(startAfter(cursorDoc));
+      }
+
+      constraints.push(limit(PAGE_SIZE));
+      return query(productsCol, ...constraints);
+    }
+
+    async function fetchProductsPage({ filterType, isInitial, seq }) {
+      if (!state.categoryValid || !state.resellerVerified) return;
+      if (state.isFetching && !isInitial) return;
+
+      const feed = state.feeds[filterType];
+      if (!feed) return;
+
+      if (!isInitial && !feed.hasMore) return;
+
+      state.isFetching = true;
+      feed.indexError = null;
+
+      if (isInitial) {
+        // Clear previous items & cursor when starting fresh for this filter
+        feed.items = [];
+        feed.loadedIds.clear();
+        feed.lastVisible = null;
+        feed.hasMore = true;
+        feed.initialized = false;
+
+        hideFeedbackBoxes();
+        loadMoreBtn.style.display = "none";
+        endOfListBanner.style.display = "none";
+        renderSkeletonGrid(10);
+      } else {
+        setLoadMoreLoading(true);
+        hideFeedbackBoxes();
+      }
+
+      try {
+        const cursor = isInitial ? null : feed.lastVisible;
+        const q = buildProductQuery(filterType, cursor);
+        const snap = await getDocs(q);
+
+        // Ignore stale response if user switched filter/category mid-flight
+        if (seq !== state.requestSeq) {
+          return;
+        }
+
+        const batchDocs = snap.docs.slice(0, PAGE_SIZE);
+
+        batchDocs.forEach((docSnap) => {
+          if (!feed.loadedIds.has(docSnap.id)) {
+            const raw = docSnap.data() || {};
+            // Double-check active & approved boolean integrity
+            if (raw.active === true && raw.approved === true) {
+              feed.loadedIds.add(docSnap.id);
+              const imagesArr = Array.isArray(raw.images)
+                ? raw.images.filter((u) => typeof u === "string" && u.trim().length > 0)
+                : [];
+
+              feed.items.push({
+                id: docSnap.id,
+                productName: String(raw.productName || "").trim() || "নামহীন পণ্য",
+                price: raw.price,
+                freeDelivery: raw.freeDelivery === true,
+                firstImage: imagesArr.length > 0 ? imagesArr[0].trim() : "",
+                createdAt: raw.createdAt || null
+              });
+            }
+          }
+        });
+
+        if (batchDocs.length > 0) {
+          feed.lastVisible = batchDocs[batchDocs.length - 1];
+        }
+
+        if (batchDocs.length < PAGE_SIZE) {
+          feed.hasMore = false;
+        } else {
+          feed.hasMore = true;
+        }
+
+        feed.initialized = true;
+
+        if (state.activeFilter === filterType) {
+          renderCurrentFilterView();
+        }
+      } catch (err) {
+        if (seq !== state.requestSeq) {
+          return;
+        }
+
+        if (isMissingIndexError(err)) {
+          feed.indexError = err;
+          state.lastIndexError = err;
+          handleMissingIndexState(filterType, isInitial, err);
+        } else {
+          handleGeneralQueryError(filterType, isInitial, err);
+        }
+      } finally {
+        if (seq === state.requestSeq) {
+          state.isFetching = false;
+          setLoadMoreLoading(false);
+        }
+      }
+    }
+
+    function resetAndFetchCurrentFilter(forceRefetch = false) {
+      const currentFilter = state.activeFilter;
+      const feed = state.feeds[currentFilter];
+
+      if (!forceRefetch && feed.initialized && feed.items.length > 0 && !feed.indexError) {
+        renderCurrentFilterView();
+        return;
+      }
+
+      state.requestSeq += 1;
+      state.isFetching = false;
+      fetchProductsPage({
+        filterType: currentFilter,
+        isInitial: true,
+        seq: state.requestSeq
+      });
+    }
+
+    // =========================================================================
+    // 12. FILTER SWITCHING HANDLERS
+    // =========================================================================
+    function setActiveFilterTab(filterType) {
+      state.activeFilter = filterType;
+      const isFree = filterType === "freeDelivery";
+
+      filterAllBtn.classList.toggle("active", !isFree);
+      filterAllBtn.setAttribute("aria-selected", String(!isFree));
+
+      filterFreeDeliveryBtn.classList.toggle("active", isFree);
+      filterFreeDeliveryBtn.setAttribute("aria-selected", String(isFree));
+
+      activeFilterNote.textContent = isFree
+        ? "শুধুমাত্র ফ্রি ডেলিভারি পণ্য"
+        : "সকল অনুমোদিত পণ্য";
+    }
+
+    filterAllBtn.addEventListener("click", () => {
+      if (state.activeFilter === "all" && state.feeds.all.initialized && !state.feeds.all.indexError) {
+        return;
+      }
+      setActiveFilterTab("all");
+      resetAndFetchCurrentFilter(true);
+    });
+
+    filterFreeDeliveryBtn.addEventListener("click", () => {
+      if (
+        state.activeFilter === "freeDelivery" &&
+        state.feeds.freeDelivery.initialized &&
+        !state.feeds.freeDelivery.indexError
+      ) {
+        return;
+      }
+      setActiveFilterTab("freeDelivery");
+      resetAndFetchCurrentFilter(true);
+    });
+
+    emptyResetFilterBtn.addEventListener("click", () => {
+      setActiveFilterTab("all");
+      resetAndFetchCurrentFilter(true);
+    });
+
+    // =========================================================================
+    // 13. RENDERING PRODUCTS, SKELETONS, EMPTY & ERROR STATES
+    // =========================================================================
+    function hideFeedbackBoxes() {
+      emptyStateBox.style.display = "none";
+      errorStateBox.style.display = "none";
+    }
+
+    function setLoadMoreLoading(loading) {
+      loadMoreBtn.disabled = loading;
+      loadMoreBtn.classList.toggle("is-loading", loading);
+      loadMoreLabel.textContent = loading ? "লোড হচ্ছে..." : "আরোও দেখুন";
+    }
+
+    function renderSkeletonGrid(count = 10) {
+      productGrid.innerHTML = "";
+      const frag = document.createDocumentFragment();
+      for (let i = 0; i < count; i++) {
+        const card = document.createElement("div");
+        card.className = "skeleton-card";
+        card.setAttribute("aria-hidden", "true");
+
+        const sq = document.createElement("div");
+        sq.className = "skeleton-square";
+
+        const lines = document.createElement("div");
+        lines.className = "skeleton-lines";
+
+        const l1 = document.createElement("div");
+        l1.className = "skeleton-line-lg";
+
+        const l2 = document.createElement("div");
+        l2.className = "skeleton-line-sm";
+
+        lines.appendChild(l1);
+        lines.appendChild(l2);
+        card.appendChild(sq);
+        card.appendChild(lines);
+        frag.appendChild(card);
+      }
+      productGrid.appendChild(frag);
+    }
+
+    function createFallbackImageNode() {
+      const box = document.createElement("div");
+      box.className = "product-fallback-box";
+
+      const svgNS = "http://www.w3.org/2000/svg";
+      const svg = document.createElementNS(svgNS, "svg");
+      svg.setAttribute("viewBox", "0 0 24 24");
+      svg.setAttribute("fill", "none");
+      svg.setAttribute("stroke", "currentColor");
+      svg.setAttribute("stroke-width", "1.8");
+      svg.setAttribute("stroke-linecap", "round");
+      svg.setAttribute("stroke-linejoin", "round");
+
+      const rect = document.createElementNS(svgNS, "rect");
+      rect.setAttribute("x", "3");
+      rect.setAttribute("y", "3");
+      rect.setAttribute("width", "18");
+      rect.setAttribute("height", "18");
+      rect.setAttribute("rx", "2");
+      rect.setAttribute("ry", "2");
+
+      const circle = document.createElementNS(svgNS, "circle");
+      circle.setAttribute("cx", "8.5");
+      circle.setAttribute("cy", "8.5");
+      circle.setAttribute("r", "1.5");
+
+      const poly = document.createElementNS(svgNS, "polyline");
+      poly.setAttribute("points", "21 15 16 10 5 21");
+
+      svg.appendChild(rect);
+      svg.appendChild(circle);
+      svg.appendChild(poly);
+
+      const label = document.createElement("span");
+      label.textContent = "ছবি নেই";
+
+      box.appendChild(svg);
+      box.appendChild(label);
+      return box;
+    }
+
+    function createProductCard(item) {
+      const article = document.createElement("article");
+      article.className = "product-card";
+      article.setAttribute("role", "button");
+      article.setAttribute("tabindex", "0");
+      article.setAttribute("aria-label", `${item.productName} - ${formatBDTPrice(item.price)}`);
+
+      // 1. Product Image + Conditional Free Delivery Badge
+      const media = document.createElement("div");
+      media.className = "product-media";
+
+      if (item.freeDelivery === true) {
+        const badge = document.createElement("span");
+        badge.className = "free-delivery-badge";
+        badge.textContent = "ফ্রি ডেলিভারি!";
+        media.appendChild(badge);
+      }
+
+      if (item.firstImage) {
+        media.classList.add("is-loading");
+        const img = document.createElement("img");
+        img.className = "product-img";
+        img.src = item.firstImage;
+        img.alt = item.productName;
+        img.loading = "lazy";
+        img.decoding = "async";
+
+        img.addEventListener(
+          "load",
+          () => {
+            media.classList.remove("is-loading");
+          },
+          { once: true }
+        );
+
+        img.addEventListener(
+          "error",
+          () => {
+            media.classList.remove("is-loading");
+            const existingBadge = media.querySelector(".free-delivery-badge");
+            media.innerHTML = "";
+            if (existingBadge) media.appendChild(existingBadge);
+            media.appendChild(createFallbackImageNode());
+          },
+          { once: true }
+        );
+
+        media.appendChild(img);
+      } else {
+        media.appendChild(createFallbackImageNode());
+      }
+
+      // 2. Card Body: Product Name & Price ONLY
+      const body = document.createElement("div");
+      body.className = "product-body";
+
+      const nameEl = document.createElement("h3");
+      nameEl.className = "product-name";
+      nameEl.textContent = item.productName;
+      nameEl.title = item.productName;
+
+      const priceRow = document.createElement("div");
+      priceRow.className = "product-price-row";
+
+      const priceEl = document.createElement("span");
+      priceEl.className = "product-price";
+      priceEl.textContent = formatBDTPrice(item.price);
+
+      priceRow.appendChild(priceEl);
+      body.appendChild(nameEl);
+      body.appendChild(priceRow);
+
+      article.appendChild(media);
+      article.appendChild(body);
+
+      const goToProductDetails = () => {
+        window.location.href = `/product?${encodeURIComponent(item.id)}`;
+      };
+
+      article.addEventListener("click", goToProductDetails);
+      article.addEventListener("keydown", (e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          goToProductDetails();
+        }
+      });
+
+      return article;
+    }
+
+    function renderCurrentFilterView() {
+      const feed = state.feeds[state.activeFilter];
+      hideFeedbackBoxes();
+
+      productCountLabel.textContent = `প্রদর্শিত পণ্য: ${toBengaliNumber(feed.items.length)}টি`;
+
+      if (feed.items.length === 0 && feed.initialized) {
+        productGrid.innerHTML = "";
+        loadMoreBtn.style.display = "none";
+        endOfListBanner.style.display = "none";
+
+        if (state.activeFilter === "freeDelivery") {
+          emptyStateTitle.textContent = "এই ক্যাটাগরিতে বর্তমানে কোনো ফ্রি ডেলিভারি পণ্য নেই।";
+          emptyStateDesc.textContent = "সকল পণ্য দেখতে নিচের বাটনে ক্লিক করুন বা অন্য ক্যাটাগরি ঘুরে দেখুন।";
+          emptyResetFilterBtn.style.display = "inline-flex";
+        } else {
+          emptyStateTitle.textContent = "এই ক্যাটাগরিতে বর্তমানে কোনো পণ্য পাওয়া যায়নি।";
+          emptyStateDesc.textContent = "নতুন পণ্য যুক্ত হলে এখানে দেখতে পাবেন।";
+          emptyResetFilterBtn.style.display = "none";
+        }
+
+        emptyStateBox.style.display = "flex";
+        return;
+      }
+
+      productGrid.innerHTML = "";
+      const frag = document.createDocumentFragment();
+      for (let i = 0; i < feed.items.length; i++) {
+        frag.appendChild(createProductCard(feed.items[i]));
+      }
+      productGrid.appendChild(frag);
+
+      if (feed.hasMore && feed.items.length > 0) {
+        loadMoreBtn.style.display = "inline-flex";
+        endOfListBanner.style.display = "none";
+      } else if (feed.items.length > 0 && !feed.hasMore) {
+        loadMoreBtn.style.display = "none";
+        endOfListBanner.style.display = "inline-flex";
+      } else {
+        loadMoreBtn.style.display = "none";
+        endOfListBanner.style.display = "none";
+      }
+    }
+
+    function handleMissingIndexState(filterType, isInitial, err) {
+      const feed = state.feeds[filterType];
+      hideFeedbackBoxes();
+
+      if (isInitial) {
+        productGrid.innerHTML = "";
+        loadMoreBtn.style.display = "none";
+        endOfListBanner.style.display = "none";
+      }
+
+      // Never show as empty product list when index is missing
+      errorStateTitle.textContent = "Firestore Index প্রয়োজন — পণ্য লোড করা যায়নি";
+      errorStateDesc.textContent =
+        "এই Query-এর জন্য একটি Composite Index প্রয়োজন। নিচের বাটন থেকে Index তথ্য ও Creation লিংক দেখুন, তৈরি হলে 'আবার চেষ্টা করুন' চাপুন।";
+      errorOpenIndexBtn.style.display = "inline-flex";
+      errorStateBox.style.display = "flex";
+
+      if (state.activeFilter === filterType) {
+        openIndexModal({
+          filterType,
+          error: err,
+          indexUrl: extractFirebaseIndexUrl(err?.message || "")
+        });
+      }
+
+      if (!isInitial && feed.items.length > 0) {
+        loadMoreBtn.style.display = "inline-flex";
+      }
+    }
+
+    function handleGeneralQueryError(filterType, isInitial, err) {
+      const feed = state.feeds[filterType];
+      const code = String(err?.code || "");
+      hideFeedbackBoxes();
+      errorOpenIndexBtn.style.display = "none";
+
+      let title = "পণ্য লোড করতে সমস্যা হয়েছে।";
+      let desc = "অনুগ্রহ করে আবার চেষ্টা করুন।";
+
+      if (!navigator.onLine || code === "unavailable") {
+        title = "ইন্টারনেট সংযোগে সমস্যা হয়েছে।";
+        desc = "আপনার ইন্টারনেট সংযোগ পরীক্ষা করে আবার চেষ্টা করুন।";
+      } else if (code === "permission-denied") {
+        title = "পণ্য দেখার অনুমতি পাওয়া যায়নি।";
+        desc = "রিসেলার অ্যাকাউন্ট বা Firestore Read Permission যাচাই করুন।";
+      }
+
+      if (isInitial) {
+        productGrid.innerHTML = "";
+        loadMoreBtn.style.display = "none";
+        endOfListBanner.style.display = "none";
+        errorStateTitle.textContent = title;
+        errorStateDesc.textContent = desc;
+        errorStateBox.style.display = "flex";
+      } else {
+        errorStateTitle.textContent = title;
+        errorStateDesc.textContent = `${desc} (আগের ${toBengaliNumber(feed.items.length)}টি পণ্য সংরক্ষিত আছে)`;
+        errorStateBox.style.display = "flex";
+        if (feed.hasMore) {
+          loadMoreBtn.style.display = "inline-flex";
+        }
+        showToast("পরবর্তী পণ্য লোড করা যায়নি। আবার চেষ্টা করুন।");
+      }
+    }
+
+    // =========================================================================
+    // 14. LOAD MORE & ERROR RETRY LISTENERS
+    // =========================================================================
+    loadMoreBtn.addEventListener("click", () => {
+      const currentFilter = state.activeFilter;
+      const feed = state.feeds[currentFilter];
+      if (state.isFetching || !feed.hasMore || !feed.lastVisible) return;
+
+      fetchProductsPage({
+        filterType: currentFilter,
+        isInitial: false,
+        seq: state.requestSeq
+      });
+    });
+
+    errorRetryBtn.addEventListener("click", () => {
+      const currentFilter = state.activeFilter;
+      const feed = state.feeds[currentFilter];
+
+      if (!feed.initialized || feed.items.length === 0) {
+        resetAndFetchCurrentFilter(true);
+      } else if (feed.hasMore && feed.lastVisible) {
+        hideFeedbackBoxes();
+        fetchProductsPage({
+          filterType: currentFilter,
+          isInitial: false,
+          seq: state.requestSeq
+        });
+      } else {
+        resetAndFetchCurrentFilter(true);
+      }
+    });
+  </script>
+</body>
+</html>
