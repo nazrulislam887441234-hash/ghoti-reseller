@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="bn">
 <head>
@@ -405,32 +406,6 @@
       color: var(--text-muted);
     }
 
-    .btn-index-helper {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 6px 12px;
-      border-radius: 999px;
-      border: 1px solid var(--border-soft);
-      background: var(--bg-warm);
-      color: var(--secondary);
-      font-family: inherit;
-      font-size: 12px;
-      font-weight: 700;
-      cursor: pointer;
-      transition: var(--transition);
-    }
-
-    .btn-index-helper:hover {
-      background: #FFE8D9;
-      border-color: var(--primary);
-    }
-
-    .btn-index-helper svg {
-      width: 14px;
-      height: 14px;
-    }
-
     /* Responsive Product Grid: Mobile 4, Tablet 6, Laptop 8, Desktop 10 */
     .product-grid {
       display: grid;
@@ -787,7 +762,7 @@
       background: var(--surface);
       border: 1px solid var(--border-soft);
       border-radius: var(--radius-lg);
-      max-width: 560px;
+      max-width: 440px;
       width: 100%;
       max-height: 90vh;
       overflow-y: auto;
@@ -870,55 +845,6 @@
       font-size: 13.5px;
       color: var(--text-main);
       line-height: 1.55;
-    }
-
-    .index-box {
-      background: var(--bg-page);
-      border: 1px solid var(--border-gray);
-      border-radius: var(--radius-md);
-      padding: 12px 14px;
-    }
-
-    .index-box-label {
-      font-size: 12px;
-      font-weight: 700;
-      color: var(--secondary);
-      margin-bottom: 6px;
-      text-transform: uppercase;
-      letter-spacing: 0.3px;
-    }
-
-    .index-fields-table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 12.5px;
-      margin-top: 6px;
-    }
-
-    .index-fields-table th,
-    .index-fields-table td {
-      border: 1px solid var(--border-gray);
-      padding: 6px 8px;
-      text-align: left;
-      background: var(--surface);
-    }
-
-    .index-fields-table th {
-      background: var(--bg-warm);
-      font-weight: 700;
-      color: var(--text-main);
-    }
-
-    .index-raw-error {
-      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-      font-size: 11.5px;
-      background: #0F172A;
-      color: #F8FAFC;
-      padding: 10px 12px;
-      border-radius: var(--radius-sm);
-      word-break: break-word;
-      max-height: 120px;
-      overflow-y: auto;
     }
 
     .modal-footer {
@@ -1074,7 +1000,7 @@
       <p id="gate-error-desc" class="gate-desc">সার্ভারের সাথে সংযোগ স্থাপন করা সম্ভব হয়নি।</p>
       <div id="gate-error-actions" class="gate-actions">
         <button type="button" id="gate-retry-btn" class="btn-primary">আবার চেষ্টা করুন</button>
-        <a href="/products" class="btn-secondary">সকল ক্যাটাগরি</a>
+        <a href="/all-product" class="btn-secondary">সকল পণ্য</a>
       </div>
     </div>
   </div>
@@ -1099,12 +1025,12 @@
         </div>
 
         <div class="header-right">
-          <a href="/products" class="btn-ghost" aria-label="সকল ক্যাটাগরিতে ফিরে যান">
+          <a href="/all-product" class="btn-ghost" aria-label="সকল পণ্য দেখুন">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
               <line x1="19" y1="12" x2="5" y2="12"></line>
               <polyline points="12 19 5 12 12 5"></polyline>
             </svg>
-            <span>ক্যাটাগরি</span>
+            <span>সকল পণ্য</span>
           </a>
         </div>
       </div>
@@ -1170,14 +1096,6 @@
 
         <div class="toolbar-right">
           <span id="active-filter-note">সকল অনুমোদিত পণ্য</span>
-          <button type="button" id="open-index-modal-btn" class="btn-index-helper" title="Firebase Index তথ্য দেখুন">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-              <ellipse cx="12" cy="5" rx="9" ry="3"></ellipse>
-              <path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"></path>
-              <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path>
-            </svg>
-            <span>Firebase Index</span>
-          </button>
         </div>
       </section>
 
@@ -1196,11 +1114,11 @@
         <p id="empty-state-desc">নতুন পণ্য যুক্ত হলে এখানে দেখতে পাবেন অথবা ফিল্টার পরিবর্তন করে দেখুন।</p>
         <div class="state-btn-group">
           <button type="button" id="empty-reset-filter-btn" class="btn-secondary" style="display: none;">সকল পণ্য দেখুন</button>
-          <a href="/products" class="btn-primary">অন্য ক্যাটাগরি দেখুন</a>
+          <a href="/all-product" class="btn-primary">সকল পণ্য দেখুন</a>
         </div>
       </div>
 
-      <!-- Error / Index State Box -->
+      <!-- Error State Box -->
       <div id="error-state-box" class="state-card is-error" role="alert">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
@@ -1211,7 +1129,6 @@
         <p id="error-state-desc">অনুগ্রহ করে আবার চেষ্টা করুন।</p>
         <div class="state-btn-group">
           <button type="button" id="error-retry-btn" class="btn-primary">আবার চেষ্টা করুন</button>
-          <button type="button" id="error-open-index-btn" class="btn-secondary" style="display: none;">Firebase Index দেখুন</button>
         </div>
       </div>
 
@@ -1233,90 +1150,9 @@
     </main>
   </div>
 
-  <!-- Firebase Index Management Custom Modal -->
-  <div id="index-modal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="index-modal-title">
-    <div class="modal-dialog">
-      <div class="modal-header">
-        <div class="modal-title-group">
-          <div class="modal-title-icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-              <ellipse cx="12" cy="5" rx="9" ry="3"></ellipse>
-              <path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"></path>
-              <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path>
-            </svg>
-          </div>
-          <h2 id="index-modal-title" class="modal-title">Firebase Composite Index ব্যবস্থাপনা</h2>
-        </div>
-        <button type="button" id="close-index-modal-btn" class="modal-close-btn" aria-label="মোডাল বন্ধ করুন">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
-            <line x1="18" y1="6" x2="6" y2="18"></line>
-            <line x1="6" y1="6" x2="18" y2="18"></line>
-          </svg>
-        </button>
-      </div>
-
-      <div class="modal-body">
-        <p id="index-modal-summary" class="modal-note">
-          Firestore-এ একাধিক <strong>where</strong> এবং <strong>orderBy</strong> একসাথে ব্যবহার করলে Composite Index প্রয়োজন হয়। নিচে সংশ্লিষ্ট Query-এর তথ্য ও প্রয়োজনীয় Field দেওয়া হলো।
-        </p>
-
-        <div class="index-box">
-          <div class="index-box-label">সংশ্লিষ্ট Query</div>
-          <div id="index-query-name" class="modal-note" style="font-weight: 700;">সকল পণ্য কুয়েরি (Default Category Query)</div>
-        </div>
-
-        <div class="index-box">
-          <div class="index-box-label">প্রয়োজনীয় Index Field Configuration (Collection: products)</div>
-          <table class="index-fields-table">
-            <thead>
-              <tr>
-                <th>ক্রম</th>
-                <th>Field Path</th>
-                <th>Order / Direction</th>
-              </tr>
-            </thead>
-            <tbody id="index-fields-tbody"></tbody>
-          </table>
-        </div>
-
-        <div id="index-url-status-box" class="index-box">
-          <div class="index-box-label">Firebase Console Index Creation URL</div>
-          <p id="index-url-status-text" class="modal-note" style="font-size: 12.5px; color: var(--text-muted);">
-            Firestore ত্রুটি থেকে Creation URL পাওয়া গেলে নিচের বাটন থেকে সরাসরি Firebase Console-এ নতুন Tab-এ Index তৈরি করতে পারবেন।
-          </p>
-        </div>
-
-        <div id="index-raw-error-wrap" style="display: none;">
-          <div class="index-box-label" style="margin-bottom: 4px;">Firestore Error Details</div>
-          <div id="index-raw-error-text" class="index-raw-error"></div>
-        </div>
-      </div>
-
-      <div class="modal-footer">
-        <button type="button" id="modal-dismiss-btn" class="btn-secondary">বন্ধ করুন</button>
-        <button type="button" id="modal-retry-query-btn" class="btn-secondary">আবার চেষ্টা করুন</button>
-        <a
-          id="firebase-create-index-link"
-          href="#"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="btn-primary"
-          style="display: none;"
-        >
-          <span>Firebase Index তৈরি করুন</span>
-          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
-            <polyline points="15 3 21 3 21 9"></polyline>
-            <line x1="10" y1="14" x2="21" y2="3"></line>
-          </svg>
-        </a>
-      </div>
-    </div>
-  </div>
-
   <!-- General Message Modal (Replaces alert / confirm / prompt) -->
   <div id="info-modal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="info-modal-title">
-    <div class="modal-dialog" style="max-width: 440px;">
+    <div class="modal-dialog">
       <div class="modal-header">
         <div class="modal-title-group">
           <div class="modal-title-icon" aria-hidden="true">
@@ -1379,28 +1215,6 @@
   measurementId: "G-E3HR2F9TC5"
 };
 
-    const INDEX_CONFIGS = {
-      default: {
-        label: "Default Category Query (সকল পণ্য)",
-        fields: [
-          { field: "categoryId", order: "Ascending" },
-          { field: "active", order: "Ascending" },
-          { field: "approved", order: "Ascending" },
-          { field: "createdAt", order: "Descending" }
-        ]
-      },
-      freeDelivery: {
-        label: "Free Delivery Category Query (ফ্রি ডেলিভারি)",
-        fields: [
-          { field: "categoryId", order: "Ascending" },
-          { field: "active", order: "Ascending" },
-          { field: "approved", order: "Ascending" },
-          { field: "freeDelivery", order: "Ascending" },
-          { field: "createdAt", order: "Descending" }
-        ]
-      }
-    };
-
     // =========================================================================
     // 2. APPLICATION STATE (SEPARATE CURSORS & REQUEST GUARD)
     // =========================================================================
@@ -1421,20 +1235,16 @@
           loadedIds: new Set(),
           lastVisible: null,
           hasMore: true,
-          initialized: false,
-          indexError: null
+          initialized: false
         },
         freeDelivery: {
           items: [],
           loadedIds: new Set(),
           lastVisible: null,
           hasMore: true,
-          initialized: false,
-          indexError: null
+          initialized: false
         }
-      },
-
-      lastIndexError: null
+      }
     };
 
     // =========================================================================
@@ -1457,7 +1267,6 @@
     const filterAllBtn = document.getElementById("filter-all-btn");
     const filterFreeDeliveryBtn = document.getElementById("filter-free-delivery-btn");
     const activeFilterNote = document.getElementById("active-filter-note");
-    const openIndexModalBtn = document.getElementById("open-index-modal-btn");
 
     const productGrid = document.getElementById("product-grid");
     const emptyStateBox = document.getElementById("empty-state-box");
@@ -1469,24 +1278,10 @@
     const errorStateTitle = document.getElementById("error-state-title");
     const errorStateDesc = document.getElementById("error-state-desc");
     const errorRetryBtn = document.getElementById("error-retry-btn");
-    const errorOpenIndexBtn = document.getElementById("error-open-index-btn");
 
     const loadMoreBtn = document.getElementById("load-more-btn");
     const loadMoreLabel = document.getElementById("load-more-label");
     const endOfListBanner = document.getElementById("end-of-list-banner");
-
-    // Modals & Toast
-    const indexModal = document.getElementById("index-modal");
-    const closeIndexModalBtn = document.getElementById("close-index-modal-btn");
-    const modalDismissBtn = document.getElementById("modal-dismiss-btn");
-    const modalRetryQueryBtn = document.getElementById("modal-retry-query-btn");
-    const indexModalSummary = document.getElementById("index-modal-summary");
-    const indexQueryName = document.getElementById("index-query-name");
-    const indexFieldsTbody = document.getElementById("index-fields-tbody");
-    const indexUrlStatusText = document.getElementById("index-url-status-text");
-    const indexRawErrorWrap = document.getElementById("index-raw-error-wrap");
-    const indexRawErrorText = document.getElementById("index-raw-error-text");
-    const firebaseCreateIndexLink = document.getElementById("firebase-create-index-link");
 
     const infoModal = document.getElementById("info-modal");
     const infoModalTitle = document.getElementById("info-modal-title");
@@ -1530,112 +1325,7 @@
     });
 
     // =========================================================================
-    // 5. FIREBASE INDEX ERROR PARSER & MODAL HANDLER
-    // =========================================================================
-    function extractFirebaseIndexUrl(errorMessage = "") {
-      const match = String(errorMessage).match(/https:\/\/console\.firebase\.google\.com\/[^\s"'<>)]+/i);
-      if (!match) return null;
-      return match[0].replace(/[.,;]+$/, "");
-    }
-
-    function isMissingIndexError(error) {
-      const code = String(error?.code || "").toLowerCase();
-      const msg = String(error?.message || "").toLowerCase();
-      return (
-        code.includes("failed-precondition") ||
-        msg.includes("requires an index") ||
-        msg.includes("create_composite") ||
-        msg.includes("console.firebase.google.com")
-      );
-    }
-
-    function openIndexModal(payload = {}) {
-      const filterKey = payload.filterType || state.activeFilter;
-      const cfgKey = filterKey === "freeDelivery" ? "freeDelivery" : "default";
-      const cfg = INDEX_CONFIGS[cfgKey];
-      const errObj = payload.error || state.lastIndexError || null;
-      const rawMsg = errObj?.message || "";
-      const extractedUrl = payload.indexUrl || extractFirebaseIndexUrl(rawMsg);
-
-      indexQueryName.textContent = cfg.label;
-      indexFieldsTbody.innerHTML = "";
-
-      cfg.fields.forEach((item, idx) => {
-        const tr = document.createElement("tr");
-
-        const tdIdx = document.createElement("td");
-        tdIdx.textContent = toBengaliNumber(idx + 1);
-
-        const tdField = document.createElement("td");
-        tdField.textContent = item.field;
-
-        const tdOrder = document.createElement("td");
-        tdOrder.textContent = item.order;
-
-        tr.appendChild(tdIdx);
-        tr.appendChild(tdField);
-        tr.appendChild(tdOrder);
-        indexFieldsTbody.appendChild(tr);
-      });
-
-      if (extractedUrl) {
-        indexModalSummary.textContent =
-          "Firestore এই Query-এর জন্য একটি Composite Index চেয়েছে। নিচের 'Firebase Index তৈরি করুন' বাটনে ক্লিক করে নতুন Tab-এ Index তৈরি করুন। Index Ready হয়ে গেলে 'আবার চেষ্টা করুন' চাপুন।";
-        indexUrlStatusText.textContent =
-          "Firebase Console-এর আসল Index Creation লিংক পাওয়া গেছে। নতুন Tab-এ খুলে Create Index বাটনে ক্লিক করুন:";
-        firebaseCreateIndexLink.href = extractedUrl;
-        firebaseCreateIndexLink.style.display = "inline-flex";
-      } else {
-        indexModalSummary.textContent =
-          "এই Query চালানোর জন্য নিচের Field ক্রম অনুযায়ী Firestore Composite Index প্রয়োজন হতে পারে।";
-        indexUrlStatusText.textContent =
-          "বর্তমান ত্রুটি বার্তায় সরাসরি Creation URL পাওয়া যায়নি। নিচের Field Configuration অনুসরণ করে Firebase Console -> Firestore Database -> Indexes থেকে Composite Index তৈরি করুন (কোনো অনুমানকৃত লিংক ব্যবহার করা হয়নি)।";
-        firebaseCreateIndexLink.removeAttribute("href");
-        firebaseCreateIndexLink.style.display = "none";
-      }
-
-      if (rawMsg) {
-        indexRawErrorWrap.style.display = "block";
-        indexRawErrorText.textContent = rawMsg;
-      } else {
-        indexRawErrorWrap.style.display = "none";
-        indexRawErrorText.textContent = "";
-      }
-
-      indexModal.classList.add("is-open");
-    }
-
-    function closeIndexModal() {
-      indexModal.classList.remove("is-open");
-    }
-
-    closeIndexModalBtn.addEventListener("click", closeIndexModal);
-    modalDismissBtn.addEventListener("click", closeIndexModal);
-    indexModal.addEventListener("click", (e) => {
-      if (e.target === indexModal) closeIndexModal();
-    });
-
-    openIndexModalBtn.addEventListener("click", () => {
-      openIndexModal({
-        filterType: state.activeFilter,
-        error: state.lastIndexError
-      });
-    });
-
-    errorOpenIndexBtn.addEventListener("click", () => {
-      openIndexModal({
-        filterType: state.activeFilter,
-        error: state.lastIndexError
-      });
-    });
-
-    modalRetryQueryBtn.addEventListener("click", () => {
-      closeIndexModal();
-      resetAndFetchCurrentFilter(true);
-    });
-
-    // =========================================================================
-    // 6. NUMBER & TEXT FORMATTING HELPERS
+    // 5. NUMBER & TEXT FORMATTING HELPERS
     // =========================================================================
     function toBengaliNumber(num) {
       const bengaliDigits = ["০", "১", "২", "৩", "৪", "৫", "৬", "৭", "৮", "৯"];
@@ -1652,10 +1342,9 @@
     }
 
     // =========================================================================
-    // 7. STRICT URL CATEGORY ID EXTRACTION & VALIDATION
+    // 6. STRICT URL CATEGORY ID EXTRACTION & VALIDATION
     // =========================================================================
     function parseAndValidateCategoryId() {
-      // Reject if URL has extra query params with '&' or '='
       const rawSearch = window.location.search || "";
       if (!rawSearch.startsWith("?") || rawSearch.length <= 1) {
         return { valid: false, id: "", reason: "URL-এ কোনো ক্যাটাগরি ID পাওয়া যায়নি।" };
@@ -1663,7 +1352,6 @@
 
       const candidate = rawSearch.substring(1);
 
-      // Reject multiple query parameters (&), key=value strings (=), whitespace, or encoded slashes/percent issues
       if (
         candidate.includes("&") ||
         candidate.includes("=") ||
@@ -1679,7 +1367,6 @@
         };
       }
 
-      // Allow standard Firestore document ID characters (letters, numbers, underscore, hyphen)
       if (!/^[A-Za-z0-9_-]{3,128}$/.test(candidate)) {
         return {
           valid: false,
@@ -1692,7 +1379,7 @@
     }
 
     // =========================================================================
-    // 8. GATE SCREEN HELPERS (AUTH / RESELLER / CATEGORY ERRORS)
+    // 7. GATE SCREEN HELPERS (AUTH / RESELLER / CATEGORY ERRORS)
     // =========================================================================
     function showGateLoading(msg) {
       gateLoadingDesc.textContent = msg;
@@ -1710,9 +1397,9 @@
 
       if (options.showProductsLink) {
         const backBtn = document.createElement("a");
-        backBtn.href = "/products";
+        backBtn.href = "/all-product";
         backBtn.className = "btn-primary";
-        backBtn.textContent = "/products পেজে ফিরুন";
+        backBtn.textContent = "/all-product পেজে ফিরুন";
         gateErrorActions.appendChild(backBtn);
       }
 
@@ -1733,9 +1420,9 @@
 
       if (!options.showProductsLink && !options.showRetry) {
         const homeBtn = document.createElement("a");
-        homeBtn.href = "/products";
+        homeBtn.href = "/all-product";
         homeBtn.className = "btn-primary";
-        homeBtn.textContent = "ক্যাটাগরি পেজে যান";
+        homeBtn.textContent = "সকল পণ্য পেজে যান";
         gateErrorActions.appendChild(homeBtn);
       }
 
@@ -1745,7 +1432,7 @@
     }
 
     // =========================================================================
-    // 9. INITIALIZE FIREBASE & SEQUENTIAL SECURITY FLOW
+    // 8. INITIALIZE FIREBASE & SEQUENTIAL SECURITY FLOW
     // =========================================================================
     let app, auth, db;
     try {
@@ -1766,7 +1453,6 @@
     onAuthStateChanged(
       auth,
       async (user) => {
-        // Step 1: Must be logged in
         if (!user) {
           window.location.replace("/login");
           return;
@@ -1774,7 +1460,6 @@
 
         state.userUid = user.uid;
 
-        // Validate URL Category ID before running Firestore queries
         if (!urlValidation.valid) {
           showGateError(
             "এই ক্যাটাগরিটি খুঁজে পাওয়া যায়নি।",
@@ -1798,7 +1483,6 @@
 
     async function runAuthResellerAndCategoryChecks(uid, catId) {
       try {
-        // Step 2 & 3: Verify reseller/{uid}
         showGateLoading("রিসেলার অ্যাকাউন্ট যাচাই করা হচ্ছে...");
         const resellerRef = doc(db, "reseller", uid);
         const resellerSnap = await getDoc(resellerRef);
@@ -1810,7 +1494,6 @@
 
         state.resellerVerified = true;
 
-        // Step 4: Verify categories/{categoryId}
         showGateLoading("ক্যাটাগরির তথ্য যাচাই করা হচ্ছে...");
         const categoryRef = doc(db, "categories", catId);
         const categorySnap = await getDoc(categoryRef);
@@ -1833,12 +1516,10 @@
         };
         state.categoryValid = true;
 
-        // Render Category Header & Show App Shell
         renderCategoryHeader(state.categoryData);
         gateOverlay.style.display = "none";
         appShell.style.display = "flex";
 
-        // Step 5: Load initial 20 products for default filter
         state.requestSeq += 1;
         await fetchProductsPage({
           filterType: state.activeFilter,
@@ -1889,7 +1570,7 @@
     });
 
     // =========================================================================
-    // 10. CATEGORY HEADER RENDERING
+    // 9. CATEGORY HEADER RENDERING
     // =========================================================================
     function renderCategoryHeader(cat) {
       document.title = `${cat.categoryName} | Reseller Ghoti Market`;
@@ -1917,7 +1598,7 @@
     }
 
     // =========================================================================
-    // 11. FIRESTORE PRODUCT QUERIES (STRICT LIMIT 20, SEPARATE CURSORS)
+    // 10. FIRESTORE PRODUCT QUERIES (STRICT LIMIT 20, SEPARATE CURSORS)
     // =========================================================================
     function buildProductQuery(filterType, cursorDoc = null) {
       const productsCol = collection(db, "products");
@@ -1951,10 +1632,8 @@
       if (!isInitial && !feed.hasMore) return;
 
       state.isFetching = true;
-      feed.indexError = null;
 
       if (isInitial) {
-        // Clear previous items & cursor when starting fresh for this filter
         feed.items = [];
         feed.loadedIds.clear();
         feed.lastVisible = null;
@@ -1975,7 +1654,6 @@
         const q = buildProductQuery(filterType, cursor);
         const snap = await getDocs(q);
 
-        // Ignore stale response if user switched filter/category mid-flight
         if (seq !== state.requestSeq) {
           return;
         }
@@ -1985,7 +1663,6 @@
         batchDocs.forEach((docSnap) => {
           if (!feed.loadedIds.has(docSnap.id)) {
             const raw = docSnap.data() || {};
-            // Double-check active & approved boolean integrity
             if (raw.active === true && raw.approved === true) {
               feed.loadedIds.add(docSnap.id);
               const imagesArr = Array.isArray(raw.images)
@@ -2023,14 +1700,7 @@
         if (seq !== state.requestSeq) {
           return;
         }
-
-        if (isMissingIndexError(err)) {
-          feed.indexError = err;
-          state.lastIndexError = err;
-          handleMissingIndexState(filterType, isInitial, err);
-        } else {
-          handleGeneralQueryError(filterType, isInitial, err);
-        }
+        handleGeneralQueryError(filterType, isInitial, err);
       } finally {
         if (seq === state.requestSeq) {
           state.isFetching = false;
@@ -2043,7 +1713,7 @@
       const currentFilter = state.activeFilter;
       const feed = state.feeds[currentFilter];
 
-      if (!forceRefetch && feed.initialized && feed.items.length > 0 && !feed.indexError) {
+      if (!forceRefetch && feed.initialized && feed.items.length > 0) {
         renderCurrentFilterView();
         return;
       }
@@ -2058,7 +1728,7 @@
     }
 
     // =========================================================================
-    // 12. FILTER SWITCHING HANDLERS
+    // 11. FILTER SWITCHING HANDLERS
     // =========================================================================
     function setActiveFilterTab(filterType) {
       state.activeFilter = filterType;
@@ -2076,7 +1746,7 @@
     }
 
     filterAllBtn.addEventListener("click", () => {
-      if (state.activeFilter === "all" && state.feeds.all.initialized && !state.feeds.all.indexError) {
+      if (state.activeFilter === "all" && state.feeds.all.initialized) {
         return;
       }
       setActiveFilterTab("all");
@@ -2084,11 +1754,7 @@
     });
 
     filterFreeDeliveryBtn.addEventListener("click", () => {
-      if (
-        state.activeFilter === "freeDelivery" &&
-        state.feeds.freeDelivery.initialized &&
-        !state.feeds.freeDelivery.indexError
-      ) {
+      if (state.activeFilter === "freeDelivery" && state.feeds.freeDelivery.initialized) {
         return;
       }
       setActiveFilterTab("freeDelivery");
@@ -2101,7 +1767,7 @@
     });
 
     // =========================================================================
-    // 13. RENDERING PRODUCTS, SKELETONS, EMPTY & ERROR STATES
+    // 12. RENDERING PRODUCTS, SKELETONS, EMPTY & ERROR STATES
     // =========================================================================
     function hideFeedbackBoxes() {
       emptyStateBox.style.display = "none";
@@ -2191,7 +1857,6 @@
       article.setAttribute("tabindex", "0");
       article.setAttribute("aria-label", `${item.productName} - ${formatBDTPrice(item.price)}`);
 
-      // 1. Product Image + Conditional Free Delivery Badge
       const media = document.createElement("div");
       media.className = "product-media";
 
@@ -2236,7 +1901,6 @@
         media.appendChild(createFallbackImageNode());
       }
 
-      // 2. Card Body: Product Name & Price ONLY
       const body = document.createElement("div");
       body.className = "product-body";
 
@@ -2287,7 +1951,7 @@
 
         if (state.activeFilter === "freeDelivery") {
           emptyStateTitle.textContent = "এই ক্যাটাগরিতে বর্তমানে কোনো ফ্রি ডেলিভারি পণ্য নেই।";
-          emptyStateDesc.textContent = "সকল পণ্য দেখতে নিচের বাটনে ক্লিক করুন বা অন্য ক্যাটাগরি ঘুরে দেখুন।";
+          emptyStateDesc.textContent = "সকল পণ্য দেখতে নিচের বাটনে ক্লিক করুন বা অন্য পণ্য ঘুরে দেখুন।";
           emptyResetFilterBtn.style.display = "inline-flex";
         } else {
           emptyStateTitle.textContent = "এই ক্যাটাগরিতে বর্তমানে কোনো পণ্য পাওয়া যায়নি।";
@@ -2318,41 +1982,10 @@
       }
     }
 
-    function handleMissingIndexState(filterType, isInitial, err) {
-      const feed = state.feeds[filterType];
-      hideFeedbackBoxes();
-
-      if (isInitial) {
-        productGrid.innerHTML = "";
-        loadMoreBtn.style.display = "none";
-        endOfListBanner.style.display = "none";
-      }
-
-      // Never show as empty product list when index is missing
-      errorStateTitle.textContent = "Firestore Index প্রয়োজন — পণ্য লোড করা যায়নি";
-      errorStateDesc.textContent =
-        "এই Query-এর জন্য একটি Composite Index প্রয়োজন। নিচের বাটন থেকে Index তথ্য ও Creation লিংক দেখুন, তৈরি হলে 'আবার চেষ্টা করুন' চাপুন।";
-      errorOpenIndexBtn.style.display = "inline-flex";
-      errorStateBox.style.display = "flex";
-
-      if (state.activeFilter === filterType) {
-        openIndexModal({
-          filterType,
-          error: err,
-          indexUrl: extractFirebaseIndexUrl(err?.message || "")
-        });
-      }
-
-      if (!isInitial && feed.items.length > 0) {
-        loadMoreBtn.style.display = "inline-flex";
-      }
-    }
-
     function handleGeneralQueryError(filterType, isInitial, err) {
       const feed = state.feeds[filterType];
       const code = String(err?.code || "");
       hideFeedbackBoxes();
-      errorOpenIndexBtn.style.display = "none";
 
       let title = "পণ্য লোড করতে সমস্যা হয়েছে।";
       let desc = "অনুগ্রহ করে আবার চেষ্টা করুন।";
@@ -2384,7 +2017,7 @@
     }
 
     // =========================================================================
-    // 14. LOAD MORE & ERROR RETRY LISTENERS
+    // 13. LOAD MORE & ERROR RETRY LISTENERS
     // =========================================================================
     loadMoreBtn.addEventListener("click", () => {
       const currentFilter = state.activeFilter;
