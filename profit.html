@@ -1,0 +1,2234 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>প্রফিট ক্যালকুলেটর | Reseller Ghoti Market</title>
+  <link rel="icon" type="image/png" href="https://reseller.ghotimarket.com/photo/favicon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --primary: #FF6B35;
+      --secondary: #FF6A00;
+      --accent: #FFA500;
+      --primary-soft: rgba(255, 107, 53, 0.1);
+      --primary-border: rgba(255, 107, 53, 0.28);
+      --bg: #F8FAFC;
+      --card: #FFFFFF;
+      --text: #171717;
+      --text-muted: #525252;
+      --text-soft: #737373;
+      --border: #E5E7EB;
+      --border-strong: #CBD5E1;
+      --success: #15803D;
+      --success-bg: #F0FDF4;
+      --success-border: #BBF7D0;
+      --danger: #B91C1C;
+      --danger-bg: #FEF2F2;
+      --danger-border: #FECACA;
+      --neutral: #334155;
+      --neutral-bg: #F1F5F9;
+      --neutral-border: #E2E8F0;
+      --shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.05);
+      --shadow-md: 0 6px 20px rgba(15, 23, 42, 0.06);
+      --shadow-lg: 0 14px 34px rgba(255, 107, 53, 0.14);
+      --radius-sm: 10px;
+      --radius-md: 14px;
+      --radius-lg: 20px;
+      --transition: 0.22s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      overflow-x: hidden;
+    }
+
+    body {
+      font-family: 'Hind Siliguri', -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      min-height: 100vh;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Auth Gate Overlay */
+    .auth-gate {
+      position: fixed;
+      inset: 0;
+      background: linear-gradient(135deg, #FFF7ED 0%, #F8FAFC 55%, #FFEDD5 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      padding: 20px;
+      transition: opacity 0.3s ease, visibility 0.3s ease;
+    }
+
+    .auth-gate.hidden {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .auth-gate-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 36px 28px;
+      max-width: 420px;
+      width: 100%;
+      text-align: center;
+      box-shadow: var(--shadow-md);
+    }
+
+    .auth-spinner {
+      width: 44px;
+      height: 44px;
+      border: 4px solid #FED7AA;
+      border-top-color: var(--primary);
+      border-radius: 50%;
+      margin: 0 auto 18px;
+      animation: spin 0.85s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .auth-gate-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 6px;
+    }
+
+    .auth-gate-sub {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+    }
+
+    /* Main App Wrapper */
+    .app-shell {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 20px 16px 56px;
+      opacity: 0;
+      transform: translateY(8px);
+      transition: opacity 0.35s ease, transform 0.35s ease;
+    }
+
+    .app-shell.ready {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Top Header */
+    .top-header {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 18px 22px;
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 22px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .top-header::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--primary), var(--secondary), var(--accent));
+    }
+
+    .brand-block {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      min-width: 0;
+    }
+
+    .brand-logo {
+      width: 52px;
+      height: 52px;
+      object-fit: contain;
+      border-radius: 12px;
+      background: #FFF7ED;
+      border: 1px solid #FFEDD5;
+      padding: 6px;
+      flex-shrink: 0;
+    }
+
+    .brand-text h1 {
+      font-size: 1.45rem;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.25;
+    }
+
+    .brand-text p {
+      font-size: 0.92rem;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .user-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: #FFF7ED;
+      border: 1px solid #FED7AA;
+      color: #9A3412;
+      padding: 7px 12px;
+      border-radius: 999px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      max-width: 240px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    /* Buttons */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      font-family: inherit;
+      font-size: 0.92rem;
+      font-weight: 600;
+      border-radius: var(--radius-sm);
+      padding: 10px 16px;
+      cursor: pointer;
+      border: 1px solid transparent;
+      transition: transform var(--transition), background-color var(--transition), border-color var(--transition), box-shadow var(--transition), color var(--transition);
+      white-space: nowrap;
+      user-select: none;
+    }
+
+    .btn:active {
+      transform: scale(0.98);
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: #FFFFFF;
+      box-shadow: 0 4px 12px rgba(255, 106, 0, 0.25);
+    }
+
+    .btn-primary:hover {
+      box-shadow: 0 6px 18px rgba(255, 106, 0, 0.35);
+      filter: brightness(1.03);
+    }
+
+    .btn-secondary {
+      background: #FFF7ED;
+      color: var(--secondary);
+      border-color: #FDBA74;
+    }
+
+    .btn-secondary:hover {
+      background: #FFEDD5;
+    }
+
+    .btn-outline {
+      background: var(--card);
+      color: var(--text);
+      border-color: var(--border-strong);
+    }
+
+    .btn-outline:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+      background: #FFFBF7;
+    }
+
+    .btn-danger-ghost {
+      background: var(--danger-bg);
+      color: var(--danger);
+      border-color: var(--danger-border);
+    }
+
+    .btn-danger-ghost:hover {
+      background: #FEE2E2;
+    }
+
+    .btn-sm {
+      padding: 7px 12px;
+      font-size: 0.84rem;
+    }
+
+    /* Main Grid Layout */
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 22px;
+      align-items: start;
+    }
+
+    @media (min-width: 768px) {
+      .app-shell {
+        padding: 24px 20px 64px;
+      }
+      .brand-text h1 {
+        font-size: 1.65rem;
+      }
+    }
+
+    @media (min-width: 1024px) {
+      .dashboard-grid {
+        grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+        gap: 24px;
+      }
+    }
+
+    .column-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 22px;
+      min-width: 0;
+    }
+
+    /* Card Surface */
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 22px;
+      box-shadow: var(--shadow-sm);
+      transition: box-shadow var(--transition), border-color var(--transition);
+      min-width: 0;
+    }
+
+    .card:hover {
+      box-shadow: var(--shadow-md);
+    }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 18px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid #F1F5F9;
+      flex-wrap: wrap;
+    }
+
+    .card-title-group {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .icon-badge {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      background: var(--primary-soft);
+      color: var(--primary);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .card-title {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.3;
+    }
+
+    .card-subtitle {
+      font-size: 0.84rem;
+      color: var(--text-muted);
+    }
+
+    /* Input Fields */
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 16px;
+    }
+
+    @media (min-width: 640px) {
+      .form-grid.two-col {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    .field-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      min-width: 0;
+    }
+
+    .field-label {
+      font-size: 0.94rem;
+      font-weight: 600;
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .field-hint {
+      font-size: 0.8rem;
+      color: var(--text-soft);
+    }
+
+    .input-wrap {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .currency-prefix {
+      position: absolute;
+      left: 14px;
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--primary);
+      pointer-events: none;
+      user-select: none;
+    }
+
+    .input-control {
+      width: 100%;
+      font-family: inherit;
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--text);
+      background: #FFFFFF;
+      border: 1.5px solid var(--border-strong);
+      border-radius: var(--radius-sm);
+      padding: 11px 14px 11px 34px;
+      transition: border-color var(--transition), box-shadow var(--transition), background-color var(--transition);
+      outline: none;
+      min-width: 0;
+    }
+
+    .input-control.no-prefix {
+      padding-left: 14px;
+      font-weight: 500;
+    }
+
+    .input-control:hover {
+      border-color: #94A3B8;
+    }
+
+    .input-control:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3.5px rgba(255, 107, 53, 0.16);
+    }
+
+    .input-control:disabled {
+      background: #F1F5F9;
+      color: #64748B;
+      cursor: not-allowed;
+      border-color: #E2E8F0;
+    }
+
+    .input-control.invalid {
+      border-color: var(--danger);
+      background: #FFFDFD;
+      box-shadow: 0 0 0 3px rgba(185, 28, 28, 0.12);
+    }
+
+    .error-msg {
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--danger);
+      min-height: 18px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    /* Delivery Type Custom Selection Cards */
+    .delivery-section {
+      margin-top: 8px;
+      padding-top: 16px;
+      border-top: 1px dashed var(--border);
+    }
+
+    .delivery-options {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    @media (min-width: 640px) {
+      .delivery-options {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+    }
+
+    .delivery-card {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      padding: 13px 14px;
+      border-radius: var(--radius-md);
+      border: 1.5px solid var(--border);
+      background: #FFFFFF;
+      cursor: pointer;
+      transition: all var(--transition);
+      user-select: none;
+    }
+
+    .delivery-card:hover {
+      border-color: #FDBA74;
+      background: #FFFBF7;
+    }
+
+    .delivery-card input[type="radio"] {
+      position: absolute;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .delivery-card.active {
+      border-color: var(--primary);
+      background: linear-gradient(145deg, #FFF7ED 0%, #FFFFFF 100%);
+      box-shadow: 0 4px 14px rgba(255, 107, 53, 0.14);
+    }
+
+    .delivery-card-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .delivery-card-title {
+      font-size: 0.92rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .custom-radio-dot {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      border: 2px solid #CBD5E1;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: all var(--transition);
+      flex-shrink: 0;
+    }
+
+    .delivery-card.active .custom-radio-dot {
+      border-color: var(--primary);
+      background: var(--primary);
+    }
+
+    .delivery-card.active .custom-radio-dot::after {
+      content: "";
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #FFFFFF;
+    }
+
+    .delivery-card-desc {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      line-height: 1.4;
+    }
+
+    /* Result Cards */
+    .result-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    @media (max-width: 380px) {
+      .result-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .stat-card {
+      background: #FFFFFF;
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 15px;
+      transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition), background-color var(--transition);
+      min-width: 0;
+    }
+
+    .stat-card.pulse {
+      animation: cardPop 0.28s ease;
+    }
+
+    @keyframes cardPop {
+      0% { transform: scale(0.985); }
+      50% { transform: scale(1.012); }
+      100% { transform: scale(1); }
+    }
+
+    .stat-card.hero-profit {
+      grid-column: 1 / -1;
+      background: linear-gradient(135deg, #FFF7ED 0%, #FFEDD5 100%);
+      border-color: #FDBA74;
+      box-shadow: var(--shadow-lg);
+      padding: 20px;
+    }
+
+    .stat-card.state-profit {
+      border-color: var(--success-border);
+      background: linear-gradient(135deg, #F0FDF4 0%, #DCFCE7 100%);
+    }
+
+    .stat-card.state-loss {
+      border-color: var(--danger-border);
+      background: linear-gradient(135deg, #FEF2F2 0%, #FEE2E2 100%);
+    }
+
+    .stat-card.state-neutral {
+      border-color: var(--neutral-border);
+      background: linear-gradient(135deg, #F8FAFC 0%, #F1F5F9 100%);
+    }
+
+    .stat-label {
+      font-size: 0.86rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 6px;
+    }
+
+    .stat-value {
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-top: 6px;
+      word-break: break-word;
+      line-height: 1.25;
+    }
+
+    .hero-profit .stat-value {
+      font-size: 2rem;
+    }
+
+    @media (min-width: 640px) {
+      .hero-profit .stat-value {
+        font-size: 2.3rem;
+      }
+      .stat-value {
+        font-size: 1.5rem;
+      }
+    }
+
+    .status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 3px 10px;
+      border-radius: 999px;
+      font-size: 0.78rem;
+      font-weight: 700;
+    }
+
+    .pill-profit {
+      background: #DCFCE7;
+      color: var(--success);
+    }
+
+    .pill-loss {
+      background: #FEE2E2;
+      color: var(--danger);
+    }
+
+    .pill-neutral {
+      background: #E2E8F0;
+      color: var(--neutral);
+    }
+
+    /* Breakdown Table */
+    .breakdown-box {
+      margin-top: 16px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      transition: border-color var(--transition), background-color var(--transition);
+    }
+
+    .breakdown-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.93rem;
+    }
+
+    .breakdown-table th {
+      text-align: left;
+      padding: 11px 14px;
+      background: #F8FAFC;
+      color: var(--text-muted);
+      font-weight: 700;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .breakdown-table th:last-child,
+    .breakdown-table td:last-child {
+      text-align: right;
+    }
+
+    .breakdown-table td {
+      padding: 10px 14px;
+      border-bottom: 1px solid #F1F5F9;
+      color: var(--text);
+    }
+
+    .breakdown-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    .breakdown-subtotal td {
+      font-weight: 700;
+      background: #FAFAFA;
+    }
+
+    .breakdown-final {
+      font-weight: 700;
+      font-size: 1rem;
+    }
+
+    .breakdown-final.profit-row {
+      background: var(--success-bg);
+      color: var(--success);
+    }
+
+    .breakdown-final.loss-row {
+      background: var(--danger-bg);
+      color: var(--danger);
+    }
+
+    .breakdown-final.neutral-row {
+      background: var(--neutral-bg);
+      color: var(--neutral);
+    }
+
+    /* Target & Break-Even Highlight Box */
+    .calc-callout {
+      margin-top: 14px;
+      padding: 15px 16px;
+      border-radius: var(--radius-md);
+      background: #FFFBF7;
+      border: 1.5px solid #FED7AA;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .calc-callout-label {
+      font-size: 0.86rem;
+      font-weight: 600;
+      color: var(--text-muted);
+    }
+
+    .calc-callout-value {
+      font-size: 1.55rem;
+      font-weight: 700;
+      color: var(--secondary);
+    }
+
+    .calc-callout-note {
+      font-size: 0.8rem;
+      color: var(--text-soft);
+    }
+
+    /* Action Bar */
+    .action-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 18px;
+      padding-top: 16px;
+      border-top: 1px solid #F1F5F9;
+    }
+
+    .action-bar .btn {
+      flex: 1 1 auto;
+    }
+
+    /* Multiple Product Calculator */
+    .multi-section {
+      margin-top: 24px;
+    }
+
+    .multi-table-wrap {
+      width: 100%;
+      overflow-x: auto;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      background: #FFFFFF;
+    }
+
+    .multi-table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 860px;
+      font-size: 0.88rem;
+    }
+
+    .multi-table th {
+      background: #FFF7ED;
+      color: #9A3412;
+      font-weight: 700;
+      padding: 10px 10px;
+      text-align: left;
+      border-bottom: 1px solid #FED7AA;
+      white-space: nowrap;
+    }
+
+    .multi-table td {
+      padding: 8px 8px;
+      border-bottom: 1px solid #F1F5F9;
+      vertical-align: middle;
+    }
+
+    .multi-input {
+      width: 100%;
+      min-width: 82px;
+      font-family: inherit;
+      font-size: 0.88rem;
+      font-weight: 600;
+      padding: 7px 9px;
+      border: 1.2px solid var(--border-strong);
+      border-radius: 8px;
+      color: var(--text);
+      background: #FFFFFF;
+      outline: none;
+      transition: border-color var(--transition);
+    }
+
+    .multi-input.name-input {
+      min-width: 130px;
+      font-weight: 500;
+    }
+
+    .multi-input:focus {
+      border-color: var(--primary);
+    }
+
+    .multi-input.invalid {
+      border-color: var(--danger);
+      background: #FEF2F2;
+    }
+
+    .row-profit-cell {
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .text-profit {
+      color: var(--success) !important;
+    }
+
+    .text-loss {
+      color: var(--danger) !important;
+    }
+
+    .text-neutral {
+      color: var(--neutral) !important;
+    }
+
+    .multi-summary-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    @media (min-width: 768px) {
+      .multi-summary-grid {
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+      }
+    }
+
+    .multi-stat {
+      background: #F8FAFC;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 12px 14px;
+    }
+
+    .multi-stat-label {
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--text-muted);
+    }
+
+    .multi-stat-val {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-top: 4px;
+      word-break: break-word;
+    }
+
+    /* Footer Disclaimer */
+    .footer-note {
+      margin-top: 24px;
+      padding: 14px 18px;
+      border-radius: var(--radius-md);
+      background: #FFFFFF;
+      border: 1px solid var(--border);
+      font-size: 0.84rem;
+      color: var(--text-muted);
+      text-align: center;
+    }
+
+    /* Custom Toast */
+    .toast-container {
+      position: fixed;
+      bottom: 22px;
+      right: 22px;
+      z-index: 10000;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      max-width: calc(100vw - 32px);
+    }
+
+    .toast-item {
+      background: #171717;
+      color: #FFFFFF;
+      padding: 12px 16px;
+      border-radius: var(--radius-sm);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.22);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      border-left: 4px solid var(--primary);
+      animation: toastIn 0.25s ease;
+    }
+
+    .toast-item.success {
+      border-left-color: #22C55E;
+    }
+
+    .toast-item.error {
+      border-left-color: #EF4444;
+    }
+
+    @keyframes toastIn {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Custom Modal Backdrop & Dialog */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.55);
+      backdrop-filter: blur(3px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 18px;
+      z-index: 10001;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.2s ease, visibility 0.2s ease;
+    }
+
+    .modal-backdrop.open {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .modal-dialog {
+      background: var(--card);
+      border-radius: var(--radius-lg);
+      max-width: 430px;
+      width: 100%;
+      padding: 24px;
+      box-shadow: 0 20px 45px rgba(15, 23, 42, 0.22);
+      border: 1px solid var(--border);
+      transform: scale(0.95);
+      transition: transform 0.2s ease;
+    }
+
+    .modal-backdrop.open .modal-dialog {
+      transform: scale(1);
+    }
+
+    .modal-title {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 8px;
+    }
+
+    .modal-desc {
+      font-size: 0.92rem;
+      color: var(--text-muted);
+      margin-bottom: 20px;
+    }
+
+    .modal-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+    }
+  </style>
+</head>
+<body>
+  <!-- Authentication & Reseller Profile Verification Screen -->
+  <div id="authGate" class="auth-gate" aria-live="polite">
+    <div class="auth-gate-card">
+      <div id="authSpinner" class="auth-spinner"></div>
+      <h2 id="authGateTitle" class="auth-gate-title">অ্যাকাউন্ট যাচাই করা হচ্ছে...</h2>
+      <p id="authGateSub" class="auth-gate-sub">Reseller Ghoti Market প্রফিট ক্যালকুলেটরে প্রবেশের অনুমতি যাচাই করা হচ্ছে।</p>
+    </div>
+  </div>
+
+  <!-- Main Calculator Dashboard -->
+  <div id="appShell" class="app-shell">
+    <!-- Header -->
+    <header class="top-header">
+      <div class="brand-block">
+        <img
+          src="https://reseller.ghotimarket.com/photo/logo.png"
+          alt="Reseller Ghoti Market Logo"
+          class="brand-logo"
+        />
+        <div class="brand-text">
+          <h1>প্রফিট ক্যালকুলেটর</h1>
+          <p>আপনার ব্যবসার লাভ-ক্ষতির হিসাব করুন সহজেই</p>
+        </div>
+      </div>
+
+      <div class="header-actions">
+        <span id="resellerBadge" class="user-badge" title="লগইনকৃত রিসেলার">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+            <circle cx="12" cy="7" r="4"></circle>
+          </svg>
+          <span id="resellerNameText">রিসেলার অ্যাকাউন্ট</span>
+        </span>
+        <button type="button" id="resetBtn" class="btn btn-danger-ghost btn-sm">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path>
+            <path d="M3 3v5h5"></path>
+          </svg>
+          নতুন হিসাব করুন
+        </button>
+      </div>
+    </header>
+
+    <!-- Primary Two-Column Dashboard -->
+    <main class="dashboard-grid">
+      <!-- Left Column: Inputs & Delivery Selection -->
+      <div class="column-stack">
+        <section class="card" aria-labelledby="inputSectionTitle">
+          <div class="card-header">
+            <div class="card-title-group">
+              <span class="icon-badge">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="4" y="2" width="16" height="20" rx="2"></rect>
+                  <line x1="8" y1="6" x2="16" y2="6"></line>
+                  <line x1="16" y1="14" x2="16" y2="18"></line>
+                  <line x1="8" y1="10" x2="8" y2="10.01"></line>
+                  <line x1="12" y1="10" x2="12" y2="10.01"></line>
+                  <line x1="16" y1="10" x2="16" y2="10.01"></line>
+                  <line x1="8" y1="14" x2="8" y2="14.01"></line>
+                  <line x1="12" y1="14" x2="12" y2="14.01"></line>
+                  <line x1="8" y1="18" x2="8" y2="18.01"></line>
+                  <line x1="12" y1="18" x2="12" y2="18.01"></line>
+                </svg>
+              </span>
+              <div>
+                <h2 id="inputSectionTitle" class="card-title">পণ্যের মূল্য ও খরচের তথ্য</h2>
+                <p class="card-subtitle">সব তথ্য লিখলে সঙ্গে সঙ্গে লাভ-ক্ষতির হিসাব আপডেট হবে</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-grid two-col">
+            <!-- A. Product Cost -->
+            <div class="field-group">
+              <label for="productCost" class="field-label">
+                <span>পণ্যের ক্রয়মূল্য</span>
+                <span class="field-hint">উদা: ৳৬৫০</span>
+              </label>
+              <div class="input-wrap">
+                <span class="currency-prefix">৳</span>
+                <input
+                  type="number"
+                  id="productCost"
+                  class="input-control"
+                  step="any"
+                  min="0"
+                  placeholder="৬৫০"
+                  autocomplete="off"
+                />
+              </div>
+              <div id="productCostError" class="error-msg" role="alert"></div>
+            </div>
+
+            <!-- B. Selling Price -->
+            <div class="field-group">
+              <label for="sellingPrice" class="field-label">
+                <span>আপনি কত টাকায় বিক্রি করবেন?</span>
+                <span class="field-hint">উদা: ৳৯৫০</span>
+              </label>
+              <div class="input-wrap">
+                <span class="currency-prefix">৳</span>
+                <input
+                  type="number"
+                  id="sellingPrice"
+                  class="input-control"
+                  step="any"
+                  min="0"
+                  placeholder="৯৫০"
+                  autocomplete="off"
+                />
+              </div>
+              <div id="sellingPriceError" class="error-msg" role="alert"></div>
+            </div>
+
+            <!-- C. Delivery Charge -->
+            <div class="field-group">
+              <label for="deliveryCharge" class="field-label">
+                <span>ডেলিভারি চার্জ</span>
+                <span class="field-hint">মোট ডেলিভারি খরচ (উদা: ৳৮০)</span>
+              </label>
+              <div class="input-wrap">
+                <span class="currency-prefix">৳</span>
+                <input
+                  type="number"
+                  id="deliveryCharge"
+                  class="input-control"
+                  step="any"
+                  min="0"
+                  placeholder="৮০"
+                  autocomplete="off"
+                />
+              </div>
+              <div id="deliveryChargeError" class="error-msg" role="alert"></div>
+            </div>
+
+            <!-- D. Customer Delivery Payment -->
+            <div class="field-group">
+              <label for="customerDeliveryPayment" class="field-label">
+                <span>ক্রেতার কাছ থেকে ডেলিভারি চার্জ নেবেন কত?</span>
+                <span class="field-hint">উদা: ৳৮০</span>
+              </label>
+              <div class="input-wrap">
+                <span class="currency-prefix">৳</span>
+                <input
+                  type="number"
+                  id="customerDeliveryPayment"
+                  class="input-control"
+                  step="any"
+                  min="0"
+                  placeholder="৮০"
+                  autocomplete="off"
+                />
+              </div>
+              <div id="customerDeliveryError" class="error-msg" role="alert"></div>
+            </div>
+          </div>
+
+          <!-- E. Additional Cost -->
+          <div class="field-group" style="margin-top: 6px;">
+            <label for="additionalCost" class="field-label">
+              <span>অতিরিক্ত খরচ (ঐচ্ছিক)</span>
+              <span class="field-hint">বিজ্ঞাপন, প্যাকেজিং বা অন্যান্য খরচ</span>
+            </label>
+            <div class="input-wrap">
+              <span class="currency-prefix">৳</span>
+              <input
+                type="number"
+                id="additionalCost"
+                class="input-control"
+                step="any"
+                min="0"
+                value="0"
+                placeholder="০"
+                autocomplete="off"
+              />
+            </div>
+            <div id="additionalCostError" class="error-msg" role="alert"></div>
+          </div>
+
+          <!-- 5. Delivery Type Selection -->
+          <div class="delivery-section">
+            <span class="field-label">ডেলিভারি চার্জ বহনের ধরন নির্বাচন করুন</span>
+            <div class="delivery-options" role="radiogroup" aria-label="ডেলিভারি চার্জ বহনের ধরন">
+              <label id="optCustomerCard" class="delivery-card active">
+                <input type="radio" name="deliveryType" value="customer" checked />
+                <div class="delivery-card-top">
+                  <span class="delivery-card-title">ক্রেতা ডেলিভারি চার্জ দেবে</span>
+                  <span class="custom-radio-dot"></span>
+                </div>
+                <span class="delivery-card-desc">সম্পূর্ণ ডেলিভারি চার্জ ক্রেতা পরিশোধ করবে।</span>
+              </label>
+
+              <label id="optFreeCard" class="delivery-card">
+                <input type="radio" name="deliveryType" value="free" />
+                <div class="delivery-card-top">
+                  <span class="delivery-card-title">ফ্রি ডেলিভারি</span>
+                  <span class="custom-radio-dot"></span>
+                </div>
+                <span class="delivery-card-desc">ক্রেতা ০ টাকা দেবে; সম্পূর্ণ খরচ আপনি বহন করবেন।</span>
+              </label>
+
+              <label id="optPartialCard" class="delivery-card">
+                <input type="radio" name="deliveryType" value="partial" />
+                <div class="delivery-card-top">
+                  <span class="delivery-card-title">আংশিক ডেলিভারি চার্জ</span>
+                  <span class="custom-radio-dot"></span>
+                </div>
+                <span class="delivery-card-desc">ক্রেতার কাছ থেকে নেওয়ার পরিমাণ নিজে ঠিক করুন।</span>
+              </label>
+            </div>
+          </div>
+        </section>
+
+        <!-- 9. Target Profit Calculator & 10. Break-even Calculator -->
+        <section class="card" aria-labelledby="targetSectionTitle">
+          <div class="card-header">
+            <div class="card-title-group">
+              <span class="icon-badge">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <circle cx="12" cy="12" r="6"></circle>
+                  <circle cx="12" cy="12" r="2"></circle>
+                </svg>
+              </span>
+              <div>
+                <h2 id="targetSectionTitle" class="card-title">কত লাভ করতে চান?</h2>
+                <p class="card-subtitle">কাঙ্ক্ষিত লাভ ও ব্রেক-ইভেন বিক্রয়মূল্য নির্ণয় করুন</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="field-group">
+            <label for="targetProfit" class="field-label">
+              <span>আপনার কাঙ্ক্ষিত লাভ লিখুন</span>
+              <span class="field-hint">উদা: ৳৩০০</span>
+            </label>
+            <div class="input-wrap">
+              <span class="currency-prefix">৳</span>
+              <input
+                type="number"
+                id="targetProfit"
+                class="input-control"
+                step="any"
+                min="0"
+                placeholder="৩০০"
+                autocomplete="off"
+              />
+            </div>
+            <div id="targetProfitError" class="error-msg" role="alert"></div>
+          </div>
+
+          <div class="calc-callout">
+            <span class="calc-callout-label">আপনাকে যে দামে বিক্রি করতে হবে</span>
+            <span id="requiredSellingPriceVal" class="calc-callout-value">৳০</span>
+            <span class="calc-callout-note">নির্বাচিত ডেলিভারি চার্জ ও খরচের ভিত্তিতে কাঙ্ক্ষিত লাভের সম্ভাব্য বিক্রয়মূল্য</span>
+          </div>
+
+          <!-- 10. Break-even Calculator -->
+          <div style="margin-top: 18px; padding-top: 16px; border-top: 1px dashed var(--border);">
+            <h3 class="card-title" style="font-size: 1.04rem; margin-bottom: 8px;">লোকসান ছাড়া সর্বনিম্ন কত টাকায় বিক্রি করবেন?</h3>
+            <div class="calc-callout" style="margin-top: 6px; background: #F8FAFC; border-color: #CBD5E1;">
+              <span class="calc-callout-label">ব্রেক-ইভেন (লাভ বা লোকসান শূন্য) বিক্রয়মূল্য</span>
+              <span id="breakEvenPriceVal" class="calc-callout-value" style="color: var(--text);">৳০</span>
+              <span class="calc-callout-note">এই দামে বিক্রি করলে আপনার লাভ বা লোকসান কোনোটিই হবে না</span>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <!-- Right Column: Result Cards & Profit Breakdown -->
+      <div class="column-stack">
+        <section class="card" aria-labelledby="resultSectionTitle">
+          <div class="card-header">
+            <div class="card-title-group">
+              <span class="icon-badge">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="12" y1="1" x2="12" y2="23"></line>
+                  <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+                </svg>
+              </span>
+              <div>
+                <h2 id="resultSectionTitle" class="card-title">লাভ-ক্ষতির সারসংক্ষেপ</h2>
+                <p class="card-subtitle">তাৎক্ষণিক হিসাবের ফলাফল</p>
+              </div>
+            </div>
+            <span id="profitStatusPill" class="status-pill pill-neutral">শূন্য / সমান</span>
+          </div>
+
+          <!-- 7. Profit Result Cards (5 Cards) -->
+          <div class="result-grid">
+            <!-- Card 1: Net Profit -->
+            <div id="netProfitCard" class="stat-card hero-profit state-neutral">
+              <div class="stat-label">
+                <span>আপনার মোট নেট লাভ</span>
+                <span id="netProfitTag">নেট ফলাফল</span>
+              </div>
+              <div id="netProfitVal" class="stat-value">৳০</div>
+            </div>
+
+            <!-- Card 2: Total Revenue -->
+            <div id="totalRevenueCard" class="stat-card">
+              <div class="stat-label">
+                <span>মোট আয়</span>
+              </div>
+              <div id="totalRevenueVal" class="stat-value">৳০</div>
+            </div>
+
+            <!-- Card 3: Total Cost -->
+            <div id="totalCostCard" class="stat-card">
+              <div class="stat-label">
+                <span>মোট খরচ</span>
+              </div>
+              <div id="totalCostVal" class="stat-value">৳০</div>
+            </div>
+
+            <!-- Card 4: Profit Margin -->
+            <div id="profitMarginCard" class="stat-card">
+              <div class="stat-label">
+                <span>প্রফিট মার্জিন</span>
+              </div>
+              <div id="profitMarginVal" class="stat-value">০%</div>
+            </div>
+
+            <!-- Card 5: Return on Product Cost -->
+            <div id="returnPercentCard" class="stat-card">
+              <div class="stat-label">
+                <span>ক্রয়মূল্যের উপর লাভ</span>
+              </div>
+              <div id="returnPercentVal" class="stat-value">০%</div>
+            </div>
+          </div>
+
+          <!-- 8. Profit Breakdown -->
+          <div id="breakdownBox" class="breakdown-box" style="margin-top: 18px;">
+            <table class="breakdown-table">
+              <thead>
+                <tr>
+                  <th>বিবরণ</th>
+                  <th>টাকা</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>পণ্যের বিক্রয়মূল্য</td>
+                  <td id="bdSellingPrice">৳০</td>
+                </tr>
+                <tr>
+                  <td>ক্রেতার ডেলিভারি চার্জ</td>
+                  <td id="bdCustomerDelivery">৳০</td>
+                </tr>
+                <tr class="breakdown-subtotal">
+                  <td>মোট আয়</td>
+                  <td id="bdTotalRevenue">৳০</td>
+                </tr>
+                <tr>
+                  <td>পণ্যের ক্রয়মূল্য</td>
+                  <td id="bdProductCost">-৳০</td>
+                </tr>
+                <tr>
+                  <td>ডেলিভারি খরচ</td>
+                  <td id="bdDeliveryCost">-৳০</td>
+                </tr>
+                <tr>
+                  <td>অতিরিক্ত খরচ</td>
+                  <td id="bdAdditionalCost">-৳০</td>
+                </tr>
+                <tr id="bdNetRow" class="breakdown-final neutral-row">
+                  <td id="bdNetLabel">নেট লাভ</td>
+                  <td id="bdNetProfit">৳০</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- 12. Copy Result & Share -->
+          <div class="action-bar">
+            <button type="button" id="copyResultBtn" class="btn btn-secondary">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+              </svg>
+              হিসাব কপি করুন
+            </button>
+
+            <button type="button" id="shareResultBtn" class="btn btn-primary">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="18" cy="5" r="3"></circle>
+                <circle cx="6" cy="12" r="3"></circle>
+                <circle cx="18" cy="19" r="3"></circle>
+                <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
+                <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
+              </svg>
+              হিসাব শেয়ার করুন
+            </button>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <!-- 11. Multiple Product Calculator -->
+    <section class="card multi-section" aria-labelledby="multiSectionTitle">
+      <div class="card-header">
+        <div class="card-title-group">
+          <span class="icon-badge">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+              <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+              <line x1="12" y1="22.08" x2="12" y2="12"></line>
+            </svg>
+          </span>
+          <div>
+            <h2 id="multiSectionTitle" class="card-title">একাধিক পণ্যের মোট লাভ হিসাব করুন</h2>
+            <p class="card-subtitle">প্রতিটি পণ্যের পরিমাণ (Quantity) ও খরচ অনুযায়ী আলাদা এবং সম্মিলিত হিসাব দেখুন</p>
+          </div>
+        </div>
+
+        <button type="button" id="addProductRowBtn" class="btn btn-primary btn-sm">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="12" y1="5" x2="12" y2="19"></line>
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+          </svg>
+          নতুন পণ্য যোগ করুন
+        </button>
+      </div>
+
+      <div class="multi-table-wrap">
+        <table class="multi-table">
+          <thead>
+            <tr>
+              <th>পণ্যের নাম (ঐচ্ছিক)</th>
+              <th>ক্রয়মূল্য</th>
+              <th>বিক্রয়মূল্য</th>
+              <th>ডেলিভারি খরচ</th>
+              <th>ক্রেতার ডেলিভারি চার্জ</th>
+              <th>অতিরিক্ত খরচ</th>
+              <th>Quantity</th>
+              <th>সারি লাভ/ক্ষতি</th>
+              <th>অ্যাকশন</th>
+            </tr>
+          </thead>
+          <tbody id="multiProductBody"></tbody>
+        </table>
+      </div>
+
+      <div id="multiErrorNote" class="error-msg" style="margin-top: 8px;" role="alert"></div>
+
+      <!-- Multi Product Summary -->
+      <div class="multi-summary-grid">
+        <div class="multi-stat">
+          <div class="multi-stat-label">মোট Quantity</div>
+          <div id="multiTotalQty" class="multi-stat-val">০</div>
+        </div>
+        <div class="multi-stat">
+          <div class="multi-stat-label">মোট বিক্রয়</div>
+          <div id="multiTotalRevenue" class="multi-stat-val">৳০</div>
+        </div>
+        <div class="multi-stat">
+          <div class="multi-stat-label">মোট খরচ</div>
+          <div id="multiTotalCost" class="multi-stat-val">৳০</div>
+        </div>
+        <div class="multi-stat">
+          <div class="multi-stat-label">মোট নেট লাভ</div>
+          <div id="multiTotalProfit" class="multi-stat-val">৳০</div>
+        </div>
+        <div class="multi-stat">
+          <div class="multi-stat-label">গড় লাভ</div>
+          <div id="multiAvgProfit" class="multi-stat-val">৳০</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer Disclaimer -->
+    <footer class="footer-note">
+      এই ক্যালকুলেটরটি একটি সম্ভাব্য লাভ-ক্ষতির হিসাব প্রদর্শন করে; এটি নিশ্চিত আয়ের প্রতিশ্রুতি নয়। Reseller Ghoti Market (https://reseller.ghotimarket.com)
+    </footer>
+  </div>
+
+  <!-- Custom Confirmation Modal -->
+  <div id="confirmModal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="confirmModalTitle">
+    <div class="modal-dialog">
+      <h3 id="confirmModalTitle" class="modal-title">নতুন হিসাব শুরু করবেন?</h3>
+      <p id="confirmModalDesc" class="modal-desc">
+        বর্তমান সব ইনপুট, ডেলিভারি নির্বাচন, কাঙ্ক্ষিত লাভ এবং একাধিক পণ্যের হিসাব মুছে গিয়ে ডিফল্ট অবস্থায় ফিরে যাবে।
+      </p>
+      <div class="modal-actions">
+        <button type="button" id="cancelModalBtn" class="btn btn-outline btn-sm">বাতিল করুন</button>
+        <button type="button" id="confirmResetBtn" class="btn btn-primary btn-sm">হ্যাঁ, রিসেট করুন</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Custom Toast Container -->
+  <div id="toastContainer" class="toast-container" aria-live="polite"></div>
+
+  <!-- Firebase Authentication & Firestore Reseller Verification (Modular SDK) -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
+    import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
+
+    const firebaseConfig = {
+  apiKey: "AIzaSyDCIRWmozT0XcEXuXtQ6RDiDo6vtT1T9mU",
+  authDomain: "paikarisell-ghotimarket.firebaseapp.com",
+  projectId: "paikarisell-ghotimarket",
+  storageBucket: "paikarisell-ghotimarket.firebasestorage.app",
+  messagingSenderId: "464086432830",
+  appId: "1:464086432830:web:a10fdd9884954e380e656f",
+  measurementId: "G-E3HR2F9TC5"
+};
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    const authGate = document.getElementById("authGate");
+    const authSpinner = document.getElementById("authSpinner");
+    const authGateTitle = document.getElementById("authGateTitle");
+    const authGateSub = document.getElementById("authGateSub");
+    const appShell = document.getElementById("appShell");
+    const resellerNameText = document.getElementById("resellerNameText");
+
+    function redirectTo(path) {
+      window.location.replace(path);
+    }
+
+    onAuthStateChanged(auth, async (user) => {
+      if (!user) {
+        authSpinner.style.display = "none";
+        authGateTitle.textContent = "লগইন প্রয়োজন";
+        authGateSub.textContent = "আপনাকে লগইন পেজে নিয়ে যাওয়া হচ্ছে...";
+        redirectTo("/login");
+        return;
+      }
+
+      try {
+        const resellerRef = doc(db, "reseller", user.uid);
+        const resellerSnap = await getDoc(resellerRef);
+
+        if (!resellerSnap.exists()) {
+          authSpinner.style.display = "none";
+          authGateTitle.textContent = "রিসেলার প্রোফাইল পাওয়া যায়নি";
+          authGateSub.textContent = "সাইনআপ পেজে নিয়ে যাওয়া হচ্ছে...";
+          redirectTo("/signup1");
+          return;
+        }
+
+        const profileData = resellerSnap.data() || {};
+        const displayName =
+          profileData.name ||
+          profileData.fullName ||
+          profileData.shopName ||
+          user.displayName ||
+          user.email ||
+          "রিসেলার অ্যাকাউন্ট";
+
+        resellerNameText.textContent = displayName;
+        authGate.classList.add("hidden");
+        appShell.classList.add("ready");
+      } catch (error) {
+        console.error("Authentication verification error:", error);
+        authSpinner.style.display = "none";
+        authGateTitle.textContent = "যাচাইকরণে সমস্যা হয়েছে";
+        authGateSub.textContent = "অনুগ্রহ করে পেজটি পুনরায় রিলোড করুন বা আবার লগইন করুন।";
+      }
+    });
+  </script>
+
+  <!-- Core Profit Calculator Logic (Pure Vanilla JS) -->
+  <script>
+    (function () {
+      "use strict";
+
+      // DOM Elements - Main Inputs
+      const productCostInput = document.getElementById("productCost");
+      const sellingPriceInput = document.getElementById("sellingPrice");
+      const deliveryChargeInput = document.getElementById("deliveryCharge");
+      const customerDeliveryInput = document.getElementById("customerDeliveryPayment");
+      const additionalCostInput = document.getElementById("additionalCost");
+      const targetProfitInput = document.getElementById("targetProfit");
+
+      // Error Elements
+      const productCostError = document.getElementById("productCostError");
+      const sellingPriceError = document.getElementById("sellingPriceError");
+      const deliveryChargeError = document.getElementById("deliveryChargeError");
+      const customerDeliveryError = document.getElementById("customerDeliveryError");
+      const additionalCostError = document.getElementById("additionalCostError");
+      const targetProfitError = document.getElementById("targetProfitError");
+      const multiErrorNote = document.getElementById("multiErrorNote");
+
+      // Delivery Type Radios & Cards
+      const deliveryRadios = Array.from(document.querySelectorAll('input[name="deliveryType"]'));
+      const optCustomerCard = document.getElementById("optCustomerCard");
+      const optFreeCard = document.getElementById("optFreeCard");
+      const optPartialCard = document.getElementById("optPartialCard");
+
+      // Result Cards & Status
+      const profitStatusPill = document.getElementById("profitStatusPill");
+      const netProfitCard = document.getElementById("netProfitCard");
+      const netProfitTag = document.getElementById("netProfitTag");
+      const netProfitVal = document.getElementById("netProfitVal");
+      const totalRevenueVal = document.getElementById("totalRevenueVal");
+      const totalCostVal = document.getElementById("totalCostVal");
+      const profitMarginVal = document.getElementById("profitMarginVal");
+      const returnPercentVal = document.getElementById("returnPercentVal");
+
+      // Breakdown Table Elements
+      const bdSellingPrice = document.getElementById("bdSellingPrice");
+      const bdCustomerDelivery = document.getElementById("bdCustomerDelivery");
+      const bdTotalRevenue = document.getElementById("bdTotalRevenue");
+      const bdProductCost = document.getElementById("bdProductCost");
+      const bdDeliveryCost = document.getElementById("bdDeliveryCost");
+      const bdAdditionalCost = document.getElementById("bdAdditionalCost");
+      const bdNetRow = document.getElementById("bdNetRow");
+      const bdNetLabel = document.getElementById("bdNetLabel");
+      const bdNetProfit = document.getElementById("bdNetProfit");
+
+      // Target & Break-Even Elements
+      const requiredSellingPriceVal = document.getElementById("requiredSellingPriceVal");
+      const breakEvenPriceVal = document.getElementById("breakEvenPriceVal");
+
+      // Action Buttons
+      const copyResultBtn = document.getElementById("copyResultBtn");
+      const shareResultBtn = document.getElementById("shareResultBtn");
+      const resetBtn = document.getElementById("resetBtn");
+
+      // Custom Modal & Toast
+      const confirmModal = document.getElementById("confirmModal");
+      const cancelModalBtn = document.getElementById("cancelModalBtn");
+      const confirmResetBtn = document.getElementById("confirmResetBtn");
+      const toastContainer = document.getElementById("toastContainer");
+
+      // Multiple Product Elements
+      const addProductRowBtn = document.getElementById("addProductRowBtn");
+      const multiProductBody = document.getElementById("multiProductBody");
+      const multiTotalQty = document.getElementById("multiTotalQty");
+      const multiTotalRevenue = document.getElementById("multiTotalRevenue");
+      const multiTotalCost = document.getElementById("multiTotalCost");
+      const multiTotalProfit = document.getElementById("multiTotalProfit");
+      const multiAvgProfit = document.getElementById("multiAvgProfit");
+
+      // Number Formatter (bn-BD)
+      const bnNumberFormatter = new Intl.NumberFormat("bn-BD", {
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 2
+      });
+
+      const bnIntFormatter = new Intl.NumberFormat("bn-BD", {
+        maximumFractionDigits: 0
+      });
+
+      function cleanNumber(num) {
+        if (!Number.isFinite(num)) return 0;
+        const rounded = Math.round(num * 100) / 100;
+        return Object.is(rounded, -0) ? 0 : rounded;
+      }
+
+      function formatTk(amount, withSign = false) {
+        const val = cleanNumber(amount);
+        const absFormatted = bnNumberFormatter.format(Math.abs(val));
+        if (withSign && val > 0) return "+৳" + absFormatted;
+        if (val < 0) return "-৳" + absFormatted;
+        return "৳" + absFormatted;
+      }
+
+      function formatPercent(pct) {
+        const val = cleanNumber(pct);
+        return bnNumberFormatter.format(val) + "%";
+      }
+
+      function getSelectedDeliveryType() {
+        const checked = deliveryRadios.find((r) => r.checked);
+        return checked ? checked.value : "customer";
+      }
+
+      function syncDeliveryCardsUI() {
+        const type = getSelectedDeliveryType();
+        optCustomerCard.classList.toggle("active", type === "customer");
+        optFreeCard.classList.toggle("active", type === "free");
+        optPartialCard.classList.toggle("active", type === "partial");
+
+        if (type === "partial") {
+          customerDeliveryInput.disabled = false;
+        } else {
+          customerDeliveryInput.disabled = true;
+        }
+      }
+
+      // Safe numeric parser that distinguishes empty string from 0
+      function parseField(inputEl, errorEl, options = {}) {
+        const { allowEmpty = true, defaultIfEmpty = 0, label = "মান" } = options;
+        const raw = inputEl.value.trim();
+
+        errorEl.textContent = "";
+        inputEl.classList.remove("invalid");
+
+        if (raw === "") {
+          if (!allowEmpty) {
+            errorEl.textContent = `${label} লিখুন।`;
+            inputEl.classList.add("invalid");
+            return { valid: false, value: 0, isEmpty: true };
+          }
+          return { valid: true, value: defaultIfEmpty, isEmpty: true };
+        }
+
+        const num = Number(raw);
+        if (!Number.isFinite(num)) {
+          errorEl.textContent = `সঠিক সংখ্যা লিখুন।`;
+          inputEl.classList.add("invalid");
+          return { valid: false, value: 0, isEmpty: false };
+        }
+
+        if (num < 0) {
+          errorEl.textContent = `ঋণাত্মক সংখ্যা গ্রহণযোগ্য নয়।`;
+          inputEl.classList.add("invalid");
+          return { valid: false, value: 0, isEmpty: false };
+        }
+
+        return { valid: true, value: num, isEmpty: false };
+      }
+
+      function triggerCardPulse() {
+        [netProfitCard, totalRevenueVal.parentElement, totalCostVal.parentElement, profitMarginVal.parentElement, returnPercentVal.parentElement].forEach((el) => {
+          if (!el) return;
+          el.classList.remove("pulse");
+          void el.offsetWidth;
+          el.classList.add("pulse");
+        });
+      }
+
+      let latestReportText = "";
+
+      function calculateMain() {
+        const deliveryType = getSelectedDeliveryType();
+
+        const pCostRes = parseField(productCostInput, productCostError, { allowEmpty: true, defaultIfEmpty: 0, label: "পণ্যের ক্রয়মূল্য" });
+        const sPriceRes = parseField(sellingPriceInput, sellingPriceError, { allowEmpty: true, defaultIfEmpty: 0, label: "বিক্রয়মূল্য" });
+        const dChargeRes = parseField(deliveryChargeInput, deliveryChargeError, { allowEmpty: true, defaultIfEmpty: 0, label: "ডেলিভারি চার্জ" });
+        const addCostRes = parseField(additionalCostInput, additionalCostError, { allowEmpty: true, defaultIfEmpty: 0, label: "অতিরিক্ত খরচ" });
+        const tProfitRes = parseField(targetProfitInput, targetProfitError, { allowEmpty: true, defaultIfEmpty: 0, label: "কাঙ্ক্ষিত লাভ" });
+
+        let rawDeliveryCost = dChargeRes.valid ? dChargeRes.value : 0;
+
+        // Enforce delivery type rules on customer delivery input
+        if (deliveryType === "customer") {
+          customerDeliveryInput.value = rawDeliveryCost === 0 ? "" : String(rawDeliveryCost);
+        } else if (deliveryType === "free") {
+          customerDeliveryInput.value = "0";
+        }
+
+        let cDeliveryRes = parseField(customerDeliveryInput, customerDeliveryError, {
+          allowEmpty: true,
+          defaultIfEmpty: 0,
+          label: "ক্রেতার ডেলিভারি চার্জ"
+        });
+
+        let customerDeliveryPayment = cDeliveryRes.valid ? cDeliveryRes.value : 0;
+
+        // Validation rules for Customer Delivery Payment
+        if (rawDeliveryCost === 0 && customerDeliveryPayment > 0) {
+          customerDeliveryPayment = 0;
+          customerDeliveryInput.value = "0";
+          customerDeliveryError.textContent = "ডেলিভারি চার্জ শূন্য হলে ক্রেতার ডেলিভারি চার্জও ০ হবে।";
+        } else if (customerDeliveryPayment > rawDeliveryCost) {
+          customerDeliveryError.textContent = "ক্রেতার ডেলিভারি চার্জ মোট ডেলিভারি চার্জের চেয়ে বেশি হতে পারবে না।";
+          customerDeliveryInput.classList.add("invalid");
+          cDeliveryRes.valid = false;
+          customerDeliveryPayment = rawDeliveryCost;
+        }
+
+        const hasAnyInputError =
+          !pCostRes.valid ||
+          !sPriceRes.valid ||
+          !dChargeRes.valid ||
+          !cDeliveryRes.valid ||
+          !addCostRes.valid;
+
+        const productCost = pCostRes.valid ? pCostRes.value : 0;
+        const sellingPrice = sPriceRes.valid ? sPriceRes.value : 0;
+        const deliveryCost = rawDeliveryCost;
+        const additionalCost = addCostRes.valid ? addCostRes.value : 0;
+
+        // Core Formulas (Delivery cost counted once, customer delivery payment is reimbursement)
+        const totalRevenue = sellingPrice + customerDeliveryPayment;
+        const totalCost = productCost + deliveryCost + additionalCost;
+        const netProfit = totalRevenue - totalCost;
+
+        const profitMargin = totalRevenue > 0 ? (netProfit / totalRevenue) * 100 : 0;
+        const returnPercentage = productCost > 0 ? (netProfit / productCost) * 100 : 0;
+
+        // Target Profit & Break-even Formulas
+        const targetProfit = tProfitRes.valid ? tProfitRes.value : 0;
+        const requiredSellingPrice = productCost + deliveryCost + additionalCost - customerDeliveryPayment + targetProfit;
+        const breakEvenPrice = productCost + deliveryCost + additionalCost - customerDeliveryPayment;
+
+        // Visual State Styling (Profit / Loss / Neutral)
+        netProfitCard.classList.remove("state-profit", "state-loss", "state-neutral");
+        profitStatusPill.classList.remove("pill-profit", "pill-loss", "pill-neutral");
+        bdNetRow.classList.remove("profit-row", "loss-row", "neutral-row");
+        netProfitVal.classList.remove("text-profit", "text-loss", "text-neutral");
+
+        if (netProfit > 0) {
+          netProfitCard.classList.add("state-profit");
+          profitStatusPill.classList.add("pill-profit");
+          profitStatusPill.textContent = "লাভজনক";
+          netProfitTag.textContent = "সম্ভাব্য লাভ";
+          netProfitVal.classList.add("text-profit");
+          bdNetRow.classList.add("profit-row");
+          bdNetLabel.textContent = "নেট লাভ";
+        } else if (netProfit < 0) {
+          netProfitCard.classList.add("state-loss");
+          profitStatusPill.classList.add("pill-loss");
+          profitStatusPill.textContent = "লোকসান";
+          netProfitTag.textContent = "সম্ভাব্য লোকসান";
+          netProfitVal.classList.add("text-loss");
+          bdNetRow.classList.add("loss-row");
+          bdNetLabel.textContent = "নেট লোকসান";
+        } else {
+          netProfitCard.classList.add("state-neutral");
+          profitStatusPill.classList.add("pill-neutral");
+          profitStatusPill.textContent = "শূন্য / সমান";
+          netProfitTag.textContent = "লাভ বা লোকসান শূন্য";
+          netProfitVal.classList.add("text-neutral");
+          bdNetRow.classList.add("neutral-row");
+          bdNetLabel.textContent = "নেট লাভ";
+        }
+
+        // Update Result Cards
+        netProfitVal.textContent = formatTk(netProfit);
+        totalRevenueVal.textContent = formatTk(totalRevenue);
+        totalCostVal.textContent = formatTk(totalCost);
+        profitMarginVal.textContent = formatPercent(profitMargin);
+        returnPercentVal.textContent = formatPercent(returnPercentage);
+
+        // Update Breakdown Table
+        bdSellingPrice.textContent = formatTk(sellingPrice);
+        bdCustomerDelivery.textContent = formatTk(customerDeliveryPayment);
+        bdTotalRevenue.textContent = formatTk(totalRevenue);
+        bdProductCost.textContent = "-" + formatTk(productCost);
+        bdDeliveryCost.textContent = "-" + formatTk(deliveryCost);
+        bdAdditionalCost.textContent = "-" + formatTk(additionalCost);
+        bdNetProfit.textContent = formatTk(netProfit);
+
+        // Update Target Profit & Break-even
+        if (!tProfitRes.valid) {
+          requiredSellingPriceVal.textContent = "—";
+        } else {
+          requiredSellingPriceVal.textContent = formatTk(Math.max(0, requiredSellingPrice));
+        }
+
+        breakEvenPriceVal.textContent = formatTk(Math.max(0, breakEvenPrice));
+
+        if (hasAnyInputError) {
+          profitStatusPill.textContent = "ইনপুট যাচাই করুন";
+        }
+
+        triggerCardPulse();
+
+        // Build Share / Copy Report Text
+        const netLineLabel = netProfit < 0 ? "নেট লোকসান" : "নেট লাভ";
+        latestReportText = [
+          "GHOTI MARKET — PROFIT REPORT",
+          `পণ্যের ক্রয়মূল্য: ${formatTk(productCost)}`,
+          `বিক্রয়মূল্য: ${formatTk(sellingPrice)}`,
+          `ডেলিভারি খরচ: ${formatTk(deliveryCost)}`,
+          `ক্রেতার ডেলিভারি প্রদান: ${formatTk(customerDeliveryPayment)}`,
+          `অতিরিক্ত খরচ: ${formatTk(additionalCost)}`,
+          `মোট আয়: ${formatTk(totalRevenue)}`,
+          `মোট খরচ: ${formatTk(totalCost)}`,
+          `${netLineLabel}: ${formatTk(netProfit)}`,
+          `প্রফিট মার্জিন: ${formatPercent(profitMargin)}`
+        ].join("\n");
+      }
+
+      // Event Listeners for Main Inputs
+      [productCostInput, sellingPriceInput, additionalCostInput, targetProfitInput].forEach((input) => {
+        input.addEventListener("input", calculateMain);
+      });
+
+      deliveryChargeInput.addEventListener("input", () => {
+        const type = getSelectedDeliveryType();
+        const raw = deliveryChargeInput.value.trim();
+        const num = Number(raw);
+        if (type === "customer" && raw !== "" && Number.isFinite(num) && num >= 0) {
+          customerDeliveryInput.value = String(num);
+        } else if (raw === "" || (Number.isFinite(num) && num === 0)) {
+          customerDeliveryInput.value = "0";
+        }
+        calculateMain();
+      });
+
+      customerDeliveryInput.addEventListener("input", () => {
+        const type = getSelectedDeliveryType();
+        if (type !== "partial") {
+          const optPartial = deliveryRadios.find((r) => r.value === "partial");
+          if (optPartial) optPartial.checked = true;
+          syncDeliveryCardsUI();
+        }
+        calculateMain();
+      });
+
+      deliveryRadios.forEach((radio) => {
+        radio.addEventListener("change", () => {
+          const type = getSelectedDeliveryType();
+          const dVal = Number(deliveryChargeInput.value);
+          const safeDelivery = Number.isFinite(dVal) && dVal >= 0 ? dVal : 0;
+
+          if (type === "customer") {
+            customerDeliveryInput.value = deliveryChargeInput.value.trim() === "" ? "" : String(safeDelivery);
+          } else if (type === "free") {
+            customerDeliveryInput.value = "0";
+          } else if (type === "partial") {
+            customerDeliveryInput.focus();
+          }
+
+          syncDeliveryCardsUI();
+          calculateMain();
+        });
+      });
+
+      // Toast Notification Helper
+      function showToast(message, type = "success") {
+        const toast = document.createElement("div");
+        toast.className = `toast-item ${type}`;
+
+        const iconSvg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+        iconSvg.setAttribute("width", "18");
+        iconSvg.setAttribute("height", "18");
+        iconSvg.setAttribute("viewBox", "0 0 24 24");
+        iconSvg.setAttribute("fill", "none");
+        iconSvg.setAttribute("stroke", "currentColor");
+        iconSvg.setAttribute("stroke-width", "2.4");
+        iconSvg.setAttribute("stroke-linecap", "round");
+        iconSvg.setAttribute("stroke-linejoin", "round");
+
+        const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+        if (type === "error") {
+          path.setAttribute("d", "M12 9v4m0 4h.01M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z");
+        } else {
+          path.setAttribute("d", "M20 6L9 17l-5-5");
+        }
+        iconSvg.appendChild(path);
+
+        const textSpan = document.createElement("span");
+        textSpan.textContent = message;
+
+        toast.appendChild(iconSvg);
+        toast.appendChild(textSpan);
+        toastContainer.appendChild(toast);
+
+        setTimeout(() => {
+          toast.style.opacity = "0";
+          toast.style.transform = "translateY(8px)";
+          toast.style.transition = "all 0.22s ease";
+          setTimeout(() => toast.remove(), 240);
+        }, 3000);
+      }
+
+      async function copyTextToClipboard(text) {
+        if (navigator.clipboard && window.isSecureContext) {
+          await navigator.clipboard.writeText(text);
+          return true;
+        }
+        const textarea = document.createElement("textarea");
+        textarea.value = text;
+        textarea.style.position = "fixed";
+        textarea.style.left = "-9999px";
+        document.body.appendChild(textarea);
+        textarea.select();
+        const ok = document.execCommand("copy");
+        document.body.removeChild(textarea);
+        return ok;
+      }
+
+      copyResultBtn.addEventListener("click", async () => {
+        try {
+          await copyTextToClipboard(latestReportText);
+          showToast("সম্পূর্ণ হিসাব ক্লিপবোর্ডে কপি করা হয়েছে।", "success");
+        } catch (err) {
+          showToast("কপি করতে সমস্যা হয়েছে। অনুগ্রহ করে আবার চেষ্টা করুন।", "error");
+        }
+      });
+
+      shareResultBtn.addEventListener("click", async () => {
+        if (navigator.share) {
+          try {
+            await navigator.share({
+              title: "Reseller Ghoti Market — প্রফিট রিপোর্ট",
+              text: latestReportText
+            });
+            showToast("হিসাব শেয়ার করা হয়েছে।", "success");
+            return;
+          } catch (err) {
+            if (err && err.name === "AbortError") {
+              return;
+            }
+          }
+        }
+        try {
+          await copyTextToClipboard(latestReportText);
+          showToast("শেয়ার সুবিধা না থাকায় হিসাব ক্লিপবোর্ডে কপি করা হয়েছে।", "success");
+        } catch (err) {
+          showToast("শেয়ার বা কপি করা যায়নি।", "error");
+        }
+      });
+
+      // Custom Reset Confirmation Modal
+      function openResetModal() {
+        confirmModal.classList.add("open");
+      }
+
+      function closeResetModal() {
+        confirmModal.classList.remove("open");
+      }
+
+      resetBtn.addEventListener("click", openResetModal);
+      cancelModalBtn.addEventListener("click", closeResetModal);
+
+      confirmModal.addEventListener("click", (e) => {
+        if (e.target === confirmModal) {
+          closeResetModal();
+        }
+      });
+
+      confirmResetBtn.addEventListener("click", () => {
+        productCostInput.value = "";
+        sellingPriceInput.value = "";
+        deliveryChargeInput.value = "";
+        customerDeliveryInput.value = "";
+        additionalCostInput.value = "0";
+        targetProfitInput.value = "";
+
+        const customerRadio = deliveryRadios.find((r) => r.value === "customer");
+        if (customerRadio) customerRadio.checked = true;
+        syncDeliveryCardsUI();
+
+        resetMultiProducts();
+        calculateMain();
+        closeResetModal();
+        showToast("ক্যালকুলেটর নতুন হিসাবের জন্য রিসেট করা হয়েছে।", "success");
+      });
+
+      // 11. Multiple Product Calculator Logic
+      let rowCounter = 0;
+
+      function createProductRow(initial = {}) {
+        rowCounter += 1;
+        const rowId = `prodRow_${rowCounter}`;
+        const tr = document.createElement("tr");
+        tr.id = rowId;
+        tr.dataset.rowId = rowId;
+
+        tr.innerHTML = `
+          <td>
+            <input type="text" class="multi-input name-input mp-name" placeholder="পণ্যের নাম (ঐচ্ছিক)" value="${initial.name || ""}" />
+          </td>
+          <td>
+            <input type="number" class="multi-input mp-cost" step="any" min="0" placeholder="০" value="${initial.cost ?? ""}" />
+          </td>
+          <td>
+            <input type="number" class="multi-input mp-price" step="any" min="0" placeholder="০" value="${initial.price ?? ""}" />
+          </td>
+          <td>
+            <input type="number" class="multi-input mp-delivery" step="any" min="0" placeholder="০" value="${initial.delivery ?? ""}" />
+          </td>
+          <td>
+            <input type="number" class="multi-input mp-cust-delivery" step="any" min="0" placeholder="০" value="${initial.custDelivery ?? ""}" />
+          </td>
+          <td>
+            <input type="number" class="multi-input mp-extra" step="any" min="0" placeholder="০" value="${initial.extra ?? "0"}" />
+          </td>
+          <td>
+            <input type="number" class="multi-input mp-qty" step="1" min="0" placeholder="১" value="${initial.qty ?? "1"}" />
+          </td>
+          <td class="row-profit-cell mp-row-result text-neutral">৳০</td>
+          <td>
+            <button type="button" class="btn btn-danger-ghost btn-sm mp-remove-btn" title="সারি মুছুন">মুছুন</button>
+          </td>
+        `;
+
+        const inputs = tr.querySelectorAll("input");
+        inputs.forEach((inp) => {
+          inp.addEventListener("input", calculateMultiProducts);
+        });
+
+        const removeBtn = tr.querySelector(".mp-remove-btn");
+        removeBtn.addEventListener("click", () => {
+          if (multiProductBody.children.length <= 1) {
+            showToast("অন্তত একটি পণ্যের সারি থাকতে হবে।", "error");
+            return;
+          }
+          tr.remove();
+          calculateMultiProducts();
+        });
+
+        multiProductBody.appendChild(tr);
+      }
+
+      function calculateMultiProducts() {
+        const rows = Array.from(multiProductBody.querySelectorAll("tr"));
+        let totalQty = 0;
+        let totalRev = 0;
+        let totalCost = 0;
+        let totalNetProfit = 0;
+        let hasRowError = false;
+
+        multiErrorNote.textContent = "";
+
+        rows.forEach((tr) => {
+          const costEl = tr.querySelector(".mp-cost");
+          const priceEl = tr.querySelector(".mp-price");
+          const delEl = tr.querySelector(".mp-delivery");
+          const custDelEl = tr.querySelector(".mp-cust-delivery");
+          const extraEl = tr.querySelector(".mp-extra");
+          const qtyEl = tr.querySelector(".mp-qty");
+          const resultCell = tr.querySelector(".mp-row-result");
+
+          const numInputs = [costEl, priceEl, delEl, custDelEl, extraEl, qtyEl];
+          numInputs.forEach((el) => el.classList.remove("invalid"));
+
+          const parseRowNum = (el, defaultVal = 0) => {
+            const raw = el.value.trim();
+            if (raw === "") return { ok: true, val: defaultVal };
+            const n = Number(raw);
+            if (!Number.isFinite(n) || n < 0) {
+              el.classList.add("invalid");
+              hasRowError = true;
+              return { ok: false, val: 0 };
+            }
+            return { ok: true, val: n };
+          };
+
+          const cRes = parseRowNum(costEl, 0);
+          const pRes = parseRowNum(priceEl, 0);
+          const dRes = parseRowNum(delEl, 0);
+          const cdRes = parseRowNum(custDelEl, 0);
+          const eRes = parseRowNum(extraEl, 0);
+          const qRes = parseRowNum(qtyEl, 0);
+
+          let custDelVal = cdRes.val;
+          if (dRes.ok && cdRes.ok && custDelVal > dRes.val) {
+            custDelEl.classList.add("invalid");
+            hasRowError = true;
+            custDelVal = dRes.val;
+          }
+
+          const unitRevenue = pRes.val + custDelVal;
+          const unitCost = cRes.val + dRes.val + eRes.val;
+          const unitProfit = unitRevenue - unitCost;
+          const qtyVal = qRes.val;
+
+          const rowRevenue = unitRevenue * qtyVal;
+          const rowCost = unitCost * qtyVal;
+          const rowProfit = unitProfit * qtyVal;
+
+          totalQty += qtyVal;
+          totalRev += rowRevenue;
+          totalCost += rowCost;
+          totalNetProfit += rowProfit;
+
+          resultCell.classList.remove("text-profit", "text-loss", "text-neutral");
+          if (rowProfit > 0) {
+            resultCell.classList.add("text-profit");
+          } else if (rowProfit < 0) {
+            resultCell.classList.add("text-loss");
+          } else {
+            resultCell.classList.add("text-neutral");
+          }
+          resultCell.textContent = formatTk(rowProfit);
+        });
+
+        if (hasRowError) {
+          multiErrorNote.textContent = "একাধিক পণ্যের সারিতে সঠিক ধনাত্মক সংখ্যা লিখুন (ক্রেতার ডেলিভারি চার্জ মোট ডেলিভারি চার্জের বেশি হতে পারবে না)।";
+        }
+
+        const avgProfit = totalQty > 0 ? totalNetProfit / totalQty : 0;
+
+        multiTotalQty.textContent = bnIntFormatter.format(cleanNumber(totalQty));
+        multiTotalRevenue.textContent = formatTk(totalRev);
+        multiTotalCost.textContent = formatTk(totalCost);
+
+        multiTotalProfit.classList.remove("text-profit", "text-loss", "text-neutral");
+        multiAvgProfit.classList.remove("text-profit", "text-loss", "text-neutral");
+
+        if (totalNetProfit > 0) {
+          multiTotalProfit.classList.add("text-profit");
+          multiAvgProfit.classList.add("text-profit");
+        } else if (totalNetProfit < 0) {
+          multiTotalProfit.classList.add("text-loss");
+          multiAvgProfit.classList.add("text-loss");
+        } else {
+          multiTotalProfit.classList.add("text-neutral");
+          multiAvgProfit.classList.add("text-neutral");
+        }
+
+        multiTotalProfit.textContent = formatTk(totalNetProfit);
+        multiAvgProfit.textContent = formatTk(avgProfit);
+      }
+
+      function resetMultiProducts() {
+        multiProductBody.innerHTML = "";
+        createProductRow({ name: "", cost: "", price: "", delivery: "", custDelivery: "", extra: "0", qty: "1" });
+        calculateMultiProducts();
+      }
+
+      addProductRowBtn.addEventListener("click", () => {
+        createProductRow({ name: "", cost: "", price: "", delivery: "", custDelivery: "", extra: "0", qty: "1" });
+        calculateMultiProducts();
+      });
+
+      // Initialize App
+      syncDeliveryCardsUI();
+      resetMultiProducts();
+      calculateMain();
+    })();
+  </script>
+</body>
+</html>
