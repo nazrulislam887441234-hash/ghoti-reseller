@@ -1081,7 +1081,7 @@
   doc,
   getDoc,
   collection,
-  addDoc,
+  setDoc,
   query,
   where,
   orderBy,
@@ -1581,42 +1581,51 @@
       submitBtnIcon.innerHTML = '<path d="M21 12a9 9 0 1 1-6.219-8.56"></path>';
 
       try {
-        // Save to Firestore
-        const docData = {
-          productName: productName,
-          note: note,
-          important: important,
-          uid: currentUser.uid,
-          requestId: requestId,
-          createdAt: serverTimestamp()
-        };
+  // Save to Firestore - আগে ID বানাইয়া নিলাম
+  const newDocRef = doc(collection(db, "product_requests"));
+  const requestId = newDocRef.id; // <-- এখন requestId আছে!
 
-        const docRef = await addDoc(collection(db, "product_requests"), docData);
+  const docData = {
+    productName: productName,
+    important: important,
+    uid: currentUser.uid,
+    requestId: requestId, // <-- এখন ডকুমেন্টের ID আর এইটা একই!
+    createdAt: serverTimestamp()
+  };
 
-        // Reset Form & Show Success Modal immediately after Firestore save
-        productRequestForm.reset();
-        successModal.classList.add("open");
+  // note খালি না হইলে তখনই দিবো
+  if (note) {
+    docData.note = note;
+  }
 
-        // Refresh Request List
-        await loadInitialRequests();
+  await setDoc(newDocRef, docData);
+  const docRef = newDocRef;
 
-        // Send Notification to Cloudflare Worker (Non-blocking for Firestore success)
-        try {
-          await sendTelegramNotification({
-  productName: productName,
-  note: note,
-  important: important,
-  uid: currentUser.uid,
-  requestId: docRef.id,
-  createdAt: new Date().toISOString() 
-          });
-        } catch (notifyErr) {
-          console.warn("Telegram notification error:", notifyErr);
-          showToast("রিকোয়েস্ট জমা হয়েছে, তবে নোটিফিকেশন পাঠানো যায়নি।", "warning");
-        }
-      } catch (err) {
-        console.error("Firestore Save Error:", err);
-        showToast("রিকোয়েস্ট সংরক্ষণ করা যায়নি। অনুগ্রহ করে আবার চেষ্টা করুন।", "error");
+  // Reset Form & Show Success Modal
+  productRequestForm.reset();
+  successModal.classList.add("open");
+
+  // Refresh Request List
+  await loadInitialRequests();
+
+  // Send Notification - এইটা তুমি ঠিকই করছো, এইটা আর বদলাইতে হইবো না
+  try {
+    await sendTelegramNotification({
+      productName: productName,
+      note: note,
+      important: important,
+      uid: currentUser.uid,
+      requestId: docRef.id,
+      createdAt: new Date().toISOString()
+    });
+  } catch (notifyErr) {
+    console.warn("Telegram notification error:", notifyErr);
+    showToast("রিকোয়েস্ট জমা হয়েছে, তবে নোটিফিকেশন পাঠানো যায়নি।", "warning");
+  }
+} catch (err) {
+  console.error("Firestore Save Error:", err);
+  showToast("রিকোয়েস্ট সংরক্ষণ করা যায়নি। অনুগ্রহ করে আবার চেষ্টা করুন।", "error");
+    }
       } finally {
         isSubmitting = false;
         submitRequestBtn.disabled = false;
