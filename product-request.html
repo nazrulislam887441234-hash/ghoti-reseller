@@ -1,0 +1,1710 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
+  <title>প্রোডাক্ট রিকোয়েস্ট | Reseller Ghoti Market</title>
+  <link rel="icon" type="image/png" href="https://reseller.ghotimarket.com/photo/favicon.png" />
+  <style>
+    :root {
+      --primary: #FF6B35;
+      --secondary: #FF6A00;
+      --accent: #FFA500;
+      --bg: #F8FAFC;
+      --card: #FFFFFF;
+      --text: #171717;
+      --text-muted: #525252;
+      --border: #E5E7EB;
+      --border-focus: #FF6B35;
+      --danger: #DC2626;
+      --danger-bg: #FEF2F2;
+      --success: #16A34A;
+      --success-bg: #F0FDF4;
+      --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
+      --shadow-md: 0 4px 16px rgba(23, 23, 23, 0.06);
+      --shadow-lg: 0 12px 32px rgba(255, 107, 53, 0.14);
+      --radius-sm: 8px;
+      --radius-md: 14px;
+      --radius-lg: 20px;
+      --transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      overflow-x: hidden;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans Bengali", Helvetica, Arial, sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      overflow-x: hidden;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Header */
+    .topbar {
+      background: var(--card);
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 40;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .topbar-inner {
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 14px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .brand-link {
+      display: inline-flex;
+      align-items: center;
+      text-decoration: none;
+    }
+
+    .brand-logo {
+      height: 40px;
+      width: auto;
+      object-fit: contain;
+      display: block;
+    }
+
+    .header-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 14px;
+      border-radius: 999px;
+      background: rgba(255, 107, 53, 0.1);
+      color: var(--secondary);
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    /* Fullscreen Auth Loader & Access Denied */
+    .state-overlay {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      min-height: calc(100vh - 70px);
+    }
+
+    .state-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 40px 28px;
+      max-width: 480px;
+      width: 100%;
+      text-align: center;
+      box-shadow: var(--shadow-md);
+      animation: fadeUp 0.35s ease;
+    }
+
+    .state-icon-wrap {
+      width: 68px;
+      height: 68px;
+      border-radius: 50%;
+      margin: 0 auto 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .state-icon-wrap.loading {
+      background: rgba(255, 107, 53, 0.12);
+      color: var(--primary);
+    }
+
+    .state-icon-wrap.denied {
+      background: var(--danger-bg);
+      color: var(--danger);
+    }
+
+    .state-card h2 {
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 10px;
+      color: var(--text);
+    }
+
+    .state-card p {
+      font-size: 15px;
+      color: var(--text-muted);
+      margin-bottom: 24px;
+    }
+
+    /* Main Container */
+    .main-container {
+      max-width: 1240px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 28px 20px 64px;
+      display: none;
+      animation: fadeUp 0.4s ease;
+    }
+
+    /* Page Hero & Highlight */
+    .page-head {
+      margin-bottom: 28px;
+    }
+
+    .page-title-row {
+      margin-bottom: 18px;
+    }
+
+    .page-title {
+      font-size: 28px;
+      font-weight: 800;
+      color: var(--text);
+      letter-spacing: -0.02em;
+      margin-bottom: 4px;
+    }
+
+    .page-subtitle {
+      font-size: 15px;
+      color: var(--text-muted);
+    }
+
+    .highlight-banner {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 55%, var(--accent) 100%);
+      border-radius: var(--radius-lg);
+      padding: 24px 28px;
+      color: #FFFFFF;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      box-shadow: var(--shadow-lg);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .highlight-banner::after {
+      content: "";
+      position: absolute;
+      right: -40px;
+      top: -40px;
+      width: 180px;
+      height: 180px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.12);
+      pointer-events: none;
+    }
+
+    .highlight-content h2 {
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .highlight-content p {
+      font-size: 14.5px;
+      opacity: 0.95;
+      max-width: 680px;
+    }
+
+    .highlight-icon {
+      flex-shrink: 0;
+      width: 54px;
+      height: 54px;
+      border-radius: 14px;
+      background: rgba(255, 255, 255, 0.18);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Dashboard Grid (Laptop/Desktop 2 Column) */
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 28px;
+      align-items: start;
+    }
+
+    @media (min-width: 1024px) {
+      .dashboard-grid {
+        grid-template-columns: 440px 1fr;
+      }
+      .sticky-form-col {
+        position: sticky;
+        top: 90px;
+      }
+    }
+
+    /* Cards */
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 26px;
+      box-shadow: var(--shadow-md);
+    }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 22px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .card-title-group {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .card-icon {
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      background: rgba(255, 107, 53, 0.1);
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .card-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    /* Form Controls */
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-label {
+      display: block;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 8px;
+    }
+
+    .form-label .req-star {
+      color: var(--secondary);
+      margin-left: 2px;
+    }
+
+    .form-input,
+    .form-textarea {
+      width: 100%;
+      background: #FAFAFA;
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 13px 15px;
+      font-family: inherit;
+      font-size: 14.5px;
+      color: var(--text);
+      transition: var(--transition);
+      outline: none;
+    }
+
+    .form-input::placeholder,
+    .form-textarea::placeholder {
+      color: #9CA3AF;
+    }
+
+    .form-input:hover,
+    .form-textarea:hover {
+      border-color: #D1D5DB;
+      background: #FFFFFF;
+    }
+
+    .form-input:focus,
+    .form-textarea:focus {
+      background: #FFFFFF;
+      border-color: var(--border-focus);
+      box-shadow: 0 0 0 4px rgba(255, 107, 53, 0.12);
+    }
+
+    .form-input.invalid,
+    .form-textarea.invalid {
+      border-color: var(--danger);
+      background: var(--danger-bg);
+    }
+
+    .form-textarea {
+      min-height: 112px;
+      resize: vertical;
+    }
+
+    .field-error {
+      display: none;
+      font-size: 12.5px;
+      color: var(--danger);
+      margin-top: 6px;
+      font-weight: 500;
+    }
+
+    .field-error.visible {
+      display: block;
+    }
+
+    .purpose-hints {
+      margin-top: 10px;
+      background: #F8FAFC;
+      border: 1px dashed #CBD5E1;
+      border-radius: var(--radius-sm);
+      padding: 10px 12px;
+    }
+
+    .purpose-hints-title {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+    }
+
+    .hint-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .hint-chip {
+      background: #FFFFFF;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 4px 9px;
+      font-size: 12px;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: var(--transition);
+      text-align: left;
+    }
+
+    .hint-chip:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+      background: rgba(255, 107, 53, 0.05);
+    }
+
+    /* Buttons */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+      border: none;
+      border-radius: var(--radius-md);
+      font-family: inherit;
+      font-size: 15px;
+      font-weight: 600;
+      padding: 14px 22px;
+      cursor: pointer;
+      transition: var(--transition);
+      text-decoration: none;
+      user-select: none;
+    }
+
+    .btn-primary {
+      width: 100%;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+      color: #FFFFFF;
+      box-shadow: 0 6px 18px rgba(255, 106, 0, 0.28);
+    }
+
+    .btn-primary:hover:not(:disabled) {
+      transform: translateY(-1px);
+      box-shadow: 0 8px 24px rgba(255, 106, 0, 0.36);
+    }
+
+    .btn-primary:active:not(:disabled) {
+      transform: translateY(0);
+    }
+
+    .btn-primary:disabled {
+      opacity: 0.68;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .btn-secondary {
+      background: #FFFFFF;
+      color: var(--text);
+      border: 1.5px solid var(--border);
+      padding: 11px 20px;
+      font-size: 14px;
+    }
+
+    .btn-secondary:hover:not(:disabled) {
+      border-color: var(--primary);
+      color: var(--primary);
+      background: rgba(255, 107, 53, 0.04);
+    }
+
+    .btn-secondary:disabled {
+      opacity: 0.65;
+      cursor: not-allowed;
+    }
+
+    .btn-support {
+      background: #16A34A;
+      color: #FFFFFF;
+      padding: 13px 24px;
+      box-shadow: 0 6px 16px rgba(22, 163, 74, 0.25);
+    }
+
+    .btn-support:hover {
+      background: #15803D;
+      transform: translateY(-1px);
+    }
+
+    /* Request List & Cards */
+    .requests-list {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .req-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 20px;
+      transition: var(--transition);
+      position: relative;
+    }
+
+    .req-card:hover {
+      border-color: rgba(255, 107, 53, 0.45);
+      box-shadow: 0 6px 20px rgba(23, 23, 23, 0.05);
+    }
+
+    .req-card-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 12px;
+      flex-wrap: wrap;
+    }
+
+    .req-product-title {
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      word-break: break-word;
+    }
+
+    .req-product-title svg {
+      color: var(--primary);
+      flex-shrink: 0;
+    }
+
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 12px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 600;
+      background: rgba(255, 165, 0, 0.15);
+      color: #B45309;
+      border: 1px solid rgba(255, 165, 0, 0.35);
+    }
+
+    .req-block {
+      background: #F8FAFC;
+      border-radius: 10px;
+      padding: 12px 14px;
+      margin-bottom: 10px;
+      border-left: 3px solid var(--primary);
+    }
+
+    .req-block.note-block {
+      border-left-color: var(--accent);
+    }
+
+    .req-block-label {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text-muted);
+      margin-bottom: 4px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .req-block-text {
+      font-size: 14px;
+      color: var(--text);
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
+    .req-meta {
+      margin-top: 14px;
+      padding-top: 12px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+      font-size: 12.5px;
+      color: var(--text-muted);
+    }
+
+    .meta-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .copy-id-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: #F3F4F6;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 4px 9px;
+      font-family: monospace;
+      font-size: 12px;
+      color: var(--text);
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .copy-id-btn:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+      background: rgba(255, 107, 53, 0.06);
+    }
+
+    .load-more-wrap {
+      margin-top: 22px;
+      text-align: center;
+    }
+
+    /* Skeleton Loader */
+    .skeleton-card {
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 20px;
+      background: #FFFFFF;
+    }
+
+    .skel-line {
+      height: 14px;
+      border-radius: 6px;
+      background: linear-gradient(90deg, #F1F5F9 25%, #E2E8F0 50%, #F1F5F9 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.4s infinite;
+      margin-bottom: 12px;
+    }
+
+    .skel-line.title {
+      width: 55%;
+      height: 18px;
+      margin-bottom: 16px;
+    }
+
+    .skel-line.box {
+      width: 100%;
+      height: 54px;
+      border-radius: 10px;
+    }
+
+    .skel-line.short {
+      width: 38%;
+      margin-bottom: 0;
+    }
+
+    /* Empty & Error Box inside Request Section */
+    .box-state {
+      text-align: center;
+      padding: 42px 20px;
+      border: 1.5px dashed var(--border);
+      border-radius: var(--radius-md);
+      background: #FAFAFA;
+    }
+
+    .box-state-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      margin: 0 auto 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(255, 107, 53, 0.1);
+      color: var(--primary);
+    }
+
+    .box-state.error-mode .box-state-icon {
+      background: var(--danger-bg);
+      color: var(--danger);
+    }
+
+    .box-state h3 {
+      font-size: 17px;
+      font-weight: 700;
+      margin-bottom: 6px;
+      color: var(--text);
+    }
+
+    .box-state p {
+      font-size: 14px;
+      color: var(--text-muted);
+      max-width: 420px;
+      margin: 0 auto 18px;
+    }
+
+    /* Custom Modal */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(23, 23, 23, 0.55);
+      backdrop-filter: blur(4px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      z-index: 100;
+      animation: fadeIn 0.2s ease;
+    }
+
+    .modal-backdrop.open {
+      display: flex;
+    }
+
+    .modal-box {
+      background: var(--card);
+      border-radius: var(--radius-lg);
+      max-width: 420px;
+      width: 100%;
+      padding: 32px 26px;
+      text-align: center;
+      box-shadow: 0 24px 48px rgba(0, 0, 0, 0.2);
+      animation: scaleUp 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .modal-icon {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background: var(--success-bg);
+      color: var(--success);
+      margin: 0 auto 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal-box h3 {
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: var(--text);
+    }
+
+    .modal-box p {
+      font-size: 14.5px;
+      color: var(--text-muted);
+      margin-bottom: 24px;
+    }
+
+    /* Custom Toast Notification */
+    .toast-container {
+      position: fixed;
+      bottom: 22px;
+      right: 22px;
+      left: 22px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 10px;
+      z-index: 120;
+      pointer-events: none;
+    }
+
+    .toast-item {
+      pointer-events: auto;
+      background: #171717;
+      color: #FFFFFF;
+      padding: 13px 18px;
+      border-radius: 12px;
+      font-size: 14px;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.22);
+      border-left: 4px solid var(--primary);
+      max-width: 400px;
+      width: 100%;
+      animation: slideInRight 0.28s ease;
+    }
+
+    .toast-item.warning {
+      border-left-color: var(--accent);
+    }
+
+    .toast-item.error {
+      border-left-color: var(--danger);
+    }
+
+    .toast-item.success {
+      border-left-color: var(--success);
+    }
+
+    /* Spinner Animation */
+    .spin {
+      animation: spin 0.9s linear infinite;
+    }
+
+    @keyframes spin {
+      100% { transform: rotate(360deg); }
+    }
+
+    @keyframes shimmer {
+      0% { background-position: 200% 0; }
+      100% { background-position: -200% 0; }
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes scaleUp {
+      from { opacity: 0; transform: scale(0.92); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    @keyframes slideInRight {
+      from { opacity: 0; transform: translateX(24px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+
+    @media (max-width: 640px) {
+      .topbar-inner {
+        padding: 12px 16px;
+      }
+      .brand-logo {
+        height: 34px;
+      }
+      .header-badge {
+        font-size: 12px;
+        padding: 5px 10px;
+      }
+      .main-container {
+        padding: 20px 14px 48px;
+      }
+      .page-title {
+        font-size: 23px;
+      }
+      .highlight-banner {
+        padding: 20px;
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .highlight-icon {
+        display: none;
+      }
+      .card {
+        padding: 20px 16px;
+      }
+      .toast-container {
+        align-items: center;
+        left: 14px;
+        right: 14px;
+        bottom: 14px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a href="https://reseller.ghotimarket.com" class="brand-link" aria-label="Reseller Ghoti Market Home">
+        <img src="https://reseller.ghotimarket.com/photo/logo.png" alt="Reseller Ghoti Market Logo" class="brand-logo" />
+      </a>
+      <div class="header-badge" id="headerAccountBadge">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+        </svg>
+        <span id="headerStatusText">যাচাই করা হচ্ছে...</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Authentication & Verification Loading State -->
+  <section id="authLoadingScreen" class="state-overlay" aria-live="polite">
+    <div class="state-card">
+      <div class="state-icon-wrap loading">
+        <svg class="spin" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round">
+          <path d="M21 12a9 9 0 1 1-6.219-8.56"></path>
+        </svg>
+      </div>
+      <h2>অ্যাকাউন্ট যাচাই করা হচ্ছে</h2>
+      <p>অনুগ্রহ করে অপেক্ষা করুন, আপনার রিসেলার প্রোফাইল এবং অনুমোদন পরীক্ষা করা হচ্ছে...</p>
+    </div>
+  </section>
+
+  <!-- Access Denied Screen -->
+  <section id="accessDeniedScreen" class="state-overlay" style="display: none;" aria-live="assertive">
+    <div class="state-card">
+      <div class="state-icon-wrap denied">
+        <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"></circle>
+          <line x1="15" y1="9" x2="9" y2="15"></line>
+          <line x1="9" y1="9" x2="15" y2="15"></line>
+        </svg>
+      </div>
+      <h2>আপনার অ্যাকাউন্টটি এখনো প্রোডাক্ট রিকোয়েস্ট করার জন্য অনুমোদিত নয়!</h2>
+      <p>প্রোডাক্ট রিকোয়েস্ট করতে আপনার অ্যাকাউন্ট Active এবং Verified হতে হবে।</p>
+      <a href="https://wa.me/8801727003670" target="_blank" rel="noopener noreferrer" class="btn btn-support">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
+        </svg>
+        <span>সাপোর্টে যোগাযোগ করুন (01727003670)</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- Main Dashboard Content -->
+  <main id="mainDashboard" class="main-container">
+    <!-- Page Header -->
+    <div class="page-head">
+      <div class="page-title-row">
+        <h1 class="page-title">প্রোডাক্ট রিকোয়েস্ট</h1>
+        <p class="page-subtitle">আপনার প্রয়োজনীয় পণ্যের চাহিদা আমাদের জানান।</p>
+      </div>
+
+      <div class="highlight-banner">
+        <div class="highlight-content">
+          <h2>আপনার প্রয়োজনীয় পণ্য খুঁজে পাচ্ছেন না?</h2>
+          <p>আমাদের কাছে রিকোয়েস্ট পাঠান। আমরা আপনার চাহিদা অনুযায়ী পণ্য সংগ্রহের চেষ্টা করব।</p>
+        </div>
+        <div class="highlight-icon" aria-hidden="true">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+            <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+            <line x1="12" y1="22.08" x2="12" y2="12"></line>
+          </svg>
+        </div>
+      </div>
+    </div>
+
+    <!-- Two Column Dashboard Grid -->
+    <div class="dashboard-grid">
+      <!-- Left Column: Product Request Form -->
+      <section id="requestFormSection" class="sticky-form-col">
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title-group">
+              <div class="card-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="12" y1="5" x2="12" y2="19"></line>
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                </svg>
+              </div>
+              <h2 class="card-title">নতুন প্রোডাক্ট রিকোয়েস্ট</h2>
+            </div>
+          </div>
+
+          <form id="productRequestForm" novalidate>
+            <!-- A. Product Name -->
+            <div class="form-group">
+              <label for="productNameInput" class="form-label">
+                প্রোডাক্টের নাম <span class="req-star">*</span>
+              </label>
+              <input
+                type="text"
+                id="productNameInput"
+                name="productName"
+                class="form-input"
+                placeholder="আপনি কোন প্রোডাক্টটি চান?"
+                maxlength="200"
+                required
+              />
+              <div id="productNameError" class="field-error">অনুগ্রহ করে প্রোডাক্টের নাম লিখুন।</div>
+            </div>
+
+            <!-- B. Note / Message -->
+            <div class="form-group">
+              <label for="noteInput" class="form-label">নোট বা মেসেজ</label>
+              <textarea
+                id="noteInput"
+                name="note"
+                class="form-textarea"
+                placeholder="প্রোডাক্ট সম্পর্কে বিস্তারিত কিছু লিখতে চাইলে এখানে লিখুন..."
+                maxlength="1000"
+              ></textarea>
+            </div>
+
+            <!-- C. Important / Purpose -->
+            <div class="form-group">
+              <label for="importantInput" class="form-label">
+                এই প্রোডাক্টটি আপনার কী জন্য প্রয়োজন? <span class="req-star">*</span>
+              </label>
+              <textarea
+                id="importantInput"
+                name="important"
+                class="form-textarea"
+                placeholder="আপনি কেন এই প্রোডাক্টটি চান এবং কী কাজে ব্যবহার করবেন তা লিখুন..."
+                maxlength="1000"
+                required
+              ></textarea>
+              <div id="importantError" class="field-error">অনুগ্রহ করে এই প্রোডাক্টটি কেন প্রয়োজন তা লিখুন।</div>
+
+              <div class="purpose-hints">
+                <div class="purpose-hints-title">উদাহরণ (ক্লিক করে যুক্ত করতে পারেন):</div>
+                <div class="hint-chips">
+                  <button type="button" class="hint-chip" data-hint="আমার কাস্টমার এই পণ্যটি চাচ্ছেন।">আমার কাস্টমার এই পণ্যটি চাচ্ছেন।</button>
+                  <button type="button" class="hint-chip" data-hint="বর্তমানে বাজারে এই পণ্যের চাহিদা অনেক।">বর্তমানে বাজারে এই পণ্যের চাহিদা অনেক।</button>
+                  <button type="button" class="hint-chip" data-hint="আমার দোকানে এই পণ্যটি বিক্রি করতে চাই।">আমার দোকানে এই পণ্যটি বিক্রি করতে চাই।</button>
+                  <button type="button" class="hint-chip" data-hint="এই পণ্যটি অনেক রিসেলার খুঁজছেন।">এই পণ্যটি অনেক রিসেলার খুঁজছেন।</button>
+                  <button type="button" class="hint-chip" data-hint="অন্য কোনো বিশেষ প্রয়োজন।">অন্য কোনো বিশেষ প্রয়োজন।</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit" id="submitRequestBtn" class="btn btn-primary">
+              <svg id="submitBtnIcon" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="22" y1="2" x2="11" y2="13"></line>
+                <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+              </svg>
+              <span id="submitBtnText">রিকোয়েস্ট পাঠান</span>
+            </button>
+          </form>
+        </div>
+      </section>
+
+      <!-- Right Column: My Product Requests -->
+      <section id="myRequestsSection">
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title-group">
+              <div class="card-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                  <polyline points="14 2 14 8 20 8"></polyline>
+                  <line x1="16" y1="13" x2="8" y2="13"></line>
+                  <line x1="16" y1="17" x2="8" y2="17"></line>
+                  <polyline points="10 9 9 9 8 9"></polyline>
+                </svg>
+              </div>
+              <h2 class="card-title">আমার প্রোডাক্ট রিকোয়েস্ট</h2>
+            </div>
+            <button type="button" id="refreshListBtn" class="btn btn-secondary" title="তালিকা রিফ্রেশ করুন">
+              <svg id="refreshIcon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="23 4 23 10 17 10"></polyline>
+                <polyline points="1 20 1 14 7 14"></polyline>
+                <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
+              </svg>
+              <span>রিফ্রেশ</span>
+            </button>
+          </div>
+
+          <!-- List Container -->
+          <div id="requestsContainer" class="requests-list"></div>
+
+          <!-- Load More Button Container -->
+          <div id="loadMoreWrap" class="load-more-wrap" style="display: none;">
+            <button type="button" id="loadMoreBtn" class="btn btn-secondary">
+              <svg id="loadMoreIcon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="6 9 12 15 18 9"></polyline>
+              </svg>
+              <span id="loadMoreText">আরোও দেখুন</span>
+            </button>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <!-- Custom Success Modal -->
+  <div id="successModal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="successModalTitle">
+    <div class="modal-box">
+      <div class="modal-icon">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="20 6 9 17 4 12"></polyline>
+        </svg>
+      </div>
+      <h3 id="successModalTitle">সফল হয়েছে</h3>
+      <p>আপনার প্রোডাক্ট রিকোয়েস্ট সফলভাবে পাঠানো হয়েছে!</p>
+      <button type="button" id="closeSuccessModalBtn" class="btn btn-primary">ঠিক আছে</button>
+    </div>
+  </div>
+
+  <!-- Custom Toast Container -->
+  <div id="toastContainer" class="toast-container" aria-live="polite"></div>
+
+  <!-- Firebase Modular SDK -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
+    import {
+      getFirestore,
+      doc,
+      getDoc,
+      collection,
+      addDoc,
+      query,
+      where,
+      orderBy,
+      limit,
+      startAfter,
+      getDocs,
+      serverTimestamp
+    } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
+
+    // Firebase Configuration
+    const firebaseConfig = {
+  apiKey: "AIzaSyDCIRWmozT0XcEXuXtQ6RDiDo6vtT1T9mU",
+  authDomain: "paikarisell-ghotimarket.firebaseapp.com",
+  projectId: "paikarisell-ghotimarket",
+  storageBucket: "paikarisell-ghotimarket.firebasestorage.app",
+  messagingSenderId: "464086432830",
+  appId: "1:464086432830:web:a10fdd9884954e380e656f",
+  measurementId: "G-E3HR2F9TC5"
+};
+    // Configurable Cloudflare Worker URL
+    const TELEGRAM_WORKER_URL = "YOUR_CLOUDFLARE_WORKER_URL";
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    // Application State
+    let currentUser = null;
+    let isVerifiedReseller = false;
+    let isSubmitting = false;
+    let isLoadingInitial = false;
+    let isLoadingMore = false;
+    let lastVisible = null;
+    let hasMore = false;
+    const loadedDocIds = new Set();
+    const PAGE_SIZE = 20;
+
+    // DOM Elements
+    const authLoadingScreen = document.getElementById("authLoadingScreen");
+    const accessDeniedScreen = document.getElementById("accessDeniedScreen");
+    const mainDashboard = document.getElementById("mainDashboard");
+    const headerStatusText = document.getElementById("headerStatusText");
+
+    const productRequestForm = document.getElementById("productRequestForm");
+    const productNameInput = document.getElementById("productNameInput");
+    const noteInput = document.getElementById("noteInput");
+    const importantInput = document.getElementById("importantInput");
+    const productNameError = document.getElementById("productNameError");
+    const importantError = document.getElementById("importantError");
+    const submitRequestBtn = document.getElementById("submitRequestBtn");
+    const submitBtnText = document.getElementById("submitBtnText");
+    const submitBtnIcon = document.getElementById("submitBtnIcon");
+
+    const requestsContainer = document.getElementById("requestsContainer");
+    const loadMoreWrap = document.getElementById("loadMoreWrap");
+    const loadMoreBtn = document.getElementById("loadMoreBtn");
+    const loadMoreText = document.getElementById("loadMoreText");
+    const refreshListBtn = document.getElementById("refreshListBtn");
+    const refreshIcon = document.getElementById("refreshIcon");
+
+    const successModal = document.getElementById("successModal");
+    const closeSuccessModalBtn = document.getElementById("closeSuccessModalBtn");
+    const toastContainer = document.getElementById("toastContainer");
+
+    // Utility: Custom Toast Notification
+    function showToast(message, type = "info") {
+      const toast = document.createElement("div");
+      toast.className = `toast-item ${type}`;
+
+      const iconSvg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+      iconSvg.setAttribute("width", "18");
+      iconSvg.setAttribute("height", "18");
+      iconSvg.setAttribute("viewBox", "0 0 24 24");
+      iconSvg.setAttribute("fill", "none");
+      iconSvg.setAttribute("stroke", "currentColor");
+      iconSvg.setAttribute("stroke-width", "2.2");
+      iconSvg.setAttribute("stroke-linecap", "round");
+      iconSvg.setAttribute("stroke-linejoin", "round");
+      iconSvg.style.flexShrink = "0";
+
+      if (type === "success") {
+        iconSvg.innerHTML = '<polyline points="20 6 9 17 4 12"></polyline>';
+      } else if (type === "warning" || type === "error") {
+        iconSvg.innerHTML = '<circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line>';
+      } else {
+        iconSvg.innerHTML = '<circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line>';
+      }
+
+      const span = document.createElement("span");
+      span.textContent = message;
+
+      toast.appendChild(iconSvg);
+      toast.appendChild(span);
+      toastContainer.appendChild(toast);
+
+      setTimeout(() => {
+        toast.style.opacity = "0";
+        toast.style.transform = "translateY(8px)";
+        toast.style.transition = "all 0.25s ease";
+        setTimeout(() => toast.remove(), 260);
+      }, 4200);
+    }
+
+    // Utility: Escape HTML to prevent XSS
+    function escapeHTML(str) {
+      if (typeof str !== "string") return "";
+      const div = document.createElement("div");
+      div.textContent = str;
+      return div.innerHTML;
+    }
+
+    // Utility: Format Firestore Timestamp
+    function formatDate(timestamp) {
+      if (!timestamp || typeof timestamp.toDate !== "function") {
+        return "এইমাত্র জমা হয়েছে";
+      }
+      const date = timestamp.toDate();
+      try {
+        return new Intl.DateTimeFormat("bn-BD", {
+          year: "numeric",
+          month: "short",
+          day: "numeric",
+          hour: "2-digit",
+          minute: "2-digit"
+        }).format(date);
+      } catch {
+        return date.toLocaleString();
+      }
+    }
+
+    // Render Loading Skeletons
+    function renderSkeletons(count = 3) {
+      let html = "";
+      for (let i = 0; i < count; i++) {
+        html += `
+          <div class="skeleton-card" aria-hidden="true">
+            <div class="skel-line title"></div>
+            <div class="skel-line box"></div>
+            <div class="skel-line short"></div>
+          </div>
+        `;
+      }
+      requestsContainer.innerHTML = html;
+    }
+
+    // Render Empty State
+    function renderEmptyState() {
+      requestsContainer.innerHTML = `
+        <div class="box-state">
+          <div class="box-state-icon">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+              <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+              <line x1="12" y1="22.08" x2="12" y2="12"></line>
+            </svg>
+          </div>
+          <h3>এখনো কোনো প্রোডাক্ট রিকোয়েস্ট করেননি!</h3>
+          <p>আপনার প্রয়োজনীয় পণ্যের নাম লিখে এখনই আমাদের কাছে রিকোয়েস্ট পাঠাতে পারেন।</p>
+          <button type="button" id="emptyStateActionBtn" class="btn btn-primary" style="max-width: 240px;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="12" y1="5" x2="12" y2="19"></line>
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+            </svg>
+            <span>নতুন রিকোয়েস্ট করুন</span>
+          </button>
+        </div>
+      `;
+
+      const emptyBtn = document.getElementById("emptyStateActionBtn");
+      if (emptyBtn) {
+        emptyBtn.addEventListener("click", () => {
+          document.getElementById("requestFormSection").scrollIntoView({ behavior: "smooth" });
+          productNameInput.focus();
+        });
+      }
+    }
+
+    // Render Error State (including Firestore Composite Index Missing Error)
+    function renderErrorState(error) {
+      console.error("Firestore Query Error:", error);
+      const isIndexError =
+        error?.code === "failed-precondition" ||
+        (typeof error?.message === "string" && error.message.toLowerCase().includes("index"));
+
+      const title = isIndexError
+        ? "ডেটাবেস ইনডেক্স কনফিগারেশন প্রয়োজন"
+        : "রিকোয়েস্ট তালিকা লোড করা যায়নি";
+
+      const desc = isIndexError
+        ? "এই কুয়েরি চালানোর জন্য Firestore Composite Index (uid Ascending, createdAt Descending) তৈরি করা প্রয়োজন। ব্রাউজার Console-এ থাকা Firebase Index তৈরি করার লিংকটি ব্যবহার করে ইনডেক্স তৈরি করুন।"
+        : "ডেটা লোড করার সময় একটি সমস্যা হয়েছে। আপনার ইন্টারনেট সংযোগ পরীক্ষা করে আবার চেষ্টা করুন।";
+
+      requestsContainer.innerHTML = `
+        <div class="box-state error-mode">
+          <div class="box-state-icon">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="12" y1="8" x2="12" y2="12"></line>
+              <line x1="12" y1="16" x2="12.01" y2="16"></line>
+            </svg>
+          </div>
+          <h3>${escapeHTML(title)}</h3>
+          <p>${escapeHTML(desc)}</p>
+          <button type="button" id="retryLoadBtn" class="btn btn-secondary">
+            <span>আবার চেষ্টা করুন</span>
+          </button>
+        </div>
+      `;
+
+      const retryBtn = document.getElementById("retryLoadBtn");
+      if (retryBtn) {
+        retryBtn.addEventListener("click", () => loadInitialRequests());
+      }
+    }
+
+    // Create Single Request Card Element
+    function createRequestCard(docId, data) {
+      const card = document.createElement("article");
+      card.className = "req-card";
+      card.dataset.id = docId;
+
+      const productName = escapeHTML(data.productName || "");
+      const important = escapeHTML(data.important || "");
+      const note = typeof data.note === "string" ? data.note.trim() : "";
+      const dateStr = escapeHTML(formatDate(data.createdAt));
+      const statusText = typeof data.status === "string" && data.status.trim() !== ""
+        ? escapeHTML(data.status.trim())
+        : "";
+
+      const statusHtml = statusText
+        ? `<span class="status-badge">
+             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+               <circle cx="12" cy="12" r="10"></circle>
+               <polyline points="12 6 12 12 16 14"></polyline>
+             </svg>
+             <span>${statusText}</span>
+           </span>`
+        : "";
+
+      const noteHtml = note
+        ? `<div class="req-block note-block">
+             <div class="req-block-label">
+               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                 <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+               </svg>
+               <span>নোট বা মেসেজ</span>
+             </div>
+             <div class="req-block-text">${escapeHTML(note)}</div>
+           </div>`
+        : "";
+
+      card.innerHTML = `
+        <div class="req-card-top">
+          <h3 class="req-product-title">
+            <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+            </svg>
+            <span>${productName}</span>
+          </h3>
+          ${statusHtml}
+        </div>
+
+        <div class="req-block">
+          <div class="req-block-label">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="12" y1="16" x2="12" y2="12"></line>
+              <line x1="12" y1="8" x2="12.01" y2="8"></line>
+            </svg>
+            <span>প্রোডাক্টটি কেন প্রয়োজন</span>
+          </div>
+          <div class="req-block-text">${important}</div>
+        </div>
+
+        ${noteHtml}
+
+        <div class="req-meta">
+          <span class="meta-item">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+              <line x1="16" y1="2" x2="16" y2="6"></line>
+              <line x1="8" y1="2" x2="8" y2="6"></line>
+              <line x1="3" y1="10" x2="21" y2="10"></line>
+            </svg>
+            <span>${dateStr}</span>
+          </span>
+
+          <button type="button" class="copy-id-btn" data-copy-id="${escapeHTML(docId)}" title="Request ID কপি করুন">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+            </svg>
+            <span>ID: ${escapeHTML(docId)}</span>
+          </button>
+        </div>
+      `;
+
+      return card;
+    }
+
+    // Load Initial 20 Requests
+    async function loadInitialRequests() {
+      if (!currentUser || !isVerifiedReseller || isLoadingInitial) return;
+
+      isLoadingInitial = true;
+      refreshListBtn.disabled = true;
+      refreshIcon.classList.add("spin");
+      loadMoreWrap.style.display = "none";
+      renderSkeletons(3);
+
+      try {
+        const q = query(
+          collection(db, "product_requests"),
+          where("uid", "==", currentUser.uid),
+          orderBy("createdAt", "desc"),
+          limit(PAGE_SIZE)
+        );
+
+        const snapshot = await getDocs(q);
+        loadedDocIds.clear();
+        requestsContainer.innerHTML = "";
+
+        if (snapshot.empty) {
+          lastVisible = null;
+          hasMore = false;
+          renderEmptyState();
+          return;
+        }
+
+        snapshot.forEach((docSnap) => {
+          if (!loadedDocIds.has(docSnap.id)) {
+            loadedDocIds.add(docSnap.id);
+            requestsContainer.appendChild(createRequestCard(docSnap.id, docSnap.data()));
+          }
+        });
+
+        lastVisible = snapshot.docs[snapshot.docs.length - 1];
+        hasMore = snapshot.docs.length === PAGE_SIZE;
+        loadMoreWrap.style.display = hasMore ? "block" : "none";
+      } catch (error) {
+        renderErrorState(error);
+      } finally {
+        isLoadingInitial = false;
+        refreshListBtn.disabled = false;
+        refreshIcon.classList.remove("spin");
+      }
+    }
+
+    // Load Next 20 Requests (Cursor Pagination with startAfter)
+    async function loadMoreRequests() {
+      if (!currentUser || !isVerifiedReseller || !lastVisible || !hasMore || isLoadingMore) return;
+
+      isLoadingMore = true;
+      loadMoreBtn.disabled = true;
+      loadMoreText.textContent = "লোড হচ্ছে...";
+
+      try {
+        const nextQuery = query(
+          collection(db, "product_requests"),
+          where("uid", "==", currentUser.uid),
+          orderBy("createdAt", "desc"),
+          startAfter(lastVisible),
+          limit(PAGE_SIZE)
+        );
+
+        const snapshot = await getDocs(nextQuery);
+
+        if (snapshot.empty) {
+          hasMore = false;
+          loadMoreWrap.style.display = "none";
+          return;
+        }
+
+        snapshot.forEach((docSnap) => {
+          if (!loadedDocIds.has(docSnap.id)) {
+            loadedDocIds.add(docSnap.id);
+            requestsContainer.appendChild(createRequestCard(docSnap.id, docSnap.data()));
+          }
+        });
+
+        lastVisible = snapshot.docs[snapshot.docs.length - 1];
+        hasMore = snapshot.docs.length === PAGE_SIZE;
+        loadMoreWrap.style.display = hasMore ? "block" : "none";
+      } catch (error) {
+        console.error("Pagination Error:", error);
+        showToast("আরো রিকোয়েস্ট লোড করতে সমস্যা হয়েছে।", "error");
+      } finally {
+        isLoadingMore = false;
+        loadMoreBtn.disabled = false;
+        loadMoreText.textContent = "আরোও দেখুন";
+      }
+    }
+
+    // Send Telegram Notification via Cloudflare Worker (Using Firebase ID Token for Verification)
+    async function sendTelegramNotification(payload) {
+      if (!TELEGRAM_WORKER_URL || TELEGRAM_WORKER_URL === "YOUR_CLOUDFLARE_WORKER_URL") {
+        throw new Error("Cloudflare Worker URL is not configured.");
+      }
+
+      const idToken = await currentUser.getIdToken();
+      const response = await fetch(TELEGRAM_WORKER_URL, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${idToken}`
+        },
+        body: JSON.stringify(payload)
+      });
+
+      if (!response.ok) {
+        throw new Error(`Worker responded with status ${response.status}`);
+      }
+
+      return await response.json();
+    }
+
+    // Form Validation
+    function validateForm() {
+      let valid = true;
+      const productName = productNameInput.value.trim();
+      const important = importantInput.value.trim();
+
+      if (!productName) {
+        productNameInput.classList.add("invalid");
+        productNameError.classList.add("visible");
+        valid = false;
+      } else {
+        productNameInput.classList.remove("invalid");
+        productNameError.classList.remove("visible");
+      }
+
+      if (!important) {
+        importantInput.classList.add("invalid");
+        importantError.classList.add("visible");
+        valid = false;
+      } else {
+        importantInput.classList.remove("invalid");
+        importantError.classList.remove("visible");
+      }
+
+      return valid;
+    }
+
+    // Clear field validation on input
+    productNameInput.addEventListener("input", () => {
+      if (productNameInput.value.trim()) {
+        productNameInput.classList.remove("invalid");
+        productNameError.classList.remove("visible");
+      }
+    });
+
+    importantInput.addEventListener("input", () => {
+      if (importantInput.value.trim()) {
+        importantInput.classList.remove("invalid");
+        importantError.classList.remove("visible");
+      }
+    });
+
+    // Purpose Hint Chips Click Handler
+    document.querySelectorAll(".hint-chip").forEach((chip) => {
+      chip.addEventListener("click", () => {
+        const hintText = chip.getAttribute("data-hint") || "";
+        const currentVal = importantInput.value.trim();
+        if (!currentVal) {
+          importantInput.value = hintText;
+        } else if (!currentVal.includes(hintText)) {
+          importantInput.value = `${currentVal}\n${hintText}`;
+        }
+        importantInput.classList.remove("invalid");
+        importantError.classList.remove("visible");
+        importantInput.focus();
+      });
+    });
+
+    // Form Submit Handler
+    productRequestForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      if (!currentUser || !isVerifiedReseller) {
+        showToast("অনুমোদিত অ্যাকাউন্ট ছাড়া রিকোয়েস্ট পাঠানো সম্ভব নয়।", "error");
+        return;
+      }
+
+      if (isSubmitting) return;
+      if (!validateForm()) return;
+
+      const productName = productNameInput.value.trim();
+      const note = noteInput.value.trim();
+      const important = importantInput.value.trim();
+
+      isSubmitting = true;
+      submitRequestBtn.disabled = true;
+      submitBtnText.textContent = "রিকোয়েস্ট পাঠানো হচ্ছে...";
+      submitBtnIcon.classList.add("spin");
+      submitBtnIcon.innerHTML = '<path d="M21 12a9 9 0 1 1-6.219-8.56"></path>';
+
+      try {
+        // Save to Firestore
+        const docData = {
+          productName: productName,
+          note: note,
+          important: important,
+          uid: currentUser.uid,
+          createdAt: serverTimestamp()
+        };
+
+        const docRef = await addDoc(collection(db, "product_requests"), docData);
+
+        // Reset Form & Show Success Modal immediately after Firestore save
+        productRequestForm.reset();
+        successModal.classList.add("open");
+
+        // Refresh Request List
+        await loadInitialRequests();
+
+        // Send Notification to Cloudflare Worker (Non-blocking for Firestore success)
+        try {
+          await sendTelegramNotification({
+            productName: productName,
+            note: note,
+            important: important,
+            uid: currentUser.uid,
+            requestId: docRef.id
+          });
+        } catch (notifyErr) {
+          console.warn("Telegram notification error:", notifyErr);
+          showToast("রিকোয়েস্ট জমা হয়েছে, তবে নোটিফিকেশন পাঠানো যায়নি।", "warning");
+        }
+      } catch (err) {
+        console.error("Firestore Save Error:", err);
+        showToast("রিকোয়েস্ট সংরক্ষণ করা যায়নি। অনুগ্রহ করে আবার চেষ্টা করুন।", "error");
+      } finally {
+        isSubmitting = false;
+        submitRequestBtn.disabled = false;
+        submitBtnText.textContent = "রিকোয়েস্ট পাঠান";
+        submitBtnIcon.classList.remove("spin");
+        submitBtnIcon.innerHTML = '<line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>';
+      }
+    });
+
+    // Event Delegation for Copy Request ID
+    requestsContainer.addEventListener("click", async (e) => {
+      const copyBtn = e.target.closest(".copy-id-btn");
+      if (!copyBtn) return;
+
+      const idToCopy = copyBtn.getAttribute("data-copy-id");
+      if (!idToCopy) return;
+
+      try {
+        await navigator.clipboard.writeText(idToCopy);
+        showToast("Request ID কপি করা হয়েছে।", "success");
+      } catch {
+        showToast("ID কপি করা সম্ভব হয়নি।", "error");
+      }
+    });
+
+    // Modal & List Buttons
+    closeSuccessModalBtn.addEventListener("click", () => {
+      successModal.classList.remove("open");
+    });
+
+    successModal.addEventListener("click", (e) => {
+      if (e.target === successModal) {
+        successModal.classList.remove("open");
+      }
+    });
+
+    refreshListBtn.addEventListener("click", () => {
+      loadInitialRequests();
+    });
+
+    loadMoreBtn.addEventListener("click", () => {
+      loadMoreRequests();
+    });
+
+    // Authentication & Reseller Verification System
+    onAuthStateChanged(auth, async (user) => {
+      if (!user) {
+        window.location.replace("/login");
+        return;
+      }
+
+      currentUser = user;
+
+      try {
+        const resellerRef = doc(db, "reseller", user.uid);
+        const resellerSnap = await getDoc(resellerRef);
+
+        if (!resellerSnap.exists()) {
+          window.location.replace("/signup1");
+          return;
+        }
+
+        const resellerData = resellerSnap.data();
+        const isActive = resellerData.active === true;
+        const isVerified = resellerData.verified === true;
+
+        authLoadingScreen.style.display = "none";
+
+        if (!isActive || !isVerified) {
+          isVerifiedReseller = false;
+          headerStatusText.textContent = "অননুমোদিত অ্যাকাউন্ট";
+          accessDeniedScreen.style.display = "flex";
+          mainDashboard.style.display = "none";
+          return;
+        }
+
+        // Verified & Active Reseller
+        isVerifiedReseller = true;
+        headerStatusText.textContent = "ভেরিফাইড রিসেলার";
+        accessDeniedScreen.style.display = "none";
+        mainDashboard.style.display = "block";
+
+        // Load Initial Requests
+        await loadInitialRequests();
+      } catch (err) {
+        console.error("Reseller Verification Error:", err);
+        authLoadingScreen.style.display = "none";
+        headerStatusText.textContent = "যাচাই ব্যর্থ হয়েছে";
+        accessDeniedScreen.style.display = "flex";
+      }
+    });
+  </script>
+</body>
+</html>
