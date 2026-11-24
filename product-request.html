@@ -1077,19 +1077,19 @@
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
     import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
     import {
-      getFirestore,
-      doc,
-      getDoc,
-      collection,
-      addDoc,
-      query,
-      where,
-      orderBy,
-      limit,
-      startAfter,
-      getDocs,
-      serverTimestamp
-    } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
+  getFirestore,
+  doc,
+  getDoc,
+  collection,
+  setDoc,
+  query,
+  where,
+  orderBy,
+  limit,
+  startAfter,
+  getDocs,
+  serverTimestamp
+} from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
 
     // Firebase Configuration
     const firebaseConfig = {
@@ -1605,7 +1605,8 @@
             note: note,
             important: important,
             uid: currentUser.uid,
-            requestId: docRef.id
+            requestId: docRef.id,
+            createdAt: serverTimestamp()
           });
         } catch (notifyErr) {
           console.warn("Telegram notification error:", notifyErr);
